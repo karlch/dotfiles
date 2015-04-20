@@ -70,7 +70,7 @@ export KEYTIMEOUT=1
 
 # Custom keybindings
 bindkey "^S" clear-screen
-bindkey -s "^A" vi-beginning-of-line
+bindkey "^A" vi-beginning-of-line
 bindkey -s "^B" ""
 bindkey "^E" vi-end-of-line
 bindkey -s "^F" "" # Used as Tmux starter

@@ -21,3 +21,6 @@ alias vt='vim ~/.tmux.conf'
 alias tmux='TERM=xterm-256color tmux'
 alias tp='cd ~/Dokumente/Uni/14W/WiPro && TERM=xterm-256color tmux'
 alias tks='tmux kill-server'
+
+# git
+alias gitup='cp -r ~/.vim ~/.vimrc ~/.zsh ~/.zshrc ~/.tmux.conf ~/.bashrc ~/.bash_aliases ~/Dokumente/git/dotfiles'
