@@ -59,8 +59,8 @@ export EDITOR='vim'
 # And vim mode in the zsh
 bindkey -v
 # With extra options
-source ~/bin/vim-words-zsh/opp.zsh
-source ~/bin/vim-words-zsh/opp/surround.zsh
+source ~/bin/vim-advanced-wordmotion/opp.zsh
+source ~/bin/vim-advanced-wordmotion/opp/surround.zsh
 source ~/bin/vim-visual.zsh
 # Kill the stupid timeout
 export KEYTIMEOUT=1
