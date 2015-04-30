@@ -202,7 +202,7 @@ nnoremap <F5> [s
 " Accept the word
 nnoremap <F6> zg
 " Show alternatives
-nnoremap <F8> z=
+nnoremap <F9> z=
 
 " Trailing Whitespace
 nnoremap <leader>tw :call TrailingWhitespaceToggle()<CR>

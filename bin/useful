@@ -1,1 +1,6 @@
 c=1 base='disneyland' zmv '*.JPG' '${base}_${(l:3::0:)$((c++))}.jpg'
+
+/* Mounting USB devices */
+dmesg | tail
+mkdir WHERE_TO_MOUNT
+mount /dev/sd*

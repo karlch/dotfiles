@@ -38,6 +38,8 @@ plugins=(vi-mode dircycle jump ubuntu)
 # User configuration
 
 export PATH="/home/christian/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+export VISUAL=vim
+export EDITOR=vim
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -56,6 +58,7 @@ stty -ixon
 
 # Vim as editor
 export EDITOR='vim'
+export TERMCMD='gnome-terminal'
 # And vim mode in the zsh
 bindkey -v
 # With extra options
