@@ -1,0 +1,37 @@
+out_to_x yes
+own_window no
+out_to_console no
+background no
+max_text_width 0
+
+update_interval 60
+
+# This is the number of times Conky will update before quitting.
+# Set to zero to run forever.
+total_run_times 0
+
+# Force UTF8? note that UTF8 support required XFT
+override_utf8_locale yes
+
+# Font stuff
+draw_outline no
+draw_borders no
+use_xft yes
+xftalpha 0.8
+
+# Alignment
+alignment top_left
+gap_x 40
+gap_y 10
+
+TEXT
+##################################
+${color #00C1FF}${font Source Code Pro:style=bold:size=13} SYS ${color #EEEEEE} ${exec ~/bin/update}     \
+${color #00C1FF} TOTAL ${color #EEEEEE} ${fs_size /}     \
+${color #00C1FF} FREE ${color #EEEEEE} ${fs_free /}     \
+${color #00C1FF} KERNEL ${color #EEEEEE} ${kernel}     \
+${color #00C1FF} EDITOR ${color #EEEEEE} vim     \
+${color #00C1FF} SHELL ${color #EEEEEE} ${exec echo $SHELL}     \
+${color #00C1FF} WM ${color #EEEEEE} i3     \
+${color #00C1FF} WEATHER ${color #EEEEEE} ${exec ~/bin/weather.sh 'en|de|garching-bei-munchen'}
+${color #00C1FF}${voffset 5}${font openlogos:size=17}  B ${voffset -5}${font Source Code Pro:style=bold:size=13}${color #EEEEEE}  ${exec checkupdates}

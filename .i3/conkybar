@@ -1,0 +1,95 @@
+out_to_x no
+out_to_console yes
+short_units yes
+update_interval 1
+
+# Data
+artist=$(cmus-remote -Q | grep ' artist ' | cut -d ' ' -f3-)
+song=$(cmus-remote -Q | grep ' title ' | cut -d ' ' -f3-)
+brightness=${exec xbacklight}
+brightness=${brightness%.*}
+
+TEXT
+
+[\
+# Musik
+{"full_text":"${exec cmus-remote -Q | grep ' artist ' | cut -d ' ' -f3-}","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+{"full_text":"${exec cmus-remote -Q | grep ' title ' | cut -d ' ' -f3-}                                                    ","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+#
+# Brightness
+{"full_text":"BRI","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+{"full_text":"${exec ~/.i3/brightness.sh}  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
+#
+# Volume
+{"full_text":"VOL","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+{"full_text":"${exec ~/.i3/volume.sh}  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
+#
+# Battery:
+{"full_text":"BAT","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+{"full_text":"${if_match ${battery_percent BAT0}<20}${battery_percent BAT0}%  ","color":"\#828282","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${battery_percent BAT0}<40}${battery_percent BAT0}%  ","color":"\#AAAAAA","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${battery_percent BAT0}<80}${battery_percent BAT0}%  ","color":"\#CCCCCC","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${battery_percent BAT0}>=80}${battery_percent BAT0}%  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${endif}${endif}${endif}${endif}"},\
+#
+# CPU:
+{"full_text":"CPU","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+{"full_text":"${if_match ${cpu cpu0}<25}${cpu cpu0}% ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${cpu cpu0}<50}${cpu cpu0}% ","color":"\#CCCCCC","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${cpu cpu0}<75}${cpu cpu0}% ","color":"\#AAAAAA","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${cpu cpu0}>=75}${cpu cpu0}% ","color":"\#828282","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${endif}${endif}${endif}${endif}"},\
+# CPU temperature:
+{"full_text":"${if_match ${acpitemp}<40}${acpitemp}°C  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${acpitemp}<50}${acpitemp}°C  ","color":"\#CCCCCC","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${acpitemp}<60}${acpitemp}°C  ","color":"\#AAAAAA","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${acpitemp}>=60}${acpitemp}°C  ","color":"\#828282","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${endif}${endif}${endif}${endif}"},\
+#
+# Memory:
+{"full_text":"RAM","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+{"full_text":"${if_match ${memperc}<25}${memperc}%  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${memperc}<50}${memperc}%  ","color":"\#CCCCCC","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${memperc}<75}${memperc}%  ","color":"\#AAAAAA","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${memperc}>=75}${memperc}%  ","color":"\#828282","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${endif}${endif}${endif}${endif}"},\
+#
+# Wifi:
+{"full_text":"WIFI","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+{"full_text":"${if_match ${wireless_link_qual_perc wlp1s0}<20}${wireless_link_qual_perc wlp1s0}%  ","color":"\#828282","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${wireless_link_qual_perc wlp1s0}<40}${wireless_link_qual_perc wlp1s0}%  ","color":"\#AAAAAA","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${wireless_link_qual_perc wlp1s0}<80}${wireless_link_qual_perc wlp1s0}%  ","color":"\#CCCCCC","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${if_match ${wireless_link_qual_perc wlp1s0}>=80}${wireless_link_qual_perc wlp1s0}%  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
+{"full_text":"${endif}${endif}${endif}${endif}"},\
+#
+# Date and Time:
+{"full_text":"  ","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+{"full_text":"${time %d}","color":"\#DDDDDD","separator":false,"separator_block_width":0},\
+{"full_text":".","color":"\#00C1FF","separator":false,"separator_block_width":0},\
+{"full_text":"${time %m}","color":"\#DDDDDD","separator":false,"separator_block_width":0},\
+{"full_text":".","color":"\#00C1FF","separator":false,"separator_block_width":0},\
+{"full_text":"${time %y} ","color":"\#DDDDDD","separator":false,"separator_block_width":6},\
+{"full_text":"${time %H}","color":"\#DDDDDD","separator":false,"separator_block_width":0},\
+{"full_text":":","color":"\#00C1FF","separator":false,"separator_block_width":0},\
+{"full_text":"${time %M} ","color":"\#DDDDDD","separator":false}\
+],

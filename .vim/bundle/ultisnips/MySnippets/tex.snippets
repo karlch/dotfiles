@@ -457,6 +457,7 @@ snippet start "start complete physics document"
 \usepackage[utf8]{inputenc}
 
 \begin{document}
+\sf
 
 \parindent0pt
 \enlargethispage{1.5cm}
@@ -483,6 +484,7 @@ snippet pres "start a presentation"
 \useinnertheme{circles}
 
 \begin{document}
+\sf
 \begin{frame}
     \titlepage
 \end{frame}
@@ -495,4 +497,54 @@ snippet slide "enter a new frame"
 \begin{frame}{${1:title}}{${2:subtitle}}
     ${3}
 \end{frame}
+endsnippet
+snippet letter "start a letter"
+\documentclass[enlargefistpage, parskip=half]{scrlttr2}
+
+\usepackage[utf8]{inputenc} 
+\usepackage[german]{babel} 
+\usepackage{lmodern}
+\usepackage{pdfpages}
+
+\KOMAoptions{
+    pagenumber=false,
+    fromalign=left,
+    fromphone=true,
+    fromemail=true,
+    fromlogo=false, 
+    fontsize=11pt
+}
+
+\setkomavar{fromname}{Christian Karl}
+\setkomavar{fromaddress}{Münchener Str. 32b \\ 85748 Garching}
+\setkomavar{fromphone}{0170 8248174}
+\setkomavar{fromemail}{christian.karl.13@gmail.com}
+\setkomavar{signature}{}
+
+\setkomavar{subject}{${1:Betreff des Briefes}}
+\setkomavar{date}{\today}
+
+
+\let\raggedsignature=\raggedright
+
+\begin{document}
+\sf
+\begin{letter}{${2:Anschrift: Name} \\\\ ${3:Anschrift: Straße} \\\\ ${4:Anschrift: PLZ Ort}}
+\opening{Sehr geehrte Damen und Herren,}
+
+${0}
+
+\closing{Mit freundlichen Grüßen, \\\\
+\includegraphics[width=4.0cm]{/home/christian/Bilder/Sonstiges/unterschrift.jpg} \\\\
+Christian Karl}
+
+\encl{
+\begin{itemize}
+    \item[-] ${5:Anlagen}
+\end{itemize}
+}
+
+\end{letter}
+
+\end{document}
 endsnippet

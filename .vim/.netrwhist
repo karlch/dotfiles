@@ -1,10 +1,2 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='/home/christian/.vim/bundle/dispatch/autoload/dispatch'
-let g:netrw_dirhist_2='/home/christian/.vim/bundle/ultisnips/autoload/UltiSnips'
-let g:netrw_dirhist_3='/home/christian/.oh-my-zsh/plugins/vi-mode'
-let g:netrw_dirhist_4='/home/christian/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
-let g:netrw_dirhist_5='/home/christian/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/highlighters'
-let g:netrw_dirhist_6='/home/christian'
-let g:netrw_dirhist_7='/home/christian/.zsh/plugins/copyfile'
-let g:netrw_dirhist_8='/home/christian/.vimperator'
+let g:netrw_dirhist_cnt =0

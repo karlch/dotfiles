@@ -4,7 +4,6 @@
 # Should you change your keyboard layout some time, delete
 # this file and re-run i3-config-wizard(1).
 #
-
 # i3 config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
@@ -13,12 +12,15 @@ set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango: Ubuntu Mono 10
+font pango: Source Code Pro Regular 10
+
+# Window borders
+new_window pixel 2
 
 # Color Settings
 client.focused #00C1FF #00C1FF #ffffff #00C1FF
-client.focused_inactive #1C1C1C #1C1C1C #ffffff #1C1C1C
-client.unfocused #1C1C1C #1C1C1C #ffffff #1C1C1C
+client.focused_inactive #2C2C2C #2C2C2C #ffffff #2C2C2C
+client.unfocused #2C2C2C #2C2C2C #ffffff #2C2C2C
 client.urgent #00C1FF #00C1FF #00C1FF #00C1FF
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -33,6 +35,24 @@ bindsym $mod+k focus up
 # Enable workspace back and forth
 workspace_auto_back_and_forth yes
 
+# Do not follow the mouse
+focus_follows_mouse no
+
+# Function keys
+bindsym XF86MonBrightnessDown exec xbacklight -dec 5 -time 0 -steps 1
+bindsym XF86MonBrightnessUp exec xbacklight -inc 5 -time 0 -steps 1
+bindsym XF86AudioLowerVolume exec amixer set Master 5%-
+bindsym XF86AudioRaiseVolume exec amixer set Master 5%+
+bindsym XF86AudioMute exec amixer set Master toggle
+bindsym XF86AudioPlay exec cmus-remote -u
+bindsym XF86AudioStop exec cmus-remote -s
+bindsym XF86AudioNext exec cmus-remote -n
+bindsym XF86AudioPrev exec cmus-remote -r
+
+# Screenshot
+bindsym Insert exec --no-startup-id scrot -s -e 'mv $f ~/Bilder/Screenshot'
+bindsym Print exec scrot -e 'mv $f ~/Bilder/Screenshot'
+
 # everything in modes, lets see if this works
 
 mode "NORMAL" {
@@ -46,7 +66,7 @@ mode "NORMAL" {
     bindsym x kill
 
     # dmenu
-    bindsym d exec --no-startup-id i3-dmenu-desktop
+    bindsym d exec --no-startup-id i3-dmenu-desktop --entry-type="name" --dmenu="dmenu -i -fn FreeMono -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #FFFFFF"
 
     # Move windows
     bindsym Control+h move left
@@ -64,9 +84,9 @@ mode "NORMAL" {
     bindsym m fullscreen
 
     # change container layout (stacked, tabbed, toggle split)
-    bindsym Shift+n layout stacking
+    bindsym Shift+s layout stacking
     bindsym Shift+t layout tabbed
-    bindsym Shift+s layout toggle split
+    bindsym Shift+c layout toggle split
 
     # toggle tiling / floating
     bindsym Shift+f floating toggle
@@ -104,11 +124,23 @@ mode "NORMAL" {
     bindsym Shift+9 move container to workspace 9
     bindsym Shift+0 move container to workspace 10
 
+    # move container and focus to workspace
+    bindsym Control+1 move container to workspace 1, workspace 1
+    bindsym Control+2 move container to workspace 2, workspace 2
+    bindsym Control+3 move container to workspace 3, workspace 3
+    bindsym Control+4 move container to workspace 4, workspace 4
+    bindsym Control+5 move container to workspace 5, workspace 5
+    bindsym Control+6 move container to workspace 6, workspace 6
+    bindsym Control+7 move container to workspace 7, workspace 7
+    bindsym Control+8 move container to workspace 8, workspace 8
+    bindsym Control+9 move container to workspace 9, workspace 9
+    bindsym Control+0 move container to workspace 10, workspace 10
+
     # Intelligent movement with quickswitch.py
     # Get window to current workspace
-    bindsym g exec ~/bin/quickswitch/quickswitch.py -m
+    bindsym g exec quickswitch.py -m
     # Move window to next empty workspace
-    bindsym y exec ~/bin/quickswitch/quickswitch.py -j -e
+    bindsym o exec quickswitch.py -e
     # Append it to the next workspace
     bindsym a move container to workspace next; workspace next
     # Insert it to the previous workspace
@@ -128,10 +160,10 @@ mode "NORMAL" {
     bindsym Shift+x exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
     # Resizing windows
-    bindsym Shift+h resize shrink width 10 px or 10 ppt
-    bindsym Shift+k resize grow height 10 px or 10 ppt
-    bindsym Shift+j resize shrink height 10 px or 10 ppt
-    bindsym Shift+l resize grow width 10 px or 10 ppt
+    bindsym Shift+h resize shrink width 5 px or 5 ppt
+    bindsym Shift+k resize grow height 5 px or 5 ppt
+    bindsym Shift+j resize shrink height 5 px or 5 ppt
+    bindsym Shift+l resize grow width 5 px or 5 ppt
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
@@ -139,11 +171,13 @@ mode "NORMAL" {
     bindsym F7 mode "default"
 
     # Starters
-    bindsym w exec firefox, mode "default"
+    bindsym w exec env GTK2_RC_FILES=/usr/share/themes/Raleigh/gtk-2.0/gtkrc firefox, mode "default"
     bindsym u exec gnome-terminal -e "tmux -2 new-session -A -s MySession", mode "default"
     bindsym t exec gnome-terminal, mode "default"
     bindsym f exec gnome-terminal -e "ranger", mode "default"
-    bindsym o exec gnome-control-center, mode "default"
+    bindsym c exec gnome-terminal -e "cmus && cmus", mode "default"
+    bindsym Shift+m exec mathematica, mode "default"
+    bindsym Shift+q exec qtiplot, mode "default"
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
@@ -152,31 +186,27 @@ mode "NORMAL" {
     # Shutdown, reboot, lock screen ..
     bindsym q mode "$system"
 
-    # Trying some vim stuff
-    bindsym c exec "i3-msg kill && i3-dmenu-desktop"
-
     # Make the Rest return
     bindsym y mode "default"
     bindsym z mode "default"
     bindsym Shift+a mode "default"
-    bindsym Shift+b mode "default"
-    bindsym Shift+c mode "default"
     bindsym Shift+d mode "default"
     bindsym Shift+e mode "default"
-    bindsym Shift+f mode "default"
     bindsym Shift+g mode "default"
     bindsym Shift+i mode "default"
-    bindsym Shift+m mode "default"
     bindsym Shift+o mode "default"
+    bindsym Shift+n mode "default"
     bindsym Shift+p mode "default"
-    bindsym Shift+q mode "default"
     bindsym Shift+u mode "default"
     bindsym Shift+v mode "default"
     bindsym Shift+w mode "default"
     bindsym Shift+y mode "default"
+
+    bindsym Shift+b mode "Borders"
 }
 
 bindsym F7 mode "NORMAL"
+bindsym F8 exec --no-startup-id i3-dmenu-desktop --entry-type='name' --dmenu='dmenu -i -fn FreeMono -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #FFFFFF'
 
 set $Locker i3lock && sleep 1
 
@@ -192,56 +222,45 @@ mode "$SYSTEM" {
     bindsym Escape mode "default"
 }
 
+mode "Borders" {
+    bindsym 1 border 1pixel
+    bindsym 2 border pixel 2
+    bindsym 3 border pixel 3
+    bindsym 4 border pixel 4
+    bindsym Return border normal
+    bindsym 0 border none
+
+    bindsym Escape mode "default"
+}
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status -c ~/.i3/i3status.conf
-        tray_output primary
+        # status_command ~/.i3/statusbar.sh
+        status_command ~/.i3/conkybar.sh
+
+        tray_output none
 
         colors{
-            background #1C1C1C
+            background #2C2C2C
             statusline #00C1FF
             separator #EEEEEE
 
-            focused_workspace #1C1C1C #00C1FF
-            active_workspace #EEEEEE #1C1C1C
-            inactive_workspace #EEEEEE #1C1C1C
-            urgent_workspace #1C1C1C #00C1FF
+            focused_workspace #FFFFFF #00A0DD
+            active_workspace #6C6C6C #2C2C2C
+            inactive_workspace #6C6C6C #2C2C2C
+            urgent_workspace #FFFFFF #00A0DD
         }
 
-        font pango:Ubuntu Mono bold 10
+        font pango:Source Code Pro Bold 11
 }
 
-# Window borders
-new_window pixel 1
-
-# The Unity Settings
-exec gnome-settings-daemon
-# Updates?
-exec update-notifier
-
-# Background
-exec_always feh --bg-scale ~/Bilder/Hintergrund/Blue_Galaxy.jpg
 # Keyboard delays
-exec_always xset r rate 200 40
-# Run the mouse per keyboard
-exec keynav
-# And hide it
-exec 'unclutter -idle 0.01 -root -jitter 1000'
-
-# Custom launchers
-# Firefox
-bindsym Mod4+w exec firefox
-# Nautilus
-bindsym Mod4+n exec gnome-terminal -e "ranger"
-# Tmux terminal
-bindsym Control+Mod1+t exec gnome-terminal -e "tmux -2 new-session -A -s MySession"
-
-# Movements I want systemwide
-bindsym Control+Mod1+Right workspace next
-bindsym Control+Mod1+Left workspace prev
-bindsym Shift+Control+Mod1+Right move container to workspace next; workspace next
-bindsym Shift+Control+Mod1+Left move container to workspace prev; workspace prev
+exec_always --no-startup-id xset r rate 200 40
+# Dont want to see the mouse
+exec_always --no-startup-id unclutter -idle 1 -root
+# Conky
+exec --no-startup-id conky
 
 # Window Stuff
 bindsym Control+q kill

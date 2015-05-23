@@ -55,7 +55,7 @@ set complete=t
 " Omnicompletion default
 set omnifunc=syntaxcomplete#Complete
 " Supertab on omni
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+let g:SuperTabDefaultCompletionType = "<c-x><c-o><c-p>"
 " Keep menu visible
 inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
   \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
@@ -182,9 +182,6 @@ vmap <Bs> #gnzz
 " Move codeblocks without losing the visualization
 vnoremap < <gv
 vnoremap > >gv
-
-" Enter visual block mode differently
-vnoremap b <C-v>
 
 " Beginning/end of line in insert mode
 inoremap <c-a> <Esc>0i
@@ -339,6 +336,7 @@ let g:tagbar_compact = 1
 
 " Configure Voom
 let g:voom_tab_key = "<Nop>"
+let g:voom_tree_width = 29
 
 " Configure easymotion
 let g:EasyMotion_keys = 'acdefghijklmnoqrstuvwö'
@@ -386,6 +384,12 @@ autocmd BufRead,BufNewFile *.tex Voom latex
 
 " Tex to LaTex
 let g:tex_flavor='latex'
+
+" Matlab
+autocmd BufRead,BufNewFile *.m VimuxRunCommand("clear && matlab -nosplash -nodesktop")
+autocmd VimLeave *.m exe "VimuxCloseRunner"
+
+autocmd BufEnter *.m compiler mlint
 
 " }}}
 

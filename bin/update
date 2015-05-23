@@ -1,0 +1,14 @@
+#!/bin/sh
+# A little script to check for updates
+
+updates=$(checkupdates | wc -l)
+
+if (( $updates == 0 ))
+then
+    echo "everything up to date"
+elif (( $updates == 1 ))
+then
+    echo "one update available"
+else
+    echo "$updates updates available"
+fi

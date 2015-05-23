@@ -3,7 +3,8 @@
 let g_tex_pdf_map_keys = 0
 
 " map a pdf viewer
-map <leader>d :! evince &>/dev/null >/dev/null %:t:r.pdf &<CR><CR>
+map <leader>d :! zathura &>/dev/null >/dev/null %:t:r.pdf &<CR><CR>:redraw<CR>
+" map <leader>d :! evince &>/dev/null >/dev/null %:t:r.pdf &<CR><CR>
 
 " map leader-w for the compiler
 nnoremap <leader>w <Esc>:BuildTexPdf<CR>
@@ -14,6 +15,7 @@ let g:VimuxOrientation = "v"
 
 " Linelength 90 for LaTex files, reasonable length in my opinion
 set tw=90
+set sidescrolloff=0
 
 " Use the LaTeX dictionaries
 set dictionary+=~/.vim/dictionary/latex_fav

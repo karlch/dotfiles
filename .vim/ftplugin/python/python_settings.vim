@@ -7,8 +7,8 @@ set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 " " Run python in the terminal
 " nnoremap <leader>p :! clear && python<CR>
 " Tmux version
-nnoremap <leader>d :VimuxRunCommand("python <C-R>=expand("%:p:h")<CR>/<C-R>=expand("%:t")<CR>")<CR><CR>
-nnoremap <leader>p :VimuxRunCommand("python")<CR>
+nnoremap <leader>d :VimuxRunCommand("python2 <C-R>=expand("%:p:h")<CR>/<C-R>=expand("%:t")<CR>")<CR><CR>
+nmap <leader>p :VimuxRunCommand("python2")<CR><C-l>
 
 " and disable the pymode version
 let g:pymode_run = 0

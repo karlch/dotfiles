@@ -33,13 +33,13 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(vi-mode dircycle jump ubuntu)
+plugins=(vi-mode dircycle jump archlinux)
 
 # User configuration
 
-export PATH="/home/christian/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 export VISUAL=vim
 export EDITOR=vim
+export PATH=$PATH:~/bin
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -85,17 +85,20 @@ mkcd(){ mkdir "$1" && cd "$1" ; }
 listjpg(){ autoload -U zmv && c=1 base="$1" zmv '*.JPG||*.jpg' '${base}_${(l:3::0:)$((c++))}.jpg' ; }
 listall(){ autoload -U zmv && c=1 base="$1" end="$2" zmv '*' '${base}_${(l:3::0:)$((c++))}.${end}' ; }
 
-# Aliases
-# my bash aliases here as well
-source ~/.bash_aliases
-# handy ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-# source this file quickly
-alias sz='source ~/.zshrc'
-alias vim='vim --servername VimServer'
-alias v='vim --servername VimServer'
-alias vima='vim --servername VimServer --remote-tab'
-# everyone need some fun
-alias chuck='fortune ~/bin/fortune/chucknorris | cowsay'
+# Colored man pages
+man() {
+    env LESS_TERMCAP_mb=$'\E[01;31m' \
+    LESS_TERMCAP_md=$'\E[01;38;5;74m' \
+    LESS_TERMCAP_me=$'\E[01;32m' \
+    LESS_TERMCAP_se=$'\E[0m' \
+    LESS_TERMCAP_so=$'\E[38;5;246m' \
+    LESS_TERMCAP_ue=$'\E[01;32m' \
+    LESS_TERMCAP_us=$'\E[04;38;5;146m' \
+    man "$@"
+}
+
+# aliases
+source ~/.zsh_aliases
+
+# Logo
+archey3

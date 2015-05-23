@@ -5,29 +5,31 @@ set complete=bh
 set nohlsearch
 colorscheme lhun
 
-command! -description="TUMonline (a)" "BookTaba" tabopen https://campus.tum.de/tumonline/webnav.ini
-command! -description="TUM Moodle (s)" "BookTabs" tabopen https://www.moodle.tum.de/my/  
-command! -description="Theo (d)" "BookTabd" tabopen http://www.t70.ph.tum.de/index.php?id=28
-command! -description="ExPhy (f)" "BookTabf" tabopen https://www.av.ph.tum.de/SS15/Zeiten.php
+command! -description="TUMonline (o)" "BookTabo" tabopen https://campus.tum.de/tumonline/webnav.ini
+command! -description="TUM Moodle (M)" "BookTabM" tabopen https://www.moodle.tum.de/my/  
+command! -description="Theo (t)" "BookTabt" tabopen http://www.t70.ph.tum.de/index.php?id=28
+command! -description="ExPhy (e)" "BookTabe" tabopen https://www.av.ph.tum.de/SS15/Zeiten.php
 command! -description="WiPro (w)" "BookTabw" tabopen http://www5.in.tum.de/wiki/index.php/Einf%C3%BChrung_in_die_wissenschaftliche_Programmierung_-_Winter_14
-command! -description="Gnome-Look (h)" "BookTabh" tabopen http://gnome-look.org/
-command! -description="GitHub (j)" "BookTabj" tabopen https://github.com/
-command! -description="Postbank (g)" "BookTabg" tabopen https://banking.postbank.de/rai/login
-command! -description="Gmail (l)" "BookTabl" tabopen https://accounts.google.com/ServiceLogin?service=mail&passive=true&rm=false&continue=https://mail.google.com/mail/&ss=1&scc=1&ltmpl=googlemail&emr=1
-command! -description="FaceBook (k)" "BookTabk" tabopen https://de-de.faceBook.com/
-command! -description="Taekwondo (q)" "BookTabq" tabopen http://www.taekwondo-garching.de/
+command! -description="Gnome-Look (l)" "BookTabl" tabopen http://gnome-look.org/
+command! -description="GitHub (g)" "BookTabg" tabopen https://github.com/
+command! -description="Postbank (p)" "BookTabp" tabopen https://banking.postbank.de/rai/login
+command! -description="Gmail (m)" "BookTabm" tabopen https://accounts.google.com/ServiceLogin?service=mail&passive=true&rm=false&continue=https://mail.google.com/mail/&ss=1&scc=1&ltmpl=googlemail&emr=1
+command! -description="FaceBook (f)" "BookTabf" tabopen https://de-de.faceBook.com/
+command! -description="Taekwondo (k)" "BookTabk" tabopen http://www.taekwondo-garching.de/
+command! -description="ArchWiki (a)" "BookTaba" tabopen https://wiki.archlinux.org/index.php/Main_page
 
-command! -description="TUMonline (a)" "bookmarka" open https://campus.tum.de/tumonline/webnav.ini
-command! -description="TUM Moodle (s)" "bookmarks" open https://www.moodle.tum.de/my/  
-command! -description="Theo (d)" "bookmarkd" open http://www.t70.ph.tum.de/index.php?id=28
-command! -description="ExPhy (f)" "bookmarkf" open https://www.av.ph.tum.de/SS15/Zeiten.php
+command! -description="TUMonline (o)" "bookmarko" open https://campus.tum.de/tumonline/webnav.ini
+command! -description="TUM Moodle (M)" "bookmarkM" open https://www.moodle.tum.de/my/  
+command! -description="Theo (t)" "bookmarkt" open http://www.t70.ph.tum.de/index.php?id=28
+command! -description="ExPhy (e)" "bookmarke" open https://www.av.ph.tum.de/SS15/Zeiten.php
 command! -description="WiPro (w)" "bookmarkw" open http://www5.in.tum.de/wiki/index.php/Einf%C3%BChrung_in_die_wissenschaftliche_Programmierung_-_Winter_14
-command! -description="Gnome-Look (h)" "bookmarkh" open http://gnome-look.org/
-command! -description="GitHub (j)" "bookmarkj" open https://github.com/
-command! -description="Postbank (g)" "bookmarkg" open https://banking.postbank.de/rai/login
-command! -description="Gmail (l)" "bookmarkl" open https://accounts.google.com/ServiceLogin?service=mail&passive=true&rm=false&continue=https://mail.google.com/mail/&ss=1&scc=1&ltmpl=googlemail&emr=1
-command! -description="Facebook (k)" "bookmarkk" open https://de-de.facebook.com/
-command! -description="Taekwondo (q)" "bookmarkq" open http://www.taekwondo-garching.de/
+command! -description="Gnome-Look (l)" "bookmarkl" open http://gnome-look.org/
+command! -description="GitHub (g)" "bookmarkg" open https://github.com/
+command! -description="Postbank (p)" "bookmarkp" open https://banking.postbank.de/rai/login
+command! -description="Gmail (m)" "bookmarkm" open https://accounts.google.com/ServiceLogin?service=mail&passive=true&rm=false&continue=https://mail.google.com/mail/&ss=1&scc=1&ltmpl=googlemail&emr=1
+command! -description="Facebook (f)" "bookmarkf" open https://de-de.facebook.com/
+command! -description="Taekwondo (k)" "bookmarkk" open http://www.taekwondo-garching.de/
+command! -description="ArchWiki (a)" "bookmarka" open https://wiki.archlinux.org/index.php/Main_page
 
 command! -description="Source config" sv source ~/.vimperatorrc
 
@@ -42,3 +44,7 @@ cnoremap <C-f> <Cr>;o
 inoremap jk <Esc>
 nnoremap j 5j
 nnoremap k 5k
+nnoremap l gt
+nnoremap h gT
+nnoremap <C-l> l
+nnoremap <C-h> h
