@@ -437,7 +437,7 @@ snippet sys "general systematical error" w
 endsnippet
 snippet start "start complete physics document"
 \documentclass[11pt]{article}
-\title{\underline{${1:title}}}
+\title{${1:title}}
 \author{${2:author}}
 \date{\today}
 
@@ -455,6 +455,14 @@ snippet start "start complete physics document"
 \usepackage{graphicx}
 
 \usepackage[utf8]{inputenc}
+
+\usepackage{tabularx}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+\pretolerance=10000
 
 \begin{document}
 \sf
@@ -493,7 +501,7 @@ ${3}
 
 \end{document}
 endsnippet
-snippet slide "enter a new frame"
+snippet frame "enter a new frame"
 \begin{frame}{${1:title}}{${2:subtitle}}
     ${3}
 \end{frame}

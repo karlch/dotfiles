@@ -13,8 +13,18 @@ TEXT
 
 [\
 # Musik
-{"full_text":"${exec cmus-remote -Q | grep ' artist ' | cut -d ' ' -f3-}","color":"\#00C1FF","separator":false,"separator_block_width":6},\
-{"full_text":"${exec cmus-remote -Q | grep ' title ' | cut -d ' ' -f3-}                                                    ","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+{"full_text":"${exec cmus-remote -Q | grep ' artist ' | cut -d ' ' -f3-}","color":"\#EEEEEE","separator":false,"border":"\#00C1FF","border_bottom":3,"border_top":3,"border_left":0,"border_right":0},\
+{"full_text":"${exec cmus-remote -Q | grep ' title ' | cut -d ' ' -f3-}","color":"\#EEEEEE","separator":false,"border":"\#00C1FF","border_bottom":3,"border_top":3,"border_left":0,"border_right":0},\
+# {"full_text":"    ","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+#
+# Current Window
+# {"full_text":"${exec ~/.i3/py-scripts/wincurrent.py}","color":"\#EEEEEE","separator":false,"border":"\#00C1FF","border_bottom":3,"border_top":3,"border_left":0,"border_right":0},\
+#
+# Tmux Info
+{"full_text":"      WIN","color":"\#00C1FF","separator":false},\
+{"full_text":"${exec python2 ~/.i3/py-scripts/tmux-windows.py} ","color":"\#EEEEEE","separator":false},\
+{"full_text":"${exec python2 ~/.i3/py-scripts/pane.py}","color":"\#00C1FF","separator":false},\
+{"full_text":"${exec python2 ~/.i3/py-scripts/tmux-panes.py} ","color":"\#EEEEEE","separator":false},\
 #
 # Brightness
 {"full_text":"BRI","color":"\#00C1FF","separator":false,"separator_block_width":6},\
@@ -26,6 +36,8 @@ TEXT
 #
 # Battery:
 {"full_text":"BAT","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+{"full_text":"${if_match ${battery_percent BAT0}<1}---  ","color":"\#828282","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
 {"full_text":"${if_match ${battery_percent BAT0}<20}${battery_percent BAT0}%  ","color":"\#828282","separator":false,"separator_block_width":0},\
 {"full_text":"${else}"},\
 {"full_text":"${if_match ${battery_percent BAT0}<40}${battery_percent BAT0}%  ","color":"\#AAAAAA","separator":false,"separator_block_width":0},\
@@ -34,29 +46,29 @@ TEXT
 {"full_text":"${else}"},\
 {"full_text":"${if_match ${battery_percent BAT0}>=80}${battery_percent BAT0}%  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
 {"full_text":"${else}"},\
-{"full_text":"${endif}${endif}${endif}${endif}"},\
+{"full_text":"${endif}${endif}${endif}${endif}${endif}"},\
 #
 # CPU:
 {"full_text":"CPU","color":"\#00C1FF","separator":false,"separator_block_width":6},\
-{"full_text":"${if_match ${cpu cpu0}<25}${cpu cpu0}% ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
+{"full_text":"${if_match ${cpu cpu0}<25}${cpu cpu0}%  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
 {"full_text":"${else}"},\
-{"full_text":"${if_match ${cpu cpu0}<50}${cpu cpu0}% ","color":"\#CCCCCC","separator":false,"separator_block_width":0},\
+{"full_text":"${if_match ${cpu cpu0}<50}${cpu cpu0}%  ","color":"\#CCCCCC","separator":false,"separator_block_width":0},\
 {"full_text":"${else}"},\
-{"full_text":"${if_match ${cpu cpu0}<75}${cpu cpu0}% ","color":"\#AAAAAA","separator":false,"separator_block_width":0},\
+{"full_text":"${if_match ${cpu cpu0}<75}${cpu cpu0}%  ","color":"\#AAAAAA","separator":false,"separator_block_width":0},\
 {"full_text":"${else}"},\
-{"full_text":"${if_match ${cpu cpu0}>=75}${cpu cpu0}% ","color":"\#828282","separator":false,"separator_block_width":0},\
+{"full_text":"${if_match ${cpu cpu0}>=75}${cpu cpu0}%  ","color":"\#828282","separator":false,"separator_block_width":0},\
 {"full_text":"${else}"},\
 {"full_text":"${endif}${endif}${endif}${endif}"},\
 # CPU temperature:
-{"full_text":"${if_match ${acpitemp}<40}${acpitemp}°C  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
-{"full_text":"${else}"},\
-{"full_text":"${if_match ${acpitemp}<50}${acpitemp}°C  ","color":"\#CCCCCC","separator":false,"separator_block_width":0},\
-{"full_text":"${else}"},\
-{"full_text":"${if_match ${acpitemp}<60}${acpitemp}°C  ","color":"\#AAAAAA","separator":false,"separator_block_width":0},\
-{"full_text":"${else}"},\
-{"full_text":"${if_match ${acpitemp}>=60}${acpitemp}°C  ","color":"\#828282","separator":false,"separator_block_width":0},\
-{"full_text":"${else}"},\
-{"full_text":"${endif}${endif}${endif}${endif}"},\
+# {"full_text":"${if_match ${acpitemp}<40}${acpitemp}°C  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
+# {"full_text":"${else}"},\
+# {"full_text":"${if_match ${acpitemp}<50}${acpitemp}°C  ","color":"\#CCCCCC","separator":false,"separator_block_width":0},\
+# {"full_text":"${else}"},\
+# {"full_text":"${if_match ${acpitemp}<60}${acpitemp}°C  ","color":"\#AAAAAA","separator":false,"separator_block_width":0},\
+# {"full_text":"${else}"},\
+# {"full_text":"${if_match ${acpitemp}>=60}${acpitemp}°C  ","color":"\#828282","separator":false,"separator_block_width":0},\
+# {"full_text":"${else}"},\
+# {"full_text":"${endif}${endif}${endif}${endif}"},\
 #
 # Memory:
 {"full_text":"RAM","color":"\#00C1FF","separator":false,"separator_block_width":6},\
@@ -72,6 +84,8 @@ TEXT
 #
 # Wifi:
 {"full_text":"WIFI","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+{"full_text":"${if_match ${wireless_link_qual_perc wlp1s0}<1}---  ","color":"\#626262","separator":false,"separator_block_width":0},\
+{"full_text":"${else}"},\
 {"full_text":"${if_match ${wireless_link_qual_perc wlp1s0}<20}${wireless_link_qual_perc wlp1s0}%  ","color":"\#828282","separator":false,"separator_block_width":0},\
 {"full_text":"${else}"},\
 {"full_text":"${if_match ${wireless_link_qual_perc wlp1s0}<40}${wireless_link_qual_perc wlp1s0}%  ","color":"\#AAAAAA","separator":false,"separator_block_width":0},\
@@ -80,16 +94,16 @@ TEXT
 {"full_text":"${else}"},\
 {"full_text":"${if_match ${wireless_link_qual_perc wlp1s0}>=80}${wireless_link_qual_perc wlp1s0}%  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
 {"full_text":"${else}"},\
-{"full_text":"${endif}${endif}${endif}${endif}"},\
+{"full_text":"${endif}${endif}${endif}${endif}${endif}"},\
 #
 # Date and Time:
-{"full_text":"  ","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+{"full_text":"   ","color":"\#00C1FF","separator":false,"separator_block_width":0},\
 {"full_text":"${time %d}","color":"\#DDDDDD","separator":false,"separator_block_width":0},\
 {"full_text":".","color":"\#00C1FF","separator":false,"separator_block_width":0},\
 {"full_text":"${time %m}","color":"\#DDDDDD","separator":false,"separator_block_width":0},\
 {"full_text":".","color":"\#00C1FF","separator":false,"separator_block_width":0},\
 {"full_text":"${time %y} ","color":"\#DDDDDD","separator":false,"separator_block_width":6},\
 {"full_text":"${time %H}","color":"\#DDDDDD","separator":false,"separator_block_width":0},\
-{"full_text":":","color":"\#00C1FF","separator":false,"separator_block_width":0},\
+{"full_text":":","color":"\#00C1FF","separator":true,"separator_block_width":0},\
 {"full_text":"${time %M} ","color":"\#DDDDDD","separator":false}\
 ],

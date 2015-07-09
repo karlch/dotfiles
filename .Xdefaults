@@ -1,0 +1,70 @@
+! Xresources file
+! Transparency
+URxvt*.transparent: true
+! URxvt*.shading: 0 to 99 darkens, 101 to 200 lightens
+! URxvt*.shading: 50
+! Fading non focused windows
+URxvt*.fading: 20
+! Blur the background
+! URxvt.blurRadius: 3
+
+! colors
+urxvt*background:  #1C1C1C
+urxvt*foreground:  #EEEEEE
+URxvt.highlightColor: #00C1FF
+! Black
+URxvt*color0: #2C2C2C
+URxvt*color8: #2C2C2C
+! Red
+URxvt*color1: #B53030
+URxvt*color9: #DB3636
+! Green
+URxvt*color2: #AFEEAF
+URxvt*color10: #6CD87C
+! Yellow
+URxvt*color3: #E8E861
+URxvt*color11: #FFFF67
+! Blue
+URxvt*color4: #00C1FF
+URxvt*color12: #077DD2
+! Magenta (well, orange)
+URxvt*color5: #FEBE73
+URxvt*color13: #FF9900
+! Cyan (well, grayish green/blue)
+URxvt*color6: #96b79d
+URxvt*color14: #96ABB7
+! White
+URxvt*color7: #DDDDDD
+URxvt*color15: #FFFFFF
+
+! Font
+URxvt.font: xft:Source Code Pro:size=11
+! Cursor
+URxvt*cursorColor: #96ABB7
+
+! Scrolling
+URxvt.scrollBar: false
+URxvt.scrollTtyOutput: false
+URxvt.scrollTtyKeypress: true
+URxvt.secondaryScreen: 1
+URxvt.secondaryScroll: 0
+URxvt.keysym.C-M-k: command:\033]720;1\007
+URxvt.keysym.C-M-j: command:\033]721;1\007
+! Scrollback lines
+URxvt.saveLines: 100
+
+
+! Extensions
+URxvt.perl-ext-common: default,matcher,url-picker,font-size,osc-xterm-clipboard
+URxvt.perl-ext: default,url-select
+! Selectable URLs
+URxvt.url-launcher: /usr/bin/elinks
+URxvt.matcher.rend.0: Uline fg7
+URxvt.keysym.C-b: perl:url-select:select_next
+URxvt.url-select.launcher: urxvt -e /usr/bin/elinks
+URxvt.url-select.underline: true
+! Catch ugly URL's
+URxvt.cutchars: `()'*<>[]{|}"
+! Font size on the fly
+URxvt.keysym.C-plus:     perl:font-size:increase
+URxvt.keysym.C-minus:   perl:font-size:decrease

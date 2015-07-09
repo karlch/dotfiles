@@ -1,4 +1,4 @@
-" General stuff {{{"{{{"}}}
+" General stuff {{{
 " Do not try to be vi compatible, needed for various settings
 set nocompatible
 
@@ -46,19 +46,12 @@ set nobackup nowritebackup noswapfile
 set splitright splitbelow
 
 " Settings to create a usable autocomplete menu
-" Also single one accepted
-set completeopt=menuone
 " Only 10 lines
 set pumheight=10
-" Only tags
-set complete=t
 " Omnicompletion default
 set omnifunc=syntaxcomplete#Complete
 " Supertab on omni
 let g:SuperTabDefaultCompletionType = "<c-x><c-o><c-p>"
-" Keep menu visible
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 " Enter to select
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -130,16 +123,8 @@ set shiftround
 " Save as root
 cabbrev w!! w !sudo tee > /dev/null %
 
-" Useful shell like commands
-cabbrev rm Remove
-cabbrev mv Move
-cabbrev chmod Chmod
-cabbrev mkdir Mkdir
-
-" A Website/wikipedia in a new tab
-cabbrev web tabe \| r! lynx -dump http://
-cabbrev wiki tabe \| r! lynx -dump http://de.wikipedia.org/wiki/
-cabbrev wec %s /\[.\{-}\]/
+" Starting a linear table
+cabbrev linlist r! python2 ~/Dokumente/Uni/14W/WiPro/skripte/mathe/listtab.py
 
 " }}}
 
@@ -173,22 +158,13 @@ nnoremap N Nzzzv
 vmap + *gnzz
 vmap <Bs> #gnzz
 
-" Faster Split navigation
-" nnoremap <c-l> :wincmd l<CR>
-" nnoremap <c-k> :wincmd k<CR>
-" nnoremap <c-j> :wincmd j<CR>
-" nnoremap <c-h> :wincmd h<CR>
-
 " Move codeblocks without losing the visualization
 vnoremap < <gv
 vnoremap > >gv
 
-" Beginning/end of line in insert mode
-inoremap <c-a> <Esc>0i
-inoremap <c-e> <Esc>$a
-
 " Calculator
-inoremap <C-b> <C-o>yiW<End>=<C-R>=<C-R>0<CR>
+inoremap <C-c> <C-o>yiW<End>=<C-R>=<C-R>0<CR>
+vnoremap <C-c> "ey:call CalcQA()<CR>
 
 " Spellchecking on/off
 nnoremap <F2> :set spell! spelllang=de<CR>
@@ -199,7 +175,7 @@ nnoremap <F5> [s
 " Accept the word
 nnoremap <F6> zg
 " Show alternatives
-nnoremap <F9> z=
+nnoremap <F7> z=
 
 " Trailing Whitespace
 nnoremap <leader>tw :call TrailingWhitespaceToggle()<CR>
@@ -207,10 +183,13 @@ nnoremap <leader>tw :call TrailingWhitespaceToggle()<CR>
 " Y like D and C
 nnoremap Y y$
 
+" S as substitute the command way (cc works anyway)
+nnoremap S :%s /
+
 " }}}
 
 " Leader Mappings {{{
-" Space is mapped for the use of the leader key
+" Space is mapped for the use of the leader key (map for visibility)
 map <space> <leader>
 
 " Move to beggining/end of line
@@ -242,6 +221,22 @@ nnoremap <leader>e :cc<CR>
 nnoremap <leader>n :cnext<CR>
 nnoremap <leader>N :cprevious<CR>
 
+" Make a latex table
+nnoremap <leader>T :%s / / \& <CR>:%s /^/    <CR>:%s /$/ \\\\ \\hline<CR>ggO<Bs><Bs>\begin{center}<CR><tab>\begin{tabular}<CR>\hline<Esc>Go\end{tabular}<Cr><Bs>\end{center}<Esc>2GA{\|c\|c\|}<left>
+vnoremap <leader>T :s / / \& <CR>gv:s /^/    <CR>gv:s /$/ \\\\ \\hline<CR>gvo<Esc>O<Bs><Bs>\begin{center}<CR><tab>\begin{tabular}<CR>\hline<Esc>gvo<Esc>o\end{tabular}<Cr><Bs>\end{center}<Esc>gvo2k<Esc>A{\|c\|c\|}<left>
+
+" Open file in a new tab
+map <leader>dt :call DmenuOpen("tabe")<cr>
+" Open file in current buffer
+map <leader>de :call DmenuOpen("e")<cr>
+" Open file in vertical split
+map <leader>ds :call DmenuOpen("sp")<cr>
+" Open file in split
+map <leader>dv :call DmenuOpen("vs")<cr>
+
+" Select file with ranger
+nnoremap <leader>r :<C-U>RangerChooser<CR>
+
 " }}}
 
 " Plugin Mappings {{{
@@ -249,8 +244,8 @@ nnoremap <leader>N :cprevious<CR>
 " Quicker commenting of code
 map <leader>c <c-_><c-_>
 
-" Keycombination for the TagExplorer
-nnoremap <leader>te :TagExplorer<CR>
+" Keycombination for the Nerdtree
+nnoremap <leader>te :NERDTreeToggle<CR>
 
 " Start Tagbar
 nnoremap <leader>tb :TagbarToggle<CR>
@@ -323,15 +318,11 @@ smapclear
 
 " Settings for plugins {{{
 
-" Configure Tagexplorer
-let TE_Ctags_Path = '/usr/bin/ctags-exuberant'
-let TE_Adjust_Winwith = 0
-
 " Configure Tagbar
 let g:tagbar_left = 1
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
-let g:tagbar_foldlevel = 0
+let g:tagbar_foldlevel = 5
 let g:tagbar_compact = 1
 
 " Configure Voom
@@ -341,12 +332,9 @@ let g:voom_tree_width = 29
 " Configure easymotion
 let g:EasyMotion_keys = 'acdefghijklmnoqrstuvwö'
 
-" Configure gundo
-let g:gundo_right = 1
-
 " Configure delimitMate
-let g:delimitMate_expand_space = 1
-let g:delimitMate_expand_cr = 2
+let g:delimitMate_expand_space = 0
+let g:delimitMate_expand_cr = 0
 let g:delimitMate_expand_inside_quotes = 1
 let g:delimitMate_balance_matchpairs = 1
 
@@ -368,28 +356,57 @@ let g:VimuxHeight = "30"
 let g:VimuxOrientation = "h"
 let g:VimuxUseNearest = "0"
 
+" Configure Mathematica
+let g:mma_candy = 1
+
 "}}}
 
 " Filespecific autocommands {{{
 " Python
 " Command to insert the python code for a nice header
 autocmd BufNewFile *.py exe "normal a#!/usr/bin/env python\<Esc>o# encoding: utf-8\<Esc>o"
-
 " Close the extra vimux buffer
-autocmd VimLeave *.py exe "VimuxCloseRunner"
+autocmd VimLeave *.py VimuxCloseRunner
 
 " LaTex
 " Open Voom LaTex on startup
 autocmd BufRead,BufNewFile *.tex Voom latex
+autocmd VimLeave *.tex exe "!killall zathura"
 
 " Tex to LaTex
 let g:tex_flavor='latex'
 
 " Matlab
 autocmd BufRead,BufNewFile *.m VimuxRunCommand("clear && matlab -nosplash -nodesktop")
-autocmd VimLeave *.m exe "VimuxCloseRunner"
-
+autocmd VimLeave *.m VimuxCloseRunner
+" Compiler
 autocmd BufEnter *.m compiler mlint
+
+" Mathematica
+autocmd BufRead,BufNewFile *.mma      set ft=mma
+autocmd BufRead,BufNewFile *.mma VimuxRunCommand("clear && math")
+autocmd VimLeave *.mma VimuxCloseRunner
+autocmd BufNewFile *.mma exe "normal a<<~/.vim/ftplugin/mma/startjava\<Esc>"
+
+" Tsv (Vim as spreadsheet)
+autocmd BufEnter *.tsv setlocal noexpandtab shiftwidth=20 softtabstop=20 tabstop=20
+autocmd BufEnter *.tsv setlocal textwidth=800 nowrap nolinebreak colorcolumn=0 norelativenumber
+autocmd BufEnter *.tsv let g:SuperTabDefaultCompletionType = "<Tab>"
+autocmd BufEnter *.tsv nnoremap <leader>tb :sp<CR>:wincmd k<CR>:0<CR>1<C-W>_:wincmd j<CR>
+autocmd BufEnter *.tsv inoremap = =<Esc>vB"ey:call CalcQA()<CR>?=<CR>ldBE
+autocmd BufEnter *.tsv nnoremap v <C-v>
+autocmd BufEnter *.tsv nnoremap <C-v> v
+autocmd BufLeave *.tsv setlocal expandtab shiftwidth=4 tabstop=4
+autocmd BufLeave *.tsv setlocal textwidth=80 nowrap linebreak colorcolumn=+1 relativenumber
+autocmd BufLeave *.tsv let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
+autocmd BufLeave *.tsv nnoremap <leader>tb :TagbarToggle<CR>
+autocmd BufLeave *.tsv inoremap = =
+autocmd BufLeave *.tsv nnoremap v v
+autocmd BufLeave *.tsv nnoremap <C-v> <C-v>
+
+" Mail
+autocmd BufRead,BufNewFile *mutt-* setfiletype mail
+autocmd BufRead,BufNewFile *mutt-* exec "normal ggO\<CR>\<Esc>gg"
 
 " }}}
 
@@ -404,7 +421,7 @@ endfunction
 
 let g:trailing_whitespace_toggle = 0
 function! TrailingWhitespaceToggle()
-    if g:trailing_whitespace_toggle  
+    if g:trailing_whitespace_toggle
         match trailing_whitespace //
         let g:trailing_whitespace_toggle = 0
     else
@@ -412,6 +429,81 @@ function! TrailingWhitespaceToggle()
         let g:trailing_whitespace_toggle = 1
     endif
 endfunction
+
+function! CalcQA()
+  let has_equal = 0
+  " remove newlines and trailing spaces
+  let @e = substitute (@e, "\n", "", "g")
+  let @e = substitute (@e, '\s*$', "", "g")
+  " if we end with an equal, strip, and remember for output
+  if @e =~ "=$"
+    let @e = substitute (@e, '=$', "", "")
+    let has_equal = 1
+  endif
+  " escape chars for shell
+  let @e = escape (@e, '*()')
+  " run bc, strip newline
+  let answer = substitute (system ("echo " . @e . " \| qalc"), "\n", "", "")
+  " Strip the answer to what is needed
+  let answer1 = split(answer, " ")
+  let answer2 = answer1[-1]
+  let answer3 = split(answer2, "\n")
+  let answer4 = answer3[0]
+  if has_equal == 1
+    normal `>
+    exec "normal a" . answer4
+    echo "answer = " . answer4
+  else
+    echo "answer = " . answer4
+  endif
+endfunction
+
+function! Chomp(str)
+  return substitute(a:str, '\n$', '', '')
+endfunction
+
+function! DmenuOpen(cmd)
+  let fname = Chomp(system("ls -A | grep -v ^d | dmenu -i -b -y 25 -p launch: -l 20 -fn SourceCodePro -nb '#2C2C2C' -nf '#00C1FF' -sb '#00A0DD' -sf '#FFFFFF' -p " . a:cmd))
+  if empty(fname)
+    return
+  endif
+  execute a:cmd . " " . fname
+endfunction
+
+function! RangeChooser()
+    let temp = tempname()
+    exec 'silent !ranger --choosefiles=' . shellescape(temp)
+    if !filereadable(temp)
+        redraw!
+        " Nothing to read.
+        return
+    endif
+    let names = readfile(temp)
+    if empty(names)
+        redraw!
+        " Nothing to open.
+        return
+    endif
+    " Edit the first item.
+    exec 'edit ' . fnameescape(names[0])
+    " Add any remaning items to the arg list/buffer list.
+    for name in names[1:]
+        exec 'argadd ' . fnameescape(name)
+    endfor
+    redraw!
+endfunction
+command! -bar RangerChooser call RangeChooser()
+
+" }}}
+
+" Gui Options {{{
+
+if has("gui_running")
+    set guioptions-=m
+    set guioptions-=T
+    set guioptions-=r
+    autocmd VimEnter * exec "!i3-msg move absolute position center"
+endif
 
 " }}}
 

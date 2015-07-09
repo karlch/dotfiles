@@ -12,9 +12,10 @@ alias la='ls -A'
 alias l='ls -CF'
 
 # vim aliases
-alias vim='vim --servername VimServer'
-alias v='vim --servername VimServer'
+alias vims='vim --servername VimServer'
+alias v='vim'
 alias vima='vim --servername VimServer --remote-tab'
+alias mma='vim ~/tmp.mma'
 
 # tmux
 alias tmux='TERM=xterm-256color tmux'
@@ -22,7 +23,7 @@ alias tp='cd ~/Dokumente/Uni/14W/WiPro && TERM=xterm-256color tmux'
 alias tks='tmux kill-server'
 
 # git
-alias gitup='cp -r ~/.vim ~/.vimrc ~/.zsh ~/.zshrc ~/.zsh_aliases ~/.tmux.conf ~/.i3 ~/bin ~/.vimperator ~/.vimperatorrc ~/.conkyrc ~/Dokumente/git/dotfiles'
+alias gitup='cp -r ~/.vim ~/.vimrc ~/.zsh ~/.zshrc ~/.zsh_aliases ~/.tmux.conf ~/.i3 ~/bin ~/.vimperator ~/.vimperatorrc ~/.conkyrc ~/.Xdefaults ~/Dokumente/git/dotfiles && rm -rf ~/Dokumente/git/dotfiles/bin/tor-browser_de'
 
 # pacman
 alias pacman='sudo pacman'
@@ -45,7 +46,12 @@ alias vi='vim ~/.i3/config'
 # matlab
 alias mlint='/usr/local/MATLAB/R2015a/bin/glnxa64/mlint'
 
+# elinks
+alias elinks='elinks -no-connect -anonymous'
+
 # everyone need some fun
 alias chuck='fortune ~/bin/fortune/chucknorris | cowsay'
 alias help='echo "Dont Panic!"'
-alias tor='~/bin/tor-browser_de/start-tor-browser.desktop'
+# alias tor='~/bin/tor-browser_de/start-tor-browser.desktop'
+alias sw='telnet towel.blinkenlights.nl'
+alias yt='youtube-viewer -f'

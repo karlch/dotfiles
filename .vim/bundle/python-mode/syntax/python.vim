@@ -354,7 +354,7 @@ endif
 
     hi def link  pythonError        Error
     hi def link  pythonIndentError  Error
-    hi def link  pythonSpaceError   Error
+    " hi def link  pythonSpaceError   Error
 
     hi def link  pythonString       String
     hi def link  pythonDocstring    String

@@ -202,16 +202,22 @@ function! <SID>BuildTexPdf(view_results, ...)
             echon "compiling with Rubber ..."
             silent execute "setlocal makeprg=" . l:special_tex_compiler . "\\ -dfsq\\ %"
             setlocal errorformat=%f:%l:\ %m
-            " silent make %
-            AsyncMake
+            if len(serverlist()) > 1
+                AsyncMake
+            else
+                silent make %
+            endif
         else
             echon "compiling ..."
             let b:tex_flavor = 'pdflatex'
             compiler tex
             setlocal makeprg=pdflatex\ \-shell-escape\ \-file\-line\-error\ \-interaction=nonstopmode\ $*\\\|\ grep\ \-P\ ':\\d{1,5}:\ '
             setlocal errorformat=%f:%l:\ %m
-            " silent make %
-            AsyncMake
+            if len(serverlist()) > 1
+                AsyncMake
+            else
+                silent make %
+            endif
         endif
     endif
 

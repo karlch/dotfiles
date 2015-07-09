@@ -1,0 +1,5 @@
+#!/bin/zsh
+
+date=`jhead ${1} | grep -o -E  -m 2 "[[:digit:]]{4}:[[:digit:]]{2}:[[:digit:]]{2}" | tail -n 1`
+date=`echo $date | sed 's/\:/\-/g'`
+autoload -U zmv && c=1 base="${date}-${2}" zmv '*.JPG||*.jpg' '${base}-${(l:3::0:)$((c++))}.jpg'

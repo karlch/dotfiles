@@ -1,7 +1,7 @@
 set hintchars=asdfghjklöwertuiocnm
 set gui=none
-set gui+=tabs
 set complete=bh
+set status=input,location,tabcount,position
 set nohlsearch
 colorscheme lhun
 
@@ -17,6 +17,8 @@ command! -description="Gmail (m)" "BookTabm" tabopen https://accounts.google.com
 command! -description="FaceBook (f)" "BookTabf" tabopen https://de-de.faceBook.com/
 command! -description="Taekwondo (k)" "BookTabk" tabopen http://www.taekwondo-garching.de/
 command! -description="ArchWiki (a)" "BookTaba" tabopen https://wiki.archlinux.org/index.php/Main_page
+command! -description="ArchHome (ah)" "BookTabah" tabopen https://www.archlinux.org/
+command! -description="ArchForums (af)" "BookTabaf" tabopen https://bbs.archlinux.org/
 
 command! -description="TUMonline (o)" "bookmarko" open https://campus.tum.de/tumonline/webnav.ini
 command! -description="TUM Moodle (M)" "bookmarkM" open https://www.moodle.tum.de/my/  
@@ -30,8 +32,11 @@ command! -description="Gmail (m)" "bookmarkm" open https://accounts.google.com/S
 command! -description="Facebook (f)" "bookmarkf" open https://de-de.facebook.com/
 command! -description="Taekwondo (k)" "bookmarkk" open http://www.taekwondo-garching.de/
 command! -description="ArchWiki (a)" "bookmarka" open https://wiki.archlinux.org/index.php/Main_page
-
+command! -description="ArchHome (ah)" "bookmarkah" open https://www.archlinux.org/
+command! -description="ArchForums (af)" "bookmarkaf" open https://bbs.archlinux.org/
 command! -description="Source config" sv source ~/.vimperatorrc
+
+command! -description="Firefox config" config open about:config
 
 nnoremap ö :
 nnoremap ä /
@@ -41,10 +46,13 @@ nnoremap s :bookmark
 nnoremap S :BookTab
 cnoremap <C-f> <Cr>;o
 
-inoremap jk <Esc>
+inoremap jk <Esc><Esc><Esc>
 nnoremap j 5j
 nnoremap k 5k
 nnoremap l gt
 nnoremap h gT
 nnoremap <C-l> l
 nnoremap <C-h> h
+nnoremap e :lowlight<CR>
+nnoremap d <C-w>
+nnoremap gt <C-^>

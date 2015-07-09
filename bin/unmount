@@ -37,7 +37,7 @@ fi
 if (( $input>=0 )) && (( $input<$deviceCount ))
 then
   echo "Unmounting: ${deviceList[$(($input * $deviceCount))]}"
-  sudo umount "${deviceList[$(($input * $deviceCount))]}"
+  udevil umount "${deviceList[$(($input * $deviceCount))]}"
   exit 0
 else
   echo "Invalid menu choice"

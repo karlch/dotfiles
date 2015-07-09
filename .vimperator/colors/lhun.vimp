@@ -1,12 +1,9 @@
 " ==Vimperator_Color_Scheme==
-" name: Darkness
-" url: http://code.google.com/p/vimperator-labs/issues/detail?id=280&q=label%3Aproject-vimperator%20label%3Atype-colorscheme&colspec=ID%20Summary%20Project%20Type%20Status%20Priority%20Stars%20Owner
-" ==Darkness_Colorscheme_Settings==
+" name: Lhun
 
 "StatusLine settings
 highlight StatusLine       font-size: 14px; font-weight: normal; color: #00C1FF; background: #2C2C2C;
-" hi StatusLineBroken     color: #000000; background: #afafff; "font-size: 8pt;
-" hi StatusLineSecure     color: #000000; background: #afffaf; "font-size: 8pt;
+hi ContentSeparator        border-top: 0px solid #00C1FF; display: -moz-box;
 
 "CmdLine settings excluding Gradient
 hi Normal               color: #00C1FF; background: #2C2C2C;
@@ -22,11 +19,6 @@ highlight CompTitle          font-size: 14px; letter-spacing: 2px; color: #1C1C1
 hi CompTitle>*          padding: 0 .5ex;
 hi Filter               font-weight: bold;color: #afafaf;
 
-"When using tab complete in CmdLine, line separating Title from function and description
-" hi Gradient             height: 1px; margin-bottom: -1px; margin-top: -1px;
-" hi GradientLeft         background-color: #00bbff;
-" hi GradientRight        background-color: #2C2C2C;
-
 "Used with ]f and [f
 hi FrameIndicator       background-color: #2C2C2C; opacity: 0.5; z-index: 999; position: fixed; top: 0; bottom: 0; left: 0; right: 0;
 
@@ -36,9 +28,9 @@ hi ErrorMsg             color: #ffffff; background: red; font-weight: bold;
 
 "Hint section
 " highlight WarningMsg
-highlight Hint font-family: "DejaVu Sans Mono", monospace; font-size: 12px; font-weight: normal; color: #FFO099; background-color: #00C1FF; padding: 0px 2px;
-highlight HintElem background-color: #FF00000;
-highlight HintActive background-color: #00C1FF; color: #FFFFFF
+highlight Hint font-family: "Source Code Pro Bold", monospace; font-size: 12px; font-weight: normal; color: #000000; background-color: #00C1FF; padding: 0px 2px;
+highlight HintElem background-color: #0000000;
+highlight HintActive background-color: #00C1FF; color: #000000
 
 "Other important stuff
 hi InfoMsg              color: #afafaf; background: #2C2C2C;
