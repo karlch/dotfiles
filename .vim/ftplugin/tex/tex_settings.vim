@@ -3,14 +3,16 @@
 let g_tex_pdf_map_keys = 0
 
 " map a pdf viewer
-map <leader>d :! zathura &>/dev/null >/dev/null %:t:r.pdf &<CR><CR>:redraw<CR>
+nnoremap <leader>d :! zathura &>/dev/null >/dev/null %:t:r.pdf &<CR><CR>:sleep 500m<CR>:! i3-msg -q resize shrink width 50 px or 10 ppt && i3-msg focus left<CR><CR>:redraw<CR>
+" and go to the current line in the pdf
+nnoremap <leader>p yy:! i3-msg -q focus right && xdotool key slash ctrl+v BackSpace Return && i3-msg -q focus left<CR><CR>
+nnoremap <leader>s %vi}y:! i3-msg -q focus right && xdotool key slash ctrl+v BackSpace Return && i3-msg -q focus left<CR><CR>
 
 " map leader-w for the compiler
 nnoremap <leader>w <Esc>:w<CR>:BuildTexPdf<CR>
-" a tmux version
-nnoremap <leader>W :w<CR>:VimuxRunCommand("vim <C-R>=expand("%:p:h")<CR>/<C-R>=expand("%:t")<CR> +Voom +BuildTexPdf")<CR>
-let g:VimuxHeight = "10"
-let g:VimuxOrientation = "v"
+
+" Change the environment
+nmap cse /end{<CR>/}<CR>h"ayi}0V%:s /<C-R>a/
 
 " Linelength 90 for LaTex files, reasonable length in my opinion
 set tw=90
@@ -35,6 +37,3 @@ let g:SuperTabDefaultCompletionType = "<Tab>"
 
 " Abbreviation for degrees (really annoying)
 iabbrev ° ^\circ
-
-" Concealing
-" let g:tex_conceal="adgm"

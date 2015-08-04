@@ -7,6 +7,6 @@ function zle-keymap-select {
 
 zle -N zle-keymap-select
 
-PROMPT='%{$fg[blue]%}%n: %{$fg[blue]%}%~%{$reset_color%} '
+PROMPT='%{$fg[blue]%}%n: %{$fg[green]%}%~ %{$reset_color%}'
 
-RPROMPT='${VIMODE}'
+RPROMPT='%{$fg[blue]%}${VIMODE}%{$reset_color%}'

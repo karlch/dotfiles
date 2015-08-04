@@ -10,33 +10,13 @@ CASE_SENSITIVE="true"
 # Uncomment the following line to disable bi-weekly auto-update checks.
 DISABLE_AUTO_UPDATE="true"
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
 # Uncomment the following line to enable command auto-correction.
 ENABLE_CORRECTION="true"
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
+# Plugins
 plugins=(vi-mode dircycle tmux)
 
-# User configuration
-
+# Standard Exports
 export VISUAL=vim
 export EDITOR=vim
 export PATH=$PATH:~/bin
@@ -46,7 +26,9 @@ export TERMCMD=urxvt
 export LESSHISTFILE=/dev/null
 export BROWSER=elinks
 export MANWIDTH=80
+export CACA_DRIVER=ncurses
 
+# All the settings from oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
 # Do not mess with my tmux window names
@@ -54,9 +36,6 @@ export DISABLE_AUTO_TITLE=true
 
 # God, this pause almost killed me
 stty -ixon
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
 
 # And vim mode in the zsh
 bindkey -v
@@ -67,9 +46,6 @@ source ~/bin/vim-visual.zsh
 # Kill the stupid timeout
 export KEYTIMEOUT=1
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
 # Custom keybindings
 bindkey "^S" clear-screen
 bindkey "^A" vi-beginning-of-line
@@ -78,10 +54,8 @@ bindkey "^E" vi-end-of-line
 bindkey "^F" vi-forward-blank-word
 bindkey -s "^K" "" # Used for Window movement
 bindkey "^T" autosuggest-execute-suggestion
-bindkey "^L" history-search-backward
-bindkey "^S" history-search-forward
 
-# Zmv is great
+# Great z programs
 autoload -U zmv
 
 # Custom commands
@@ -109,6 +83,10 @@ man() {
     LESS_TERMCAP_us=$'\E[00;33m' \
     man "$@"
 }
+
+# Settings
+# Follow symbolic links
+CHASE_LINKS="true"
 
 # aliases
 source ~/.zsh_aliases

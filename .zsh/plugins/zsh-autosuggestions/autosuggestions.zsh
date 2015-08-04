@@ -12,7 +12,7 @@ zmodload zsh/net/socket
 source "${0:a:h}/completion-client.zsh"
 
 # configuration variables
-AUTOSUGGESTION_HIGHLIGHT_COLOR='fg=14'
+AUTOSUGGESTION_HIGHLIGHT_COLOR='fg=15'
 AUTOSUGGESTION_HIGHLIGHT_CURSOR=1
 
 function {

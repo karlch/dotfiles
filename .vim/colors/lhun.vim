@@ -15,13 +15,13 @@ endif
 let colors_name = "lhun"
 
 " black			2a2b2f	234
-" blue bright			62acce	87
-" blue dull	9ab2c8	74
+" blue bright			62acce	45
+" blue dull	9ab2c8	32
 " brown slight	d1c79e	144
-" green	yellowy	d1d435	221
+" orange	d1d435	215
 " grey dark		67686b	240
 " grey light	e1e0e5	250
-" orange		e6ac32	227
+" yellow		e6ac32	227
 " red			9d0e15	124
 
 " tabline
@@ -31,39 +31,39 @@ hi ColorColumn                          ctermbg=236
 hi Cursor 		ctermfg=234	ctermbg=250	cterm=none
 hi Constant 	        ctermfg=144	ctermbg=none	cterm=none
 hi CursorLine	                   	ctermbg=236	cterm=none
-hi CursorLineNr         ctermfg=87      ctermbg=none     cterm=none
-hi DiffAdd		ctermfg=234	ctermbg=74	cterm=none
+hi CursorLineNr         ctermfg=45      ctermbg=none     cterm=none
+hi DiffAdd		ctermfg=234	ctermbg=32	cterm=none
 hi DiffChange	        ctermfg=234	ctermbg=144	cterm=none
 hi DiffDelete	        ctermfg=239	ctermbg=none	cterm=none
-hi DiffText		ctermfg=124	ctermbg=144	cterm=none
+hi DiffText		ctermfg=324	ctermbg=144	cterm=none
 hi Folded 		ctermfg=242	ctermbg=none	cterm=none
-hi MatchParen	        ctermfg=221	ctermbg=236	cterm=bold,underline
+hi MatchParen	        ctermfg=215	ctermbg=236	cterm=bold,underline
 hi ModeMsg		ctermfg=250	ctermbg=none	cterm=bold
 hi Normal 		ctermfg=250	ctermbg=none	cterm=none
 hi Pmenu		ctermfg=81	ctermbg=236	cterm=none
 hi PmenuSel		ctermfg=236	ctermbg=81	cterm=bold
 hi PmenuSbar	        ctermfg=234	ctermbg=none	cterm=none
 hi PmenuThumb	        ctermfg=234	ctermbg=none	cterm=none
-hi PreProc		ctermfg=221	ctermbg=none	cterm=none 
+hi PreProc		ctermfg=215	ctermbg=none	cterm=none 
 hi Search		ctermfg=234	ctermbg=250	cterm=none
-hi Special		ctermfg=74	ctermbg=none	cterm=none
-hi Statement	        ctermfg=87	ctermbg=none	cterm=none
-hi StatusLine 	        ctermfg=74	ctermbg=236	cterm=bold
+hi Special		ctermfg=32	ctermbg=none	cterm=none
+hi Statement	        ctermfg=45	ctermbg=none	cterm=none
+hi StatusLine 	        ctermfg=45	ctermbg=236	cterm=bold
 hi StatusLineNC         ctermfg=233	ctermbg=236	cterm=none
-hi Split                ctermfg=234     ctermbg=none     cterm=none
+hi Split                ctermfg=236     ctermbg=none     cterm=none
 hi Tabline              ctermfg=250     ctermbg=236     cterm=none
-hi TablineSel           ctermfg=74      ctermbg=236     cterm=none
-hi TablineFill          ctermfg=74      ctermbg=none     cterm=none
+hi TablineSel           ctermfg=32      ctermbg=236     cterm=none
+hi TablineFill          ctermfg=32      ctermbg=236     cterm=none
 hi Todo 		ctermfg=250	ctermbg=124	cterm=bold
 hi Type 		ctermfg=227	ctermbg=none	cterm=none
 hi Underlined	        ctermfg=250	ctermbg=none	cterm=underline
-hi Visual		ctermfg=234	ctermbg=74	cterm=none
-hi Wildmenu		ctermfg=87	ctermbg=none	cterm=bold
-hi EasyMotionTarget     ctermfg=87      ctermbg=none    cterm=none
+hi Visual		ctermfg=234	ctermbg=32	cterm=none
+hi Wildmenu		ctermfg=236     ctermbg=45	cterm=bold
+hi EasyMotionTarget     ctermfg=45      ctermbg=none    cterm=none
 hi EasyMotionShade      ctermfg=239     ctermbg=none    cterm=none
-hi EasyMotionTarget2First ctermfg=87    ctermbg=none    cterm=none
-hi EasyMotionTarget2Second ctermfg=74   ctermbg=none    cterm=none
-hi Conceal		ctermfg=74	ctermbg=none	cterm=none
+hi EasyMotionTarget2First ctermfg=45    ctermbg=none    cterm=none
+hi EasyMotionTarget2Second ctermfg=32   ctermbg=none    cterm=none
+hi Conceal		ctermfg=32	ctermbg=none	cterm=none
 
 hi! link Boolean		Constant
 hi! link Character		Constant

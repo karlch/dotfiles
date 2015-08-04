@@ -15,10 +15,10 @@ total_run_times 0
 override_utf8_locale yes
 
 # Font stuff
-draw_outline yes
+draw_outline no
 draw_borders no
 use_xft yes
-xftalpha 0.8
+xftalpha 0.0
 
 # Graph and units
 default_graph_size 0 25
@@ -33,12 +33,12 @@ gap_y 10
 TEXT
 ##################################
 ${image ~/Bilder/Sonstiges/Pacman-3.png -p 8}\
-${voffset}${font SourceCodePro:style=bold:size=13}${color #EEEEEE}     ${exec ~/bin/update}     \
-${color #00C1FF} TOTAL ${color #EEEEEE} ${fs_size /}     \
-${color #00C1FF} FREE ${color #EEEEEE} ${fs_free /}     \
-${color #00C1FF} KERNEL ${color #EEEEEE} ${kernel}     \
-${color #00C1FF} EDITOR ${color #EEEEEE} vim     \
-${color #00C1FF} SHELL ${color #EEEEEE} ${execi 12000 echo $SHELL}     \
-${color #00C1FF} WM ${color #EEEEEE} i3     \
-${color #00C1FF} WEATHER ${color #EEEEEE} ${execi 600 ~/bin/weather.sh 'en|de|garching-bei-munchen'}
+${font SourceCodePro:style=bold:size=13}${color #ffffff}     ${exec ~/bin/update}     \
+${color #00C1FF} TOTAL ${color #ffffff} ${fs_size /}     \
+${color #00C1FF} FREE ${color #ffffff} ${fs_free /}     \
+${color #00C1FF} KERNEL ${color #ffffff} ${kernel}     \
+${color #00C1FF} EDITOR ${color #ffffff} vim     \
+${color #00C1FF} SHELL ${color #ffffff} ${execi 12000 echo $SHELL}     \
+${color #00C1FF} WM ${color #ffffff} i3     \
+${color #00C1FF} WEATHER ${color #ffffff} ${execi 60 ~/bin/weather.sh 'en|de|garching-bei-munchen'}
 ${exec checkupdates | sed "s/conky//" }

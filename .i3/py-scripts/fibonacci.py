@@ -8,18 +8,12 @@ prog = "feh -. -B black ~/Bilder/Hintergrund/arch-logo.png"
 
 def fibonacci(num):
     i3.exec(prog)
-    i3.border('none')
-    i3.gaps('inner', 'all', 'set', '15')
-    time.sleep(0.5)
+    time.sleep(0.7)
     if num % 2 == 0:
-        i3.border('none')
         if num % 4 == 0:
             i3.focus('up')
-            i3.border('none')
         i3.split('h')
-        i3.border('none')
     else:
-        i3.border('none')
         if num % 4 == 1:
             i3.focus('left')
         i3.split('v')
@@ -38,9 +32,8 @@ def run(num):
     # close all opened terminals
     for n in range(num):
         i3.kill()
-        time.sleep(0.5)
+        time.sleep(0.3)
     i3.workspace(current['name'])
-    i3.gaps('inner', 'all', 'set', '0')
 
 if __name__ == '__main__':
     run(12)

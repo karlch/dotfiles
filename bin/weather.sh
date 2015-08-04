@@ -14,4 +14,13 @@ if [ -z $1 ]; then
     exit 0;
 fi
 
-curl -s --connect-timeout 30 http://rss.accuweather.com/rss/liveweather_rss.asp\?metric\=${METRIC}\&locCode\=$1 | perl -ne 'if (/Currently/) {chomp;/\<title\>Currently: (.*)?\<\/title\>/; print "$1"; }'
+data=$(curl -s --connect-timeout 30 http://rss.accuweather.com/rss/liveweather_rss.asp\?metric\=${METRIC}\&locCode\=$1 | perl -ne 'if (/Currently/) {chomp;/\<title\>Currently: (.*)?\<\/title\>/; print "$1"; }')
+
+len=$(echo ${data} | wc -w)
+
+if (( $len == 0 ))
+then
+    echo "no data"
+else
+    echo $data
+fi

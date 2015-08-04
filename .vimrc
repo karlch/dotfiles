@@ -368,6 +368,12 @@ autocmd BufNewFile *.py exe "normal a#!/usr/bin/env python\<Esc>o# encoding: utf
 " Close the extra vimux buffer
 autocmd VimLeave *.py VimuxCloseRunner
 
+" C
+" Close the extra vimux buffer
+autocmd VimLeave *.c VimuxCloseRunner
+autocmd BufRead,BufNewFile *.c set makeprg=gcc\ %
+
+
 " LaTex
 " Open Voom LaTex on startup
 autocmd BufRead,BufNewFile *.tex Voom latex
@@ -406,6 +412,7 @@ autocmd BufLeave *.tsv nnoremap <C-v> <C-v>
 
 " Mail
 autocmd BufRead,BufNewFile *mutt-* setfiletype mail
+autocmd BufRead,BufNewFile *mutt-* set foldlevel=3
 autocmd BufRead,BufNewFile *mutt-* exec "normal ggO\<CR>\<Esc>gg"
 
 " }}}
@@ -502,7 +509,6 @@ if has("gui_running")
     set guioptions-=m
     set guioptions-=T
     set guioptions-=r
-    autocmd VimEnter * exec "!i3-msg move absolute position center"
 endif
 
 " }}}

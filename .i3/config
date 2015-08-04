@@ -2,14 +2,12 @@
 
 set $mod Mod1
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
-font pango: Source Sans Pro Regular 11
+# Font for window titles
+font pango: Source Sans Pro Regular 8
 
 # Window borders
 new_window 1pixel
 smart_borders on
-smart_gaps on
 gaps inner 0
 gaps outer 0
 
@@ -30,7 +28,9 @@ bindsym $mod+h focus left
 bindsym $mod+l focus right
 bindsym $mod+j focus down
 bindsym $mod+k focus up
-bindsym $mod+n focus mode_toggle
+bindsym $mod+w [class="qutebrowser"] focus
+bindsym $mod+t [class="URxvt"] focus
+bindsym $mod+m focus mode_toggle
 bindsym $mod+Tab layout toggle all
 
 # Window stuff
@@ -51,8 +51,8 @@ for_window [class="com-wolfram-jlink-Reader"] floating enable
 for_window [class="Gifview"] floating enable
 
 # Function keys
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5 -time 0 -steps 1
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5 -time 0 -steps 1
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 5%- && ~/.i3/volnoti-set.sh
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 5%+ && ~/.i3/volnoti-set.sh
 bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle && ~/.i3/volnoti-set.sh
@@ -60,7 +60,6 @@ bindsym XF86AudioPlay exec --no-startup-id cmus-remote -u
 bindsym XF86AudioStop exec --no-startup-id cmus-remote -s
 bindsym XF86AudioNext exec --no-startup-id cmus-remote -n
 bindsym XF86AudioPrev exec --no-startup-id cmus-remote -r
-bindsym F9 exec --no-startup-id ~/bin/cmus-now.sh
 
 # Screenshot
 bindsym --release Insert exec --no-startup-id scrot '%Y-%m-%d_%H:%M_$wx$h.png' -e 'mv $f ~/Bilder/Screenshot'
@@ -93,7 +92,7 @@ mode "NORMAL" {
     bindsym Shift+x exec --no-startup-id ~/.i3/py-scripts/closeall.py
 
     # dmenu
-    bindsym d exec --no-startup-id i3-dmenu-desktop --entry-type="name" --dmenu="dmenu -i -b -y 25 -p launch: -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #FFFFFF", mode "default"
+    bindsym d exec --no-startup-id i3-dmenu-desktop --entry-type="name" --dmenu="dmenu -i -b -y 25 -p launch: -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #DDDDDD", mode "default"
 
     # Split in horizontal orientation
     bindsym s split v
@@ -180,8 +179,8 @@ mode "NORMAL" {
     bindsym b workspace prev
     # Moving back and forth between the last workspace
     bindsym Tab workspace back_and_forth
-    # Moving back and forth with the window
-    bindsym Shift+Tab move container to workspace back_and_forth; workspace back_and_forth
+    bindsym Control+Tab move container to workspace back_and_forth; workspace back_and_forth
+    bindsym Shift+Tab move container to workspace back_and_forth
     # Cycle through the windows
     bindsym space exec --no-startup-id ~/.i3/py-scripts/cycle.py, mode "Cycle"
 
@@ -194,7 +193,6 @@ mode "NORMAL" {
     bindsym Shift+r restart
 
     # Starters
-    # bindsym w exec env GTK2_RC_FILES=/usr/share/themes/Raleigh/gtk-2.0/gtkrc firefox, mode "default"
     bindsym w exec qutebrowser, mode "default"
     bindsym Shift+w exec ~/bin/tor-browser_de/Browser/start-tor-browser, mode "default"
     bindsym Shift+u exec --no-startup-id urxvt -e tmux -2 new-session -A -s MySession, mode "default"
@@ -203,7 +201,6 @@ mode "NORMAL" {
     bindsym f exec --no-startup-id urxvt -e ranger, mode "default"
     bindsym c exec --no-startup-id urxvt -e cmus, mode "default"
     bindsym Shift+m exec --no-startup-id mathematica, mode "default"
-    bindsym Shift+q exec --no-startup-id qtiplot, mode "default"
     bindsym z exec --no-startup-id urxvt -e mutt, mode "default"
     bindsym Shift+z exec --no-startup-id urxvt -e mutt -R, mode "default"
 
@@ -223,6 +220,7 @@ mode "NORMAL" {
     bindsym Shift+e mode "default"
     bindsym Shift+i mode "default"
     bindsym Shift+p mode "default"
+    bindsym Shift+q mode "default"
     bindsym Shift+v mode "default"
 
 }
@@ -231,10 +229,7 @@ mode "NORMAL" {
 bindsym F10 mode "NORMAL"
 
 # Open dmenu
-bindsym F11 exec --no-startup-id i3-dmenu-desktop --entry-type='name' --dmenu='dmenu -i -b -y 25 -p launch: -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #FFFFFF'
-
-# Window List
-# bindsym F12 exec --no-startup-id ~/.i3/py-scripts/winmenu.py, mode "default"
+bindsym F11 exec --no-startup-id i3-dmenu-desktop --entry-type='name' --dmenu='dmenu -i -b -y 25 -p launch: -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #DDDDDD'
 
 # A system mode for shutting down, ...
 set $SYSTEM System ... logout (l), reboot (r), shutdown (s), lock (o)
@@ -246,7 +241,7 @@ mode "$SYSTEM" {
     # Shutdown
     bindsym s exec poweroff, mode "default"
     # Lock
-    bindsym o exec i3lock-wrapper, mode "default"
+    bindsym o exec i3lock -i ~/Bilder/Hintergrund/mountain-sky.png, mode "default"
 
     # Back to normal
     bindsym Return mode "default"
@@ -288,7 +283,7 @@ mode "Cycle" {
 # Start i3bar to display a workspace bar
 bar {
         # Height
-        height 25
+        height 20
 
         # status_command ~/.i3/statusbar.sh
         status_command ~/.i3/conkybar.sh
@@ -299,12 +294,12 @@ bar {
         colors{
             background #2C2C2C
             statusline #00C1FF
-            separator #EEEEEE
+            separator #DDDDDD
             #                  BORDER  BACKGR. TEXT
             focused_workspace  #2C2C2C #2C2C2C #00C1FF
-            active_workspace   #2C2C2C #2C2C2C #EEEEEE
-            inactive_workspace #2C2C2C #2C2C2C #EEEEEE
-            urgent_workspace   #2C2C2C #2C2C2C #EEEEEE
+            active_workspace   #2C2C2C #2C2C2C #DDDDDD
+            inactive_workspace #2C2C2C #2C2C2C #DDDDDD
+            urgent_workspace   #2C2C2C #2C2C2C #DDDDDD
         }
 
         # Font for the bar
@@ -312,8 +307,6 @@ bar {
 
 }
 
-# Keyboard delays
-exec_always --no-startup-id xset r rate 200 60
 # Dont want to see the mouse
 exec_always --no-startup-id unclutter -idle 1 -root
 # Conky
