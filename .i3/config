@@ -49,6 +49,8 @@ for_window [window_role="menu"] floating enable
 for_window [window_role="Preferences"] floating enable
 for_window [class="com-wolfram-jlink-Reader"] floating enable
 for_window [class="Gifview"] floating enable
+for_window [title="sxiv - cover.jpg"] resize shrink width 100 px or 20 ppt
+for_window [title="sxiv - /home/christian/.i3/py-scripts/fb-notify/facebook-icon.png"] floating enable 
 
 # Function keys
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
@@ -92,7 +94,7 @@ mode "NORMAL" {
     bindsym Shift+x exec --no-startup-id ~/.i3/py-scripts/closeall.py
 
     # dmenu
-    bindsym d exec --no-startup-id i3-dmenu-desktop --entry-type="name" --dmenu="dmenu -i -b -y 25 -p launch: -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #DDDDDD", mode "default"
+    bindsym d exec --no-startup-id i3-dmenu-desktop --entry-type="name" --dmenu="dmenu -i -b -y 25 -p launch: -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #EEEEEE", mode "default"
 
     # Split in horizontal orientation
     bindsym s split v
@@ -194,21 +196,27 @@ mode "NORMAL" {
 
     # Starters
     bindsym w exec qutebrowser, mode "default"
-    bindsym Shift+w exec ~/bin/tor-browser_de/Browser/start-tor-browser, mode "default"
     bindsym Shift+u exec --no-startup-id urxvt -e tmux -2 new-session -A -s MySession, mode "default"
     bindsym u exec --no-startup-id urxvt, mode "default"
     bindsym t exec --no-startup-id urxvt -e tmux, mode "default"
     bindsym f exec --no-startup-id urxvt -e ranger, mode "default"
-    bindsym c exec --no-startup-id urxvt -e cmus, mode "default"
+    bindsym c exec --no-startup-id ~/bin/cmus_cover.sh & urxvt -e cmus, mode "default"
     bindsym Shift+m exec --no-startup-id mathematica, mode "default"
     bindsym z exec --no-startup-id urxvt -e mutt, mode "default"
-    bindsym Shift+z exec --no-startup-id urxvt -e mutt -R, mode "default"
+    # bindsym Shift+z exec --no-startup-id urxvt -e mutt -R, mode "default"
+    bindsym Shift+z exec env GTK2_RC_FILES=/usr/share/themes/Raleigh/gtk-2.0/gtkrc firefox www.protonmail.ch/login, mode "default"
+
+    # Search duckduckgo
+    bindsym question exec ~/bin/search.sh, mode "default"
 
     # Shutdown, reboot, lock screen ..
     bindsym q mode "$system"
 
     # Change the borders
     bindsym odiaeresis mode "Borders"
+
+    # Wireless mode
+    bindsym Shift+w mode "$Wireless"
 
     # Back to normal
     bindsym Return mode "default"
@@ -229,7 +237,7 @@ mode "NORMAL" {
 bindsym F10 mode "NORMAL"
 
 # Open dmenu
-bindsym F11 exec --no-startup-id i3-dmenu-desktop --entry-type='name' --dmenu='dmenu -i -b -y 25 -p launch: -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #DDDDDD'
+bindsym F11 exec --no-startup-id i3-dmenu-desktop --entry-type='name' --dmenu='dmenu -i -b -y 25 -p launch: -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #EEEEEE'
 
 # A system mode for shutting down, ...
 set $SYSTEM System ... logout (l), reboot (r), shutdown (s), lock (o)
@@ -245,6 +253,48 @@ mode "$SYSTEM" {
 
     # Back to normal
     bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# A mode to manage wireless devices via rfkill
+set $Wireless Wireless ... wifi (w), bluetooth (b), all (a)
+mode "$Wireless" {
+    # Wifi
+    bindsym w mode "$Blockw"
+    # Bluetooth
+    bindsym b mode "$Blockb"
+    # All
+    bindsym a mode "$Blocka"
+
+    # Back to normal: Escape
+    bindsym Escape mode "default"
+}
+set $Blockw Wifi ... block (b), unblock (u), wifi-menu (w)
+mode "$Blockw" {
+    # Wifi
+    bindsym b exec "sudo rfkill block wifi", mode "default"
+    bindsym u exec sudo rfkill unblock wifi && urxvt -e systemctl restart netctl-auto@wlp1s0.service & sleep 0.1 && i3-msg floating enable, mode "default"
+    bindsym w exec "urxvt -e sudo wifi-menu", mode "default"
+
+    # Back to normal: Escape
+    bindsym Escape mode "default"
+}
+set $Blockb Bluetooth ... block (b), unblock (u)
+mode "$Blockb" {
+    # Bluetooth
+    bindsym b exec "sudo rfkill block bluetooth", mode "default"
+    bindsym u exec "sudo rfkill unblock bluetooth", mode "default"
+
+    # Back to normal: Escape
+    bindsym Escape mode "default"
+}
+set $Blocka All ... block (b), unblock (u)
+mode "$Blocka" {
+    # All
+    bindsym b exec "sudo rfkill block all", mode "default"
+    bindsym u exec sudo rfkill unblock all && urxvt -e systemctl restart netctl-auto@wlp1s0.service & sleep 0.1 && i3-msg floating enable, mode "default"
+
+    # Back to normal: Escape
     bindsym Escape mode "default"
 }
 
@@ -294,12 +344,12 @@ bar {
         colors{
             background #2C2C2C
             statusline #00C1FF
-            separator #DDDDDD
+            separator #EEEEEE
             #                  BORDER  BACKGR. TEXT
             focused_workspace  #2C2C2C #2C2C2C #00C1FF
-            active_workspace   #2C2C2C #2C2C2C #DDDDDD
-            inactive_workspace #2C2C2C #2C2C2C #DDDDDD
-            urgent_workspace   #2C2C2C #2C2C2C #DDDDDD
+            active_workspace   #2C2C2C #2C2C2C #EEEEEE
+            inactive_workspace #2C2C2C #2C2C2C #EEEEEE
+            urgent_workspace   #2C2C2C #2C2C2C #EEEEEE
         }
 
         # Font for the bar

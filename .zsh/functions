@@ -1,0 +1,29 @@
+# File to save custom functions
+
+# ls right after cd
+function chpwd()
+{
+    emulate -L zsh
+    print
+    ls
+}
+
+# command not found
+function command_not_found_handler() {
+    cowsay "The entered command does not exist, sorry for any inconvenience."
+}
+
+# calculator
+function calc() {
+awk "BEGIN { print $* }"
+}
+
+# vim with server if necessary
+function vimserver {
+    if echo $1 | grep ".tex\|.m\|.mma" > /dev/null; then
+        \vim --servername VimServer $@
+    else
+        \vim $@
+    fi
+}
+alias vim='vimserver'

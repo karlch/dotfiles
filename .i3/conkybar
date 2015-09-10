@@ -12,6 +12,8 @@ brightness=${brightness%.*}
 TEXT
 
 [\
+# Facebook
+{"full_text":"${exec ~/.i3/py-scripts/fb-notify/fb-notify.sh}","color":"\#EEEEEE","separator":false,"border":"\#00C1FF","border_bottom":3,"border_top":3,"border_left":0,"border_right":0},\
 # Musik
 {"full_text":"${exec cmus-remote -Q | grep ' artist ' | cut -d ' ' -f3-}","color":"\#EEEEEE","separator":false,"border":"\#00C1FF","border_bottom":3,"border_top":3,"border_left":0,"border_right":0},\
 {"full_text":"${exec cmus-remote -Q | grep ' title ' | cut -d ' ' -f3-}","color":"\#EEEEEE","separator":false,"border":"\#00C1FF","border_bottom":3,"border_top":3,"border_left":0,"border_right":0},\
@@ -84,15 +86,15 @@ TEXT
 #
 # Wifi:
 {"full_text":"WIFI","color":"\#00C1FF","separator":false,"separator_block_width":6},\
-{"full_text":"${if_match ${wireless_link_qual_perc wlp1s0}<1}---  ","color":"\#626262","separator":false,"separator_block_width":0},\
+{"full_text":"${if_match ${exec ~/.i3/wireless.sh}<1}---  ","color":"\#626262","separator":false,"separator_block_width":0},\
 {"full_text":"${else}"},\
-{"full_text":"${if_match ${wireless_link_qual_perc wlp1s0}<20}${wireless_link_qual_perc wlp1s0}%  ","color":"\#828282","separator":false,"separator_block_width":0},\
+{"full_text":"${if_match ${exec ~/.i3/wireless.sh}<20}${exec ~/.i3/wireless.sh}%  ","color":"\#828282","separator":false,"separator_block_width":0},\
 {"full_text":"${else}"},\
-{"full_text":"${if_match ${wireless_link_qual_perc wlp1s0}<40}${wireless_link_qual_perc wlp1s0}%  ","color":"\#AAAAAA","separator":false,"separator_block_width":0},\
+{"full_text":"${if_match ${exec ~/.i3/wireless.sh}<40}${exec ~/.i3/wireless.sh}%  ","color":"\#AAAAAA","separator":false,"separator_block_width":0},\
 {"full_text":"${else}"},\
-{"full_text":"${if_match ${wireless_link_qual_perc wlp1s0}<80}${wireless_link_qual_perc wlp1s0}%  ","color":"\#CCCCCC","separator":false,"separator_block_width":0},\
+{"full_text":"${if_match ${exec ~/.i3/wireless.sh}<80}${exec ~/.i3/wireless.sh}%  ","color":"\#CCCCCC","separator":false,"separator_block_width":0},\
 {"full_text":"${else}"},\
-{"full_text":"${if_match ${wireless_link_qual_perc wlp1s0}>=80}${wireless_link_qual_perc wlp1s0}%  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
+{"full_text":"${if_match ${exec ~/.i3/wireless.sh}>=80}${exec ~/.i3/wireless.sh}%  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
 {"full_text":"${else}"},\
 {"full_text":"${endif}${endif}${endif}${endif}${endif}"},\
 #

@@ -48,10 +48,10 @@ export KEYTIMEOUT=1
 
 # Custom keybindings
 bindkey "^S" clear-screen
-bindkey "^A" vi-beginning-of-line
-bindkey -s "^B" ""
+bindkey "^B" vi-beginning-of-line
 bindkey "^E" vi-end-of-line
 bindkey "^F" vi-forward-blank-word
+bindkey "^A" vi-add-eol
 bindkey -s "^K" "" # Used for Window movement
 bindkey "^T" autosuggest-execute-suggestion
 
@@ -89,7 +89,9 @@ man() {
 CHASE_LINKS="true"
 
 # aliases
-source ~/.zsh_aliases
+source ~/.zsh/aliases
+# functions
+source ~/.zsh/functions
 
 # Logo
 archey3

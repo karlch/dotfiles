@@ -1,0 +1,15 @@
+:ShowSearchIndex	indexedsearch.txt	/*:ShowSearchIndex*
+g:indexed_search_colors	indexedsearch.txt	/*g:indexed_search_colors*
+g:indexed_search_dont_move	indexedsearch.txt	/*g:indexed_search_dont_move*
+g:indexed_search_mappings	indexedsearch.txt	/*g:indexed_search_mappings*
+g:indexed_search_max_hits	indexedsearch.txt	/*g:indexed_search_max_hits*
+g:indexed_search_max_lines	indexedsearch.txt	/*g:indexed_search_max_lines*
+g:indexed_search_numbered_only	indexedsearch.txt	/*g:indexed_search_numbered_only*
+g:indexed_search_shortmess	indexedsearch.txt	/*g:indexed_search_shortmess*
+g:indexed_search_unfold	indexedsearch.txt	/*g:indexed_search_unfold*
+indexed-search	indexedsearch.txt	/*indexed-search*
+indexed-search-commands	indexedsearch.txt	/*indexed-search-commands*
+indexed-search-mappings	indexedsearch.txt	/*indexed-search-mappings*
+indexed-search-options	indexedsearch.txt	/*indexed-search-options*
+indexed-search-performance	indexedsearch.txt	/*indexed-search-performance*
+indexed-search.txt	indexedsearch.txt	/*indexed-search.txt*

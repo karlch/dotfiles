@@ -1,3 +1,0 @@
-#! /bin/sh
-
-ffmpeg -r 30 -s 1920x1080 -f x11grab -i :0.0 -vcodec mpeg4 -qscale ${1} ${2}.mp4

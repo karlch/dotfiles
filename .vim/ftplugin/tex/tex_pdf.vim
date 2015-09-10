@@ -224,28 +224,28 @@ function! <SID>BuildTexPdf(view_results, ...)
     " redraw vim
     :redraw!
 
-    " " set/report compile status
-    " if v:shell_error
-    "     let l:success = 0
-    "     let l:entries = getqflist()
-    "     if len(l:entries) > 0
-    "         copen       " open quickfix window
-    "         wincmd p    " jump back to previous window
-    "         call cursor(l:entries[0]['lnum'], 0) " go to error line
-    "         execute "normal! ^"
-    "         " 1cc     " go to first error
-    "     else
-    "         echohl WarningMsg
-    "         echomsg "compile failed with errors"
-    "         echohl None
-    "     endif
-    " else
-    "     let l:success = 1
-    "     cclose
-    "     call setpos('.', save_cursor)
-    "     redraw
-    "     echon "successfully compiled"
-    " endif
+    " set/report compile status
+    if v:shell_error
+        let l:success = 0
+        let l:entries = getqflist()
+        if len(l:entries) > 0
+            cclose      " open quickfix window
+            wincmd p    " jump back to previous window
+            call cursor(l:entries[0]['lnum'], 0) " go to error line
+            execute "normal! ^"
+            " 1cc     " go to first error
+        else
+            echohl WarningMsg
+            echomsg "compile failed with errors"
+            echohl None
+        endif
+    else
+        let l:success = 1
+        cclose
+        call setpos('.', save_cursor)
+        redraw
+        echon "successfully compiled"
+    endif
 
     " view results if successful compile
     if l:success && a:view_results
@@ -254,33 +254,42 @@ function! <SID>BuildTexPdf(view_results, ...)
 
 endfunction
 
-function! <SID>ViewTexPdf(...)
-    if a:0 == 0
-        let l:target = expand("%:p:r") . ".pdf"
+function! ZathuraSync()
+    split tmp.txt
+    read !xdotool search --onlyvisible --class "Zathura"
+    exec 'normal ia'
+    exec 'normal "zdd'
+    quit!
+    echom len(@z)
+    if len(@z) > 2
+        exec "normal :AsyncCommand(zathura --synctex-forward=\<C-R>=line('.')\<CR>:1:\<C-R>%\<Space>\<C-R>=expand('%:t:r')\<CR>.pdf)\<CR>"
     else
-        let l:target = a:1
-    endif
-    if has('mac')
-        silent execute "! open ".l:target
-    elseif has('win32') || has ('win64')
-        silent execute "! start ".l:target
-    else
-        if executable('xdg-open')
-            silent execute "! xdg-open ".l:target
-        elseif executable('gnome-open')
-            silent execute "! gnome-open ".l:target
-        elseif executable('kfmclient')
-            silent execute "! kfclient exec ".l:target
-        elseif executable('see')
-            silent execute "! see ".l:target
-        elseif executable('cygstart')
-            silent execute "! cygstart ".l:target
-        endif
-    endif
-    if v:shell_error
-        redraw!
+        AsyncCommand(~/.vim/ftplugin/tex/start_zathura.sh %:t:r.pdf)
+        sleep 1
+        exec "normal :AsyncCommand(zathura --synctex-forward=\<C-R>=line('.')\<CR>:1:\<C-R>%\<Space>\<C-R>=expand('%:t:r')\<CR>.pdf)\<CR>"
     endif
 endfunction
+
+function! <SID>ViewTexPdf(...)
+    sleep 500m
+    call ZathuraSync()
+    redraw!
+endfunction
+
+" function! <SID>ViewTexPdf(...)
+"     if a:0 == 0
+"         let l:target = expand("%:p:r") . ".pdf"
+"     else
+"         let l:target = a:1
+"     endif
+"     if len(serverlist()) > 1
+"         sleep 1
+"         AsyncCommand(~/.vim/ftplugin/tex/start_zathura.sh %:t:r.pdf)
+"     else
+"         silent execute "! ~/.vim/ftplugin/tex/start_zathura.sh ".l:target
+"     endif
+"     redraw!
+" endfunction
 
 " 1}}}
 

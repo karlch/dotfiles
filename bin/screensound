@@ -1,3 +1,0 @@
-#! /bin/bash
-
-ffmpeg -f alsa -ac 2 -i default ${1}.ogg

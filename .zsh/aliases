@@ -1,0 +1,75 @@
+# File to save custom aliases
+
+# different cd aliases
+alias wp='cd ~/Dokumente/Uni/14W/WiPro'
+alias uni='cd ~/Dokumente/Uni'
+alias pra='cd ~/Dokumente/Uni/14W/Praktikum3'
+alias unia='cd ~/Dokumente/Uni/15S'
+
+# handy ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# cp with a progressbar
+alias cp='pycp -g'
+
+# vim aliases
+alias vims='vim --servername VimServer'
+alias vima='vim --servername VimServer --remote-tab'
+alias mma='vim ~/tmp.mma'
+
+# tmux
+alias tmux='TERM=xterm-256color tmux'
+alias tp='cd ~/Dokumente/Uni/14W/WiPro && TERM=xterm-256color tmux'
+alias tks='tmux kill-server'
+
+# git
+alias gitup='pycp -g ~/.vim ~/.vimrc ~/.zsh ~/.zshrc ~/.tmux.conf ~/.i3 ~/bin ~/.vimperator ~/.vimperatorrc ~/.conkyrc ~/.Xdefaults ~/Dokumente/git/dotfiles'
+alias gitclean='cd ~/Dokumente/git/dotfiles && rm -rf .vim .vimrc .zsh .zshrc .zsh_aliases .tmux.conf .i3 bin .vimperator .vimperatorrc .conkyrc .Xdefaults'
+alias gitsync='gitclean && gitup'
+
+# pacman
+alias spac='sudo pacman'
+alias pac='pacman'
+alias pacro="/usr/bin/pacman -Qtdq > /dev/null && sudo /usr/bin/pacman -Rns \$(/usr/bin/pacman -Qtdq | sed -e ':a;N;\$!ba;s/\n/ /g')"
+
+# usb devices
+alias usb='cd /media && ls'
+
+# edit and source files quickly
+# zshrc
+alias vv='vim ~/.vimrc'
+alias sz='source ~/.zshrc'
+# zsh aliases/functions
+alias va='vim ~/.zsh/aliases'
+alias vf='vim ~/.zsh/functions'
+# vimrc
+alias vz='vim ~/.zshrc'
+# tmux.conf
+alias vt='vim ~/.tmux.conf'
+# i3 config
+alias vi='vim ~/.i3/config'
+
+# matlab code checker
+alias mlint='/usr/local/MATLAB/R2015a/bin/glnxa64/mlint'
+
+# elinks
+alias elinks='elinks -no-connect -anonymous'
+
+# feh
+alias feh='feh -. -B black'
+
+# rifle
+alias ri='rifle'
+
+# exit
+alias x='exit'
+
+# everyone need some fun
+alias chuck='fortune ~/bin/fortune/chucknorris | cowsay'
+alias help='echo "Dont Panic!"'
+# alias tor='~/bin/tor-browser_de/start-tor-browser.desktop'
+alias sw='telnet towel.blinkenlights.nl'
+alias yt='youtube-viewer -f'
+alias emacs='echo haha, nice try! && sleep 1 && vim $@'

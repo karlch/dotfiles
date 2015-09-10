@@ -1,3 +1,14 @@
 #! /bin/bash
+# Recording a really neat screencast
 
-ffmpeg -f alsa -ac 2 -i default -itsoffset 00:00:00.5 -f x11grab -r 25 -s 1920x1080 -i :0.0 -vcodec mpeg4 -preset ultrafast -crf 0 -strict experimental -qscale ${1} ${2}.mp4
+mplayer tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0 &
+sleep 2
+i3-msg floating toggle
+i3-msg border none
+i3-msg move container to workspace screencast
+i3-msg workspace screencast
+i3-msg resize shrink width 200 
+i3-msg resize shrink height 150
+i3-msg move left 640
+i3-msg move down 425
+ffmpeg -f alsa -ac 2 -i default -itsoffset 00:00:00.5 -f x11grab -r 25 -s 1920x1080 -i :0.0 -vcodec mpeg4 -preset ultrafast -crf 0 -strict experimental -qscale 0 screencast.mp4

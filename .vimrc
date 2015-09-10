@@ -133,10 +133,10 @@ cabbrev linlist r! python2 ~/Dokumente/Uni/14W/WiPro/skripte/mathe/listtab.py
 noremap ö :
 
 " And to search
-noremap ä /
+map ä /
 cnoremap ä /
 " ... backwards
-noremap Ä ?
+map Ä ?
 cnoremap Ä ?
 
 " Going to lines
@@ -149,8 +149,8 @@ map <tab> %
 noremap <leader>ä :set hlsearch!<Cr>
 
 " Map + and <BS> to search
-nnoremap + *zz
-nnoremap <Bs> #zz
+nmap + *
+nmap <Bs> #
 " Search results are showed in the middle of the line and folds are opened
 nnoremap n nzzzv
 nnoremap N Nzzzv
@@ -359,6 +359,11 @@ let g:VimuxUseNearest = "0"
 " Configure Mathematica
 let g:mma_candy = 1
 
+" Configure indexed-search
+let g:indexed_search_colors = 0
+let g:indexed_search_numbered_only = 1
+let g:indexed_search_unfold = 1
+
 "}}}
 
 " Filespecific autocommands {{{
@@ -371,12 +376,13 @@ autocmd VimLeave *.py VimuxCloseRunner
 " C
 " Close the extra vimux buffer
 autocmd VimLeave *.c VimuxCloseRunner
-autocmd BufRead,BufNewFile *.c set makeprg=gcc\ %
+autocmd BufRead,BufNewFile *.c set makeprg=gcc\ %\ -o\ %:t:r
 
 
 " LaTex
 " Open Voom LaTex on startup
 autocmd BufRead,BufNewFile *.tex Voom latex
+autocmd BufRead,BufNewFile *.tex call ZathuraSync()
 autocmd VimLeave *.tex exe "!killall zathura"
 
 " Tex to LaTex
@@ -398,22 +404,19 @@ autocmd BufNewFile *.mma exe "normal a<<~/.vim/ftplugin/mma/startjava\<Esc>"
 autocmd BufEnter *.tsv setlocal noexpandtab shiftwidth=20 softtabstop=20 tabstop=20
 autocmd BufEnter *.tsv setlocal textwidth=800 nowrap nolinebreak colorcolumn=0 norelativenumber
 autocmd BufEnter *.tsv let g:SuperTabDefaultCompletionType = "<Tab>"
-autocmd BufEnter *.tsv nnoremap <leader>tb :sp<CR>:wincmd k<CR>:0<CR>1<C-W>_:wincmd j<CR>
-autocmd BufEnter *.tsv inoremap = =<Esc>vB"ey:call CalcQA()<CR>?=<CR>ldBE
-autocmd BufEnter *.tsv nnoremap v <C-v>
-autocmd BufEnter *.tsv nnoremap <C-v> v
+autocmd BufEnter *.tsv nnoremap <buffer> <leader>tb :sp<CR>:wincmd k<CR>:0<CR>1<C-W>_:wincmd j<CR>
+autocmd BufEnter *.tsv inoremap <buffer> = =<Esc>vB"ey:call CalcQA()<CR>?=<CR>ldBE
 autocmd BufLeave *.tsv setlocal expandtab shiftwidth=4 tabstop=4
 autocmd BufLeave *.tsv setlocal textwidth=80 nowrap linebreak colorcolumn=+1 relativenumber
-autocmd BufLeave *.tsv let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
-autocmd BufLeave *.tsv nnoremap <leader>tb :TagbarToggle<CR>
 autocmd BufLeave *.tsv inoremap = =
-autocmd BufLeave *.tsv nnoremap v v
-autocmd BufLeave *.tsv nnoremap <C-v> <C-v>
 
 " Mail
 autocmd BufRead,BufNewFile *mutt-* setfiletype mail
 autocmd BufRead,BufNewFile *mutt-* set foldlevel=3
 autocmd BufRead,BufNewFile *mutt-* exec "normal ggO\<CR>\<Esc>gg"
+
+" Shell
+autocmd BufNewFile *.sh exec "normal i#! /bin/bash\<CR>\<CR>\<Esc>:w\<CR>:! chmod +x %\<CR>"
 
 " }}}
 
@@ -500,6 +503,17 @@ function! RangeChooser()
     redraw!
 endfunction
 command! -bar RangerChooser call RangeChooser()
+
+function! NthCount( word )
+  redir => nth
+    silent exe '0,.s/' . a:word . '//n'
+  redir => cnt
+    silent exe '%s/' . a:word . '//n'
+  redir END
+  silent exe 's/.*/& ' . matchstr( nth, '\d\+' ) . '/'
+  echo a:word . ': ' . matchstr( nth, '\d\+' ) . '/' . matchstr( cnt, '\d\+' )
+endfunction
+nnoremap  X  :call NthCount( '<C-R>=expand( '<cWORD>' )<CR>' )<CR>
 
 " }}}
 

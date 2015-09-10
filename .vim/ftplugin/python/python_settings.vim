@@ -3,19 +3,19 @@
 set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 
 " Keycombination for running a python Skript in current window
-" nnoremap <leader>d :! clear && python %<CR>
+" nnoremap <buffer> <leader>d :! clear && python %<CR>
 " " Run python in the terminal
-" nnoremap <leader>p :! clear && python<CR>
+" nnoremap <buffer> <leader>p :! clear && python<CR>
 
 " Tmux version
-nnoremap <leader>d :VimuxRunCommand("python2 <C-R>=expand("%:p:h")<CR>/<C-R>=expand("%:t")<CR>")<CR><CR>
-nmap <leader>p :VimuxRunCommand("python2")<CR><C-l>
+nnoremap <buffer> <leader>d :VimuxRunCommand("python2 <C-R>=expand("%:p:h")<CR>/<C-R>=expand("%:t")<CR>")<CR><CR>
+nmap <buffer> <leader>p :VimuxRunCommand("python2")<CR><C-l>
 
 " and disable the pymode version
 let g:pymode_run = 0
 
 " Check code when saving and remove the pep errors
-nnoremap <leader>w :w<Cr>:PymodeLintAuto<CR>:PymodeLint<Cr>
+nnoremap <buffer> <leader>w :w<Cr>:PymodeLintAuto<CR>:PymodeLint<Cr>
 "
 " Do not enable rope (use jedi)
 let g:pymode_rope = 0
@@ -48,24 +48,24 @@ let g:jedi#rename_command = "<leader>r"
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 
 " Sorting code quickly (great for imports)
-nnoremap <leader>s :sort<CR>
-vnoremap <leader>s :sort<CR>
+nnoremap <buffer> <leader>s :sort<CR>
+vnoremap <buffer> <leader>s :sort<CR>
 
 " do not use ä ö and ü
-inoremap ä ae
-inoremap ö oe
-inoremap ü ue
-inoremap Ä Ae
-inoremap Ö Oe
-inoremap Ü Ue
+inoremap <buffer> ä ae
+inoremap <buffer> ö oe
+inoremap <buffer> ü ue
+inoremap <buffer> Ä Ae
+inoremap <buffer> Ö Oe
+inoremap <buffer> Ü Ue
 
 " insert a organizing line
-nnoremap <leader>i 80i#<Esc>o# <Esc>
+nnoremap <buffer> <leader>i 80i#<Esc>o# <Esc>
 
 " alternate way to go to errors
-nnoremap <leader>e :wincmd j<CR>gg<CR>
-nnoremap <leader>n :wincmd j<CR>j<CR>
-nnoremap <leader>N :wincmd j<CR>k<CR>
+nnoremap <buffer> <leader>e :wincmd j<CR>gg<CR>
+nnoremap <buffer> <leader>n :wincmd j<CR>j<CR>
+nnoremap <buffer> <leader>N :wincmd j<CR>k<CR>
 
 " Nested quotes for python
 let b:delimitMate_nesting_quotes = ['"']
