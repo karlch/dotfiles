@@ -265,9 +265,8 @@ function! ZathuraSync()
         exec "normal :AsyncCommand(zathura --synctex-forward=\<C-R>=line('.')\<CR>:1:\<C-R>%\<Space>\<C-R>=expand('%:t:r')\<CR>.pdf)\<CR>"
     else
         AsyncCommand(~/.vim/ftplugin/tex/start_zathura.sh %:t:r.pdf)
-        sleep 1
-        exec "normal :AsyncCommand(zathura --synctex-forward=\<C-R>=line('.')\<CR>:1:\<C-R>%\<Space>\<C-R>=expand('%:t:r')\<CR>.pdf)\<CR>"
     endif
+    redraw!
 endfunction
 
 function! <SID>ViewTexPdf(...)

@@ -55,13 +55,13 @@ bindkey "^A" vi-add-eol
 bindkey -s "^K" "" # Used for Window movement
 bindkey "^T" autosuggest-execute-suggestion
 
+# History like in GUI file managers (see functions)
+zle -N                 cdParentKey
+zle -N                 cdUndoKey
+bindkey '^[[1;3A'      cdParentKey
+bindkey '^[[1;3D'      cdUndoKey
 # Great z programs
 autoload -U zmv
-
-# Custom commands
-mkcd(){ mkdir "$1" && cd "$1" ; }
-listjpg(){ autoload -U zmv && c=1 base="$1" zmv '*.JPG||*.jpg' '${base}_${(l:3::0:)$((c++))}.jpg' ; }
-listall(){ autoload -U zmv && c=1 base="$1" end="$2" zmv '*' '${base}_${(l:3::0:)$((c++))}.${end}' ; }
 
 # Awesome autocomplete like fish
 # Load zsh-autosuggestions.
@@ -94,4 +94,4 @@ source ~/.zsh/aliases
 source ~/.zsh/functions
 
 # Logo
-archey3
+alsi

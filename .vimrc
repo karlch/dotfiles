@@ -54,6 +54,8 @@ set omnifunc=syntaxcomplete#Complete
 let g:SuperTabDefaultCompletionType = "<c-x><c-o><c-p>"
 " Enter to select
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Show with one menu item, no preview
+set completeopt=menuone
 
 " Statusline
 set laststatus=2
@@ -82,6 +84,7 @@ set wildmenu
 
 " Enable folding by syntax
 set foldenable foldmethod=syntax
+set foldlevel=100
 
 " Dark background theme
 set background=dark
@@ -185,6 +188,7 @@ nnoremap Y y$
 
 " S as substitute the command way (cc works anyway)
 nnoremap S :%s /
+xnoremap S :s /
 
 " }}}
 
@@ -205,7 +209,7 @@ nnoremap <leader>z ZZ
 
 " Open and close folds quickly
 nnoremap <leader>f za
-nnoremap <leader>F 100za
+nnoremap <leader>F :call ToggleFoldlevel()<CR>
 
 " Edit my vimrc
 nnoremap <leader>ve :vsplit $MYVIMRC<CR>
@@ -243,6 +247,7 @@ nnoremap <leader>r :<C-U>RangerChooser<CR>
 
 " Quicker commenting of code
 map <leader>c <c-_><c-_>
+nnoremap <leader>C A<Space><Space><Esc>:TCommentRight<CR>l
 
 " Keycombination for the Nerdtree
 nnoremap <leader>te :NERDTreeToggle<CR>
@@ -383,13 +388,14 @@ autocmd BufRead,BufNewFile *.c set makeprg=gcc\ %\ -o\ %:t:r
 " Open Voom LaTex on startup
 autocmd BufRead,BufNewFile *.tex Voom latex
 autocmd BufRead,BufNewFile *.tex call ZathuraSync()
-autocmd VimLeave *.tex exe "!killall zathura"
+autocmd VimLeave *.tex exe "!~/.vim/ftplugin/tex/close_zathura.sh"
 
 " Tex to LaTex
 let g:tex_flavor='latex'
 
 " Matlab
 autocmd BufRead,BufNewFile *.m VimuxRunCommand("clear && matlab -nosplash -nodesktop")
+autocmd BufRead,BufNewFile *.m call NeoCompleteToggle()
 autocmd VimLeave *.m VimuxCloseRunner
 " Compiler
 autocmd BufEnter *.m compiler mlint
@@ -399,6 +405,9 @@ autocmd BufRead,BufNewFile *.mma      set ft=mma
 autocmd BufRead,BufNewFile *.mma VimuxRunCommand("clear && math")
 autocmd VimLeave *.mma VimuxCloseRunner
 autocmd BufNewFile *.mma exe "normal a<<~/.vim/ftplugin/mma/startjava\<Esc>"
+
+" Sage
+autocmd VimLeave *.sage VimuxCloseRunner
 
 " Tsv (Vim as spreadsheet)
 autocmd BufEnter *.tsv setlocal noexpandtab shiftwidth=20 softtabstop=20 tabstop=20
@@ -416,7 +425,7 @@ autocmd BufRead,BufNewFile *mutt-* set foldlevel=3
 autocmd BufRead,BufNewFile *mutt-* exec "normal ggO\<CR>\<Esc>gg"
 
 " Shell
-autocmd BufNewFile *.sh exec "normal i#! /bin/bash\<CR>\<CR>\<Esc>:w\<CR>:! chmod +x %\<CR>"
+autocmd BufNewFile *.sh silent exec "normal i#! /bin/bash\<CR>\<CR>\<Esc>:w\<CR>:! chmod +x %\<CR>\<CR>"
 
 " }}}
 
@@ -426,6 +435,19 @@ function! NeoCompleteToggle()
         let g:neocomplete#disable_auto_complete = 0
     else
         let g:neocomplete#disable_auto_complete = 1
+    endif
+endfunction
+
+let g:fold_level_toggle = 1
+function! ToggleFoldlevel()
+    if g:fold_level_toggle
+        set foldlevel=0
+        echom "folding"
+        let g:fold_level_toggle = 0
+    else
+        set foldlevel=100
+        echom "opening"
+        let g:fold_level_toggle = 1
     endif
 endfunction
 

@@ -3,20 +3,19 @@
 # different cd aliases
 alias wp='cd ~/Dokumente/Uni/14W/WiPro'
 alias uni='cd ~/Dokumente/Uni'
-alias pra='cd ~/Dokumente/Uni/14W/Praktikum3'
-alias unia='cd ~/Dokumente/Uni/15S'
+alias pra='cd ~/Dokumente/Uni/15W/FoPra'
+alias unia='cd ~/Dokumente/Uni/15W'
+alias pro='cd ~/Dokumente/Programmieren/'
 
 # handy ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-# cp with a progressbar
-alias cp='pycp -g'
-
 # vim aliases
 alias vims='vim --servername VimServer'
 alias vima='vim --servername VimServer --remote-tab'
+alias viml='vim -c "normal '\''0"'
 alias mma='vim ~/tmp.mma'
 
 # tmux
@@ -35,7 +34,7 @@ alias pac='pacman'
 alias pacro="/usr/bin/pacman -Qtdq > /dev/null && sudo /usr/bin/pacman -Rns \$(/usr/bin/pacman -Qtdq | sed -e ':a;N;\$!ba;s/\n/ /g')"
 
 # usb devices
-alias usb='cd /media && ls'
+alias usb='cd /media'
 
 # edit and source files quickly
 # zshrc
@@ -51,23 +50,18 @@ alias vt='vim ~/.tmux.conf'
 # i3 config
 alias vi='vim ~/.i3/config'
 
-# matlab code checker
+# others
 alias mlint='/usr/local/MATLAB/R2015a/bin/glnxa64/mlint'
-
-# elinks
 alias elinks='elinks -no-connect -anonymous'
-
-# feh
 alias feh='feh -. -B black'
-
-# rifle
 alias ri='rifle'
-
-# exit
 alias x='exit'
+alias csv2latexi='csv2latex --nohead --position c'
+alias find='find 2>/dev/null'
 
 # everyone need some fun
-alias chuck='fortune ~/bin/fortune/chucknorris | cowsay'
+alias chuck='clear && fortune ~/bin/fortune/chucknorris | ponysay -F gleamingshield'
+alias marvin='fortune ~/bin/fortune/marvin'
 alias help='echo "Dont Panic!"'
 # alias tor='~/bin/tor-browser_de/start-tor-browser.desktop'
 alias sw='telnet towel.blinkenlights.nl'

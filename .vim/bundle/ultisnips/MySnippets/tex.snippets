@@ -88,32 +88,26 @@ ${3}
 endsnippet
 snippet sec "\section"
 \section{${1:section name}}
-\label{sec:${2:$1}}
 ${3}
 endsnippet
 snippet sec* "\section*"
 \section*{${1:section name}}
-\label{sec:${2:$1}}
 ${3}
 endsnippet
 snippet sub "\subsection"
 \subsection{${1:subsection name}}
-\label{sub:${2:$1}}
 ${3}
 endsnippet
 snippet sub* "\subsection*"
 \subsection*{${1:subsection name}}
-\label{sub:${2:$1}}
 ${3}
 endsnippet
 snippet subs "\subsubsection"
 \subsubsection{${1:subsubsection name}}
-\label{ssub:${2:$1}}
 ${3}
 endsnippet
 snippet subs* "\subsubsection*"
 \subsubsection*{${1:subsubsection name}}
-\label{ssub:${2:$1}}
 ${3}
 endsnippet
 snippet par "\paragraph"
@@ -202,7 +196,7 @@ endsnippet
 snippet fig "figure environment (includegraphics)"
 \begin{figure}[h!]
 \begin{center}
-	\includegraphics[width=${1}cm]{${2:name}.jpg}
+	\includegraphics[width=${1}cm]{${2:name}}
 \end{center}
 \caption{${3}}
 \label{fig:${4}}
@@ -458,12 +452,6 @@ snippet start "start complete physics document"
 
 \usepackage[utf8]{inputenc}
 
-\usepackage{tabularx}
-
-\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
-\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
-\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
-
 \pretolerance=10000
 
 \usepackage[colorlinks,
@@ -477,7 +465,6 @@ hypertexnames = false,
 citecolor = black] {hyperref}
 
 \begin{document}
-\sf
 
 \parindent0pt
 \enlargethispage{1.5cm}
@@ -565,6 +552,87 @@ Christian Karl}
 }
 
 \end{letter}
+
+\end{document}
+endsnippet
+snippet fopra "For the FoPra"
+\documentclass[11pt]{article}
+\date{\today}
+
+\synctex=1
+
+\usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{A. Engelhardt, C. Karl, K. Mehrgan}
+\chead{Team-Nummer 37}
+\rhead{\today}
+\cfoot{\thepage}
+
+\usepackage[${1:language}]{babel}
+
+\usepackage{graphicx}
+
+\usepackage[utf8]{inputenc}
+
+\pretolerance=10000
+
+\usepackage[colorlinks,
+pdfpagelabels,
+pdfstartview = FitH,
+bookmarksopen = true,
+bookmarksnumbered = true,
+linkcolor = black,
+plainpages = false,
+hypertexnames = false,
+citecolor = black] {hyperref}
+
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\definecolor{tum}{HTML}{0071BD}
+
+\begin{document}
+
+\parindent0pt
+\newpage
+
+\begin{titlepage}
+	\centering
+        {\scshape\LARGE Fortgeschrittenenpraktikum \par}
+	\vspace{2cm}
+	{\huge\bfseries ${2:title}\par}
+	\vspace{2cm}
+	\includegraphics[width=4cm]{physik_logo_notext.png}\par\vspace{1cm}
+        \vspace{-1.2cm}
+        \hspace{-1.8cm}
+        {\Large\sf\bfseries\textcolor{tum}{PHYSIK} \\\\}
+        {\Large\sf\bfseries\textcolor{tum}{DEPARTMENT} \\\\}
+        \vspace{0.1cm}
+        {\Large\sf\bfseries\textcolor{tum}{TECHNISCHE UNIVERSITÄT MÜNCHEN} \\\\}
+	\vspace{2cm}
+        \begin{tabular}{lll}
+            \vspace{0.2cm}
+            {\Large\bfseries Team-Nummer 37} &  \\\\
+            \vspace{0.1cm}
+            {\Large Alexander Engelhardt} & \Large 03648409 & \Large ga38cot \\\\
+            \vspace{0.1cm}
+            {\Large Christian Karl} & \Large 03649644 & \Large ga97nix \\\\
+            \vspace{0.1cm}
+            {\Large Kianusch Mehrgan} & \Large 03648784 & \Large ga38heh \\\\
+        \end{tabular}
+
+
+	\vfill
+
+% Bottom of the page
+	\centering\large \today\par
+\end{titlepage}
+\enlargethispage{1.5cm}
+
+\tableofcontents
+\newpage
+
+${0}
 
 \end{document}
 endsnippet

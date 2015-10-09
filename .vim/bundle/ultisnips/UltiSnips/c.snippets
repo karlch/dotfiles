@@ -25,7 +25,7 @@ snippet inc "#include local header (inc)"
 endsnippet
 
 snippet Inc "#include <> (Inc)"
-#include <${1:.h}>
+#include <${1:header}.h>
 endsnippet
 
 snippet mark "#pragma mark (mark)"
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 endsnippet
 
 snippet for "for loop (for)"
-for (int ${2:i} = 0; $2 < ${1:count}; ${3:++$2})
+for (int ${2:i} = 0; $2 < ${1:count}; ${3:$2++})
 {
 	${VISUAL}${0}
 }

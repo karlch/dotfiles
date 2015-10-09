@@ -14,8 +14,8 @@ urxvt*background:  #1C1C1C
 urxvt*foreground:  #EEEEEE
 URxvt.highlightColor: #00C1FF
 ! Black
-URxvt*color0: #666666
-URxvt*color8: #1C1C1C
+URxvt*color0: #2C2C2C
+URxvt*color8: #6C6C6C
 ! Red
 URxvt*color1: #DB3636
 URxvt*color9: #B53030
@@ -27,7 +27,7 @@ URxvt*color3: #E8E861
 URxvt*color11: #DDDD45
 ! Blue
 URxvt*color4: #00C1FF
-URxvt*color12: #0088CC
+URxvt*color12: #0066AA
 ! Magenta (well, orange)
 URxvt*color5: #FEBE73
 URxvt*color13: #FF9900
@@ -40,7 +40,7 @@ URxvt*color15: #999999
 
 ! Font
 URxvt.font: xft:Source Code Pro:size=11
-! URxvt.letterSpace: -1
+! URxvt.letterSpace: -5
 ! Cursor
 URxvt*cursorColor: #96ABB7
 
@@ -60,10 +60,10 @@ URxvt.saveLines: 100
 URxvt.perl-ext-common: default,matcher,url-picker,font-size,osc-xterm-clipboard
 URxvt.perl-ext: default,url-select
 ! Selectable URLs
-URxvt.url-launcher: /usr/bin/firefox
+URxvt.url-launcher: /usr/bin/qutebrowser
 URxvt.matcher.rend.0: Uline fg7
 URxvt.keysym.C-b: perl:url-select:select_next
-URxvt.url-select.launcher: /usr/bin/firefox
+URxvt.url-select.launcher: /usr/bin/qutebrowser
 URxvt.url-select.underline: true
 ! Catch ugly URL's
 URxvt.cutchars: `()'*<>[]{|}"

@@ -1,0 +1,75 @@
+#!/usr/bin/env python
+# encoding: utf-8
+import sys
+import re
+
+input = open(sys.argv[1], "r")
+output = open(sys.argv[2], "a")
+try:
+    if sys.argv[3]:
+        separator = sys.argv[3]
+except:
+    separator = ','
+
+output.write("set numeric extfun craction = 1 color colorerr\n")
+output.write("color 1 = @white;@black\n")
+
+linnum = 0
+alphabet = {
+    1: "A",
+    2: "B",
+    3: "C",
+    4: "D",
+    5: "E",
+    6: "F",
+    7: "G",
+    8: "H",
+    9: "I",
+    10: "J",
+    11: "K",
+    12: "L",
+    13: "M",
+    14: "N",
+    15: "O",
+    16: "P",
+    17: "Q",
+    18: "R",
+    19: "S",
+    20: "T",
+    21: "U",
+    22: "V",
+    23: "W",
+    24: "X",
+    25: "Y",
+    26: "Z"}
+
+for line in input:
+    line = line.replace(" ", "_")
+    line = line.replace("\n", "")
+    substr = re.search('(".*?")|(\'.*?\')', line)
+
+    while substr:
+        substr = substr.group()
+        substrn = substr.replace(separator, "_")
+        substrn = substrn.replace("\"", "", 2)
+        substrn = substrn.replace("\'", "", 2)
+        line = line.replace(substr, substrn)
+        substr = re.search('(".*?")|(\'.*?\')', line)
+
+    linevalues = line.split(separator)
+
+    for i in range(len(linevalues)):
+        letter = alphabet[i+1]
+        elementchar = letter + str(linnum)
+        try:
+            int(linevalues[i])
+            output.write("let " + elementchar + " = " + linevalues[i] + "\n")
+        except:
+            output.write(
+                "rightstring " +
+                elementchar +
+                " = \"" +
+                linevalues[i] +
+                "\"\n")
+
+    linnum += 1

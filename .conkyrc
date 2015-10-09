@@ -1,44 +1,46 @@
-out_to_x yes
-own_window no
-out_to_console no
-background no
-max_text_width 0
-double_buffer yes
+conky.config = {
+out_to_x = true,
+out_to_console = false,
+own_window = false,
+-- own_window_transparent = true,
+-- own_window_type = 'override',
+background = true,
+max_text_width = 0,
+double_buffer = true,
 
-update_interval 120
+update_interval = 60,
 
-# This is the number of times Conky will update before quitting.
-# Set to zero to run forever.
-total_run_times 0
+-- This is the number of times Conky will update before quitting.
+-- Set to zero to run forever.
+total_run_times = 0,
 
-# Force UTF8? note that UTF8 support required XFT
-override_utf8_locale yes
+-- Font stuff
+draw_outline = false,
+draw_borders = false,
+use_xft = true,
+xftalpha = 1.0,
 
-# Font stuff
-draw_outline no
-draw_borders no
-use_xft yes
-xftalpha 0.0
+-- Graph and units
+temperature_unit = 'celsius',
+format_human_readable = true,
 
-# Graph and units
-default_graph_size 0 25
-temperature_unit celsius
-format_human_readable true
+-- Alignment
+alignment = 'top_middle',
+gap_x = 20,
+gap_y = 10
+}
 
-# Alignment
-alignment top_middle
-gap_x 20
-gap_y 10
-
-TEXT
-##################################
-${image ~/Bilder/Sonstiges/Pacman-3.png -p 8}\
-${font SourceCodePro:style=bold:size=13}${color #ffffff}     ${exec ~/bin/update}     \
+--------------------------------------------------------------------------------
+conky.text = [[
+${if_match "${exec ~/bin/update}" == "everything up to date"}${image /home/christian/Bilder/Sonstiges/pacman.png -p 2,2 -s 22x22}${else}${image /home/christian/Bilder/Sonstiges/pacman-eating.png -p 2,2 -s 22x22}${endif} \
+${font Source Code Pro:style=Bold:size=13}${color #ffffff}     ${exec ~/bin/update}     \
 ${color #00C1FF} TOTAL ${color #ffffff} ${fs_size /}     \
 ${color #00C1FF} FREE ${color #ffffff} ${fs_free /}     \
 ${color #00C1FF} KERNEL ${color #ffffff} ${kernel}     \
 ${color #00C1FF} EDITOR ${color #ffffff} vim     \
-${color #00C1FF} SHELL ${color #ffffff} ${execi 12000 echo $SHELL}     \
+${color #00C1FF} SHELL ${color #ffffff} ${exec echo $SHELL}     \
 ${color #00C1FF} WM ${color #ffffff} i3     \
-${color #00C1FF} WEATHER ${color #ffffff} ${execi 60 ~/bin/weather.sh 'en|de|garching-bei-munchen'}
-${exec checkupdates | sed "s/conky//" }
+${color #00C1FF} WEATHER ${color #ffffff} ${exec ~/bin/weather.sh 'en|de|garching-bei-munchen'}
+
+${exec checkupdates}
+]]

@@ -37,3 +37,5 @@ let g:SuperTabDefaultCompletionType = "<Tab>"
 
 " Abbreviation for degrees (really annoying)
 iabbrev ° ^\circ
+
+source ~/.vim/ftplugin/tex/tex_tables.vim

@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Help wanted?
+if [ $1 == "-h" ]; then
+    echo 1>&2 "Usage:
+    lineqalc inputfile expression [separator]
+    
+    inputfile: tablefile to be read
+    expression: mathematical expression as needed by qalc, you can use column
+      letters like A to reference columns of the tablefile
+    separator: separatorstring of the tablefile, comma is default
+    
+    e.g.: lineqalc test.csv \"Integrate[Sin[x], {x, AA, BB}]\""
+    exit 0
+fi
+
+# necessary input
+if [ $# -lt 2 ]; then
+    echo "please enter an input file and an expression, enter '-h' for help"
+    exit 1
+elif [ $# == 2 ]; then
+    sep=","
+elif [ $# == 3 ]; then
+    sep=$3
+else
+    echo "Too many arguments, enter '-h' for help"
+    exit 1
+fi
+
+# Columns
+cols=$(head -n 1 $1 | awk -F${sep} '{ print NF }')
+
+l=1
+alph="A B C D E F G H I J K L M N O P Q R S T U V W X Y Z"
+IFS=$'\n'
+for i in $(cat $1)
+do
+    exp=$2
+    for (( j = 1; j <= $cols; j++ )); do
+        curalph=$(echo $alph | cut -d " " -f$j)
+        curalph=${curalph}${curalph}
+        sub=$(printf "awk -F%s '{print $%s}' %s\n" $sep $j $1 | bash | sed -n "${l}p")
+        exp=$(echo $exp | sed "s/$curalph/$sub/g")
+    done
+    res=$(echo $exp | math | grep "Out" | cut -d " " -f2)
+    res=$(LC_ALL=C printf "%0.2f\n" $res)
+    echo "${i}${sep}${res}" >> tmp.out
+    (( l++ ))
+done
+
+mv tmp.out $1
+
+exit 0

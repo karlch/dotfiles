@@ -1,0 +1,15 @@
+#! /bin/bash
+
+if [[ $# -lt 2 ]]; then
+    echo "Wrong usage"
+elif [[ $# == 2 ]]; then
+    incol=1
+else
+    incol=$3
+fi
+
+~/bin/sc2csv $1
+~/bin/lineqalc ${1%.*}.csv $2 $3
+~/bin/csv2sc ${1%.*}.csv $1
+
+rm ${1%.*}.csv

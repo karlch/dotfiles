@@ -1,0 +1,6 @@
+#! /bin/bash
+
+sc -W % $1 > ${1%.*}.csv
+sed -i "s/ \+/,/g" ${1%.*}.csv
+sed -i "s/,//" ${1%.*}.csv
+csv2latex --nohead --position c --separator c ${1%.*}.csv > sctable.tex

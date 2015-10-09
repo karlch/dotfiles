@@ -1,0 +1,5 @@
+#! /bin/bash
+
+sc -W % $1 > ${1%.*}.csv
+sed -i "s/ \+/,/g" ${1%.*}.csv
+sed -i "s/,//" ${1%.*}.csv

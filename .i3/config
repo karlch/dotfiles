@@ -49,6 +49,7 @@ for_window [window_role="menu"] floating enable
 for_window [window_role="Preferences"] floating enable
 for_window [class="com-wolfram-jlink-Reader"] floating enable
 for_window [class="Gifview"] floating enable
+for_window [class="MATLAB R2015a - academic use"] focus, layout tabbed
 for_window [title="sxiv - cover.jpg"] resize shrink width 100 px or 20 ppt
 for_window [title="sxiv - /home/christian/.i3/py-scripts/fb-notify/facebook-icon.png"] floating enable 
 
@@ -195,7 +196,7 @@ mode "NORMAL" {
     bindsym Shift+r restart
 
     # Starters
-    bindsym w exec qutebrowser, mode "default"
+    bindsym w exec cat /dev/null > ~/.local/share/qutebrowser/history && qutebrowser, mode "default"
     bindsym Shift+u exec --no-startup-id urxvt -e tmux -2 new-session -A -s MySession, mode "default"
     bindsym u exec --no-startup-id urxvt, mode "default"
     bindsym t exec --no-startup-id urxvt -e tmux, mode "default"
@@ -204,7 +205,7 @@ mode "NORMAL" {
     bindsym Shift+m exec --no-startup-id mathematica, mode "default"
     bindsym z exec --no-startup-id urxvt -e mutt, mode "default"
     # bindsym Shift+z exec --no-startup-id urxvt -e mutt -R, mode "default"
-    bindsym Shift+z exec env GTK2_RC_FILES=/usr/share/themes/Raleigh/gtk-2.0/gtkrc firefox www.protonmail.ch/login, mode "default"
+    bindsym Shift+z exec env GTK2_RC_FILES=/usr/share/themes/Raleigh/gtk-2.0/gtkrc iceweasel www.protonmail.ch/login, mode "default"
 
     # Search duckduckgo
     bindsym question exec ~/bin/search.sh, mode "default"
@@ -238,9 +239,11 @@ bindsym F10 mode "NORMAL"
 
 # Open dmenu
 bindsym F11 exec --no-startup-id i3-dmenu-desktop --entry-type='name' --dmenu='dmenu -i -b -y 25 -p launch: -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #EEEEEE'
+# Search with dmenu
+bindsym Shift+F11 exec --no-startup-id ~/bin/search.sh
 
 # A system mode for shutting down, ...
-set $SYSTEM System ... logout (l), reboot (r), shutdown (s), lock (o)
+set $SYSTEM System ... logout (l), reboot (r), shutdown (s), lock (o), blank (b)
 mode "$SYSTEM" {
     # Logout
     bindsym l exec --no-startup-id i3-msg exit, mode "default"
@@ -249,7 +252,9 @@ mode "$SYSTEM" {
     # Shutdown
     bindsym s exec poweroff, mode "default"
     # Lock
-    bindsym o exec i3lock -i ~/Bilder/Hintergrund/mountain-sky.png, mode "default"
+    bindsym o exec i3lock -i ~/Bilder/Hintergrund/parabola-lock.png, mode "default"
+    # Blank screen
+    bindsym b exec xset dpms force off, mode "default"
 
     # Back to normal
     bindsym Return mode "default"
@@ -272,8 +277,8 @@ mode "$Wireless" {
 set $Blockw Wifi ... block (b), unblock (u), wifi-menu (w)
 mode "$Blockw" {
     # Wifi
-    bindsym b exec "sudo rfkill block wifi", mode "default"
-    bindsym u exec sudo rfkill unblock wifi && urxvt -e systemctl restart netctl-auto@wlp1s0.service & sleep 0.1 && i3-msg floating enable, mode "default"
+    bindsym b exec "rfkill block wifi", mode "default"
+    bindsym u exec rfkill unblock wifi && urxvt -e systemctl restart netctl-auto@wlp1s0.service & sleep 0.1 && i3-msg floating enable, mode "default"
     bindsym w exec "urxvt -e sudo wifi-menu", mode "default"
 
     # Back to normal: Escape
@@ -282,8 +287,8 @@ mode "$Blockw" {
 set $Blockb Bluetooth ... block (b), unblock (u)
 mode "$Blockb" {
     # Bluetooth
-    bindsym b exec "sudo rfkill block bluetooth", mode "default"
-    bindsym u exec "sudo rfkill unblock bluetooth", mode "default"
+    bindsym b exec "rfkill block bluetooth", mode "default"
+    bindsym u exec "rfkill unblock bluetooth", mode "default"
 
     # Back to normal: Escape
     bindsym Escape mode "default"
@@ -291,8 +296,8 @@ mode "$Blockb" {
 set $Blocka All ... block (b), unblock (u)
 mode "$Blocka" {
     # All
-    bindsym b exec "sudo rfkill block all", mode "default"
-    bindsym u exec sudo rfkill unblock all && urxvt -e systemctl restart netctl-auto@wlp1s0.service & sleep 0.1 && i3-msg floating enable, mode "default"
+    bindsym b exec "rfkill block all", mode "default"
+    bindsym u exec rfkill unblock all && urxvt -e systemctl restart netctl-auto@wlp1s0.service & sleep 0.1 && i3-msg floating enable, mode "default"
 
     # Back to normal: Escape
     bindsym Escape mode "default"
@@ -332,6 +337,9 @@ mode "Cycle" {
 
 # Start i3bar to display a workspace bar
 bar {
+        # Only on my laptop screen
+        output eDP1
+
         # Height
         height 20
 
@@ -356,8 +364,3 @@ bar {
         font pango:Source Code Pro Bold 11
 
 }
-
-# Dont want to see the mouse
-exec_always --no-startup-id unclutter -idle 1 -root
-# Conky
-exec --no-startup-id conky

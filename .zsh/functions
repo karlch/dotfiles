@@ -10,7 +10,12 @@ function chpwd()
 
 # command not found
 function command_not_found_handler() {
-    cowsay "The entered command does not exist, sorry for any inconvenience."
+    if yaourt -Ss $@; then
+        echo "\nHere I am, brain the size of a planet, and you ask me search the database? Call that job satisfaction, 'cause I don't."
+    else
+        head -n -1 ~/.zsh_history > ~/new_hist && mv ~/new_hist ~/.zsh_history
+        echo "\nI think you ought to know I'm feeling very depressed."
+    fi
 }
 
 # calculator
@@ -20,10 +25,33 @@ awk "BEGIN { print $* }"
 
 # vim with server if necessary
 function vimserver {
-    if echo $1 | grep ".tex\|.m\|.mma" > /dev/null; then
+    eval last=\$$#
+    if echo $last | grep ".tex\|.m\|.mma\|.c" > /dev/null; then
         \vim --servername VimServer $@
     else
         \vim $@
     fi
 }
 alias vim='vimserver'
+
+# favourite command
+function favcmd() {
+    history|awk '{print $2}'|awk 'BEGIN {FS="|"} {print $1}'|sort|uniq -c|sort -rn|head -$1
+}
+
+# Create directory and enter it
+function mkcd(){ mkdir "$1" && cd "$1" ; }
+
+# Image renaming
+function listjpg(){ autoload -U zmv && c=1 base="$1" zmv '*.JPG||*.jpg' '${base}_${(l:3::0:)$((c++))}.jpg' ; }
+function listall(){ autoload -U zmv && c=1 base="$1" end="$2" zmv '*' '${base}_${(l:3::0:)$((c++))}.${end}' ; }
+
+# Mathematica kernel to solve input
+function m() {
+echo $@ | math | grep "Out" | cut -d " " -f2
+}
+
+# Complex math for sc
+function scq() {
+scqalc $@ && sc $1
+}
