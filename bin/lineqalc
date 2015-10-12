@@ -54,7 +54,6 @@ do
     done
     # calculate the result of the column
     res=$(echo $exp | qalc -t | sed -n "3p" | sed "s/ *//g")
-    res=$(LC_ALL=C printf "%0.2f\n" $res)
     # append it to file
     echo "${i}${sep}${res}" >> tmp.out
 

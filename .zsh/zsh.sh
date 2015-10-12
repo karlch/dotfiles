@@ -1,8 +1,3 @@
-# Check for updates on initial load...
-if [ "$DISABLE_AUTO_UPDATE" != "true" ]; then
-  env ZSH=$ZSH DISABLE_UPDATE_PROMPT=$DISABLE_UPDATE_PROMPT zsh -f $ZSH/tools/check_for_upgrade.sh
-fi
-
 # Initializes Oh My Zsh
 
 # add a function path
@@ -13,13 +8,6 @@ fpath=($ZSH/functions $ZSH/completions $fpath)
 if [[ -z "$ZSH_CUSTOM" ]]; then
     ZSH_CUSTOM="$ZSH/custom"
 fi
-
-# Set ZSH_CACHE_DIR to the path where cache files sould be created
-# or else we will use the default cache/
-if [[ -z "$ZSH_CACHE_DIR" ]]; then
-  ZSH_CACHE_DIR="$ZSH/cache/"
-fi
-
 
 # Load all of the config files in ~/oh-my-zsh that end in .zsh
 # TIP: Add files you don't want in git to .gitignore

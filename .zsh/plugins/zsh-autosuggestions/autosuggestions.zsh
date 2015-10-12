@@ -12,7 +12,7 @@ zmodload zsh/net/socket
 source "${0:a:h}/completion-client.zsh"
 
 # configuration variables
-AUTOSUGGESTION_HIGHLIGHT_COLOR='fg=15'
+AUTOSUGGESTION_HIGHLIGHT_COLOR='fg=0'
 AUTOSUGGESTION_HIGHLIGHT_CURSOR=1
 
 function {
@@ -20,10 +20,10 @@ function {
 		ZSH_HIGHLIGHT_HIGHLIGHTERS=()
 		return
 	fi
-	autoload -U is-at-least
+	# autoload -U is-at-least
 
 	# if is-at-least 5.0.3; then
-	# 	autosuggest-ensure-server
+		# autosuggest-ensure-server
 	# fi
 }
 
@@ -42,8 +42,9 @@ ZLE_AUTOSUGGEST_COMPLETION_WIDGETS=(
 )
 
 ZLE_AUTOSUGGEST_ACCEPT_WIDGETS=(
-	vi-forward-char forward-char vi-forward-word forward-word vi-add-eol
-	vi-add-next vi-forward-blank-word end-of-line
+	vi-forward-char forward-char vi-forward-word forward-word 
+        vi-forward-two-word vi-add-eol vi-add-next vi-forward-blank-word
+        end-of-line
 )
 
 autosuggest-pause() {

@@ -1,10 +1,10 @@
+# vim:ft=zsh
 # File to save custom functions
 
 # ls right after cd
 function chpwd()
 {
     emulate -L zsh
-    print
     ls
 }
 
@@ -51,7 +51,20 @@ function m() {
 echo $@ | math | grep "Out" | cut -d " " -f2
 }
 
-# Complex math for sc
-function scq() {
-scqalc $@ && sc $1
+# Nice short cpu process overview
+function pscpu() {
+    ps -e -o pcpu,cpu,nice,state,cputime,args | sort -k1 -nr | head -n 3 | awk '{print $1"%  "$5"  "$6" "$7}'
+}
+
+# Remove all spaces
+function killws() {
+  for a in ./**/*\ *(Dod); do 
+  mv $a ${a:h}/${a:t:gs/ /_};
+  done
+}
+
+# Find and do something
+function fdo() {
+    file=$(find . -iname "*$1*" | head -n 1)
+    ${@:2} $file
 }

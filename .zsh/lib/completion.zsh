@@ -10,18 +10,16 @@ WORDCHARS=''
 
 zmodload -i zsh/complist
 
-## case-insensitive (all),partial-word and then substring completion
+# case-insensitive (all),partial-word and then substring completion
 if [ "x$CASE_SENSITIVE" = "xtrue" ]; then
-  zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+  # zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+  zstyle ':completion:*' matcher-list 'r:|[._]=* r:|=*' 'l:|=* r:|=*'
   unset CASE_SENSITIVE
 else
   zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 fi
 
 zstyle ':completion:*' list-colors ''
-
-# should this be in keybindings?
-bindkey -M menuselect '^o' accept-and-infer-next-history
 
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
@@ -38,6 +36,14 @@ zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-dir
 # Use caching so that commands like apt and dpkg complete are useable
 zstyle ':completion::complete:*' use-cache 1
 zstyle ':completion::complete:*' cache-path $ZSH_CACHE_DIR
+
+# Fuzzy completion for typos
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
+
+# Don't complete commands that don't exist (why would this ever be default?!?)
+zstyle ':completion:*:functions' ignored-patterns '_*'
 
 # Don't complete uninteresting users
 zstyle ':completion:*:*:*:users' ignored-patterns \

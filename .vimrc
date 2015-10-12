@@ -425,7 +425,7 @@ autocmd BufRead,BufNewFile *mutt-* set foldlevel=3
 autocmd BufRead,BufNewFile *mutt-* exec "normal ggO\<CR>\<Esc>gg"
 
 " Shell
-autocmd BufNewFile *.sh silent exec "normal i#! /bin/bash\<CR>\<CR>\<Esc>:w\<CR>:! chmod +x %\<CR>\<CR>"
+autocmd BufNewFile *.sh silent exec "normal i#!/bin/bash\<CR>\<CR>\<Esc>:w\<CR>:! chmod +x %\<CR>\<CR>"
 
 " }}}
 

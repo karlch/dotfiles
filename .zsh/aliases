@@ -58,6 +58,7 @@ alias ri='rifle'
 alias x='exit'
 alias csv2latexi='csv2latex --nohead --position c'
 alias find='find 2>/dev/null'
+alias mkdir='mkdir -p'
 
 # everyone need some fun
 alias chuck='clear && fortune ~/bin/fortune/chucknorris | ponysay -F gleamingshield'
@@ -67,3 +68,7 @@ alias help='echo "Dont Panic!"'
 alias sw='telnet towel.blinkenlights.nl'
 alias yt='youtube-viewer -f'
 alias emacs='echo haha, nice try! && sleep 1 && vim $@'
+
+# global aliases
+alias -g DN='/dev/null'
+alias -g NE='2> /dev/null'

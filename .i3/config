@@ -31,7 +31,7 @@ bindsym $mod+k focus up
 bindsym $mod+w [class="qutebrowser"] focus
 bindsym $mod+t [class="URxvt"] focus
 bindsym $mod+m focus mode_toggle
-bindsym $mod+Tab layout toggle all
+bindsym $mod+Tab exec --no-startup-id ~/.i3/py-scripts/winmenu.py, mode "default"
 
 # Window stuff
 bindsym Control+q kill
@@ -56,8 +56,8 @@ for_window [title="sxiv - /home/christian/.i3/py-scripts/fb-notify/facebook-icon
 # Function keys
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
 bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 5%- && ~/.i3/volnoti-set.sh
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 5%+ && ~/.i3/volnoti-set.sh
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 4%- && ~/.i3/volnoti-set.sh
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 4%+ && ~/.i3/volnoti-set.sh
 bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle && ~/.i3/volnoti-set.sh
 bindsym XF86AudioPlay exec --no-startup-id cmus-remote -u
 bindsym XF86AudioStop exec --no-startup-id cmus-remote -s
@@ -110,11 +110,12 @@ mode "NORMAL" {
     bindsym Shift+t layout tabbed
     bindsym Shift+c layout toggle split
     bindsym Shift+d layout default
+    bindsym Shift+a layout toggle all
 
     # Toggle tiling / floating
     bindsym Shift+f floating toggle
     # Change focus between tiling / floating windows
-    bindsym Shift+n focus mode_toggle
+    bindsym Shift+m focus mode_toggle
 
     # Move window to scratchpad
     bindsym y move scratchpad
@@ -173,13 +174,6 @@ mode "NORMAL" {
     bindsym Shift+o exec --no-startup-id ~/.i3/py-scripts/wintofirstfree.py
     # Go to next empty workspace with the window
     bindsym Control+o exec --no-startup-id ~/.i3/py-scripts/wintofirstfree-go.py
-    # Append window to the next workspace
-    bindsym a move container to workspace next; workspace next
-    # Insert window to the previous workspace
-    bindsym i move container to workspace prev; workspace prev
-    # Moving to next/prev workspaces
-    bindsym e workspace next
-    bindsym b workspace prev
     # Moving back and forth between the last workspace
     bindsym Tab workspace back_and_forth
     bindsym Control+Tab move container to workspace back_and_forth; workspace back_and_forth
@@ -188,7 +182,7 @@ mode "NORMAL" {
     bindsym space exec --no-startup-id ~/.i3/py-scripts/cycle.py, mode "Cycle"
 
     # Useless but fun
-    bindsym Shift+a exec --no-startup-id ~/.i3/py-scripts/fibonacci.py
+    bindsym Shift+b exec --no-startup-id ~/.i3/py-scripts/fibonacci.py
 
     # Reload the configuration file
     bindsym r reload, mode "default"
@@ -197,18 +191,12 @@ mode "NORMAL" {
 
     # Starters
     bindsym w exec cat /dev/null > ~/.local/share/qutebrowser/history && qutebrowser, mode "default"
-    bindsym Shift+u exec --no-startup-id urxvt -e tmux -2 new-session -A -s MySession, mode "default"
     bindsym u exec --no-startup-id urxvt, mode "default"
     bindsym t exec --no-startup-id urxvt -e tmux, mode "default"
     bindsym f exec --no-startup-id urxvt -e ranger, mode "default"
     bindsym c exec --no-startup-id ~/bin/cmus_cover.sh & urxvt -e cmus, mode "default"
-    bindsym Shift+m exec --no-startup-id mathematica, mode "default"
     bindsym z exec --no-startup-id urxvt -e mutt, mode "default"
-    # bindsym Shift+z exec --no-startup-id urxvt -e mutt -R, mode "default"
     bindsym Shift+z exec env GTK2_RC_FILES=/usr/share/themes/Raleigh/gtk-2.0/gtkrc iceweasel www.protonmail.ch/login, mode "default"
-
-    # Search duckduckgo
-    bindsym question exec ~/bin/search.sh, mode "default"
 
     # Shutdown, reboot, lock screen ..
     bindsym q mode "$system"
@@ -219,15 +207,24 @@ mode "NORMAL" {
     # Wireless mode
     bindsym Shift+w mode "$Wireless"
 
+    # USB mode
+    bindsym Shift+u mode "$USB"
+
     # Back to normal
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym F10 mode "default"
 
     # Make the Rest return
-    bindsym Shift+b mode "default"
+    # Append window to the next workspace
+    bindsym a mode "default"
+    bindsym b mode "default"
+    bindsym e mode "default"
+    bindsym i mode "default"
+
     bindsym Shift+e mode "default"
     bindsym Shift+i mode "default"
+    bindsym Shift+n mode "default"
     bindsym Shift+p mode "default"
     bindsym Shift+q mode "default"
     bindsym Shift+v mode "default"
@@ -261,43 +258,23 @@ mode "$SYSTEM" {
     bindsym Escape mode "default"
 }
 
-# A mode to manage wireless devices via rfkill
-set $Wireless Wireless ... wifi (w), bluetooth (b), all (a)
+set $Wireless Wifi ... block (b), unblock (u), wifi-menu (w)
 mode "$Wireless" {
-    # Wifi
-    bindsym w mode "$Blockw"
-    # Bluetooth
-    bindsym b mode "$Blockb"
-    # All
-    bindsym a mode "$Blocka"
-
-    # Back to normal: Escape
-    bindsym Escape mode "default"
-}
-set $Blockw Wifi ... block (b), unblock (u), wifi-menu (w)
-mode "$Blockw" {
     # Wifi
     bindsym b exec "rfkill block wifi", mode "default"
     bindsym u exec rfkill unblock wifi && urxvt -e systemctl restart netctl-auto@wlp1s0.service & sleep 0.1 && i3-msg floating enable, mode "default"
-    bindsym w exec "urxvt -e sudo wifi-menu", mode "default"
+    bindsym w exec "urxvt -e sudo wifi-menu & sleep 0.3 && i3-msg floating enable", mode "default"
 
     # Back to normal: Escape
     bindsym Escape mode "default"
 }
-set $Blockb Bluetooth ... block (b), unblock (u)
-mode "$Blockb" {
-    # Bluetooth
-    bindsym b exec "rfkill block bluetooth", mode "default"
-    bindsym u exec "rfkill unblock bluetooth", mode "default"
 
-    # Back to normal: Escape
-    bindsym Escape mode "default"
-}
-set $Blocka All ... block (b), unblock (u)
-mode "$Blocka" {
-    # All
-    bindsym b exec "rfkill block all", mode "default"
-    bindsym u exec rfkill unblock all && urxvt -e systemctl restart netctl-auto@wlp1s0.service & sleep 0.1 && i3-msg floating enable, mode "default"
+set $USB USB devices ... mount (m), unmount (u), list (l)
+mode "$USB" {
+    # USB
+    bindsym m exec "urxvt -e ~/bin/mnt i3", mode "default"
+    bindsym u exec "urxvt -e ~/bin/umnt i3", mode "default"
+    bindsym l exec "urxvt -e ~/bin/listusb", mode "default"
 
     # Back to normal: Escape
     bindsym Escape mode "default"

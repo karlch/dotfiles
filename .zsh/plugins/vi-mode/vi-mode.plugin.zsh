@@ -31,10 +31,6 @@ bindkey -v
 autoload -Uz edit-command-line
 bindkey -M vicmd 'q' edit-command-line
 
-# allow ctrl-p, ctrl-n for navigate history (standard behaviour)
-bindkey '^P' up-history
-bindkey '^N' down-history
-
 # allow ctrl-h, ctrl-w, ctrl-? for char and word deletion (standard behaviour)
 bindkey '^?' backward-delete-char
 bindkey '^h' backward-delete-char

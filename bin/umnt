@@ -1,0 +1,73 @@
+#!/bin/sh
+
+# Running from i3 key?
+if [[ $1 == "i3" ]]; then
+    i3-msg floating enable
+fi
+
+# Global variables
+TITLE="Unmount Utility"
+
+# Populate list of unmountable devices
+deviceNames=$(findmnt -Do TARGET | grep "/media" | tr " " "_" | sed \
+"s/\/media\///" | tr "\n" " ")
+deviceSources=$(findmnt -Do SOURCE | grep "sd[b-z]" | tr "\n" " " )
+deviceCount=$(echo $deviceSources | wc -w)
+
+# Start of program output
+clear
+echo $TITLE
+
+# Are there any devices?
+if [[ $deviceCount == 0 ]]; then
+    if [[ $1 == "i3" ]]; then
+        read -p "No devices, exiting ..." input
+        exit 1
+    else
+        echo "No devices, exiting ..."
+        exit 1
+    fi
+fi
+
+# Display list of devices that can be unmounted
+for ((device=1; device<=${deviceCount}; device+=1))
+do
+    curName=$(echo $deviceNames | cut -d " " -f${device})
+    curSource=$(echo $deviceSources | cut -d " " -f${device})
+    printf "%4s)   %-25s%-13s\n" ${device} ${curName} ${curSource}
+done
+
+printf "%4s)   Exit\n" "x"
+
+# Get input from user
+read -p "Choose a menu option: " input
+
+# Input validation
+if [ "$input" = "X" ] || [ "$input" = "x" ]
+then
+    echo "Exiting"
+    exit 0
+fi
+
+if (( $input>0 )) && (( $input<=$deviceCount )); then
+    tounmount=$(echo ${deviceSources} | cut -d " " -f${input})
+    tounmount_name=$(echo ${deviceNames} | cut -d " " -f${input})
+    echo -e "\nUnmounting: \e[1;34m${tounmount_name}\e[0m located at \e[1;33m${tounmount}\e[0m ..."
+    if (udevil umount ${tounmount}); then
+        echo -e "... unmount succesfull\n"
+        if [[ $1 == "i3" ]]; then
+            read -p "Exit: " input
+            exit 0
+        else
+            exit 0
+        fi
+    fi
+fi
+echo -e "\e[31mInvalid menu choice\e[0m"
+read -p "Restart (y/n): " input
+if [[ $input == y ]] || [[ $input == Y ]] || [[ $input == j ]] || [[ $input == J ]]; then
+    $0
+    exit 0
+else
+    exit 1
+fi

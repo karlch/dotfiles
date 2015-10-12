@@ -14,12 +14,12 @@ urxvt*background:  #1C1C1C
 urxvt*foreground:  #EEEEEE
 URxvt.highlightColor: #00C1FF
 ! Black
-URxvt*color0: #2C2C2C
+URxvt*color0: #7C7C7C
 URxvt*color8: #6C6C6C
 ! Red
 URxvt*color1: #DB3636
 URxvt*color9: #B53030
-! Green
+! Green (well, grayish green/blue)
 URxvt*color2: #A1E5FC
 URxvt*color10: #6CA4BC
 ! Yellow
@@ -31,7 +31,7 @@ URxvt*color12: #0066AA
 ! Magenta (well, orange)
 URxvt*color5: #FEBE73
 URxvt*color13: #FF9900
-! Cyan (well, grayish green/blue)
+! Cyan (well blue)
 URxvt*color6: #00C1FF
 URxvt*color14: #0066AA
 ! White
