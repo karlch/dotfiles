@@ -1,0 +1,74 @@
+#!/bin/bash
+# Find and do something
+
+# Files to find
+files=$(find . -name "*$1*")
+# Exit if none are found
+len=$(echo $files | wc -w)
+if [[ $len == 0 ]]; then
+    echo "No files found"
+    exit 1
+fi
+
+# Print a nice numbered list
+for ((file=1; file<=${len}; file+=1))
+do
+    curfile=$(echo $files | cut -d " " -f${file} )
+    printf "%4s)   %-60s%-12s\n" ${file} ${curfile} "("$(file ${curfile} | cut -d " " -f2)")"
+done
+printf "\n%4s)   Exit\n" "x"
+
+# Files to operate on
+read -p "Choose the file(s): " input
+# Exit?
+if [[ "$input" == "X" ]] || [[ "$input" == "x" ]]
+then
+    echo "Exiting"
+    exit 0
+# 1 as default
+elif [[ $input == "" ]]; then
+    input=1
+fi
+
+# Check input
+if !(files=$(echo ${files} | cut -d " " -f"${input}")); then
+    echo "Unusable selection, exiting"
+    exit 1
+else
+    files=$(echo ${files} | cut -d " " -f"${input}")
+fi
+
+# Program to execute
+read -p "Choose the program: " prog
+
+# Rifle as default launcher
+if [[ $prog == "" ]]; then
+    prog="rifle"
+fi
+
+# Possibility to run the program in the directory of the file (useful e.g. for
+# tex)
+if [[ $prog == "cd" ]]; then
+    # Program to actually execute
+    read -p "Choose the program: " prog
+
+    start=$(pwd)
+    for file in ${files}; do
+        dir=$(dirname ${file} | sed "s/\.//")
+        cdir=$(pwd)
+        if [[ ${cdir/$dir} == ${cdir} ]]; then
+            if [[ $filelist != "" ]]; then $prog $filelist; fi
+            filelist=$(basename ${file})
+            cd ${start}
+            cd ".${dir}"
+        else
+            filelist=${filelist}" "$(basename ${file})
+        fi
+    done
+
+    $prog $filelist
+    exit 0
+fi
+
+$prog $files 
+exit 0

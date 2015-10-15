@@ -12,19 +12,16 @@ zmodload zsh/net/socket
 source "${0:a:h}/completion-client.zsh"
 
 # configuration variables
-AUTOSUGGESTION_HIGHLIGHT_COLOR='fg=0'
-AUTOSUGGESTION_HIGHLIGHT_CURSOR=1
+AUTOSUGGESTION_HIGHLIGHT_COLOR='fg=8'
+AUTOSUGGESTION_HIGHLIGHT_CURSOR=0
 
 function {
 	if [[ -n $ZLE_DISABLE_AUTOSUGGEST ]]; then
 		ZSH_HIGHLIGHT_HIGHLIGHTERS=()
 		return
 	fi
-	# autoload -U is-at-least
 
-	# if is-at-least 5.0.3; then
-		# autosuggest-ensure-server
-	# fi
+        # autosuggest-ensure-server
 }
 
 ZLE_AUTOSUGGEST_SUSPEND_WIDGETS=(
@@ -33,18 +30,21 @@ ZLE_AUTOSUGGEST_SUSPEND_WIDGETS=(
 	history-beginning-search-forward history-beginning-search-backward
 	down-line-or-history history-substring-search-up history-substring-search-down
 	backward-kill-word
-)
-
-ZLE_AUTOSUGGEST_COMPLETION_WIDGETS=(
 	complete-word expand-or-complete expand-or-complete-prefix list-choices
 	menu-complete reverse-menu-complete menu-expand-or-complete menu-select
 	accept-and-menu-complete
 )
 
+ZLE_AUTOSUGGEST_COMPLETION_WIDGETS=(
+	# complete-word expand-or-complete expand-or-complete-prefix list-choices
+	# menu-complete reverse-menu-complete menu-expand-or-complete menu-select
+	# accept-and-menu-complete
+)
+
 ZLE_AUTOSUGGEST_ACCEPT_WIDGETS=(
 	vi-forward-char forward-char vi-forward-word forward-word 
-        vi-forward-two-word vi-add-eol vi-add-next vi-forward-blank-word
-        end-of-line
+        vi-add-eol vi-add-next vi-forward-blank-word
+        end-of-line my-forward-word
 )
 
 autosuggest-pause() {

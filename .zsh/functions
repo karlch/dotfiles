@@ -62,9 +62,3 @@ function killws() {
   mv $a ${a:h}/${a:t:gs/ /_};
   done
 }
-
-# Find and do something
-function fdo() {
-    file=$(find . -iname "*$1*" | head -n 1)
-    ${@:2} $file
-}

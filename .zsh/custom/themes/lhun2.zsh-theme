@@ -1,8 +1,8 @@
 # Set VIMODE according to the current mode, default is i
 function vimode() {
-    mode=$(echo "${${KEYMAP/vicmd/< }/(main|viins)/> }")
+    mode=$(echo "${${KEYMAP/vicmd/<< }/(main|viins)/>> }")
     if [[ $mode == "" ]]; then
-        echo "> "
+        echo ">> "
     else
         echo $mode
     fi

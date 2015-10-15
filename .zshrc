@@ -17,7 +17,7 @@ plugins=(dircycle vi-mode clipboard zsh-history-substring-search)
 export VISUAL=vim
 export EDITOR=vim
 export PATH=$PATH:~/bin
-export CDPATH=".:~"
+export CDPATH=".:/home/christian:.."
 export TERMINAL=urxvt
 export TERMCMD=urxvt
 export LESSHISTFILE=/dev/null
@@ -43,11 +43,12 @@ export KEYTIMEOUT=1
 bindkey "^S" clear-screen
 bindkey -s "^K" "" # Used for Window movement
 bindkey "^A" vi-forward-blank-word
-bindkey "^F" vi-forward-word
+bindkey "^F" my-forward-word
+bindkey "^E" my-backward-word
 bindkey "^ " autosuggest-execute-suggestion
 bindkey "^N" insert-cycledleft
 bindkey "^P" insert-cycledright
-bindkey -s "ä" "/"
+# bindkey -s "ä" "/"
 # Normal mode
 bindkey -M vicmd "\E" vi-beginning-of-line
 bindkey -M vicmd " " vi-end-of-line

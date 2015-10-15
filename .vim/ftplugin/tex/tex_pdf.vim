@@ -255,17 +255,7 @@ function! <SID>BuildTexPdf(view_results, ...)
 endfunction
 
 function! ZathuraSync()
-    split tmp.txt
-    read !xdotool search --onlyvisible --class "Zathura"
-    exec 'normal ia'
-    exec 'normal "zdd'
-    quit!
-    echom len(@z)
-    if len(@z) > 2
-        exec "normal :AsyncCommand(zathura --synctex-forward=\<C-R>=line('.')\<CR>:1:\<C-R>%\<Space>\<C-R>=expand('%:t:r')\<CR>.pdf)\<CR>"
-    else
-        AsyncCommand(~/.vim/ftplugin/tex/start_zathura.sh %:t:r.pdf)
-    endif
+    exec "normal :AsyncCommand(~/.vim/ftplugin/tex/start_zathura.sh\<Space>\<C-R>=line('.')\<CR>)\<CR>"
     redraw!
 endfunction
 

@@ -9,7 +9,7 @@ nnoremap <buffer> <leader>j :! i3-msg -q focus right && xdotool key J J && i3-ms
 nnoremap <buffer> <silent> <leader>k :! i3-msg -q focus right && xdotool key K K && i3-msg -q focus left<CR><CR>
 
 " map <buffer> leader-w for the compiler
-nnoremap <buffer> <leader>w <Esc>:w<CR>:BuildAndViewTexPdf<CR>
+nnoremap <buffer> <leader>w <Esc>:w<CR>:BuildTexPdf<CR>
 
 " Change the environment
 nmap <buffer> cse /end{<CR>/}<CR>h"ayi}0V%:s /<C-R>a/
