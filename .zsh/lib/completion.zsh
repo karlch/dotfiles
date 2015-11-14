@@ -1,5 +1,3 @@
-# fixme - the load process here seems a bit bizarre
-
 unsetopt menu_complete   # do not autoselect the first completion entry
 unsetopt flowcontrol
 setopt auto_menu         # show completion menu on succesive tab press
@@ -13,7 +11,7 @@ zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' accept-exact-dirs true
 
 # case-insensitive (all),partial-word and then substring completion
-zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*' 
+zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*' 'm:{[:lower:]}={[:upper:]}'
 
 zstyle ':completion:*' list-colors ''
 

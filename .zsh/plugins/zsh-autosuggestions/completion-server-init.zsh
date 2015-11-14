@@ -9,10 +9,6 @@ PROMPT=
 autoload compinit
 compinit
 
-# never run a command
-bindkey '\C-m' .kill-buffer
-bindkey '\C-j' .kill-buffer
-bindkey '\C-i' complete-word
 
 # send an emtpy line before completions are output
 empty-line() {

@@ -11,33 +11,17 @@ CASE_SENSITIVE="true"
 ENABLE_CORRECTION="true"
 
 # Plugins
-plugins=(dircycle vi-mode clipboard zsh-history-substring-search)
-
-# Standard Exports
-export VISUAL=vim
-export EDITOR=vim
-export PATH=$PATH:~/bin
-export CDPATH=".:/home/christian:.."
-export TERMINAL=urxvt
-export TERMCMD=urxvt
-export LESSHISTFILE=/dev/null
-export BROWSER=elinks
-export MANWIDTH=80
-export CACA_DRIVER=ncurses
+plugins=(dircycle vi-mode clipboard zsh-history-substring-search prepend-sudo)
 
 # All main settings
 source $ZSH/zsh.sh
 
-# Do not mess with my tmux window names
-export DISABLE_AUTO_TITLE=true
 
 # God, this pause almost killed me
 stty -ixon
 
 # And vim mode in the zsh
 bindkey -v
-# Kill the stupid timeout
-export KEYTIMEOUT=1
 
 # Custom keybindings
 bindkey "^S" clear-screen
@@ -48,7 +32,9 @@ bindkey "^E" my-backward-word
 bindkey "^ " autosuggest-execute-suggestion
 bindkey "^N" insert-cycledleft
 bindkey "^P" insert-cycledright
-# bindkey -s "ä" "/"
+bindkey "^T" autosuggest-toggle
+bindkey "^R" history-incremental-pattern-search-backward
+#
 # Normal mode
 bindkey -M vicmd "\E" vi-beginning-of-line
 bindkey -M vicmd " " vi-end-of-line
@@ -65,6 +51,7 @@ bindkey -M menuselect "k" up-line-or-history
 bindkey -M menuselect "l" forward-char
 bindkey -M menuselect "h" backward-char
 bindkey -M menuselect "i" accept-and-infer-next-history
+bindkey -M menuselect "+" accept-and-menu-complete
 
 # Great z programs
 autoload -U zmv
@@ -98,6 +85,16 @@ CHASE_LINKS="true"
 source ~/.zsh/aliases
 # functions
 source ~/.zsh/functions
+
+# nice colors for VT
+if [ "$TERM" = "linux" ]; then
+    _SEDCMD='s/.*\*color\([0-9]\{1,\}\).*#\([0-9a-fA-F]\{6\}\).*/\1 \2/p'
+    for i in $(sed -n "$_SEDCMD" $HOME/.Xdefaults | \
+               awk '$1 < 16 {printf "\\e]P%X%s", $1, $2}'); do
+        echo -en "$i"
+    done
+    clear
+fi
 
 # Logo
 alsi

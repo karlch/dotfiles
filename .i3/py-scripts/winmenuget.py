@@ -27,34 +27,35 @@ def i3clients():
     lengths = {'workspace': 0, 'mark': 0}
     tree = i3.get_tree()
     for ws in i3.get_workspaces():
-        wsname = ws['name']
-        if len(wsname) > lengths['workspace']:
-            lengths['workspace'] = len(wsname)
-        workspace = i3.filter(tree, name=wsname)
-        if not workspace:
-            continue
-        workspace = workspace[0]
-        windows = i3.filter(workspace, nodes=[])
-        instances = {}
-        # Adds windows and their ids to the clients dictionary
-        for window in windows:
-            windowdict = {
-                'con_id': window['id'],
-                'ws': wsname,
-                'name': window['name']}
-            try:
-                windowdict['mark'] = window['mark']
-                if len(window['mark']) > lengths['mark']:
-                    lengths['mark'] = len(window['mark'])
-            except KeyError:
-                windowdict['mark'] = ""
-            if window['name'] in instances:
-                instances[window['name']] += 1
-            else:
-                instances[window['name']] = 1
-            windowdict['instance'] = instances[window['name']]
-            # win_str = '[%s] %s' % (workspace['name'], window['name'])
-            clients[window['id']] = windowdict
+        if not ws['focused']:
+            wsname = ws['name']
+            if len(wsname) > lengths['workspace']:
+                lengths['workspace'] = len(wsname)
+            workspace = i3.filter(tree, name=wsname)
+            if not workspace:
+                continue
+            workspace = workspace[0]
+            windows = i3.filter(workspace, nodes=[])
+            instances = {}
+            # Adds windows and their ids to the clients dictionary
+            for window in windows:
+                windowdict = {
+                    'con_id': window['id'],
+                    'ws': wsname,
+                    'name': window['name']}
+                try:
+                    windowdict['mark'] = window['mark']
+                    if len(window['mark']) > lengths['mark']:
+                        lengths['mark'] = len(window['mark'])
+                except KeyError:
+                    windowdict['mark'] = ""
+                if window['name'] in instances:
+                    instances[window['name']] += 1
+                else:
+                    instances[window['name']] = 1
+                windowdict['instance'] = instances[window['name']]
+                # win_str = '[%s] %s' % (workspace['name'], window['name'])
+                clients[window['id']] = windowdict
 
     # Now build the strings to pass to dmenu:
     clientlist = []
@@ -63,7 +64,7 @@ def i3clients():
     for con_id in clientlist:
         wslen = lengths['workspace']
         mlen = lengths['mark']
-        win_str = u'[{k:<{v}}] {l:<{w}} {m} ({n})'.format(
+        win_str = u'[{k:<{v}}] {l:<{w}} {m}'.format(
             k=clients[con_id]['ws'], v=wslen,
             l=clients[con_id]['mark'], w=mlen,
             m=clients[con_id]['name'],

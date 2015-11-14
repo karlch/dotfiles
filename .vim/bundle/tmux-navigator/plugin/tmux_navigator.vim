@@ -53,7 +53,16 @@ function! s:TmuxAwareNavigate(direction)
     if g:tmux_navigator_save_on_switch
       update
     endif
-    let cmd = 'tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR')
+    " let cmd = 'tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR')
+    if a:direction == 'j'
+        let cmd = '/home/christian/bin/tmux_navigate.sh j v'
+    elseif a:direction == 'k'
+        let cmd = '/home/christian/bin/tmux_navigate.sh k v'
+    elseif a:direction == 'l'
+        let cmd = '/home/christian/bin/tmux_navigate.sh l v'
+    elseif a:direction == 'h'
+        let cmd = '/home/christian/bin/tmux_navigate.sh h v'
+    endif
     silent call system(cmd)
     if s:NeedsVitalityRedraw()
       redraw!
@@ -79,9 +88,9 @@ command! TmuxNavigateRight call <SID>TmuxWinCmd('l')
 command! TmuxNavigatePrevious call <SID>TmuxWinCmd('p')
 
 if s:UseTmuxNavigatorMappings()
-  nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
-  nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
-  nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
-  nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+  nnoremap <silent> <Left> :TmuxNavigateLeft<cr>
+  nnoremap <silent> <Down> :TmuxNavigateDown<cr>
+  nnoremap <silent> <Up> :TmuxNavigateUp<cr>
+  nnoremap <silent> <Right> :TmuxNavigateRight<cr>
   nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 endif

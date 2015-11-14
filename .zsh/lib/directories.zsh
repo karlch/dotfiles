@@ -22,11 +22,32 @@ alias md='mkdir -p'
 alias rd=rmdir
 alias d='dirs -v | head -10'
 
-# List directory contents
-alias lsa='ls -lah'
-alias l='ls -lah'
-alias ll='ls -lh'
-alias la='ls -lAh'
+# List directory contents neatly
+function ll() {
+    ls -Aoh --group-directories-first --color=always --time-style "+%d.%m %H:%M" $* \
+        | column -t
+    ls -Aoh --group-directories-first --color=always --time-style "+%d.%m %H:%M" $* \
+        | column -t | less -F
+}
+function l() {
+    ls -oh --group-directories-first --color=always --time-style "+%d.%m %H:%M" $* \
+        | column -t
+    ls -oh --group-directories-first --color=always --time-style "+%d.%m %H:%M" $* \
+        | column -t | less -F
+}
+
+function llo() {
+    IFS=$'\n'
+    for line in $(ls -Aoh --group-directories-first --color=always \
+        --time-style "+%d.%m %H:%M" $* | column -t | tail -n +2 ) 
+    do
+        nicemod=$(echo $line | cut -d " " -f1 | chmod_format)
+        line=$(echo $line | cut -d " " -f2-)
+        echo "$nicemod $line"
+    done
+}
+alias la='ls -A --group-directories-first'
+
 
 # Push and pop directories on directory stack
 alias pu='pushd'

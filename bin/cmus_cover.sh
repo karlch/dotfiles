@@ -12,7 +12,7 @@ while true; do
             true 
             echo "nothing to do"
         else
-            killall sxiv
+            i3-msg [title="sxiv - cover.jpg"] kill
             cd $folder
             echo "working"
             # Cmus the selected window?
@@ -42,10 +42,10 @@ while true; do
         fi
     # Cmus not running?
     elif !(cmus-remote -Q); then
-        killall sxiv
+        i3-msg [title="sxiv - cover.jpg"] kill
         exit 0
     # No song selected ...
     else
-        killall sxiv
+        i3-msg [title="sxiv - cover.jpg"] kill
     fi
 done

@@ -4,6 +4,7 @@ out_to_console = false,
 own_window = false,
 -- own_window_transparent = true,
 -- own_window_type = 'override',
+-- own_window_hints = 'below,undecorated,sticky,skip_taskbar,skip_pager',
 background = true,
 max_text_width = 0,
 double_buffer = true,
@@ -26,7 +27,6 @@ format_human_readable = true,
 
 -- Alignment
 alignment = 'top_middle',
-gap_x = 20,
 gap_y = 10
 }
 
@@ -41,6 +41,6 @@ ${color #00C1FF} EDITOR ${color #ffffff} vim     \
 ${color #00C1FF} SHELL ${color #ffffff} ${exec echo $SHELL}     \
 ${color #00C1FF} WM ${color #ffffff} i3     \
 ${color #00C1FF} WEATHER ${color #ffffff} ${exec ~/bin/weather.sh 'en|de|garching-bei-munchen'}
-
+${color #00C1FF}${hr 2}${color #ffffff}
 ${exec checkupdates}
 ]]

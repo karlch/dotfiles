@@ -10,17 +10,16 @@ conky.text = [[
 
 [\
 # Facebook
-{"full_text":"${exec ~/.i3/py-scripts/fb-notify/fb-notify.sh}","color":"\#EEEEEE","separator":false,"border":"\#00C1FF","border_bottom":3,"border_top":3,"border_left":0,"border_right":0},\
+{"full_text":"${exec ~/.i3/py-scripts/fb-notify/fb-notify.sh}","color":"\#00C1FF","separator":false},\
 # Musik
-{"full_text":"${exec cmus-remote -Q | grep ' artist ' | cut -d ' ' -f3-}","color":"\#EEEEEE","separator":false,"border":"\#00C1FF","border_bottom":3,"border_top":3,"border_left":0,"border_right":0},\
-{"full_text":"${exec cmus-remote -Q | grep ' title ' | cut -d ' ' -f3-}","color":"\#EEEEEE","separator":false,"border":"\#00C1FF","border_bottom":3,"border_top":3,"border_left":0,"border_right":0},\
-# {"full_text":"    ","color":"\#00C1FF","separator":false,"separator_block_width":6},\
+{"full_text":"${exec cmus-remote -Q | grep ' artist ' | cut -d ' ' -f3- | tr "[:lower:]" "[:upper:]"}","color":"\#00C1FF","separator":false},\
+{"full_text":"${exec cmus-remote -Q | grep ' title ' | cut -d ' ' -f3- | sed 's/(.*)//g'}","color":"\#EEEEEE","separator":false},\
 #
 # Tmux Info
 {"full_text":"      WIN","color":"\#00C1FF","separator":false},\
-{"full_text":"${exec python2 ~/.i3/py-scripts/tmux-windows.py} ","color":"\#EEEEEE","separator":false},\
-{"full_text":"${exec python2 ~/.i3/py-scripts/pane.py}","color":"\#00C1FF","separator":false},\
-{"full_text":"${exec python2 ~/.i3/py-scripts/tmux-panes.py} ","color":"\#EEEEEE","separator":false},\
+{"full_text":"${exec python2 ~/.i3/py-scripts/tmux/tmux-windows.py} ","color":"\#EEEEEE","separator":false},\
+{"full_text":"${exec python2 ~/.i3/py-scripts/tmux/pane.py}","color":"\#00C1FF","separator":false},\
+{"full_text":"${exec python2 ~/.i3/py-scripts/tmux/tmux-panes.py} ","color":"\#EEEEEE","separator":false},\
 #
 # Brightness
 {"full_text":"BRI","color":"\#00C1FF","separator":false,"separator_block_width":6},\

@@ -10,8 +10,16 @@ function chpwd()
 
 # command not found
 function command_not_found_handler() {
-    if yaourt -Ss $@; then
-        echo "\nHere I am, brain the size of a planet, and you ask me search the database? Call that job satisfaction, 'cause I don't."
+    echo "\nDon’t pretend you want to talk to me, I know you hate me." 
+    printf "So you really want me to search the database? (y/N): " && read search
+    if [[ $search == "y" || $search == "Y" ]]; then
+        if yaourt --color -Ss $@ > ~/tmp.txt; then
+            cat ~/tmp.txt | head && rm ~/tmp.txt
+            echo "\nHere I am, brain the size of a planet, and you ask me search the database? Call that job satisfaction, 'cause I don't."
+        else
+            head -n -1 ~/.zsh_history > ~/new_hist && mv ~/new_hist ~/.zsh_history
+            echo "\nI think you ought to know I'm feeling very depressed."
+        fi
     else
         head -n -1 ~/.zsh_history > ~/new_hist && mv ~/new_hist ~/.zsh_history
         echo "\nI think you ought to know I'm feeling very depressed."
@@ -24,15 +32,16 @@ awk "BEGIN { print $* }"
 }
 
 # vim with server if necessary
-function vimserver {
+function vim {
     eval last=\$$#
-    if echo $last | grep ".tex\|.m\|.mma\|.c" > /dev/null; then
-        \vim --servername VimServer $@
+    if echo $last | grep ".tex\|.m\|.mma" > /dev/null; then
+        command vim --servername VimServer $@
+    elif echo $last | grep ".c" > /dev/null; then
+        command vim --servername VimServer 2> /dev/null $@
     else
-        \vim $@
+        command vim $@
     fi
 }
-alias vim='vimserver'
 
 # favourite command
 function favcmd() {
@@ -58,7 +67,30 @@ function pscpu() {
 
 # Remove all spaces
 function killws() {
-  for a in ./**/*\ *(Dod); do 
-  mv $a ${a:h}/${a:t:gs/ /_};
-  done
+    for a in ./**/*\ *(Dod); do 
+    printf "Clean $a? (Y/n): " && read input
+    if [[ $input == "Y" || $input == "y" ]]; then
+        mv $a ${a:h}/${a:t:gs/ /_};
+        echo "Cleaned $a"
+    else
+        echo "Ignored $a"
+    fi
+    done
+}
+
+# Up we go (nicer than ...)
+function up() {
+    for (( i = 0; i < $1; i++ )); do
+        cd .. 1>/dev/null
+    done
+    ls
+}
+
+function chmod_format() {
+  sed 's/.\(.........\).*/\1/
+    h;y/rwsxtSTlL-/IIIIIOOOOO/;x;s/..\(.\)..\(.\)..\(.\)/|\1\2\3/
+    y/sStTlLx-/IIIIIIOO/;G
+    s/\n\(.*\)/\1;OOO0OOI1OIO2OII3IOO4IOI5IIO6III7/;:k
+    s/|\(...\)\(.*;.*\1\(.\)\)/\3|\2/;tk
+    s/^0*\(..*\)|.*/\1/;q'
 }

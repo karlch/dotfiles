@@ -33,6 +33,7 @@ ZLE_AUTOSUGGEST_SUSPEND_WIDGETS=(
 	complete-word expand-or-complete expand-or-complete-prefix list-choices
 	menu-complete reverse-menu-complete menu-expand-or-complete menu-select
 	accept-and-menu-complete
+        sudo-command-line
 )
 
 ZLE_AUTOSUGGEST_COMPLETION_WIDGETS=(

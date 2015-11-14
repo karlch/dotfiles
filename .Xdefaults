@@ -1,16 +1,17 @@
 ! Xresources file
 ! Transparency
 URxvt*.transparent: true
+! True Transparency
 ! URxvt*.shading: 0 to 99 darkens, 101 to 200 lightens
 ! URxvt*.shading: 70
-! URxvt*.tintColor: #333366
+! URxvt*.tintColor: #002244
 ! Fading non focused windows
-URxvt*.fading: 20
+! URxvt*.fading: 20
 ! Blur the background
 ! URxvt.blurRadius: 4
 
 ! colors
-urxvt*background:  #1C1C1C
+urxvt*background:  #2C2C2C
 urxvt*foreground:  #EEEEEE
 URxvt.highlightColor: #00C1FF
 ! Black
@@ -21,7 +22,7 @@ URxvt*color1: #DB3636
 URxvt*color9: #B53030
 ! Green (well, grayish green/blue)
 URxvt*color2: #A1E5FC
-URxvt*color10: #6CA4BC
+URxvt*color10: #9DD8F2
 ! Yellow
 URxvt*color3: #E8E861
 URxvt*color11: #DDDD45
@@ -32,8 +33,8 @@ URxvt*color12: #0066AA
 URxvt*color5: #FEBE73
 URxvt*color13: #FF9900
 ! Cyan (well blue)
-URxvt*color6: #00C1FF
-URxvt*color14: #0066AA
+URxvt*color6: #0AF8FC
+URxvt*color14: #36C6C9
 ! White
 URxvt*color7: #EEEEEE
 URxvt*color15: #999999
@@ -41,8 +42,10 @@ URxvt*color15: #999999
 ! Font
 URxvt.font: xft:Source Code Pro:size=11
 ! URxvt.letterSpace: -5
+
 ! Cursor
 URxvt*cursorColor: #96ABB7
+URxvt*cursorColor2: #1C1C1C
 
 ! Scrolling
 URxvt.scrollBar: false
@@ -60,10 +63,10 @@ URxvt.saveLines: 100
 URxvt.perl-ext-common: default,matcher,url-picker,font-size,osc-xterm-clipboard
 URxvt.perl-ext: default,url-select
 ! Selectable URLs
-URxvt.url-launcher: /usr/bin/qutebrowser
+URxvt.url-launcher: /usr/bin/qutebrowser --target window
 URxvt.matcher.rend.0: Uline fg7
 URxvt.keysym.C-b: perl:url-select:select_next
-URxvt.url-select.launcher: /usr/bin/qutebrowser
+URxvt.url-select.launcher: /usr/bin/qutebrowser --target window
 URxvt.url-select.underline: true
 ! Catch ugly URL's
 URxvt.cutchars: `()'*<>[]{|}"

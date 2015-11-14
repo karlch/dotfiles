@@ -1,57 +1,57 @@
 # i3 config file (v4)
 
+# General settings {{{
 set $mod Mod1
 
 # Font for window titles
 font pango: Source Sans Pro Regular 8
 
 # Window borders
-new_window 1pixel
-smart_borders on
-gaps inner 0
-gaps outer 0
+new_window pixel 2
+new_float normal
 
 # Color settings
-client.focused #00C1FF #00C1FF #000088 #00C1FF
-client.focused_inactive #2C2C2C #2C2C2C #ffffff #2C2C2C
-client.unfocused #2C2C2C #2C2C2C #ffffff #2C2C2C
-client.urgent #00C1FF #00C1FF #000088 #00C1FF
+client.focused          #00C1FF #00C1FF #000088 #00C1FF
+client.focused_inactive #3C3C3C #3C3C3C #FFFFFF #3C3C3C
+client.unfocused        #3C3C3C #3C3C3C #FFFFFF #3C3C3C
+client.urgent           #00C1FF #00C1FF #000088 #00C1FF
+
+# Enable workspace back and forth
+workspace_auto_back_and_forth yes
+focus_on_window_activation focus
 
 # Do not follow the mouse
 focus_follows_mouse no
 
-# Move floating windows when pressing mod
+# Floating stuff
 floating_modifier $mod
+floating_minimum_size 300 x 200
+floating_maximum_size 1920 x 1080
+bindsym $mod+space move position mouse
 
-# Changing windows is done all the time, need it fast and dirty
-bindsym $mod+h focus left
-bindsym $mod+l focus right
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+w [class="qutebrowser"] focus
-bindsym $mod+t [class="URxvt"] focus
-bindsym $mod+m focus mode_toggle
+# }}}
+
+# General keybindings {{{
+
+bindsym $mod+a exec lighthouse | sh
+# Changing windows with the same command in vim, tmux and i3
+bindsym $mod+h exec ~/bin/tmux_navigate.sh h
+bindsym $mod+l exec ~/bin/tmux_navigate.sh l
+bindsym $mod+j exec ~/bin/tmux_navigate.sh j
+bindsym $mod+k exec ~/bin/tmux_navigate.sh k
+# Open dmenu with a list of open windows
 bindsym $mod+Tab exec --no-startup-id ~/.i3/py-scripts/winmenu.py, mode "default"
 
+# Moving windows
+bindsym mod4+h move left
+bindsym mod4+l move right 
+bindsym mod4+j move down
+bindsym mod4+k move up
+
 # Window stuff
+bindsym $mod+m focus mode_toggle
 bindsym Control+q kill
 bindsym Control+m fullscreen
-
-# Enable workspace back and forth
-workspace_auto_back_and_forth yes
-
-# Correct handling of floating windows
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="bubble"] floating enable
-for_window [window_role="task_dialog"] floating enable
-for_window [window_role="dialog"] floating enable
-for_window [window_role="menu"] floating enable
-for_window [window_role="Preferences"] floating enable
-for_window [class="com-wolfram-jlink-Reader"] floating enable
-for_window [class="Gifview"] floating enable
-for_window [class="MATLAB R2015a - academic use"] focus, layout tabbed
-for_window [title="sxiv - cover.jpg"] resize shrink width 100 px or 20 ppt
-for_window [title="sxiv - /home/christian/.i3/py-scripts/fb-notify/facebook-icon.png"] floating enable 
 
 # Function keys
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
@@ -69,25 +69,44 @@ bindsym --release Insert exec --no-startup-id scrot '%Y-%m-%d_%H:%M_$wx$h.png' -
 bindsym --release Control+Insert exec --no-startup-id scrot '%Y-%m-%d_%H:%M_$wx$h.png' -s -e 'mv $f ~/Bilder/Screenshot'
 bindsym --release Print exec --no-startup-id scrot '%Y-%m-%d_%H:%M_$wx$h.png' -u -e 'mv $f ~/Bilder/Screenshot'
 
-# Everything else in a vi like normal mode
+# Enter normal mode
+bindsym F10 mode "NORMAL"
+# Open dmenu
+bindsym F11 exec --no-startup-id i3-dmenu-desktop --entry-type='command' --dmenu='dmenu -l 25 -w 250  -i -b -y 21 -p → -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #EEEEEE', mode "default"
+# Search with dmenu
+bindsym Shift+F11 exec --no-startup-id ~/bin/search.sh
+
+# }}}
+
+# Window handling {{{
+# Floating
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="dialog"] floating enable
+for_window [window_role="menu"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [class="com-wolfram-jlink-Reader"] floating enable
+for_window [class="Gifview"] floating enable
+for_window [class="LIGHTHOUSE"] floating enable
+# Matlab in tabs
+for_window [class="MATLAB R2015a - academic use"] focus, layout tabbed
+# Cmus cover should be small
+for_window [title="sxiv - cover.jpg"] resize shrink width 100 px or 20 ppt
+
+# }}}
+
+# Everything else in a vi like normal mode {{{
 mode "NORMAL" {
-    # Window navigation
-    bindsym h focus left
-    bindsym l focus right
-    bindsym j focus down
-    bindsym k focus up
-
-    # Resizing windows
-    bindsym Shift+h resize shrink width 25 px or 5 ppt
-    bindsym Shift+k resize grow height 25 px or 5 ppt
-    bindsym Shift+j resize shrink height 25 px or 5 ppt
-    bindsym Shift+l resize grow width 25 px or 5 ppt
-
-    # Moving windows
-    bindsym Control+h move left
-    bindsym Control+j move down
-    bindsym Control+k move up
-    bindsym Control+l move right
+    # Resizing windows (like in tmux)
+    bindsym h exec ~/bin/resize.sh h
+    bindsym k exec ~/bin/resize.sh k
+    bindsym j exec ~/bin/resize.sh j
+    bindsym l exec ~/bin/resize.sh l
+    bindsym Shift+h exec ~/bin/resize2.sh h
+    bindsym Shift+k exec ~/bin/resize2.sh k
+    bindsym Shift+j exec ~/bin/resize2.sh j
+    bindsym Shift+l exec ~/bin/resize2.sh l
 
     # Kill a window
     bindsym x kill
@@ -95,7 +114,9 @@ mode "NORMAL" {
     bindsym Shift+x exec --no-startup-id ~/.i3/py-scripts/closeall.py
 
     # dmenu
-    bindsym d exec --no-startup-id i3-dmenu-desktop --entry-type="name" --dmenu="dmenu -i -b -y 25 -p launch: -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #EEEEEE", mode "default"
+    bindsym d exec --no-startup-id i3-dmenu-desktop --entry-type='command' --dmenu='dmenu -l 25 -w 250  -i -b -y 21 -p → -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #EEEEEE', mode "default"
+    # Search duckduckgo with dmenu
+    bindsym space exec --no-startup-id ~/bin/winfocus.sh, mode "default"
 
     # Split in horizontal orientation
     bindsym s split v
@@ -128,16 +149,16 @@ mode "NORMAL" {
     bindsym n focus child
 
     # Switch to workspace
-    bindsym 1 workspace 1
-    bindsym 2 workspace 2
-    bindsym 3 workspace 3
-    bindsym 4 workspace 4
-    bindsym 5 workspace 5
-    bindsym 6 workspace 6
-    bindsym 7 workspace 7
-    bindsym 8 workspace 8
-    bindsym 9 workspace 9
-    bindsym 0 workspace 10
+    bindsym 1 workspace 1, exec xdotool click 4 && xdotool click 5
+    bindsym 2 workspace 2, exec xdotool click 4 && xdotool click 5
+    bindsym 3 workspace 3, exec xdotool click 4 && xdotool click 5
+    bindsym 4 workspace 4, exec xdotool click 4 && xdotool click 5
+    bindsym 5 workspace 5, exec xdotool click 4 && xdotool click 5
+    bindsym 6 workspace 6, exec xdotool click 4 && xdotool click 5
+    bindsym 7 workspace 7, exec xdotool click 4 && xdotool click 5
+    bindsym 8 workspace 8, exec xdotool click 4 && xdotool click 5
+    bindsym 9 workspace 9, exec xdotool click 4 && xdotool click 5
+    bindsym 0 workspace 10, exec xdotool click 4 && xdotool click 5
 
     # Move focused container to workspace
     bindsym Shift+1 move container to workspace 1
@@ -163,6 +184,29 @@ mode "NORMAL" {
     bindsym Control+9 move container to workspace 9, workspace 9
     bindsym Control+0 move container to workspace 10, workspace 10
 
+    # Move workspace to outputs
+    bindsym Control+$mod+1 move workspace 1 output eDP1
+    bindsym Control+$mod+2 move workspace 2 output eDP1
+    bindsym Control+$mod+3 move workspace 3 output eDP1
+    bindsym Control+$mod+4 move workspace 4 output eDP1
+    bindsym Control+$mod+5 move workspace 5 output eDP1
+    bindsym Control+$mod+6 move workspace 6 output eDP1
+    bindsym Control+$mod+7 move workspace 7 output eDP1
+    bindsym Control+$mod+8 move workspace 8 output eDP1
+    bindsym Control+$mod+9 move workspace 9 output eDP1
+    bindsym Control+$mod+0 move workspace 10 output eDP1
+
+    bindsym Control+Mod4+1 move workspace 1 output eDP1
+    bindsym Control+Mod4+2 move workspace 2 output eDP1
+    bindsym Control+Mod4+3 move workspace 3 output eDP1
+    bindsym Control+Mod4+4 move workspace 4 output eDP1
+    bindsym Control+Mod4+5 move workspace 5 output eDP1
+    bindsym Control+Mod4+6 move workspace 6 output eDP1
+    bindsym Control+Mod4+7 move workspace 7 output eDP1
+    bindsym Control+Mod4+8 move workspace 8 output eDP1
+    bindsym Control+Mod4+9 move workspace 9 output eDP1
+    bindsym Control+Mod4+0 move workspace 10 output eDP1
+
     # Intelligent movement
     # A window list to focus a window
     bindsym g exec --no-startup-id ~/.i3/py-scripts/winmenu.py, mode "default"
@@ -178,8 +222,6 @@ mode "NORMAL" {
     bindsym Tab workspace back_and_forth
     bindsym Control+Tab move container to workspace back_and_forth; workspace back_and_forth
     bindsym Shift+Tab move container to workspace back_and_forth
-    # Cycle through the windows
-    bindsym space exec --no-startup-id ~/.i3/py-scripts/cycle.py, mode "Cycle"
 
     # Useless but fun
     bindsym Shift+b exec --no-startup-id ~/.i3/py-scripts/fibonacci.py
@@ -194,9 +236,10 @@ mode "NORMAL" {
     bindsym u exec --no-startup-id urxvt, mode "default"
     bindsym t exec --no-startup-id urxvt -e tmux, mode "default"
     bindsym f exec --no-startup-id urxvt -e ranger, mode "default"
+    bindsym i exec --no-startup-id urxvt -e ranger --confdir=~/.config/rangim --cmd="cd ~/Bilder", mode "default"
     bindsym c exec --no-startup-id ~/bin/cmus_cover.sh & urxvt -e cmus, mode "default"
     bindsym z exec --no-startup-id urxvt -e mutt, mode "default"
-    bindsym Shift+z exec env GTK2_RC_FILES=/usr/share/themes/Raleigh/gtk-2.0/gtkrc iceweasel www.protonmail.ch/login, mode "default"
+    bindsym Shift+z exec env GTK2_RC_FILES=/usr/share/themes/Raleigh/gtk-2.0/gtkrc firefox-nightly www.protonmail.ch/login, mode "default"
 
     # Shutdown, reboot, lock screen ..
     bindsym q mode "$system"
@@ -210,6 +253,9 @@ mode "NORMAL" {
     # USB mode
     bindsym Shift+u mode "$USB"
 
+    # Monitor mode
+    bindsym e mode "$MONITOR"
+
     # Back to normal
     bindsym Return mode "default"
     bindsym Escape mode "default"
@@ -219,8 +265,6 @@ mode "NORMAL" {
     # Append window to the next workspace
     bindsym a mode "default"
     bindsym b mode "default"
-    bindsym e mode "default"
-    bindsym i mode "default"
 
     bindsym Shift+e mode "default"
     bindsym Shift+i mode "default"
@@ -230,17 +274,10 @@ mode "NORMAL" {
     bindsym Shift+v mode "default"
 
 }
+# }}}
 
-# Enter normal mode
-bindsym F10 mode "NORMAL"
-
-# Open dmenu
-bindsym F11 exec --no-startup-id i3-dmenu-desktop --entry-type='name' --dmenu='dmenu -i -b -y 25 -p launch: -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #EEEEEE'
-# Search with dmenu
-bindsym Shift+F11 exec --no-startup-id ~/bin/search.sh
-
-# A system mode for shutting down, ...
-set $SYSTEM System ... logout (l), reboot (r), shutdown (s), lock (o), blank (b)
+# A system mode for shutting down, ... {{{
+set $SYSTEM System ... logout (l), reboot (r), shutdown (s), suspend (S), lock (o), blank (b)
 mode "$SYSTEM" {
     # Logout
     bindsym l exec --no-startup-id i3-msg exit, mode "default"
@@ -248,6 +285,8 @@ mode "$SYSTEM" {
     bindsym r exec reboot, mode "default"
     # Shutdown
     bindsym s exec poweroff, mode "default"
+    # Suspend
+    bindsym Shift+s exec systemctl suspend, mode "default"
     # Lock
     bindsym o exec i3lock -i ~/Bilder/Hintergrund/parabola-lock.png, mode "default"
     # Blank screen
@@ -257,7 +296,9 @@ mode "$SYSTEM" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
+# }}}
 
+# Various other modes {{{
 set $Wireless Wifi ... block (b), unblock (u), wifi-menu (w)
 mode "$Wireless" {
     # Wifi
@@ -269,15 +310,53 @@ mode "$Wireless" {
     bindsym Escape mode "default"
 }
 
-set $USB USB devices ... mount (m), unmount (u), list (l)
+set $USB USB devices ... mount (m), unmount (u)
 mode "$USB" {
     # USB
-    bindsym m exec "urxvt -e ~/bin/mnt i3", mode "default"
-    bindsym u exec "urxvt -e ~/bin/umnt i3", mode "default"
-    bindsym l exec "urxvt -e ~/bin/listusb", mode "default"
+    bindsym m exec ~/bin/mnt-i3, mode "default"
+    bindsym u exec ~/bin/umnt-i3, mode "default"
 
     # Back to normal: Escape
     bindsym Escape mode "default"
+}
+
+# Configuring multiple monitors
+set $MONITOR Monitors ... Laptop (l), Main (m)
+mode "$MONITOR" {
+    # Entering the screens
+    bindsym l mode "$LAPTOP"
+    bindsym m mode "$MAIN"
+
+    # Back to normal: Escape
+    bindsym Escape mode "default"
+}
+
+set $LAPTOP left (l), right (r), same (s), off (o)
+mode "$LAPTOP" {
+   # Different xrandr configurations 
+   bindsym l exec xrandr --output eDP1 --auto --left-of HDMI1, mode "default"
+   bindsym r exec xrandr --output eDP1 --auto --right-of HDMI1, mode "default"
+   bindsym s exec xrandr --output eDP1 --auto --same-as HDMI1, mode "default"
+   bindsym o exec xrandr --output eDP1 --off, mode "default"
+   bindsym Escape mode "default"
+}
+
+set $MAIN left (l), right (r), same (s), off (o)
+mode "$MAIN" {
+   # Different xrandr configurations 
+   bindsym l exec xrandr --output HDMI1 --auto --left-of eDP1, mode "default"
+   bindsym r exec xrandr --output HDMI1 --auto --right-of eDP1, mode "default"
+   bindsym s exec xrandr --output HDMI1 --same-as eDP1, mode "default"
+   bindsym o exec xrandr --output HDMI1 --off, mode "default"
+   bindsym Escape mode "default"
+}
+
+# A cycle mode, used with cycle.py
+mode "Cycle" {
+    # Accept window with space, enter or escape
+    bindsym Return exec "killall cycle.py", mode "default"
+    bindsym space exec "killall cycle.py", mode "default"
+    bindsym Escape exec "killall cycle.py", mode "default"
 }
 
 # A mode to change the borders and gaps
@@ -290,37 +369,13 @@ mode "Borders" {
     bindsym 0 border none
     bindsym asciicircum border normal
 
-    # Gaps for some eye candy (yes, although I use i3 ;D)
-    bindsym plus gaps inner all plus 10
-    bindsym minus gaps inner all minus 10
-    bindsym space gaps inner all set 45
-    bindsym Return gaps inner all set 0
-    bindsym Control+plus gaps outer all plus 10
-    bindsym Control+minus gaps outer all minus 10
-    bindsym Control+space gaps outer all set 45
-    bindsym Control+Return gaps outer all set 0
-
     # Back to normal: Escape
     bindsym Escape mode "default"
 }
+# }}}
 
-# A cycle mode, used with cycle.py
-mode "Cycle" {
-    # Accept window with space, enter or escape
-    bindsym Return exec "killall cycle.py", mode "default"
-    bindsym space exec "killall cycle.py", mode "default"
-    bindsym Escape exec "killall cycle.py", mode "default"
-}
-
-# Start i3bar to display a workspace bar
+# Start i3bar to display a workspace bar {{{
 bar {
-        # Only on my laptop screen
-        output eDP1
-
-        # Height
-        height 20
-
-        # status_command ~/.i3/statusbar.sh
         status_command ~/.i3/conkybar.sh
 
         # Do not allow applications to use the bar as icon tray
@@ -329,15 +384,23 @@ bar {
         colors{
             background #2C2C2C
             statusline #00C1FF
-            separator #EEEEEE
+            separator #00C1FF
             #                  BORDER  BACKGR. TEXT
             focused_workspace  #2C2C2C #2C2C2C #00C1FF
-            active_workspace   #2C2C2C #2C2C2C #EEEEEE
+            active_workspace   #2C2C2C #2C2C2C #0066AA
             inactive_workspace #2C2C2C #2C2C2C #EEEEEE
-            urgent_workspace   #2C2C2C #2C2C2C #EEEEEE
+            urgent_workspace   #00FF00 #2C2C2C #00FF00
+            binding_mode       #2C2C2C #2C2C2C #EEEEEE
         }
 
         # Font for the bar
         font pango:Source Code Pro Bold 11
 
+        # Mouse bindings are annoying
+        bindsym button4 exec :
+        bindsym button5 exec :
+
 }
+# }}}
+
+# vim:foldmethod=marker:foldlevel=0

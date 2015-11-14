@@ -84,7 +84,7 @@ def win_menu(clients, l=20):
                               str(l),
                               '-b',
                               '-y',
-                              '25',
+                              '21',
                               '-p',
                               'Go to:',
                               '-fn',

@@ -1093,11 +1093,11 @@ inoremap <buffer><silent> <LeftRelease> <LeftRelease><Esc>
 " disable Left mouse double click to avoid entering Visual mode
 nnoremap <buffer><silent> <2-LeftMouse> <Nop>
 
-nnoremap <buffer><silent> <Down> <Down>:<C-u>call voom#TreeSelect(1)<CR>
-nnoremap <buffer><silent>   <Up>   <Up>:<C-u>call voom#TreeSelect(1)<CR>
-
-nnoremap <buffer><silent> <Left>  :<C-u>call voom#TreeLeft()<CR>
-nnoremap <buffer><silent> <Right> :<C-u>call voom#TreeRight()<CR>
+nnoremap <buffer><silent> J <Down>:<C-u>call voom#TreeSelect(1)<CR>
+nnoremap <buffer><silent>   K   <Up>:<C-u>call voom#TreeSelect(1)<CR>
+"
+nnoremap <buffer><silent> H  :<C-u>call voom#TreeLeft()<CR>
+nnoremap <buffer><silent> L :<C-u>call voom#TreeRight()<CR>
 
 nnoremap <buffer><silent> x :<C-u>call voom#TreeToMark(0)<CR>
 nnoremap <buffer><silent> X :<C-u>call voom#TreeToMark(1)<CR>

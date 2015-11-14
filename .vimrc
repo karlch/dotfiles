@@ -44,6 +44,8 @@ set nobackup nowritebackup noswapfile
 
 " Split to the right, to the bottom
 set splitright splitbelow
+" And keep splits neat when vim is resized
+autocmd VimResized * wincmd =
 
 " Settings to create a usable autocomplete menu
 " Only 10 lines
@@ -189,6 +191,12 @@ nnoremap Y y$
 " S as substitute the command way (cc works anyway)
 nnoremap S :%s /
 xnoremap S :s /
+
+" Navigation for vim, tmux and i3 (actually bound to mod+hjkl in i3 config)
+inoremap <Left> <Esc>:TmuxNavigateLeft<CR>
+inoremap <Down> <Esc>:TmuxNavigateDown<CR>
+inoremap <Up> <Esc>:TmuxNavigateUp<CR>
+inoremap <Right> <Esc>:TmuxNavigateRight<CR>
 
 " }}}
 
@@ -405,9 +413,6 @@ autocmd BufRead,BufNewFile *.mma      set ft=mma
 autocmd BufRead,BufNewFile *.mma VimuxRunCommand("clear && math")
 autocmd VimLeave *.mma VimuxCloseRunner
 autocmd BufNewFile *.mma exe "normal a<<~/.vim/ftplugin/mma/startjava\<Esc>"
-
-" Sage
-autocmd VimLeave *.sage VimuxCloseRunner
 
 " Tsv (Vim as spreadsheet)
 autocmd BufEnter *.tsv setlocal noexpandtab shiftwidth=20 softtabstop=20 tabstop=20

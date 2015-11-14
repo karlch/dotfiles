@@ -9,8 +9,8 @@ set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 
 " Tmux version
 if &filetype != "sage.python"
-    nnoremap <buffer> <leader>d :VimuxRunCommand("python2 <C-R>=expand("%:p:h")<CR>/<C-R>=expand("%:t")<CR>")<CR><CR>
-    nmap <buffer> <leader>p :VimuxRunCommand("python2")<CR><C-l>
+    nnoremap <buffer> <leader>d :VimuxRunCommand("python <C-R>=expand("%:p:h")<CR>/<C-R>=expand("%:t")<CR>")<CR><CR>
+    nmap <buffer> <leader>p :VimuxRunCommand("python")<CR><C-l>
 endif
 
 " and disable the pymode version

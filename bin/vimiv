@@ -1,0 +1,661 @@
+#!/usr/bin/env python3
+
+# Copyright (c) 2015 Christian Karl
+
+import argparse
+from random import shuffle
+import mimetypes
+from gi import require_version
+require_version('Gtk', '3.0')
+from gi.repository import GLib, Gtk, Gdk, GdkPixbuf
+from PIL import Image, ImageEnhance
+import os
+import shutil
+import sys
+sys.path.insert(0, '~/.config/vimiv/')
+from subprocess import call
+# Settings
+import vimivrc as settings
+# Dialog windows
+from dialog import Dialog
+
+
+class Vimiv(Gtk.Window):
+
+    def __init__(self):
+        # The configruations from vimivrc
+        self.fullscreen = settings.start_fullscreen
+        self.geometry = settings.geometry
+        self.slideshow = settings.start_slideshow
+        self.slideshow_delay = settings.slideshow_delay
+        self.shuffle = settings.shuffle
+        self.sbar = settings.display_bar
+        self.zoom_lock = settings.zoom_lock
+
+        self.paths = []
+        self.marked = []
+
+        self.binds = (
+            (settings.key_quit, self.quit),
+
+            (settings.key_fullscreen_toggle, self.toggle_fullscreen),
+            (settings.key_statusbar_toggle, self.toggle_statusbar),
+            (settings.key_slideshow_toggle, self.toggle_slideshow),
+            (settings.key_zoomlock_toggle, self.toggle_zoom_lock),
+
+            # if True, scroll in the horizontal direction.
+            (settings.key_scroll_left, self.scroll,
+             Gtk.ScrollType.STEP_BACKWARD, True),
+            (settings.key_scroll_down, self.scroll,
+             Gtk.ScrollType.STEP_FORWARD, False),
+            (settings.key_scroll_up, self.scroll,
+             Gtk.ScrollType.STEP_BACKWARD, False),
+            (settings.key_scroll_right, self.scroll,
+             Gtk.ScrollType.STEP_FORWARD, True),
+
+            (settings.key_scroll_left_page, self.scroll,
+             Gtk.ScrollType.START, True),
+            (settings.key_scroll_down_page, self.scroll,
+             Gtk.ScrollType.END, False),
+            (settings.key_scroll_up_page, self.scroll,
+             Gtk.ScrollType.START, False),
+            (settings.key_scroll_right_page, self.scroll,
+             Gtk.ScrollType.END, True),
+
+            (settings.key_zoom_out, self.zoom_delta, -.25),
+            (settings.key_zoom_in, self.zoom_delta, +.25),
+            (settings.key_fit, self.zoom_to, 0),
+            (settings.key_fit_horiz, self.zoom_to, 0, True, False),
+            (settings.key_fit_vert, self.zoom_to, 0, False, True),
+
+            (settings.key_next_image, self.move_index, +1),
+            (settings.key_prev_image, self.move_index, -1),
+            (settings.key_first_image, self.move_pos, 1),
+            (settings.key_last_image, self.move_pos, "max"),
+
+            (settings.key_mark, self.mark),
+
+            (settings.key_rotate_clock, self.rotate, 3),
+            (settings.key_rotate_cclock, self.rotate, 1),
+            (settings.key_fliph, self.flip, True),
+            (settings.key_flipv, self.flip, False),
+            (settings.key_delete, self.delete, 0),
+            (settings.key_edit, self.manipulate_toggle),
+            )
+
+        self.cur_hide_delay = 1
+        self.popup_val = False
+        Gtk.Window.__init__(self)
+
+    def toggle_zoom_lock(self):
+        self.zoom_lock = not self.zoom_lock
+
+    def delete(self, delta=0):
+        current = self.paths[self.index]
+        self.paths.remove(current)
+        if current in self.marked:
+            self.marked.remove(current)
+        if os.path.exists(current):
+            if not os.path.isdir('~/.vimiv-trash'):
+                os.mkdir('~/.vimiv-trash')
+            # Check if there is already a file with that name in the trash
+            delfile = "~/.vimiv-trash/"+os.path.basename(current)
+            if os.path.exists(delfile):
+                backnum = 1
+                while True:
+                    ndelfile = delfile+"."+str(backnum)
+                    if not os.path.exists(ndelfile):
+                        shutil.move(delfile, ndelfile)
+                        break
+                    backnum += 1
+            print("Moving {} into trash (~/.vimiv-trash/)".format(current))
+            shutil.move(current, '~/.vimiv-trash')
+        if len(self.paths) == 0:
+            self.quit()
+        else:
+            self.move_index(delta)
+
+    def run_dialog(self, title, text):
+        dialog = Dialog(self, title, text)
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            return True
+        elif response == Gtk.ResponseType.CANCEL:
+            return False
+        dialog.destroy()
+
+# if self.run_dialog("Changes", """Some images where changed, do you wish to
+#                    save the changes?"""):
+#     print("yes")
+# else:
+#     print("no")
+
+    def quit(self, remember_position=False):
+        if remember_position and len(self.paths):
+            try:
+                f = open('vimiv-position', 'w')
+                f.writelines(self.paths[self.index])
+                f.close()
+            except IOError as e:
+                print(e)
+        for pos in self.marked:
+            print(pos)
+        Gtk.main_quit()
+
+    def scroll(self, scrolltype, horizontal):
+        self.scrolled_win.emit('scroll-child', scrolltype, horizontal)
+
+    def toggle_slideshow(self):
+        self.slideshow = not self.slideshow
+        if self.slideshow:
+            self.timer_id = GLib.timeout_add_seconds(self.slideshow_delay,
+                                                     self.move_index, 1)
+        else:
+            GLib.source_remove(self.timer_id)
+        self.update_info()
+
+    def toggle_fullscreen(self):
+        self.fullscreen = not self.fullscreen
+
+        if self.fullscreen:
+            self.win.fullscreen()
+            # Save previous window size. Possible since get_size gets old value
+            # And this is also the cause for some problems
+            # (zoomfactor for fullscreen on non fullscreen window)
+            self.Sizes['wSize'] = self.win.get_size()
+        else:
+            self.win.unfullscreen()
+        if not self.zoom_lock:
+            self.zoom_percent = self.get_zoom_percent()
+
+        self.update_image()
+
+    def toggle_statusbar(self):
+        if not self.sbar:
+            Gtk.Widget.hide(self.statusbar)
+        else:
+            Gtk.Widget.show(self.statusbar)
+        self.sbar = not self.sbar
+
+    def rotate(self, cwise):
+        try:
+            self.pixbufOriginal = self.pixbufOriginal.rotate_simple((90*cwise))
+
+            if not self.zoom_lock:
+                self.zoom_percent = self.get_zoom_percent()
+            self.update_image()
+
+            im = Image.open(self.paths[self.index])
+            if cwise == 3:
+                im = im.transpose(Image.ROTATE_270)
+            else:
+                im = im.transpose(Image.ROTATE_90)
+            im.save(self.paths[self.index])
+
+        except:
+            print("::Warning: Animation object cannot be rotated")
+
+    def flip(self, dir):
+        try:
+            self.pixbufOriginal = self.pixbufOriginal.flip(dir)
+
+            if not self.zoom_lock:
+                self.zoom_percent = self.get_zoom_percent()
+            self.update_image()
+
+            im = Image.open(self.paths[self.index])
+            if dir:
+                im = im.transpose(Image.FLIP_LEFT_RIGHT)
+            else:
+                im = im.transpose(Image.FLIP_TOP_BOTTOM)
+            im.save(self.paths[self.index])
+
+        except:
+            print("::Warning: Animation object cannot be flipped")
+
+    def manipulate(self):
+        self.popup = Gtk.Window()
+        self.popup.set_title("Image Manipulation")
+        self.popup.set_border_width(5)
+        self.popup.set_default_size(300, 300)
+        self.popup.set_role("pop-up")
+        self.popup.add_events(Gdk.EventMask.KEY_PRESS_MASK |
+                              Gdk.EventMask.POINTER_MOTION_MASK)
+        self.popup.connect("key_press_event", self.handle_key_press)
+        self.popup.set_icon_name("image-x-generic")
+
+        vbox = Gtk.VBox(spacing=2)
+
+        scale_bri = Gtk.HScale()
+        scale_bri.set_range(-127, 127)
+        scale_bri.set_size_request(320, 25)
+        scale_bri.set_value(0)
+        scale_bri.set_digits(0)
+        scale_bri.set_increments(1, 10)
+        scale_bri.connect("value-changed", self.value_slider, "bri")
+        bri_label = Gtk.Label()
+        bri_label.set_text("\nBrightness")
+
+        scale_con = Gtk.HScale()
+        scale_con.set_range(-127, 127)
+        scale_con.set_size_request(320, 25)
+        scale_con.set_value(0)
+        scale_con.set_digits(0)
+        scale_con.set_increments(1, 10)
+        scale_con.connect("value-changed", self.value_slider, "con")
+        con_label = Gtk.Label()
+        con_label.set_text("\nContrast")
+
+        button_yes = Gtk.Button(label="Accept changes")
+        button_yes.connect("clicked", self.button_yes_clicked)
+        button_no = Gtk.Button(label="Cancel")
+        button_no.connect("clicked", self.button_no_clicked)
+        button_opt = Gtk.Button(label="Optimize")
+        button_opt.connect("clicked", self.button_opt_clicked)
+
+        hbox = Gtk.HBox(spacing=4)
+        hbox.add(button_no)
+        hbox.add(button_yes)
+
+        vbox.add(bri_label)
+        vbox.add(scale_bri)
+        vbox.add(con_label)
+        vbox.add(scale_con)
+        vbox.add(button_opt)
+        vbox.add(hbox)
+
+        self.popup.add(vbox)
+        self.popup.show_all()
+
+    def manipulate_toggle(self):
+        if self.popup_val:
+            self.popup_val = False
+            self.popup.destroy()
+        else:
+            self.popup_val = True
+            self.manipulate()
+
+    def value_slider(self, w, value):
+        val = w.get_value()
+        im = Image.open(self.paths[self.index])
+        if "edit" not in self.paths[self.index]:
+            self.paths[self.index] = self.paths[self.index] + "edit"
+
+        if value == "bri":
+            val = (val + 127) / 127
+            enh_val = ImageEnhance.Brightness(im)
+        elif value == "con":
+            val = (val + 127) / 127
+            enh_val = ImageEnhance.Contrast(im)
+
+        enh_val.enhance(val).save(self.paths[self.index], "JPEG")
+
+        self.image.clear()
+        self.pixbufOriginal = GdkPixbuf.PixbufAnimation.new_from_file(
+            self.paths[self.index])
+        if self.pixbufOriginal.is_static_image():
+            self.pixbufOriginal = self.pixbufOriginal.get_static_image()
+            if not self.zoom_lock:
+                if not self.fullscreen:
+                    self.Sizes['wSize'] = self.win.get_size()
+                self.zoom_percent = self.get_zoom_percent()
+        else:
+            self.zoom_percent = 1
+        self.update_image()
+        self.paths[self.index] = self.paths[self.index].rstrip("edit")
+
+    def button_yes_clicked(self, widget):
+        try:
+            shutil.move(self.paths[self.index] + "edit", self.paths[self.index])
+        except:
+            self.statusbar.push(3, "Error: no changes saved")
+            self.timer_id = GLib.timeout_add_seconds(1, self.statusbar.pop, 3)
+        self.manipulate_toggle()
+
+    def button_no_clicked(self, widget):
+        try:
+            os.remove(self.paths[self.index] + "edit")
+            self.paths[self.index] = self.paths[self.index].rstrip("edit")
+            self.image.clear()
+            self.pixbufOriginal = GdkPixbuf.PixbufAnimation.new_from_file(
+                self.paths[self.index])
+            if self.pixbufOriginal.is_static_image():
+                self.pixbufOriginal = self.pixbufOriginal.get_static_image()
+                if not self.zoom_lock:
+                    if not self.fullscreen:
+                        self.Sizes['wSize'] = self.win.get_size()
+                    self.zoom_percent = self.get_zoom_percent()
+            else:
+                self.zoom_percent = 1
+            self.update_image()
+        except:
+            self.statusbar.push(3, "No file to remove")
+            self.timer_id = GLib.timeout_add_seconds(1, self.statusbar.pop, 3)
+        self.manipulate_toggle()
+
+    def button_opt_clicked(self, widget):
+        call(["convert", "-contrast", "-auto-gamma", "-auto-level",
+              self.paths[self.index], self.paths[self.index] + "edit"])
+
+        self.image.clear()
+        self.pixbufOriginal = GdkPixbuf.PixbufAnimation.new_from_file(
+            self.paths[self.index] + "edit")
+        if self.pixbufOriginal.is_static_image():
+            self.pixbufOriginal = self.pixbufOriginal.get_static_image()
+            if not self.zoom_lock:
+                if not self.fullscreen:
+                    self.Sizes['wSize'] = self.win.get_size()
+                self.zoom_percent = self.get_zoom_percent()
+        else:
+            self.zoom_percent = 1
+        self.update_image()
+
+    def get_zoom_percent(self, zWidth=False, zHeight=False):
+        pboWidth = self.pixbufOriginal.get_width()
+        pboHeight = self.pixbufOriginal.get_height()
+        pboScale = pboWidth / pboHeight
+
+        if self.fullscreen:
+            winSize = (self.Sizes['sWidth'], self.Sizes['sHeight'])
+            wScale = self.Sizes['sWidth'] / self.Sizes['sHeight']
+        else:
+            winSize = self.Sizes['wSize']
+            wScale = self.Sizes['wSize'][0] / self.Sizes['wSize'][1]
+
+        stickout = zWidth | zHeight
+        if pboWidth < winSize[0] and pboHeight < winSize[1] and not stickout:
+            return 1
+        elif (pboScale < wScale and not stickout) or zHeight:
+            return winSize[1] / pboHeight
+        else:
+            return winSize[0] / pboWidth
+
+    def update_image(self):
+        ''' Show the final image '''
+
+        pboWidth = self.pixbufOriginal.get_width()
+        pboHeight = self.pixbufOriginal.get_height()
+
+        try:
+            pbfWidth = int(pboWidth * self.zoom_percent)
+            pbfHeight = int(pboHeight * self.zoom_percent)
+            pixbufFinal = self.pixbufOriginal.scale_simple(
+                pbfWidth, pbfHeight, GdkPixbuf.InterpType.BILINEAR)
+            self.image.set_from_pixbuf(pixbufFinal)
+        except:
+            self.image.set_from_animation(self.pixbufOriginal)
+
+        self.update_info()
+
+    def parse_geometry(self):
+        # Not nice, but adding type=int to argparse won't help because of the x
+        # ToDo: Look for a better solution
+        if self.geometry.find('x') >= 0:
+            self.geometry = self.geometry.split('x')
+            for ele in range(0, len(self.geometry)):
+                if len(self.geometry[ele]) > 0:
+                    self.geometry[ele] = int(self.geometry[ele])
+                else:
+                    print("::Warning: Missing geometry parameter."
+                          " Replacing with default")
+                    self.geometry[ele] = 200*(4-ele)
+        else:
+            print("::Warning: The geometry should be like that: 800x600"
+                  "\n::Falling back to default")
+            self.geometry = "800x600"
+            self.parse_geometry()
+
+    def set_default_window_size(self):
+        self.parse_geometry()
+        winWidth = self.geometry[0] if self.Sizes[
+            'sWidth'] >= 800 else self.Sizes['sWidth']
+        winHeight = self.geometry[1] if self.Sizes[
+            'sHeight'] >= 600 else self.Sizes['sHeight']
+
+        self.win.resize(winWidth, winHeight)
+        if self.fullscreen:
+            self.win.fullscreen()
+
+    def update_info(self):
+        message = "[{0}/{1}] [ {3:3.0f}% ]  {2: <50} {5: <3} {4: <11}".format(
+            self.index+1, len(self.paths), self.paths[self.index],
+            self.zoom_percent * 100, '[slideshow]' if self.slideshow else '',
+            '[*]' if self.paths[self.index] in self.marked else '')
+        self.win.set_title("vimiv "+message)
+        self.statusbar.push(1, message)
+
+    def zoom_delta(self, delta):
+        try:
+            self.zoom_percent = self.zoom_percent + delta
+            if self.zoom_percent <= 0:
+                self.zoom_percent = 1/100
+            self.update_image()
+        except:
+            print("::Warning: Animation object cannot be zoomed")
+
+    def zoom_to(self, percent, zWidth=False, zHeight=False):
+        try:
+            if not self.fullscreen:
+                self.Sizes['wSize'] = self.win.get_size()
+            self.zoom_percent = percent if percent else self.get_zoom_percent(
+                zWidth,
+                zHeight)
+            self.update_image()
+        except:
+            print("::Warning: Animation object cannot be zoomed")
+
+    def move_index(self, delta):
+        self.index = (self.index + delta) % len(self.paths)
+
+        # reshuffle on wrap-around
+        if self.shuffle and self.index is 0 and delta > 0:
+            shuffle(self.paths)
+
+        path = self.paths[self.index]
+        try:
+            if not os.path.exists(path):
+                print("::Error: Couldn't open", path)
+                self.delete()
+                return
+            else:
+                self.pixbufOriginal = GdkPixbuf.PixbufAnimation.new_from_file(
+                    path)
+            if self.pixbufOriginal.is_static_image():
+                self.pixbufOriginal = self.pixbufOriginal.get_static_image()
+                if not self.zoom_lock:
+                    if not self.fullscreen:
+                        self.Sizes['wSize'] = self.win.get_size()
+                    self.zoom_percent = self.get_zoom_percent()
+            else:
+                self.zoom_percent = 1
+            self.update_image()
+
+            self.scroll(Gtk.ScrollType.START, False)
+            self.scroll(Gtk.ScrollType.START, True)
+
+        except GLib.Error as err:
+            print(err)
+            self.move_index(1)
+
+        return True  # for the slideshow
+
+    def move_pos(self, pos=1):
+        current = (self.index) % len(self.paths)
+        max = len(self.paths)
+        if pos == "max":
+            pos = max
+        try:
+            current = int(current)
+            max = int(max)
+        except:
+            print("Unsupported index")
+            return False
+        current += 1
+        dif = pos - current
+        self.move_index(dif)
+
+        return True
+
+    def parse_args(self):
+        usage = '%(prog)s [options] path1 [path2 path3 ...]'
+        parser = argparse.ArgumentParser(usage=usage)
+        parser.add_argument("-b", "--bar", action="store_true", dest="sbar",
+                            help="display statusbar", default=self.sbar)
+        parser.add_argument("-f", "--fullscreen", action="store_true",
+                            dest="fullscreen", help="start in fullscreen",
+                            default=self.fullscreen)
+        parser.add_argument("-g", "--geometry", dest="geometry",
+                            help="set window size", default=self.geometry)
+        parser.add_argument("-s", "--shuffle", action="store_true",
+                            dest="shuffle", help="shuffle filelist",
+                            default=self.shuffle)
+        parser.add_argument("-S", "--no-shuffle", action="store_false",
+                            dest="shuffle", help="don't shuffle the filelist")
+        parser.add_argument("--slideshow-delay", type=int,
+                            help="set the slideshow delay",
+                            default=self.slideshow_delay)
+        parser.add_argument("path", nargs='+')
+        args = parser.parse_args()
+        self.sbar = args.sbar
+        self.fullscreen = args.fullscreen
+        self.geometry = args.geometry
+        self.shuffle = args.shuffle
+        self.slideshow_delay = args.slideshow_delay
+
+        if not self.populate(args):
+            parser.error('no loadable images detected')
+
+    def populate(self, args):
+        ''' Generate a list of paths from the given arguments '''
+
+        # get supported mimetypes
+        types = []
+        for pixbuf_format in GdkPixbuf.Pixbuf.get_formats():
+            types.extend(pixbuf_format.get_mime_types())
+
+        args = args.path
+        # If only one path is passed do special stuff
+        single = None
+        if len(args) is 1:
+            arg = args[0]
+            if os.path.isfile(arg):
+                # use parent directory
+                single = os.path.abspath(arg)
+                directory = os.path.dirname(single)
+                args = (directory,)
+            elif os.path.isdir(arg) and os.path.isfile('vimiv-position'):
+                f = open('vimiv-position')
+                single = f.read()
+                print("Found position file. Starting with: "+single)
+
+        # add everything
+        for arg in args:
+            path = os.path.abspath(arg)
+            if os.path.isfile(path):
+                self.paths.append(path)
+            elif os.path.isdir(path):
+                paths = sorted(
+                    [os.path.join(path, x)
+                     for x in os.listdir(path)])
+                self.paths.extend(paths)
+            else:
+                print("{} is not a valid path!".format(arg))
+
+        # remove unsupported files
+        self.paths = [
+            possible_path
+            for possible_path in self.paths
+            if mimetypes.guess_type(possible_path)[0] in types]
+
+        # shuffle
+        if self.shuffle:
+            shuffle(self.paths)
+
+        # complete special stuff for single arg
+        if single and single in self.paths:
+            self.index = self.paths.index(single)
+        else:
+            self.index = 0
+
+        return len(self.paths)
+
+    def mark(self):
+        if self.paths[self.index] in self.marked:
+            self.marked.remove(self.paths[self.index])
+        else:
+            self.marked.append(self.paths[self.index])
+        self.update_info()
+
+    def cursor_hide(self):
+        self.win.get_window().set_cursor(
+            Gdk.Cursor.new(
+                Gdk.CursorType.BLANK_CURSOR))
+
+    def handle_key_press(self, widget, event):
+        keyval = event.keyval
+        keyname = Gdk.keyval_name(keyval)
+        if keyval == Gdk.KEY_Shift_L or keyval == Gdk.KEY_Shift_R:
+            return
+        elif keyval == Gdk.KEY_Alt_L or keyval == Gdk.KEY_Alt_R:
+            return
+        elif keyval == Gdk.KEY_Control_L or keyval == Gdk.KEY_Control_R:
+            return
+        # Check for Control (^) or Mod1 (Alt)
+        if event.get_state() & Gdk.ModifierType.CONTROL_MASK:
+            keyname = '^{}'.format(keyname)
+        if event.get_state() & Gdk.ModifierType.MOD1_MASK:
+            keyname = 'Alt+{}'.format(keyname)
+        # Loop through binds until found (Calls for improvements)
+        for bind in self.binds:
+            if keyname == bind[0]:
+                funk = bind[1]
+                args = bind[2:]
+                funk(*args)
+                return
+
+    def main(self):
+        self.parse_args()
+
+        screen = Gdk.Screen()
+        self.Sizes = {}
+        self.Sizes['sWidth'] = screen.width()
+        self.Sizes['sHeight'] = screen.height()
+
+        self.win = Gtk.Window()
+        self.win.add_events(Gdk.EventMask.KEY_PRESS_MASK |
+                            Gdk.EventMask.POINTER_MOTION_MASK)
+        self.win.connect('destroy', Gtk.main_quit)
+        self.win.connect("key_press_event", self.handle_key_press)
+        self.win.set_icon_name("image-x-generic")
+
+        self.vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.win.add(self.vbox)
+
+        self.scrolled_win = Gtk.ScrolledWindow()
+        self.vbox.pack_start(self.scrolled_win, True, True, 0)
+
+        viewport = Gtk.Viewport()
+        viewport.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse('#2C2C2C'))
+        viewport.set_shadow_type(Gtk.ShadowType.NONE)
+        self.scrolled_win.add(viewport)
+
+        self.set_default_window_size()
+        self.Sizes['wSize'] = self.win.get_size()
+
+        self.image = Gtk.Image()
+        viewport.add(self.image)
+
+        self.statusbar = Gtk.Statusbar()
+        self.vbox.pack_end(self.statusbar, False, False, 0)
+
+        self.move_index(0)
+        self.win.show_all()
+        if self.fullscreen:
+            self.win.fullscreen()
+        self.toggle_statusbar()
+        Gtk.main()
+
+
+if __name__ == '__main__':
+
+    Vimiv().main()
