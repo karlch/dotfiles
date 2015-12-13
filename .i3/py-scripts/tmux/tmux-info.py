@@ -9,6 +9,7 @@ win = subprocess.Popen(
     stderr=subprocess.PIPE)
 
 win, err = win.communicate()
+win = win.decode(encoding='UTF-8')
 winlist = win.split("\n")
 winlist.pop()
 winlist_nice = list()
@@ -32,6 +33,7 @@ pane = subprocess.Popen(
     stderr=subprocess.PIPE)
 
 pane, err = pane.communicate()
+pane = pane.decode(encoding='UTF-8')
 panelist = pane.split("\n")
 panelist.pop()
 panelist_nice = list()
@@ -47,4 +49,4 @@ panestr = str()
 for element in panelist_nice:
     panestr = panestr + element + " "
 
-print "win " + winstr + "  pane " + panestr
+print("win", winstr, "pane",  panestr)

@@ -16,13 +16,14 @@ try:
 except:
     current = "Desktop"
 
-prefix = subprocess.Popen(
+p = subprocess.Popen(
     ['tmux', 'display-message', '-p', '#{?client_prefix,NORMAL,} #P'],
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE)
 
-prefix, err = prefix.communicate()
+prefix, err = p.communicate()
+prefix = prefix.decode(encoding='UTF-8')
 prefix = prefix.strip("\n")
 
 if current == "tmux":
-    print prefix
+    print(prefix)

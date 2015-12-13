@@ -17,9 +17,9 @@ conky.text = [[
 #
 # Tmux Info
 {"full_text":"      WIN","color":"\#00C1FF","separator":false},\
-{"full_text":"${exec python2 ~/.i3/py-scripts/tmux/tmux-windows.py} ","color":"\#EEEEEE","separator":false},\
-{"full_text":"${exec python2 ~/.i3/py-scripts/tmux/pane.py}","color":"\#00C1FF","separator":false},\
-{"full_text":"${exec python2 ~/.i3/py-scripts/tmux/tmux-panes.py} ","color":"\#EEEEEE","separator":false},\
+{"full_text":"${exec ~/.i3/py-scripts/tmux/tmux-windows.py} ","color":"\#EEEEEE","separator":false},\
+{"full_text":"${exec ~/.i3/py-scripts/tmux/pane.py}","color":"\#00C1FF","separator":false},\
+{"full_text":"${exec ~/.i3/py-scripts/tmux/tmux-panes.py} ","color":"\#EEEEEE","separator":false},\
 #
 # Brightness
 {"full_text":"BRI","color":"\#00C1FF","separator":false,"separator_block_width":6},\

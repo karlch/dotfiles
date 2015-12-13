@@ -1,7 +1,8 @@
 #!/bin/bash
 
-tex=$(ls | grep ".tex$")
-pdf=${tex%.*}.pdf
+tex=$(echo $1 | sed 's/_VOOM1//g')
+pdf=${1%.*}.pdf
+tex=$(ls | grep $tex)
 if [[ $tex ]]; then
     if !(xdotool search --onlyvisible --class "Zathura"); then
         zathura > /dev/null 2>&1 $pdf &
@@ -13,6 +14,7 @@ if [[ $tex ]]; then
                 break
             fi
         done
+    else
+        zathura --synctex-forward ${2}:1:${1} ${pdf}
     fi
-    zathura --synctex-forward ${1}:1:${tex} ${pdf}
 fi

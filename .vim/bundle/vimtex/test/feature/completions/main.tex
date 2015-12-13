@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage{biblatex}
+\addbibresource{biblatex-examples.bib}
+\addbibresource{local1.bib}
+\addbibresource{~/.vim/bundle/vim-latex/test/completion/local2.bib}
+\begin{document}
+
+To test label completion you need to compile the document first!
+
+\begin{equation}
+  f(x) = 42
+  \label{eq:main-is-working}
+\end{equation}
+
+\include{sub1}
+
+\include{"sub2\space with\space spaces"}
+
+\input{"sub3\space with\space spaces"}
+
+\begin{equation}
+  \label{eq:test1}
+  f(x) = 1
+\end{equation}
+
+\begin{equation}
+  \label{eq:test2}
+  f(x) = 2
+\end{equation}
+
+\begin{equation}
+  \label{eq:test3}
+  f(x) = 3
+\end{equation}
+
+\begin{equation}
+  \label{eq:test4}
+  f(x) = 4
+\end{equation}
+
+\begin{equation}
+  \label{eq:test5}
+  f(x) = 5
+\end{equation}
+
+\begin{equation}
+  \label{eq:test6}
+  f(x) = 6
+\end{equation}
+
+\begin{equation}
+  \label{eq:test7}
+  f(x) = 7
+\end{equation}
+
+\begin{equation}
+  \label{eq:test8}
+  f(x) = 8
+\end{equation}
+
+\begin{equation}
+  \label{eq:test9}
+  f(x) = 9
+\end{equation}
+
+\begin{equation}
+  \label{eq:test10}
+  f(x) = 10
+\end{equation}
+
+\end{document}

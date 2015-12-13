@@ -65,9 +65,9 @@ bindsym XF86AudioNext exec --no-startup-id cmus-remote -n
 bindsym XF86AudioPrev exec --no-startup-id cmus-remote -r
 
 # Screenshot
-bindsym --release Insert exec --no-startup-id scrot '%Y-%m-%d_%H:%M_$wx$h.png' -e 'mv $f ~/Bilder/Screenshot'
-bindsym --release Control+Insert exec --no-startup-id scrot '%Y-%m-%d_%H:%M_$wx$h.png' -s -e 'mv $f ~/Bilder/Screenshot'
-bindsym --release Print exec --no-startup-id scrot '%Y-%m-%d_%H:%M_$wx$h.png' -u -e 'mv $f ~/Bilder/Screenshot'
+bindsym --release Insert exec --no-startup-id import -window root ~/Bilder/Screenshot/screenshot-$(date +%F_%H:%M:%S).png
+bindsym --release Control+Insert exec --no-startup-id import ~/Bilder/Screenshot/screenshot-$(date +%F_%H:%M:%S).png
+bindsym --release Shift+Insert exec --no-startup-id import -window $(xdotool getactivewindow) ~/Bilder/Screenshot/screenshot-$(date +%F_%H:%M:%S).png
 
 # Enter normal mode
 bindsym F10 mode "NORMAL"
@@ -89,6 +89,7 @@ for_window [window_role="Preferences"] floating enable
 for_window [class="com-wolfram-jlink-Reader"] floating enable
 for_window [class="Gifview"] floating enable
 for_window [class="LIGHTHOUSE"] floating enable
+# for_window [class="Vimiv"] floating enable
 # Matlab in tabs
 for_window [class="MATLAB R2015a - academic use"] focus, layout tabbed
 # Cmus cover should be small
@@ -232,11 +233,10 @@ mode "NORMAL" {
     bindsym Shift+r restart
 
     # Starters
-    bindsym w exec cat /dev/null > ~/.local/share/qutebrowser/history && qutebrowser, mode "default"
+    bindsym w mode "default", exec qutebrowser && cat /dev/null > ~/.local/share/qutebrowser/history 
     bindsym u exec --no-startup-id urxvt, mode "default"
     bindsym t exec --no-startup-id urxvt -e tmux, mode "default"
     bindsym f exec --no-startup-id urxvt -e ranger, mode "default"
-    bindsym i exec --no-startup-id urxvt -e ranger --confdir=~/.config/rangim --cmd="cd ~/Bilder", mode "default"
     bindsym c exec --no-startup-id ~/bin/cmus_cover.sh & urxvt -e cmus, mode "default"
     bindsym z exec --no-startup-id urxvt -e mutt, mode "default"
     bindsym Shift+z exec env GTK2_RC_FILES=/usr/share/themes/Raleigh/gtk-2.0/gtkrc firefox-nightly www.protonmail.ch/login, mode "default"
@@ -277,7 +277,7 @@ mode "NORMAL" {
 # }}}
 
 # A system mode for shutting down, ... {{{
-set $SYSTEM System ... logout (l), reboot (r), shutdown (s), suspend (S), lock (o), blank (b)
+set $SYSTEM System ... logout (l), reboot (r), shutdown (s), suspend (S), blank (b)
 mode "$SYSTEM" {
     # Logout
     bindsym l exec --no-startup-id i3-msg exit, mode "default"
@@ -287,8 +287,6 @@ mode "$SYSTEM" {
     bindsym s exec poweroff, mode "default"
     # Suspend
     bindsym Shift+s exec systemctl suspend, mode "default"
-    # Lock
-    bindsym o exec i3lock -i ~/Bilder/Hintergrund/parabola-lock.png, mode "default"
     # Blank screen
     bindsym b exec xset dpms force off, mode "default"
 

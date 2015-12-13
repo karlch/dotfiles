@@ -21,9 +21,11 @@ alias tls='tmux list-sessions'
 alias ta='tmux attach-session -t'
 
 # git
-alias gitup='pycp -g ~/.vim ~/.vimrc ~/.zsh ~/.zshrc ~/.tmux.conf ~/.i3 ~/bin ~/.vimperator ~/.vimperatorrc ~/.conkyrc ~/.Xdefaults ~/Dokumente/git/dotfiles'
-alias gitclean='cd ~/Dokumente/git/dotfiles && rm -rf .vim .vimrc .zsh .zshrc .zsh_aliases .tmux.conf .i3 bin .vimperator .vimperatorrc .conkyrc .Xdefaults'
+alias gitup='pycp -g ~/.vim ~/.vimrc ~/.zsh ~/.zshrc ~/.tmux.conf ~/.i3 ~/bin ~/.conkyrc ~/.Xdefaults ~/Dokumente/git/dotfiles'
+alias gitclean='cd ~/Dokumente/git/dotfiles && rm -rf .vim .vimrc .zsh .zshrc .zsh_aliases .tmux.conf .i3 bin .conkyrc .Xdefaults'
 alias gitsync='gitclean && gitup'
+alias gitvimiv='cd ~/Dokumente/Programmieren/vimiv && cp vimiv vimivrc.py readme.md LICENSE Makefile vimiv.desktop vimiv.1 ~/Dokumente/git/vimiv && cd ~/Dokumente/git/vimiv'
+alias aurvimiv='cd ~/Dokumente/Programmieren/vimiv/AUR && cp PKGBUILD .SRCINFO ~/Dokumente/git/AUR/vimiv-git && cd ~/Dokumente/git/AUR/vimiv-git'
 
 # pacman
 alias spac='sudo pacman'
@@ -69,6 +71,4 @@ alias emacs='echo haha, nice try! && sleep 1 && vim $@'
 alias -g DN='/dev/null'
 alias -g NE='2> /dev/null'
 
-# ranger as image browser
-alias rangim='cd ~/Bilder && ranger --confdir=~/.config/rangim/'
-alias vimiv='~/Dokumente/Programmieren/vimiv/vimiv'
+alias drink='cd ~/Dokumente/Privat/Drinker/'

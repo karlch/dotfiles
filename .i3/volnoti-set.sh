@@ -5,5 +5,5 @@ if [ $mute == "[on]" ]
 then
     volnoti-show $vol
 else
-    volnoti-show -m
+    volnoti-show -s /usr/share/pixmaps/volnoti/volume_muted.svg $vol
 fi

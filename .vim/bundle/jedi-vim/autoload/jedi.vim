@@ -1,46 +1,263 @@
 scriptencoding utf-8
 
 " ------------------------------------------------------------------------
+" Settings initialization
+" ------------------------------------------------------------------------
+let s:deprecations = {
+    \ 'get_definition_command':     'goto_definitions_command',
+    \ 'pydoc':                      'documentation_command',
+    \ 'related_names_command':      'usages_command',
+    \ 'autocompletion_command':     'completions_command',
+    \ 'show_function_definition':   'show_call_signatures',
+\ }
+
+let s:default_settings = {
+    \ 'use_tabs_not_buffers': 0,
+    \ 'use_splits_not_buffers': 1,
+    \ 'auto_initialization': 1,
+    \ 'auto_vim_configuration': 1,
+    \ 'goto_command': "'<leader>d'",
+    \ 'goto_assignments_command': "'<leader>g'",
+    \ 'goto_definitions_command': "''",
+    \ 'completions_command': "'<C-Space>'",
+    \ 'call_signatures_command': "'<leader>n'",
+    \ 'usages_command': "'<leader>n'",
+    \ 'rename_command': "'<leader>r'",
+    \ 'popup_on_dot': 1,
+    \ 'documentation_command': "'K'",
+    \ 'show_call_signatures': 1,
+    \ 'show_call_signatures_delay': 500,
+    \ 'call_signature_escape': "'=`='",
+    \ 'auto_close_doc': 1,
+    \ 'max_doc_height': 30,
+    \ 'popup_select_first': 1,
+    \ 'quickfix_window_height': 10,
+    \ 'completions_enabled': 1,
+    \ 'force_py_version': "'auto'",
+    \ 'smart_auto_mappings': 1,
+    \ 'use_tag_stack': 1
+\ }
+
+for [s:key, s:val] in items(s:deprecations)
+    if exists('g:jedi#'.s:key)
+        echom "'g:jedi#".s:key."' is deprecated. Please use 'g:jedi#".s:val."' instead. Sorry for the inconvenience."
+        exe 'let g:jedi#'.s:val.' = g:jedi#'.s:key
+    endif
+endfor
+
+for [s:key, s:val] in items(s:default_settings)
+    if !exists('g:jedi#'.s:key)
+        exe 'let g:jedi#'.s:key.' = '.s:val
+    endif
+endfor
+
+
+" ------------------------------------------------------------------------
+" Python initialization
+" ------------------------------------------------------------------------
+let s:script_path = fnameescape(expand('<sfile>:p:h:h'))
+
+function! s:init_python()
+    if g:jedi#force_py_version != 'auto'
+        " Always use the user supplied version.
+        try
+            return jedi#force_py_version(g:jedi#force_py_version)
+        catch
+            throw "Could not setup g:jedi#force_py_version: ".v:exception
+        endtry
+    endif
+
+    " Handle "auto" version.
+    if has('nvim') || (has('python') && has('python3'))
+        " Neovim usually has both python providers. Skipping the `has` check
+        " avoids starting both of them.
+
+        " Get default python version from interpreter in $PATH.
+        let s:def_py = system('python -c '.shellescape('import sys; sys.stdout.write(str(sys.version_info[0]))'))
+        if v:shell_error != 0 || !len(s:def_py)
+            if !exists("g:jedi#squelch_py_warning")
+                echohl WarningMsg
+                echom "Warning: jedi-vim failed to get Python version from sys.version_info: " . s:def_py
+                echom "Falling back to version 2."
+                echohl None
+            endif
+            let s:def_py = 2
+        elseif &verbose
+            echom "jedi-vim: auto-detected Python: ".s:def_py
+        endif
+
+        " Make sure that the auto-detected version is available in Vim.
+        if !has('nvim') || has('python'.(s:def_py == 2 ? '' : s:def_py))
+            return jedi#force_py_version(s:def_py)
+        endif
+
+        " Add a warning in case the auto-detected version is not available,
+        " usually because of a missing neovim module in a VIRTUAL_ENV.
+        if has('nvim')
+            echohl WarningMsg
+            echom "jedi-vim: the detected Python version (".s:def_py.")"
+                        \ "is not functional."
+                        \ "Is the 'neovim' module installed?"
+                        \ "While jedi-vim will work, it might not use the"
+                        \ "expected Python path."
+            echohl None
+        endif
+    endif
+
+    if has('python')
+        call jedi#setup_py_version(2)
+    elseif has('python3')
+        call jedi#setup_py_version(3)
+    else
+        throw "jedi-vim requires Vim with support for Python 2 or 3."
+    endif
+    return 1
+endfunction
+
+
+function! jedi#reinit_python()
+    unlet! s:_init_python
+    call jedi#init_python()
+endfunction
+
+
+function! jedi#init_python()
+    if !exists('s:_init_python')
+        try
+            let s:_init_python = s:init_python()
+        catch
+            if !exists("g:jedi#squelch_py_warning")
+                echohl WarningMsg
+                echom "Error: jedi-vim failed to initialize Python: ".v:exception." (in ".v:throwpoint.")"
+                echohl None
+            endif
+            let s:_init_python = 0
+        endtry
+    endif
+    return s:_init_python
+endfunction
+
+
+let s:python_version = 'null'
+function! jedi#setup_py_version(py_version)
+    if a:py_version == 2
+        let cmd_init = 'pyfile'
+        let cmd_exec = 'python'
+        let s:python_version = 2
+    elseif a:py_version == 3
+        let cmd_init = 'py3file'
+        let cmd_exec = 'python3'
+        let s:python_version = 3
+    else
+        throw "jedi#setup_py_version: invalid py_version: ".a:py_version
+    endif
+
+    try
+        execute cmd_init.' '.s:script_path.'/initialize.py'
+        execute 'command! -nargs=1 PythonJedi '.cmd_exec.' <args>'
+        return 1
+    catch
+        throw "jedi#setup_py_version: ".v:exception
+    endtry
+endfunction
+
+
+function! jedi#debug_info()
+    echom "Using Python version:" s:python_version
+endfunction
+
+
+function! jedi#force_py_version(py_version)
+    let g:jedi#force_py_version = a:py_version
+    return jedi#setup_py_version(a:py_version)
+endfunction
+
+
+function! jedi#force_py_version_switch()
+    if g:jedi#force_py_version == 2
+        call jedi#force_py_version(3)
+    elseif g:jedi#force_py_version == 3
+        call jedi#force_py_version(2)
+    else
+        throw "Don't know how to switch from ".g:jedi#force_py_version."!"
+    endif
+endfunction
+
+
+" Helper function instead of `python vim.eval()`, and `.command()` because
+" these also return error definitions.
+function! jedi#_vim_exceptions(str, is_eval)
+    let l:result = {}
+    try
+        if a:is_eval
+            let l:result.result = eval(a:str)
+        else
+            execute a:str
+            let l:result.result = ''
+        endif
+    catch
+        let l:result.exception = v:exception
+        let l:result.throwpoint = v:throwpoint
+    endtry
+    return l:result
+endfunction
+
+
+if !jedi#init_python()
+    " Do not define any functions when Python initialization failed.
+    finish
+endif
+
+
+" ------------------------------------------------------------------------
 " functions that call python code
 " ------------------------------------------------------------------------
+function! jedi#goto()
+    PythonJedi jedi_vim.goto(mode="goto")
+endfunction
+
 function! jedi#goto_assignments()
-    Python jedi_vim.goto()
+    PythonJedi jedi_vim.goto(mode="assignment")
 endfunction
 
 function! jedi#goto_definitions()
-    Python jedi_vim.goto(is_definition=True)
+    PythonJedi jedi_vim.goto(mode="definition")
 endfunction
 
 function! jedi#usages()
-    Python jedi_vim.goto(is_related_name=True)
+    PythonJedi jedi_vim.goto(mode="related_name")
 endfunction
 
 function! jedi#rename(...)
-    Python jedi_vim.rename()
+    PythonJedi jedi_vim.rename()
+endfunction
+
+function! jedi#rename_visual(...)
+    PythonJedi jedi_vim.rename_visual()
 endfunction
 
 function! jedi#completions(findstart, base)
-    Python jedi_vim.completions()
+    PythonJedi jedi_vim.completions()
 endfunction
 
 function! jedi#enable_speed_debugging()
-    Python jedi_vim.jedi.set_debug_function(jedi_vim.print_to_stdout, speed=True, warnings=False, notices=False)
+    PythonJedi jedi_vim.jedi.set_debug_function(jedi_vim.print_to_stdout, speed=True, warnings=False, notices=False)
 endfunction
 
 function! jedi#enable_debugging()
-    Python jedi_vim.jedi.set_debug_function(jedi_vim.print_to_stdout)
+    PythonJedi jedi_vim.jedi.set_debug_function(jedi_vim.print_to_stdout)
 endfunction
 
 function! jedi#disable_debugging()
-    Python jedi_vim.jedi.set_debug_function(None)
+    PythonJedi jedi_vim.jedi.set_debug_function(None)
 endfunction
 
 function! jedi#py_import(args)
-    Python jedi_vim.py_import()
+    PythonJedi jedi_vim.py_import()
 endfun
 
 function! jedi#py_import_completions(argl, cmdl, pos)
-    Python jedi_vim.py_import_completions()
+    PythonJedi jedi_vim.py_import_completions()
 endfun
 
 
@@ -48,7 +265,7 @@ endfun
 " show_documentation
 " ------------------------------------------------------------------------
 function! jedi#show_documentation()
-    Python if jedi_vim.show_documentation() is None: vim.command('return')
+    PythonJedi if jedi_vim.show_documentation() is None: vim.command('return')
 
     let bn = bufnr("__doc__")
     if bn > 0
@@ -73,8 +290,8 @@ function! jedi#show_documentation()
     setlocal nomodified
     setlocal filetype=rst
 
-    if l:doc_lines > 30  " max lines for plugin
-        let l:doc_lines = 30
+    if l:doc_lines > g:jedi#max_doc_height " max lines for plugin
+        let l:doc_lines = g:jedi#max_doc_height
     endif
     execute "resize ".l:doc_lines
 
@@ -116,7 +333,7 @@ function! jedi#goto_window_on_enter()
     if l:data.bufnr
         " close goto_window buffer
         normal ZQ
-        Python jedi_vim.new_buffer(vim.eval('bufname(l:data.bufnr)'))
+        PythonJedi jedi_vim.new_buffer(vim.eval('bufname(l:data.bufnr)'))
         call cursor(l:data.lnum, l:data.col)
     else
         echohl WarningMsg | echo "Builtin module cannot be opened." | echohl None
@@ -151,18 +368,62 @@ function! jedi#do_popup_on_dot_in_highlight()
 endfunc
 
 
-function! jedi#configure_call_signatures()
-    if g:jedi#show_call_signatures == 2  " Command line call signatures
-        " Need to track changes to avoid multiple undo points for a single edit
-        if v:version >= 704 || has("patch-7.3.867")
-            let b:normaltick = b:changedtick
-            autocmd TextChanged,InsertLeave,BufWinEnter <buffer> let b:normaltick = b:changedtick
+let s:show_call_signatures_last = [0, 0, '']
+function! jedi#show_call_signatures()
+    let [line, col] = [line('.'), col('.')]
+    let curline = getline(line)
+    let reload_signatures = 1
+
+    " Caching.  On the same line only.
+    if line == s:show_call_signatures_last[0]
+        " Check if the number of commas and parenthesis before or after the
+        " cursor has not changed since the last call, which means that the
+        " argument position was not changed and we can skip repainting.
+        let prevcol = s:show_call_signatures_last[1]
+        let prevline = s:show_call_signatures_last[2]
+        if substitute(curline[:col-2], '[^,()]', '', 'g')
+                    \ == substitute(prevline[:prevcol-2], '[^,()]', '', 'g')
+                    \ && substitute(curline[(col-2):], '[^,()]', '', 'g')
+                    \ == substitute(prevline[(prevcol-2):], '[^,()]', '', 'g')
+            let reload_signatures = 0
         endif
+    endif
+    let s:show_call_signatures_last = [line, col, curline]
+
+    if reload_signatures
+        PythonJedi jedi_vim.show_call_signatures()
+    endif
+endfunction
+
+
+function! jedi#clear_call_signatures()
+    let s:show_call_signatures_last = [0, 0, '']
+    PythonJedi jedi_vim.clear_call_signatures()
+endfunction
+
+
+function! jedi#configure_call_signatures()
+    augroup jedi_call_signatures
+    autocmd! * <buffer>
+    if g:jedi#show_call_signatures == 2  " Command line call signatures
         autocmd InsertEnter <buffer> let g:jedi#first_col = s:save_first_col()
     endif
-    autocmd InsertLeave <buffer> Python jedi_vim.clear_call_signatures()
-    autocmd CursorMovedI <buffer> Python jedi_vim.show_call_signatures()
+    autocmd InsertEnter <buffer> let s:show_call_signatures_last = [0, 0, '']
+    autocmd InsertLeave <buffer> call jedi#clear_call_signatures()
+    if g:jedi#show_call_signatures_delay > 0
+        autocmd InsertEnter <buffer> let b:_jedi_orig_updatetime = &updatetime
+                    \ | let &updatetime = g:jedi#show_call_signatures_delay
+        autocmd InsertLeave <buffer> if exists('b:_jedi_orig_updatetime')
+                    \ |   let &updatetime = b:_jedi_orig_updatetime
+                    \ |   unlet b:_jedi_orig_updatetime
+                    \ | endif
+        autocmd CursorHoldI <buffer> call jedi#show_call_signatures()
+    else
+        autocmd CursorMovedI <buffer> call jedi#show_call_signatures()
+    endif
+    augroup END
 endfunction
+
 
 " Determine where the current window is on the screen for displaying call
 " signatures in the correct column.
@@ -171,63 +432,40 @@ function! s:save_first_col()
         return 0
     endif
 
-    let l:eventignore = &eventignore
-    set eventignore=all
     let startwin = winnr()
-    let startaltwin = winnr('#')
     let winwidth = winwidth(0)
-
-    try
-        wincmd h
-        let win_on_left = winnr() == startwin
-        if win_on_left
+    if winwidth == &columns
+        return 0
+    elseif winnr('$') == 2
+        return startwin == 1 ? 0 : (winwidth(1) + 1)
+    elseif winnr('$') == 3
+        if startwin == 1
             return 0
-        else
-            " Walk left and count up window widths until hitting the edge
-            execute startwin."wincmd w"
-            let width = 0
-            let winnr = winnr()
-            wincmd h
-            while winnr != winnr()
-                let width += winwidth(0) + 1  " Extra column for window divider
-                let winnr = winnr()
-                wincmd h
-            endwhile
-            return width
         endif
-    finally
-        let &eventignore = l:eventignore
-        execute startaltwin."wincmd w"
-        execute startwin."wincmd w"
-        " If the event that triggered InsertEnter made a change (e.g. open a
-        " new line, substitude a word), join that change with the rest of this
-        " edit.
-        if exists('b:normaltick') && b:normaltick != b:changedtick
-            try
-                undojoin
-            catch /^Vim\%((\a\+)\)\=:E790/
-                " This can happen if an undo happens during a :normal command.
-            endtry
+        let ww1 = winwidth(1)
+        let ww2 = winwidth(2)
+        let ww3 = winwidth(3)
+        if ww1 + ww2 + ww3 + 2 == &columns
+            if startwin == 2
+                return ww1 + 1
+            else
+                return ww1 + ww2 + 2
+            endif
+        elseif startwin == 2
+            if ww2 + ww3 + 1 == &columns
+                return 0
+            else
+                return ww1 + 1
+            endif
+        else " startwin == 3
+            if ww2 + ww3 + 1 == &columns
+                return ww2 + 1
+            else
+                return ww1 + 1
+            endif
         endif
-    endtry
-endfunction
-
-" Helper function instead of `python vim.eval()`, and `.command()` because
-" these also return error definitions.
-function! jedi#_vim_exceptions(str, is_eval)
-    let l:result = {}
-    try
-        if a:is_eval
-            let l:result.result = eval(a:str)
-        else
-            execute a:str
-            let l:result.result = ''
-        endif
-    catch
-        let l:result.exception = v:exception
-        let l:result.throwpoint = v:throwpoint
-    endtry
-    return l:result
+    endif
+    return 0
 endfunction
 
 
@@ -236,124 +474,44 @@ function! jedi#complete_string(is_popup_on_dot)
     if a:is_popup_on_dot && !(g:jedi#popup_on_dot && jedi#do_popup_on_dot_in_highlight())
         return ''
 
-    end
+    endif
     if pumvisible() && !a:is_popup_on_dot
         return "\<C-n>"
     else
-        return "\<C-x>\<C-o>\<C-r>=jedi#complete_opened()\<CR>"
-    end
+        return "\<C-x>\<C-o>\<C-r>=jedi#complete_opened(".a:is_popup_on_dot.")\<CR>"
+    endif
 endfunction
 
 
-function! jedi#complete_opened()
-    if pumvisible() && g:jedi#popup_select_first && stridx(&completeopt, 'longest') > -1
-        " only go down if it is visible, user-enabled and the longest option is set
-        return "\<Down>"
-    end
+function! jedi#complete_opened(is_popup_on_dot)
+    if pumvisible()
+        " Only go down if it is visible, user-enabled and the longest
+        " option is set.
+        if g:jedi#popup_select_first && stridx(&completeopt, 'longest') > -1
+            return "\<Down>"
+        endif
+        if a:is_popup_on_dot
+            if &completeopt !~ '\(noinsert\|noselect\)'
+                " Prevent completion of the first entry with dot completion.
+                return "\<C-p>"
+            endif
+        endif
+    endif
     return ""
 endfunction
 
 
-function! jedi#force_py_version(py_version)
-    let g:jedi#force_py_version = a:py_version
-    if g:jedi#force_py_version == 2
-        command! -nargs=1 Python python <args>
-        execute 'pyfile '.s:script_path.'/initialize.py'
-    elseif g:jedi#force_py_version == 3
-        command! -nargs=1 Python python3 <args>
-        execute 'py3file '.s:script_path.'/initialize.py'
+function! jedi#smart_auto_mappings()
+    " Auto put import statement after from module.name<space> and complete
+    if search('^\s*from\s\+[A-Za-z0-9._]\{1,50}\%#\s*$', 'bcn', line('.'))
+        " Enter character and start completion.
+        return "\<space>import \<C-x>\<C-o>\<C-r>=jedi#complete_opened(1)\<CR>"
     endif
+    return "\<space>"
 endfunction
 
 
-function! jedi#force_py_version_switch()
-    if g:jedi#force_py_version == 2
-        call jedi#force_py_version(3)
-    elseif g:jedi#force_py_version == 3
-        call jedi#force_py_version(2)
-    endif
-endfunction
-
-
-" ------------------------------------------------------------------------
-" deprecations
-" ------------------------------------------------------------------------
-let s:deprecations = {
-    \ 'get_definition_command':     'goto_definitions_command',
-    \ 'goto_command':               'goto_assignments_command',
-    \ 'pydoc':                      'documentation_command',
-    \ 'related_names_command':      'usages_command',
-    \ 'autocompletion_command':     'completions_command',
-    \ 'show_function_definition':   'show_call_signatures',
-\ }
-
-" ------------------------------------------------------------------------
-" defaults for jedi-vim
-" ------------------------------------------------------------------------
-let s:settings = {
-    \ 'use_tabs_not_buffers': 1,
-    \ 'use_splits_not_buffers': 1,
-    \ 'auto_initialization': 1,
-    \ 'auto_vim_configuration': 1,
-    \ 'goto_assignments_command': "'<leader>g'",
-    \ 'completions_command': "'<C-Space>'",
-    \ 'goto_definitions_command': "'<leader>d'",
-    \ 'call_signatures_command': "'<leader>n'",
-    \ 'usages_command': "'<leader>n'",
-    \ 'rename_command': "'<leader>r'",
-    \ 'popup_on_dot': 1,
-    \ 'documentation_command': "'K'",
-    \ 'show_call_signatures': 1,
-    \ 'call_signature_escape': "'=`='",
-    \ 'auto_close_doc': 1,
-    \ 'popup_select_first': 1,
-    \ 'quickfix_window_height': 10,
-    \ 'completions_enabled': 1,
-    \ 'force_py_version': 2
-\ }
-
-
-function! s:init()
-  for [key, val] in items(s:deprecations)
-      if exists('g:jedi#'.key)
-          echom "'g:jedi#".key."' is deprecated. Please use 'g:jedi#".val."' instead. Sorry for the inconvenience."
-          exe 'let g:jedi#'.val.' = g:jedi#'.key
-      end
-  endfor
-
-  for [key, val] in items(s:settings)
-      if !exists('g:jedi#'.key)
-          exe 'let g:jedi#'.key.' = '.val
-      endif
-  endfor
-endfunction
-
-
-call s:init()
-
-" ------------------------------------------------------------------------
-" Python initialization
-" ------------------------------------------------------------------------
-
-let s:script_path = fnameescape(expand('<sfile>:p:h:h'))
-
-if has('python') && has('python3')
-    call jedi#force_py_version(g:jedi#force_py_version)
-elseif has('python')
-    command! -nargs=1 Python python <args>
-    execute 'pyfile '.s:script_path.'/initialize.py'
-elseif has('python3')
-    command! -nargs=1 Python python3 <args>
-    execute 'py3file '.s:script_path.'/initialize.py'
-else
-    if !exists("g:jedi#squelch_py_warning")
-        echomsg "Error: jedi-vim requires vim compiled with +python"
-    endif
-    finish
-end
-
-
-"Python jedi_vim.jedi.set_debug_function(jedi_vim.print_to_stdout, speed=True, warnings=False, notices=False)
-"Python jedi_vim.jedi.set_debug_function(jedi_vim.print_to_stdout)
+"PythonJedi jedi_vim.jedi.set_debug_function(jedi_vim.print_to_stdout, speed=True, warnings=False, notices=False)
+"PythonJedi jedi_vim.jedi.set_debug_function(jedi_vim.print_to_stdout)
 
 " vim: set et ts=4:

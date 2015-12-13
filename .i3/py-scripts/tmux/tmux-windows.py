@@ -11,6 +11,7 @@ win = subprocess.Popen(
 
 # Only the answer, not the error
 win, err = win.communicate()
+win = win.decode(encoding='UTF-8')
 # To a list
 winlist = win.split("\n")
 # Remove the empty newline at the end
@@ -24,6 +25,7 @@ ses = subprocess.Popen(
 
 # Only the answer, not the error
 ses, err = ses.communicate()
+ses = ses.decode(encoding='UTF-8')
 ses = ses.strip("\n")
 
 # Format the window names neatly
@@ -57,11 +59,11 @@ try:
                 if len(current_class) > 0:
                     current_class = current_class
 except:
-    print "Desktop"
+    print("Desktop")
 
 # Display tmux windows if it is
 if current_title == "tmux":
-    print winstr.rstrip() + " [" + ses + "]"
+    print(winstr.rstrip(), "[", ses, "]")
 # Else print the current window class
 else:
-    print current_class
+    print(current_class)

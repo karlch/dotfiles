@@ -72,6 +72,10 @@ set shortmess=I
 " No title, I prefer my tmux one
 set notitle
 
+" Change directory to the current buffer when opening files.
+set autochdir
+
+
 " }}}
 
 " Optics {{{
@@ -87,6 +91,8 @@ set wildmenu
 " Enable folding by syntax
 set foldenable foldmethod=syntax
 set foldlevel=100
+" Opening and of folds
+set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 
 " Dark background theme
 set background=dark
@@ -156,9 +162,9 @@ noremap <leader>ä :set hlsearch!<Cr>
 " Map + and <BS> to search
 nmap + *
 nmap <Bs> #
-" Search results are showed in the middle of the line and folds are opened
-nnoremap n nzzzv
-nnoremap N Nzzzv
+" Search results are showed in the middle of the line
+nnoremap n nzz
+nnoremap N Nzz
 " Also in visualmode keeping the selection
 vmap + *gnzz
 vmap <Bs> #gnzz
@@ -237,15 +243,6 @@ nnoremap <leader>N :cprevious<CR>
 nnoremap <leader>T :%s / / \& <CR>:%s /^/    <CR>:%s /$/ \\\\ \\hline<CR>ggO<Bs><Bs>\begin{center}<CR><tab>\begin{tabular}<CR>\hline<Esc>Go\end{tabular}<Cr><Bs>\end{center}<Esc>2GA{\|c\|c\|}<left>
 vnoremap <leader>T :s / / \& <CR>gv:s /^/    <CR>gv:s /$/ \\\\ \\hline<CR>gvo<Esc>O<Bs><Bs>\begin{center}<CR><tab>\begin{tabular}<CR>\hline<Esc>gvo<Esc>o\end{tabular}<Cr><Bs>\end{center}<Esc>gvo2k<Esc>A{\|c\|c\|}<left>
 
-" Open file in a new tab
-map <leader>dt :call DmenuOpen("tabe")<cr>
-" Open file in current buffer
-map <leader>de :call DmenuOpen("e")<cr>
-" Open file in vertical split
-map <leader>ds :call DmenuOpen("sp")<cr>
-" Open file in split
-map <leader>dv :call DmenuOpen("vs")<cr>
-
 " Select file with ranger
 nnoremap <leader>r :<C-U>RangerChooser<CR>
 
@@ -257,14 +254,11 @@ nnoremap <leader>r :<C-U>RangerChooser<CR>
 map <leader>c <c-_><c-_>
 nnoremap <leader>C A<Space><Space><Esc>:TCommentRight<CR>l
 
-" Keycombination for the Nerdtree
-nnoremap <leader>te :NERDTreeToggle<CR>
-
 " Start Tagbar
 nnoremap <leader>tb :TagbarToggle<CR>
 
 " Start the gundo plugin
-nnoremap<leader>u :GundoToggle<CR>
+nnoremap<leader>u :GundoToggle<CR><CR>
 
 " Easymotion on -
 map - <Plug>(easymotion-prefix)
@@ -306,9 +300,6 @@ vmap s S
 " Add a surrounding with s
 nmap s ysi
 
-" Start/Stop neocomplete
-nnoremap <leader>o :call NeoCompleteToggle()<CR>
-
 " UltiSnips the way it should be
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
@@ -338,10 +329,6 @@ let g:tagbar_autoclose = 1
 let g:tagbar_foldlevel = 5
 let g:tagbar_compact = 1
 
-" Configure Voom
-let g:voom_tab_key = "<Nop>"
-let g:voom_tree_width = 29
-
 " Configure easymotion
 let g:EasyMotion_keys = 'acdefghijklmnoqrstuvwö'
 
@@ -353,13 +340,6 @@ let g:delimitMate_balance_matchpairs = 1
 
 " Configure dragvisuals
 let g:DVB_TrimWS = 1
-
-" Configure Neocomplete
-" start it but disable it (make toggling possible)
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#disable_auto_complete = 1
-let g:neocomplete#enable_fuzzy_completion = 0
-let g:neocomplete#enable_auto_delimiter = 1
 
 " Configure UltiSnips
 let g:UltiSnipsSnippetDirectories = ["UltiSnips", "MySnippets"]
@@ -389,12 +369,12 @@ autocmd VimLeave *.py VimuxCloseRunner
 " C
 " Close the extra vimux buffer
 autocmd VimLeave *.c VimuxCloseRunner
-autocmd BufRead,BufNewFile *.c set makeprg=gcc\ %\ -o\ %:t:r
+" Set a compiler
+autocmd BufRead,BufNewFile *.c set makeprg=gcc\ %\ -o\ %<\ -lm
 
 
 " LaTex
 " Open Voom LaTex on startup
-autocmd BufRead,BufNewFile *.tex Voom latex
 autocmd BufRead,BufNewFile *.tex call ZathuraSync()
 autocmd VimLeave *.tex exe "!~/.vim/ftplugin/tex/close_zathura.sh"
 
@@ -403,13 +383,12 @@ let g:tex_flavor='latex'
 
 " Matlab
 autocmd BufRead,BufNewFile *.m VimuxRunCommand("clear && matlab -nosplash -nodesktop")
-autocmd BufRead,BufNewFile *.m call NeoCompleteToggle()
 autocmd VimLeave *.m VimuxCloseRunner
 " Compiler
 autocmd BufEnter *.m compiler mlint
 
 " Mathematica
-autocmd BufRead,BufNewFile *.mma      set ft=mma
+autocmd BufRead,BufNewFile *.mma      setfiletype mma
 autocmd BufRead,BufNewFile *.mma VimuxRunCommand("clear && math")
 autocmd VimLeave *.mma VimuxCloseRunner
 autocmd BufNewFile *.mma exe "normal a<<~/.vim/ftplugin/mma/startjava\<Esc>"
@@ -435,14 +414,6 @@ autocmd BufNewFile *.sh silent exec "normal i#!/bin/bash\<CR>\<CR>\<Esc>:w\<CR>:
 " }}}
 
 " Functions {{{
-function! NeoCompleteToggle()
-    if g:neocomplete#disable_auto_complete
-        let g:neocomplete#disable_auto_complete = 0
-    else
-        let g:neocomplete#disable_auto_complete = 1
-    endif
-endfunction
-
 let g:fold_level_toggle = 1
 function! ToggleFoldlevel()
     if g:fold_level_toggle
@@ -498,49 +469,6 @@ endfunction
 function! Chomp(str)
   return substitute(a:str, '\n$', '', '')
 endfunction
-
-function! DmenuOpen(cmd)
-  let fname = Chomp(system("ls -A | grep -v ^d | dmenu -i -b -y 25 -p launch: -l 20 -fn SourceCodePro -nb '#2C2C2C' -nf '#00C1FF' -sb '#00A0DD' -sf '#FFFFFF' -p " . a:cmd))
-  if empty(fname)
-    return
-  endif
-  execute a:cmd . " " . fname
-endfunction
-
-function! RangeChooser()
-    let temp = tempname()
-    exec 'silent !ranger --choosefiles=' . shellescape(temp)
-    if !filereadable(temp)
-        redraw!
-        " Nothing to read.
-        return
-    endif
-    let names = readfile(temp)
-    if empty(names)
-        redraw!
-        " Nothing to open.
-        return
-    endif
-    " Edit the first item.
-    exec 'edit ' . fnameescape(names[0])
-    " Add any remaning items to the arg list/buffer list.
-    for name in names[1:]
-        exec 'argadd ' . fnameescape(name)
-    endfor
-    redraw!
-endfunction
-command! -bar RangerChooser call RangeChooser()
-
-function! NthCount( word )
-  redir => nth
-    silent exe '0,.s/' . a:word . '//n'
-  redir => cnt
-    silent exe '%s/' . a:word . '//n'
-  redir END
-  silent exe 's/.*/& ' . matchstr( nth, '\d\+' ) . '/'
-  echo a:word . ': ' . matchstr( nth, '\d\+' ) . '/' . matchstr( cnt, '\d\+' )
-endfunction
-nnoremap  X  :call NthCount( '<C-R>=expand( '<cWORD>' )<CR>' )<CR>
 
 " }}}
 

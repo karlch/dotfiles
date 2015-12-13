@@ -128,19 +128,19 @@ snippet itd "description \item"
 \item[${1:description}] ${2:item}
 endsnippet
 snippet figref "reference to a figure"
-${1:Figure}~\ref{${2:fig:}}
+\ref{fig:${0}}
 endsnippet
 snippet tabref "reference to a table"
-${1:Table}~\ref{${2:tab:}}
+\ref{tab:${0}}
 endsnippet
 snippet listref "reference to a listing"
-${1:Listing}~\ref{${2:list}}
+\ref{list:${0}}
 endsnippet
 snippet secref "reference to a section"
-${1:Section}~\ref{sec:${2}} ${3}
+\ref{sec:${0}}
 endsnippet
 snippet pageref "reference to a page"
-${1:page}~\pageref{${2}} ${3}
+\pageref{${0}}
 endsnippet
 snippet index "\index"
 \index{${1:index}} ${2}
@@ -202,6 +202,18 @@ snippet fig "figure environment (includegraphics)"
 \label{fig:${4}}
 \end{figure}
 ${5}
+endsnippet
+snippet mini2 "minipage with 2 columns"
+\begin{figure}[h!]
+    \centering
+    \begin{minipage}[c]{0.49\textwidth}
+	${1}
+    \end{minipage}
+    \begin{minipage}[c]{0.49\textwidth}
+	${2}
+    \end{minipage}
+\end{figure}
+${0}
 endsnippet
 snippet tikz "figure environment (tikzpicture)"
 \begin{figure}
@@ -377,7 +389,7 @@ snippet Om "" w
 \Omega  ${0}
 endsnippet
 snippet ref
-\ref{${1:reference}} ${0}
+\ref{${0}}
 endsnippet
 snippet tab "own tabular environment"
 \begin{center}

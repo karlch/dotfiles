@@ -255,7 +255,7 @@ function! <SID>BuildTexPdf(view_results, ...)
 endfunction
 
 function! ZathuraSync()
-    exec "normal :AsyncCommand(~/.vim/ftplugin/tex/start_zathura.sh\<Space>\<C-R>=line('.')\<CR>)\<CR>"
+    exec "normal :AsyncCommand(~/.vim/ftplugin/tex/start_zathura.sh\<Space>\<C-R>=expand('%')\<CR>\<Space>\<C-R>=line('.')\<CR>)\<CR>"
     redraw!
 endfunction
 

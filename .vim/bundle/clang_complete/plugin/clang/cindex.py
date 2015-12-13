@@ -1275,7 +1275,7 @@ class Cursor(Structure):
     @property
     def referenced(self):
         """
-        For a cursor that is a reference, returns a cursor 
+        For a cursor that is a reference, returns a cursor
         representing the entity that it references.
         """
         if not hasattr(self, '_referenced'):
@@ -1990,6 +1990,8 @@ class TranslationUnit(ClangObject):
         """
         if args is None:
             args = []
+
+        args.append('-fcolor-diagnostics')
 
         if unsaved_files is None:
             unsaved_files = []
