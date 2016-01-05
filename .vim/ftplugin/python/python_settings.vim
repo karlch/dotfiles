@@ -37,9 +37,9 @@ setlocal completeopt=menuone,longest
 let g:jedi#show_call_signatures = 0
 " let g:jedi#show_call_signatures_delay = 100
 " Do not automatically select the first word
-let g:jedi#popup_select_first = 0
+let g:jedi#popup_select_first = 1
 " And do not start on .
-let g:jedi#popup_on_dot = 0
+let g:jedi#popup_on_dot = 1
 " The Key mappings for jedi
 let g:jedi#completions_command = "<C-Space>"
 let g:jedi#goto_assignments_command = "<Nop>"

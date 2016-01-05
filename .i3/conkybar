@@ -14,6 +14,9 @@ conky.text = [[
 # Musik
 {"full_text":"${exec cmus-remote -Q | grep ' artist ' | cut -d ' ' -f3- | tr "[:lower:]" "[:upper:]"}","color":"\#00C1FF","separator":false},\
 {"full_text":"${exec cmus-remote -Q | grep ' title ' | cut -d ' ' -f3- | sed 's/(.*)//g'}","color":"\#EEEEEE","separator":false},\
+{"full_text":"${mpd_artist}","color":"\#00C1FF","separator":false},\
+{"full_text":"${mpd_title}","color":"\#EEEEEE","separator":false},\
+# {"full_text":"${exec ncmpcpp --current-song}","color":"\#EEEEEE","separator":false},\
 #
 # Tmux Info
 {"full_text":"      WIN","color":"\#00C1FF","separator":false},\
@@ -27,7 +30,9 @@ conky.text = [[
 #
 # Volume
 {"full_text":"VOL","color":"\#00C1FF","separator":false,"separator_block_width":6},\
-{"full_text":"${exec ~/.i3/volume.sh}  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
+{"full_text":"${if_match ${exec ~/.i3/mute.sh} == 1}${exec ~/.i3/volume.sh}  ","color":"\#EEEEEE","separator":false,"separator_block_width":0},\
+{"full_text":"${else}${exec ~/.i3/volume.sh}  ","color":"\#828282","separator":false,"separator_block_width":0},\
+{"full_text":"${endif}"},\
 #
 # Battery:
 {"full_text":"BAT","color":"\#00C1FF","separator":false,"separator_block_width":6},\

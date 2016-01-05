@@ -27,15 +27,10 @@ function command_not_found_handler() {
     fi
 }
 
-# calculator
-function calc() {
-awk "BEGIN { print $* }"
-}
-
 # vim with server if necessary
 function vim {
     eval last=\$$#
-    if echo $last | grep ".m\|.mma\|.c\|.h" > /dev/null; then
+    if echo $last | grep ".m\|.mma\|.c\|.h\|.C" > /dev/null; then
         command vim --servername VimServer $@
     elif echo $last | grep ".tex" > /dev/null; then
         command vim --servername TexServer $@
@@ -87,11 +82,16 @@ function up() {
     ls
 }
 
-function chmod_format() {
-  sed 's/.\(.........\).*/\1/
-    h;y/rwsxtSTlL-/IIIIIOOOOO/;x;s/..\(.\)..\(.\)..\(.\)/|\1\2\3/
-    y/sStTlLx-/IIIIIIOO/;G
-    s/\n\(.*\)/\1;OOO0OOI1OIO2OII3IOO4IOI5IIO6III7/;:k
-    s/|\(...\)\(.*;.*\1\(.\)\)/\3|\2/;tk
-    s/^0*\(..*\)|.*/\1/;q'
+# Download src via cower nicely
+function cowd() {
+    \cd ~/src
+    mkdir $1
+    \cd $1
+    cower -dd $@
+    ls
+}
+
+# Value of an alias
+function alias_value() {
+    alias "$1" | sed "s/^$1='\(.*\)'$/\1/"
 }

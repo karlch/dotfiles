@@ -52,12 +52,10 @@ autocmd VimResized * wincmd =
 set pumheight=10
 " Omnicompletion default
 set omnifunc=syntaxcomplete#Complete
-" Supertab on omni
-let g:SuperTabDefaultCompletionType = "<c-x><c-o><c-p>"
 " Enter to select
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Show with one menu item, no preview
-set completeopt=menuone
+set completeopt=menuone,longest
 
 " Statusline
 set laststatus=2
@@ -74,7 +72,8 @@ set notitle
 
 " Change directory to the current buffer when opening files.
 set autochdir
-
+" Hide dotfiles
+let g:netrw_list_hide='\..*'
 
 " }}}
 
@@ -134,9 +133,6 @@ set shiftround
 " Save as root
 cabbrev w!! w !sudo tee > /dev/null %
 
-" Starting a linear table
-cabbrev linlist r! python2 ~/Dokumente/Uni/14W/WiPro/skripte/mathe/listtab.py
-
 " }}}
 
 " General Mappings {{{
@@ -174,8 +170,9 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Calculator
-inoremap <C-c> <C-o>yiW<End>=<C-R>=<C-R>0<CR>
+inoremap <C-c> =<Esc>vaW"ey:call CalcQA()<CR>F=dBxA
 vnoremap <C-c> "ey:call CalcQA()<CR>
+nnoremap <C-c> vaW"ey:call CalcQA()<CR>
 
 " Spellchecking on/off
 nnoremap <F2> :set spell! spelllang=de<CR>
@@ -256,23 +253,27 @@ nnoremap <leader>C A<Space><Space><Esc>:TCommentRight<CR>l
 
 " Start Tagbar
 nnoremap <leader>tb :TagbarToggle<CR>
+" Netrw (Not a plugin, but replaces one :D)
+nnoremap <leader>tv :Vexplore<CR>
+nnoremap <leader>ts :Sexplore<CR>
+nnoremap <leader>te :Explore<CR>
 
 " Start the gundo plugin
 nnoremap<leader>u :GundoToggle<CR><CR>
 
-" Easymotion on -
-map - <Plug>(easymotion-prefix)
+" Easymotion on ,
+map , <Plug>(easymotion,prefix)
 " Easymotion repeat
-map -. <Plug>(easymotion-repeat)
+map ,. <Plug>(easymotion,repeat)
 " Inline forward/backward
-map -l <Plug>(easymotion-lineforward)
-map -h <Plug>(easymotion-linebackward)
+map ,l <Plug>(easymotion,lineforward)
+map ,h <Plug>(easymotion,linebackward)
 " Words of the whole screen
-map -a <Plug>(easymotion-bd-w)
+map ,a <Plug>(easymotion,bd,w)
 " Two letter searches
-map -s <Plug>(easymotion-s2)
+map ,s <Plug>(easymotion,s2)
 " Longer searches
-map -- <Plug>(easymotion-sn)
+map ,, <Plug>(easymotion,sn)
 " Smart f and t
 map f <Plug>(easymotion-bd-f)
 map t <Plug>(easymotion-bd-t)
@@ -332,65 +333,79 @@ let g:tagbar_compact = 1
 " Configure easymotion
 let g:EasyMotion_keys = 'acdefghijklmnoqrstuvwö'
 
-" Configure delimitMate
+" delimitMate
 let g:delimitMate_expand_space = 0
 let g:delimitMate_expand_cr = 0
 let g:delimitMate_expand_inside_quotes = 1
 let g:delimitMate_balance_matchpairs = 1
 
-" Configure dragvisuals
+" Dragvisuals
 let g:DVB_TrimWS = 1
 
-" Configure UltiSnips
+" UltiSnips
 let g:UltiSnipsSnippetDirectories = ["UltiSnips", "MySnippets"]
 
-" Configure Vimux
+" Vimux
 let g:VimuxHeight = "30"
 let g:VimuxOrientation = "h"
 let g:VimuxUseNearest = "0"
 
-" Configure Mathematica
+" Mathematica
 let g:mma_candy = 1
 
-" Configure indexed-search
+" Indexed-search
 let g:indexed_search_colors = 0
 let g:indexed_search_numbered_only = 1
 let g:indexed_search_unfold = 1
 
+" Supertab
+let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
+let g:SuperTabLongestEnhanced = 1
+let g:SuperTabLongestHighlight = 1
+
 "}}}
 
-" Filespecific autocommands {{{
+" Autocommands {{{
+" Close the extra vimux buffer
+autocmd VimLeave * VimuxCloseRunner
+" Formatoptions
+autocmd FileType * setlocal formatoptions=qlnjaw
+" Quickfixsize
+autocmd FileType qf call AdjustWindowHeight()
+function! AdjustWindowHeight()
+  execute min([line("$"), 20]) . "wincmd _"
+endfunction
+" Nicer cursorline
+autocmd InsertEnter * highlight  CursorLine ctermbg=None ctermfg=None
+autocmd InsertLeave * highlight  CursorLine ctermbg=236 ctermfg=None
+
 " Python
 " Command to insert the python code for a nice header
 autocmd BufNewFile *.py exe "normal a#!/usr/bin/env python\<Esc>o# encoding: utf-8\<Esc>o"
-" Close the extra vimux buffer
-autocmd VimLeave *.py VimuxCloseRunner
 
 " C
-" Close the extra vimux buffer
-autocmd VimLeave *.c VimuxCloseRunner
 " Set a compiler
 autocmd BufRead,BufNewFile *.c set makeprg=gcc\ %\ -o\ %<\ -lm
-
+autocmd BufRead,BufNewFile *.cpp set makeprg=g++\ %\ -o\ %<\ -std=c++11
+" Root
+autocmd BufRead,BufNewFile *.C set filetype=cpp.root
+autocmd BufRead,BufNewFile *.C set makeprg=root\ -q\ -l\ %
 
 " LaTex
 " Open Voom LaTex on startup
 autocmd BufRead,BufNewFile *.tex call ZathuraSync()
 autocmd VimLeave *.tex exe "!~/.vim/ftplugin/tex/close_zathura.sh"
-
 " Tex to LaTex
 let g:tex_flavor='latex'
 
 " Matlab
 autocmd BufRead,BufNewFile *.m VimuxRunCommand("clear && matlab -nosplash -nodesktop")
-autocmd VimLeave *.m VimuxCloseRunner
 " Compiler
 autocmd BufEnter *.m compiler mlint
 
 " Mathematica
 autocmd BufRead,BufNewFile *.mma      setfiletype mma
 autocmd BufRead,BufNewFile *.mma VimuxRunCommand("clear && math")
-autocmd VimLeave *.mma VimuxCloseRunner
 autocmd BufNewFile *.mma exe "normal a<<~/.vim/ftplugin/mma/startjava\<Esc>"
 
 " Tsv (Vim as spreadsheet)
@@ -410,6 +425,10 @@ autocmd BufRead,BufNewFile *mutt-* exec "normal ggO\<CR>\<Esc>gg"
 
 " Shell
 autocmd BufNewFile *.sh silent exec "normal i#!/bin/bash\<CR>\<CR>\<Esc>:w\<CR>:! chmod +x %\<CR>\<CR>"
+
+" Calculator
+autocmd BufRead,BufNewFile calc inoremap <CR> =<Esc>vaW"ey:call CalcQA()<CR>F=lDo<Esc>i>   <Esc>po<Esc>i
+autocmd BufRead,BufNewFile calc inoremap <Space> <Esc>pa
 
 " }}}
 
@@ -439,46 +458,36 @@ function! TrailingWhitespaceToggle()
 endfunction
 
 function! CalcQA()
-  let has_equal = 0
-  " remove newlines and trailing spaces
-  let @e = substitute (@e, "\n", "", "g")
-  let @e = substitute (@e, '\s*$', "", "g")
-  " if we end with an equal, strip, and remember for output
-  if @e =~ "=$"
-    let @e = substitute (@e, '=$', "", "")
-    let has_equal = 1
-  endif
-  " escape chars for shell
-  let @e = escape (@e, '*()')
-  " run bc, strip newline
-  let answer = substitute (system ("echo " . @e . " \| qalc"), "\n", "", "")
-  " Strip the answer to what is needed
-  let answer1 = split(answer, " ")
-  let answer2 = answer1[-1]
-  let answer3 = split(answer2, "\n")
-  let answer4 = answer3[0]
-  if has_equal == 1
-    normal `>
-    exec "normal a" . answer4
-    echo "answer = " . answer4
-  else
-    echo "answer = " . answer4
-  endif
+    let has_equal = 0
+    " remove newlines and trailing spaces
+    let @e = substitute (@e, "\n", "", "g")
+    let @e = substitute (@e, '\s*$', "", "g")
+    " if we end with an equal, strip, and remember for output
+    if @e =~ "=$"
+        let @e = substitute (@e, '=$', "", "")
+        let has_equal = 1
+    endif
+    " escape chars for shell
+    let @e = escape (@e, '*()')
+    " run bc, strip newline
+    let answer = substitute (system ("echo " . @e . " \| qalc"), "\n", "", "")
+    " Strip the answer to what is needed
+    let answer1 = split(answer, " ")
+    let answer2 = answer1[-1]
+    let answer3 = split(answer2, "\n")
+    let answer4 = answer3[0]
+    if has_equal == 1
+        normal `>
+        exec "normal a" . answer4
+        echo "answer = " . answer4
+    else
+        echo "answer = " . answer4
+    endif
 endfunction
 
 function! Chomp(str)
   return substitute(a:str, '\n$', '', '')
 endfunction
-
-" }}}
-
-" Gui Options {{{
-
-if has("gui_running")
-    set guioptions-=m
-    set guioptions-=T
-    set guioptions-=r
-endif
 
 " }}}
 

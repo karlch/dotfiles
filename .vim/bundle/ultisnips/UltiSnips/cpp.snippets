@@ -12,6 +12,10 @@ snippet beginend "$1.begin(), $1.end() (beginend)"
 ${1:v}${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}begin(), $1${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}end()
 endsnippet
 
+snippet inc "#include <> (Inc)"
+#include <${1:header}>
+endsnippet
+
 snippet cl "class .. (class)"
 class ${1:`!p snip.rv = snip.basename or "name"`}
 {
@@ -21,6 +25,13 @@ public:
 
 private:
 	${0:/* data */}
+};
+endsnippet
+
+snippet cln "class (empty)"
+class ${1:Name}
+{
+	${0}
 };
 endsnippet
 
@@ -52,6 +63,10 @@ endsnippet
 
 snippet tp "template <typename ..> (template)"
 template <typename ${1:_InputIter}>
+endsnippet
+
+snippet co "cout << output << endl"
+cout << ${0} << endl;
 endsnippet
 
 # vim:ft=snippets:

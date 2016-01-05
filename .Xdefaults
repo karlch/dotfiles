@@ -37,7 +37,7 @@ URxvt*color6: #0AF8FC
 URxvt*color14: #36C6C9
 ! White
 URxvt*color7: #EEEEEE
-URxvt*color15: #999999
+URxvt*color15: #FFFFFF
 
 ! Font
 URxvt.font: xft:Source Code Pro:size=11

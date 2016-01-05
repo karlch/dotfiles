@@ -89,7 +89,7 @@ hi! link LineNr			Comment
 hi! link Macro			PreProc
 hi! link MoreMsg		ModeMsg
 hi! link NonText		Split
-hi! link Number			Constant
+hi! link Number                 Constant
 hi! link Operator		Special
 hi! link PreCondit		PreProc
 hi! link Question		MoreMsg

@@ -1,0 +1,2 @@
+tcomment.vba: call delete('/home/christian/.vim/doc/tcomment.txt')|call delete('/home/christian/.vim/plugin/tcomment.vim')|call delete('/home/christian/.vim/autoload/tcomment.vim')
+supertab.vmb: call delete('/home/christian/.vim/doc/supertab.txt')|call delete('/home/christian/.vim/plugin/supertab.vim')

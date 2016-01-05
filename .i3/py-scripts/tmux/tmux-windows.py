@@ -63,7 +63,7 @@ except:
 
 # Display tmux windows if it is
 if current_title == "tmux":
-    print(winstr.rstrip(), "[", ses, "]")
+    print(winstr.rstrip(), " [", ses, "]", sep="")
 # Else print the current window class
 else:
     print(current_class)

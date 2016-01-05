@@ -10,14 +10,16 @@ while true; do
         folder=`cmus-remote -Q | grep file | cut -d ' ' -f2- | cut -d '/' -f1-6`
         # Already there? -> Album cover already open
         if [[ $folder != $(pwd) || $waiting == 1 ]]; then
-            i3-msg '[title="sxiv - cover.jpg"]' kill
+            i3-msg '[title="vimiv - cover.jpg"]' kill
             cd $folder
             # Cmus the selected window?
             if (xprop -name "cmus" | grep "window state: Normal"); then
-                sxiv -b cover.jpg &
-                # Resize as soon as sxiv is focused
+                vimiv -B cover.jpg &
+                # Resize as soon as vimiv is focused
                 while true; do
-                    if (~/.i3/py-scripts/wincurrent.py | grep "Sxiv"); then
+                    if (~/.i3/py-scripts/wincurrent.py | grep -i "vimiv"); then
+                        i3-msg resize shrink width 500 px
+                        i3-msg resize shrink width 500 px
                         i3-msg focus left
                         waiting=0
                         break
@@ -31,10 +33,10 @@ while true; do
         fi
     # Cmus not running?
     elif !(cmus-remote -Q); then
-        i3-msg '[title="sxiv - cover.jpg"]' kill
+        i3-msg '[title="vimiv - cover.jpg"]' kill
         exit 0
     # No song selected ...
     else
-        i3-msg '[title="sxiv - cover.jpg"]' kill
+        i3-msg '[title="vimiv - cover.jpg"]' kill
     fi
 done

@@ -24,6 +24,7 @@ p = subprocess.Popen(
 prefix, err = p.communicate()
 prefix = prefix.decode(encoding='UTF-8')
 prefix = prefix.strip("\n")
+prefix = prefix.strip(" ")
 
 if current == "tmux":
     print(prefix)

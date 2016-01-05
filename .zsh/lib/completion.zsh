@@ -13,7 +13,8 @@ zstyle ':completion:*' accept-exact-dirs true
 # case-insensitive (all),partial-word and then substring completion
 zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*' 'm:{[:lower:]}={[:upper:]}'
 
-zstyle ':completion:*' list-colors ''
+# nice colors
+zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==34=37}:${(s.:.)LS_COLORS}")'
 
 # Treat sequences of slashes as single slash.
 zstyle ':completion:*' squeeze-slashes true
@@ -29,6 +30,8 @@ zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w 
 
 # disable named-directories autocompletion
 zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+# Also complete ./ ../
+zstyle -e ':completion:*' special-dirs '[[ $PREFIX = (../)#(|.|..) ]] && reply=(..)'
 
 # Use caching so that commands like apt and dpkg complete are useable
 zstyle ':completion::complete:*' use-cache 1

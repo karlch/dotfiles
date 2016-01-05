@@ -17,4 +17,4 @@ except:
     current = "Desktop"
 
 if current == "tmux":
-    print "PANE"
+    print("PANE")

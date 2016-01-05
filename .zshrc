@@ -1,69 +1,55 @@
 # Path to zsh folder
 export ZSH=/home/christian/.zsh
 
-# Set name of the theme to load.
-ZSH_THEME="lhun2"
-
-# Uncomment the following line to use case-sensitive completion.
+# Settings
+ZSH_THEME="lhun"
 CASE_SENSITIVE="true"
-
-# Uncomment the following line to enable command auto-correction.
 ENABLE_CORRECTION="true"
+CHASE_LINKS="true"
 
 # Plugins
-plugins=(dircycle vi-mode clipboard zsh-history-substring-search prepend-sudo)
+plugins=(dircycle vi-mode clipboard zsh-history-substring-search prepend-sudo autosuggestions)
 
-# All main settings
+# Initialize the actual zsh script
 source $ZSH/zsh.sh
 
 
 # God, this pause almost killed me
 stty -ixon
 
-# And vim mode in the zsh
-bindkey -v
-
 # Custom keybindings
-bindkey "^S" clear-screen
-bindkey -s "^K" "" # Used for Window movement
-bindkey "^A" vi-forward-blank-word
-bindkey "^F" my-forward-word
-bindkey "^E" my-backward-word
-bindkey "^ " autosuggest-execute-suggestion
-bindkey "^N" insert-cycledleft
-bindkey "^P" insert-cycledright
-bindkey "^T" autosuggest-toggle
-bindkey "^R" history-incremental-pattern-search-backward
+bindkey '^S' clear-screen
+bindkey -s '^K' '' # Used for Window movement
+bindkey '^A' vi-forward-blank-word
+bindkey '^F' my-forward-word
+bindkey '^E' my-backward-word
+bindkey '^ ' autosuggest-execute-suggestion
+bindkey '^N' insert-cycledleft
+bindkey '^P' insert-cycledright
+bindkey '^T' autosuggest-toggle
+bindkey '^R' history-incremental-pattern-search-backward
 #
 # Normal mode
-bindkey -M vicmd "\E" vi-beginning-of-line
-bindkey -M vicmd " " vi-end-of-line
-bindkey -M vicmd "K" run-help
-bindkey -M vicmd "ä" vi-history-search-backward
-bindkey -M vicmd "ö" execute-named-cmd
-bindkey -M vicmd "s" quote-region
-bindkey -M vicmd "S" quote-line
-bindkey -M vicmd "j" history-substring-search-down
-bindkey -M vicmd "k" history-substring-search-up
+bindkey -M vicmd '\E' vi-beginning-of-line
+bindkey -M vicmd ' ' vi-end-of-line
+bindkey -M vicmd 'K' run-help
+bindkey -M vicmd 'ä' vi-history-search-backward
+bindkey -M vicmd 'ö' execute-named-cmd
+bindkey -M vicmd 's' quote-region
+bindkey -M vicmd 'S' quote-line
+bindkey -M vicmd 'j' history-substring-search-down
+bindkey -M vicmd 'k' history-substring-search-up
+#
 # Completion menu
-bindkey -M menuselect "j" down-line-or-history
-bindkey -M menuselect "k" up-line-or-history
-bindkey -M menuselect "l" forward-char
-bindkey -M menuselect "h" backward-char
-bindkey -M menuselect "i" accept-and-infer-next-history
-bindkey -M menuselect "+" accept-and-menu-complete
+bindkey -M menuselect 'j' down-line-or-history
+bindkey -M menuselect 'k' up-line-or-history
+bindkey -M menuselect 'l' forward-char
+bindkey -M menuselect 'h' backward-char
+bindkey -M menuselect 'i' accept-and-infer-next-history
+bindkey -M menuselect '+' accept-and-menu-complete
 
 # Great z programs
 autoload -U zmv
-
-# Awesome autocomplete like fish
-# Load zsh-autosuggestions.
-source ~/.zsh/plugins/zsh-autosuggestions/autosuggestions.zsh
-# Enable autosuggestions automatically.
-zle-line-init() {
-    zle autosuggest-start
-}
-zle -N zle-line-init
 
 # Colored man pages
 man() {
@@ -77,15 +63,6 @@ man() {
     man "$@"
 }
 
-# Settings
-# Follow symbolic links
-CHASE_LINKS="true"
-
-# aliases
-source ~/.zsh/aliases
-# functions
-source ~/.zsh/functions
-
 # nice colors for VT
 if [ "$TERM" = "linux" ]; then
     _SEDCMD='s/.*\*color\([0-9]\{1,\}\).*#\([0-9a-fA-F]\{6\}\).*/\1 \2/p'
@@ -94,6 +71,19 @@ if [ "$TERM" = "linux" ]; then
         echo -en "$i"
     done
     clear
+fi
+
+# Tmux
+test -z ${TMUX} && exec tmux
+## Workaround for handling TERM variable in multiple tmux sessions properly
+if [[ -n ${TMUX} && -n ${commands[tmux]} ]];then
+    case $(tmux showenv TERM 2>/dev/null) in
+        *256color) ;&
+        TERM=fbterm)
+            TERM=screen-256color ;;
+        *)
+            TERM=screen
+    esac
 fi
 
 # Logo

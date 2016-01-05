@@ -59,15 +59,19 @@ bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5 -time 0 -step
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 4%- && ~/.i3/volnoti-set.sh
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 4%+ && ~/.i3/volnoti-set.sh
 bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle && ~/.i3/volnoti-set.sh
-bindsym XF86AudioPlay exec --no-startup-id cmus-remote -u
-bindsym XF86AudioStop exec --no-startup-id cmus-remote -s
-bindsym XF86AudioNext exec --no-startup-id cmus-remote -n
-bindsym XF86AudioPrev exec --no-startup-id cmus-remote -r
+# bindsym XF86AudioPlay exec --no-startup-id cmus-remote -u
+# bindsym XF86AudioStop exec --no-startup-id cmus-remote -s
+# bindsym XF86AudioNext exec --no-startup-id cmus-remote -n
+# bindsym XF86AudioPrev exec --no-startup-id cmus-remote -r
+bindsym XF86AudioPlay exec --no-startup-id mpc toggle
+bindsym XF86AudioStop exec --no-startup-id mpc stop
+bindsym XF86AudioNext exec --no-startup-id mpc next
+bindsym XF86AudioPrev exec --no-startup-id mpc prev
 
 # Screenshot
-bindsym --release Insert exec --no-startup-id import -window root ~/Bilder/Screenshot/screenshot-$(date +%F_%H:%M:%S).png
-bindsym --release Control+Insert exec --no-startup-id import ~/Bilder/Screenshot/screenshot-$(date +%F_%H:%M:%S).png
-bindsym --release Shift+Insert exec --no-startup-id import -window $(xdotool getactivewindow) ~/Bilder/Screenshot/screenshot-$(date +%F_%H:%M:%S).png
+bindsym --release Insert exec --no-startup-id import -window root ~/Bilder/Screenshot/scrot-$(date +%F_%H:%M:%S).png
+bindsym --release Control+Insert exec --no-startup-id import ~/Bilder/Screenshot/scrot-$(date +%F_%H:%M:%S).png
+bindsym --release Shift+Insert exec --no-startup-id import -window $(xdotool getactivewindow) ~/Bilder/Screenshot/scrot-$(date +%F_%H:%M:%S).png
 
 # Enter normal mode
 bindsym F10 mode "NORMAL"
@@ -234,10 +238,11 @@ mode "NORMAL" {
 
     # Starters
     bindsym w mode "default", exec qutebrowser && cat /dev/null > ~/.local/share/qutebrowser/history 
-    bindsym u exec --no-startup-id urxvt, mode "default"
-    bindsym t exec --no-startup-id urxvt -e tmux, mode "default"
+    bindsym t exec --no-startup-id urxvt, mode "default"
+    # bindsym t exec --no-startup-id urxvt -e tmux, mode "default"
     bindsym f exec --no-startup-id urxvt -e ranger, mode "default"
-    bindsym c exec --no-startup-id ~/bin/cmus_cover.sh & urxvt -e cmus, mode "default"
+    # bindsym c exec --no-startup-id ~/bin/cmus_cover.sh & urxvt -e cmus, mode "default"
+    bindsym c exec --no-startup-id urxvt -e ncmpcpp, mode "default"
     bindsym z exec --no-startup-id urxvt -e mutt, mode "default"
     bindsym Shift+z exec env GTK2_RC_FILES=/usr/share/themes/Raleigh/gtk-2.0/gtkrc firefox-nightly www.protonmail.ch/login, mode "default"
 
