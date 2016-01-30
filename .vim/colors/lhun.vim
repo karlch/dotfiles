@@ -1,5 +1,5 @@
 "     Description:	a theme based on kellys because I wanted to
-"     Maintainer:	Tano
+"     Maintainer:	karlch
 "     License:	gpl 3+
 "     Version:	1.1 (27.03.2015)
 
@@ -31,7 +31,7 @@ hi ColorColumn                          ctermbg=236
 hi Cursor 		ctermfg=234	ctermbg=250	cterm=none
 hi Constant 	        ctermfg=144	ctermbg=none	cterm=none
 hi CursorLine	                   	ctermbg=236	cterm=none
-hi CursorLineNr         ctermfg=45      ctermbg=none     cterm=none
+hi CursorLineNr         ctermfg=45      ctermbg=none    cterm=bold
 hi DiffAdd		ctermfg=234	ctermbg=32	cterm=none
 hi DiffChange	        ctermfg=234	ctermbg=144	cterm=none
 hi DiffDelete	        ctermfg=239	ctermbg=none	cterm=none
@@ -45,12 +45,12 @@ hi PmenuSel		ctermfg=236	ctermbg=81	cterm=bold
 hi PmenuSbar	        ctermfg=234	ctermbg=none	cterm=none
 hi PmenuThumb	        ctermfg=234	ctermbg=none	cterm=none
 hi PreProc		ctermfg=215	ctermbg=none	cterm=none 
-hi Search		ctermfg=234	ctermbg=250	cterm=none
+hi Search		ctermfg=234	ctermbg=32	cterm=none
 hi Special		ctermfg=32	ctermbg=none	cterm=none
 hi Statement	        ctermfg=45	ctermbg=none	cterm=none
 hi StatusLine 	        ctermfg=45	ctermbg=236	cterm=bold
 hi StatusLineNC         ctermfg=233	ctermbg=236	cterm=none
-hi Split                ctermfg=236     ctermbg=none     cterm=none
+hi Split                ctermfg=236     ctermbg=none    cterm=none
 hi Tabline              ctermfg=250     ctermbg=236     cterm=none
 hi TablineSel           ctermfg=32      ctermbg=236     cterm=none
 hi TablineFill          ctermfg=32      ctermbg=236     cterm=none
@@ -95,14 +95,14 @@ hi! link PreCondit		PreProc
 hi! link Question		MoreMsg
 hi! link Repeat			Statement
 hi! link SignColumn		FoldColumn
-hi! link SpecialChar	Special
-hi! link SpecialComment	Special
+hi! link SpecialChar	        Special
+hi! link SpecialComment	        Special
 hi! link SpecialKey		Special
 hi! link SpellBad		Error
 hi! link SpellCap		Error
 hi! link SpellLocal		Error
 hi! link SpellRare		Error
-hi! link StorageClass	Type
+hi! link StorageClass	        Type
 hi! link String			Constant
 hi! link Structure		Type
 hi! link Tag			Special
@@ -112,32 +112,32 @@ hi! link VertSplit		Split
 hi! link WarningMsg		Error
 
 " ada
-hi! link adaBegin			Type
-hi! link adaEnd				Type
-hi! link adaKeyword			Special
+hi! link adaBegin		Type
+hi! link adaEnd			Type
+hi! link adaKeyword		Special
 " c++
-hi! link cppAccess			Type
+hi! link cppAccess		Type
 hi! link cppStatement		Special
 " hs
-hi! link ConId				Type
-hi! link hsPragma			PreProc
-hi! link hsConSym			Operator
+hi! link ConId			Type
+hi! link hsPragma		PreProc
+hi! link hsConSym		Operator
 " html
-hi! link htmlArg			Statement
-hi! link htmlEndTag			Special
-hi! link htmlLink			Underlined
+hi! link htmlArg		Statement
+hi! link htmlEndTag		Special
+hi! link htmlLink		Underlined
 hi! link htmlSpecialTagName	PreProc
-hi! link htmlTag			Special
+hi! link htmlTag    		Special
 hi! link htmlTagName		Type
 " java
 hi! link javaTypeDef		Special
 " lisp
-hi! link lispAtom			Constant
+hi! link lispAtom		Constant
 hi! link lispAtomMark		Constant
-hi! link lispConcat			Special
-hi! link lispDecl			Type
-hi! link lispFunc			Special
-hi! link lispKey			PreProc
+hi! link lispConcat		Special
+hi! link lispDecl	    	Type
+hi! link lispFunc   		Special
+hi! link lispKey		PreProc
 " pas
 hi! link pascalAsmKey		Statement
 hi! link pascalDirective	PreProc

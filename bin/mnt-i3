@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DMENU="dmenu -i -b -y 20 -l 10 -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #EEEEEE"
+DMENU='rofi -dmenu -p Mount-utility'
 # Running from i3 key?
 if [[ $1 == "i3" ]]; then
     i3-msg floating enable
@@ -15,7 +15,7 @@ deviceCount=$(echo $deviceSources | wc -w)
 
 # Are there any devices?
 if [[ $deviceCount == 0 ]]; then
-    zenity --warning --text="No devices found" --title="Error"
+    rofi -show run -e "No devices found"
     exit 1
 fi
 
@@ -42,9 +42,9 @@ else
 fi
 
 if (udevil mount ${tomount}); then
-    zenity --info --title="Mount succesfull" --text="mounted $tomount"
+    rofi -show run -e "Mounted ${tomount} successfully"
 else
-    zenity --warning --title="Error" --text="Input did not match any device"
+    rofi -show run -e "Input did not match any device"
 fi
 rm ~/list.txt
 exit 0

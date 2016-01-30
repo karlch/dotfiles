@@ -1,18 +1,40 @@
 # Copy and paste to xclipboard
 
-copy-to-xclip() {
-    [[ "$REGION_ACTIVE" -ne 0 ]] && zle copy-region-as-kill
-    print -rn -- $CUTBUFFER | xclip -selection clipboard -i
+# Copy
+copy-to-xsel() {
+    zle vi-yank
+    print -rn -- $CUTBUFFER | xsel -i -b
 }
+zle -N copy-to-xsel
+bindkey -M vicmd "y" copy-to-xsel
 
-zle -N copy-to-xclip
-bindkey -M vicmd "Y" copy-to-xclip
-
-paste-xclip() {
-    killring=("$CUTBUFFER" "${(@)killring[1,-2]}")
-    CUTBUFFER=$(xclip -selection clipboard -o)
-    zle yank
+# Paste
+paste-xsel() {
+    RBUFFER=$(xsel -o -b </dev/null)$RBUFFER
 }
+zle -N paste-xsel
+bindkey -M vicmd "p" paste-xsel
 
-zle -N paste-xclip
-bindkey -M vicmd "P" paste-xclip
+# Delete
+delete-to-xsel() {
+    zle vi-delete
+    print -rn -- $CUTBUFFER | xsel -i -b
+}
+zle -N delete-to-xsel
+bindkey -M vicmd "d" delete-to-xsel
+
+# Change
+change-to-xsel() {
+    zle vi-change
+    print -rn -- $CUTBUFFER | xsel -i -b
+}
+zle -N change-to-xsel
+bindkey -M vicmd "c" change-to-xsel
+
+# Char
+char-to-xsel() {
+    zle vi-delete-char
+    print -rn -- $CUTBUFFER | xsel -i -b
+}
+zle -N char-to-xsel
+bindkey -M vicmd "x" char-to-xsel

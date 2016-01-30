@@ -33,13 +33,12 @@ bindsym $mod+space move position mouse
 
 # General keybindings {{{
 
-bindsym $mod+a exec lighthouse | sh
 # Changing windows with the same command in vim, tmux and i3
 bindsym $mod+h exec ~/bin/tmux_navigate.sh h
 bindsym $mod+l exec ~/bin/tmux_navigate.sh l
 bindsym $mod+j exec ~/bin/tmux_navigate.sh j
 bindsym $mod+k exec ~/bin/tmux_navigate.sh k
-# Open dmenu with a list of open windows
+# Open rofi with a list of open windows
 bindsym $mod+Tab exec --no-startup-id ~/.i3/py-scripts/winmenu.py, mode "default"
 
 # Moving windows
@@ -47,6 +46,7 @@ bindsym mod4+h move left
 bindsym mod4+l move right 
 bindsym mod4+j move down
 bindsym mod4+k move up
+bindsym mod4+f move position mouse
 
 # Window stuff
 bindsym $mod+m focus mode_toggle
@@ -59,10 +59,6 @@ bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5 -time 0 -step
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 4%- && ~/.i3/volnoti-set.sh
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 4%+ && ~/.i3/volnoti-set.sh
 bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle && ~/.i3/volnoti-set.sh
-# bindsym XF86AudioPlay exec --no-startup-id cmus-remote -u
-# bindsym XF86AudioStop exec --no-startup-id cmus-remote -s
-# bindsym XF86AudioNext exec --no-startup-id cmus-remote -n
-# bindsym XF86AudioPrev exec --no-startup-id cmus-remote -r
 bindsym XF86AudioPlay exec --no-startup-id mpc toggle
 bindsym XF86AudioStop exec --no-startup-id mpc stop
 bindsym XF86AudioNext exec --no-startup-id mpc next
@@ -75,10 +71,8 @@ bindsym --release Shift+Insert exec --no-startup-id import -window $(xdotool get
 
 # Enter normal mode
 bindsym F10 mode "NORMAL"
-# Open dmenu
-bindsym F11 exec --no-startup-id i3-dmenu-desktop --entry-type='command' --dmenu='dmenu -l 25 -w 250  -i -b -y 21 -p → -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #EEEEEE', mode "default"
-# Search with dmenu
-bindsym Shift+F11 exec --no-startup-id ~/bin/search.sh
+# Open rofi
+bindsym F11 exec --no-startup-id i3-dmenu-desktop --entry-type='command' --dmenu='rofi -dmenu -p "exec: "', mode "default"
 
 # }}}
 
@@ -93,11 +87,9 @@ for_window [window_role="Preferences"] floating enable
 for_window [class="com-wolfram-jlink-Reader"] floating enable
 for_window [class="Gifview"] floating enable
 for_window [class="LIGHTHOUSE"] floating enable
-# for_window [class="Vimiv"] floating enable
+for_window [title="c*Editor"] floating enable
 # Matlab in tabs
 for_window [class="MATLAB R2015a - academic use"] focus, layout tabbed
-# Cmus cover should be small
-for_window [title="sxiv - cover.jpg"] resize shrink width 100 px or 20 ppt
 
 # }}}
 
@@ -118,10 +110,10 @@ mode "NORMAL" {
     # Kill all windows
     bindsym Shift+x exec --no-startup-id ~/.i3/py-scripts/closeall.py
 
-    # dmenu
-    bindsym d exec --no-startup-id i3-dmenu-desktop --entry-type='command' --dmenu='dmenu -l 25 -w 250  -i -b -y 21 -p → -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #EEEEEE', mode "default"
-    # Search duckduckgo with dmenu
-    bindsym space exec --no-startup-id ~/bin/winfocus.sh, mode "default"
+    # Rofi
+    bindsym d exec --no-startup-id i3-dmenu-desktop --entry-type='command' --dmenu='rofi -dmenu', mode "default"
+    # Clipboard with rofi
+    bindsym a exec --no-startup-id ~/bin/clipmenu, mode "default"
 
     # Split in horizontal orientation
     bindsym s split v
@@ -134,7 +126,7 @@ mode "NORMAL" {
     # Change container layout (stacked, tabbed, toggle split)
     bindsym Shift+s layout stacking
     bindsym Shift+t layout tabbed
-    bindsym Shift+c layout toggle split
+    bindsym Shift+p layout toggle split
     bindsym Shift+d layout default
     bindsym Shift+a layout toggle all
 
@@ -154,16 +146,16 @@ mode "NORMAL" {
     bindsym n focus child
 
     # Switch to workspace
-    bindsym 1 workspace 1, exec xdotool click 4 && xdotool click 5
-    bindsym 2 workspace 2, exec xdotool click 4 && xdotool click 5
-    bindsym 3 workspace 3, exec xdotool click 4 && xdotool click 5
-    bindsym 4 workspace 4, exec xdotool click 4 && xdotool click 5
-    bindsym 5 workspace 5, exec xdotool click 4 && xdotool click 5
-    bindsym 6 workspace 6, exec xdotool click 4 && xdotool click 5
-    bindsym 7 workspace 7, exec xdotool click 4 && xdotool click 5
-    bindsym 8 workspace 8, exec xdotool click 4 && xdotool click 5
-    bindsym 9 workspace 9, exec xdotool click 4 && xdotool click 5
-    bindsym 0 workspace 10, exec xdotool click 4 && xdotool click 5
+    bindsym 1 workspace 1
+    bindsym 2 workspace 2
+    bindsym 3 workspace 3
+    bindsym 4 workspace 4
+    bindsym 5 workspace 5
+    bindsym 6 workspace 6
+    bindsym 7 workspace 7
+    bindsym 8 workspace 8
+    bindsym 9 workspace 9
+    bindsym 0 workspace 10
 
     # Move focused container to workspace
     bindsym Shift+1 move container to workspace 1
@@ -239,10 +231,11 @@ mode "NORMAL" {
     # Starters
     bindsym w mode "default", exec qutebrowser && cat /dev/null > ~/.local/share/qutebrowser/history 
     bindsym t exec --no-startup-id urxvt, mode "default"
-    # bindsym t exec --no-startup-id urxvt -e tmux, mode "default"
     bindsym f exec --no-startup-id urxvt -e ranger, mode "default"
-    # bindsym c exec --no-startup-id ~/bin/cmus_cover.sh & urxvt -e cmus, mode "default"
-    bindsym c exec --no-startup-id urxvt -e ncmpcpp, mode "default"
+    # bindsym c exec --no-startup-id urxvt -e ncmpcpp, mode "default"
+    bindsym c exec --no-startup-id ~/bin/ncmpcpp.sh start, mode "default"
+    bindsym c exec --no-startup-id ~/bin/ncmpcpp.sh start, mode "default"
+    bindsym Shift+c exec --no-startup-id ~/bin/ncmpcpp.sh, mode "default"
     bindsym z exec --no-startup-id urxvt -e mutt, mode "default"
     bindsym Shift+z exec env GTK2_RC_FILES=/usr/share/themes/Raleigh/gtk-2.0/gtkrc firefox-nightly www.protonmail.ch/login, mode "default"
 
@@ -256,7 +249,7 @@ mode "NORMAL" {
     bindsym Shift+w mode "$Wireless"
 
     # USB mode
-    bindsym Shift+u mode "$USB"
+    bindsym u mode "$USB"
 
     # Monitor mode
     bindsym e mode "$MONITOR"
@@ -267,16 +260,14 @@ mode "NORMAL" {
     bindsym F10 mode "default"
 
     # Make the Rest return
-    # Append window to the next workspace
-    bindsym a mode "default"
     bindsym b mode "default"
 
     bindsym Shift+e mode "default"
     bindsym Shift+i mode "default"
     bindsym Shift+n mode "default"
-    bindsym Shift+p mode "default"
     bindsym Shift+q mode "default"
     bindsym Shift+v mode "default"
+    bindsym Shift+u mode "default"
 
 }
 # }}}
@@ -380,11 +371,12 @@ mode "Borders" {
 # Start i3bar to display a workspace bar {{{
 bar {
         status_command ~/.i3/conkybar.sh
+        strip_workspace_numbers yes
 
         # Do not allow applications to use the bar as icon tray
         tray_output none
 
-        colors{
+        colors {
             background #2C2C2C
             statusline #00C1FF
             separator #00C1FF
@@ -402,7 +394,6 @@ bar {
         # Mouse bindings are annoying
         bindsym button4 exec :
         bindsym button5 exec :
-
 }
 # }}}
 

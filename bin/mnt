@@ -9,7 +9,7 @@ fi
 TITLE="Mount Utility"
 
 # Populate list of mountable devices
-deviceSources=$(ls /dev | grep "sd[b-z]")
+deviceSources=$(ls /dev | grep "sd[b-z]\|sda3")
 deviceCount=$(echo $deviceSources | wc -w)
 
 # Start of program output
@@ -45,14 +45,25 @@ if (( $input>0 )) && (( $input<=$deviceCount ))
 then
     tomount="/dev/"$(echo ${deviceSources} | cut -d " " -f${input})
     echo -e "\nMounting: \e[1;33m${tomount}\e[0m ..."
-    if (udevil mount ${tomount}); then
-        if [[ $1 == "i3" ]]; then
-            read -p "Exit: " input
-            exit 0
-        else
-            exit 0
+    if [[ ${tomount} == "/dev/sda3" ]]; then
+        if (sudo udevil mount ${tomount}); then
+            if [[ $1 == "i3" ]]; then
+                read -p "Exit: " input
+                exit 0
+            else
+                exit 0
+            fi
         fi
-    fi 
+    else
+        if (udevil mount ${tomount}); then
+            if [[ $1 == "i3" ]]; then
+                read -p "Exit: " input
+                exit 0
+            else
+                exit 0
+            fi
+        fi
+    fi
 fi
 echo -e "\e[31mInvalid menu choice\e[0m"
 read -p "Restart (y/n): " input

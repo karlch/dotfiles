@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Global variables
-DMENU="dmenu -i -b -y 20 -l 10 -fn SourceCodePro -nb #2C2C2C -nf #00C1FF -sb #00A0DD -sf #EEEEEE"
+DMENU="rofi -dmenu -p Unmount-utility"
 
 # Populate list of unmountable devices
 deviceNames=$(findmnt -Do TARGET | grep "/media" | tr " " "_" | sed \
@@ -11,7 +11,7 @@ deviceCount=$(echo $deviceSources | wc -w)
 
 # Are there any devices?
 if [[ $deviceCount == 0 ]]; then
-    zenity --warning --text="No devices found" --title="Error"
+    rofi -show run -e "No devices found"
     exit 1
 fi
 
@@ -41,9 +41,9 @@ else
 fi
 
 if (udevil umount ${tounmount}); then
-    zenity --info --title="Unmount succesfull" --text="unmounted $name located at $tounmount"
+    rofi -show run -e "Unmounted ${tounmount} successfully"
 else
-    zenity --warning --title="Error" --text="Input did not match any device"
+    rofi -show run -e "Input did not match any device"
 fi
 rm ~/list.txt
 exit 0

@@ -12,11 +12,8 @@ conky.text = [[
 # Facebook
 {"full_text":"${exec ~/.i3/py-scripts/fb-notify/fb-notify.sh}","color":"\#00C1FF","separator":false},\
 # Musik
-{"full_text":"${exec cmus-remote -Q | grep ' artist ' | cut -d ' ' -f3- | tr "[:lower:]" "[:upper:]"}","color":"\#00C1FF","separator":false},\
-{"full_text":"${exec cmus-remote -Q | grep ' title ' | cut -d ' ' -f3- | sed 's/(.*)//g'}","color":"\#EEEEEE","separator":false},\
 {"full_text":"${mpd_artist}","color":"\#00C1FF","separator":false},\
 {"full_text":"${mpd_title}","color":"\#EEEEEE","separator":false},\
-# {"full_text":"${exec ncmpcpp --current-song}","color":"\#EEEEEE","separator":false},\
 #
 # Tmux Info
 {"full_text":"      WIN","color":"\#00C1FF","separator":false},\

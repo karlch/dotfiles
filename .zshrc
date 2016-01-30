@@ -71,11 +71,12 @@ if [ "$TERM" = "linux" ]; then
         echo -en "$i"
     done
     clear
+else
+    # Tmux only automatically in X
+    test -z ${TMUX} && exec tmux
 fi
 
-# Tmux
-test -z ${TMUX} && exec tmux
-## Workaround for handling TERM variable in multiple tmux sessions properly
+# Workaround for handling TERM variable in multiple tmux sessions properly
 if [[ -n ${TMUX} && -n ${commands[tmux]} ]];then
     case $(tmux showenv TERM 2>/dev/null) in
         *256color) ;&

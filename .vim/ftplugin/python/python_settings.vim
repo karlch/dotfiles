@@ -1,41 +1,13 @@
 " Settings for python
 
-" {{{ PYMODE
-" And disable the pymode version
-let g:pymode_run = 0
-" Full code check
-nnoremap <buffer> <leader>a :call CheckAll()<CR>
-nnoremap <buffer> <leader>A :PymodeLintAuto<CR>
-" Do not enable rope (use jedi)
-let g:pymode_rope = 0
-" Folding
-let g:pymode_folding = 0
-" Code checkers
-let g:pymode_lint_checkers = ['pyflakes']
-let g:pymode_lint_unmodified = 1
-let g:pymode_lint_ignore = "E501,E402"
-let g:pymode_lint_todo_symbol = 'T'
-let g:pymode_lint_comment_symbol = '#'
-let g:pymode_lint_error_symbol = 'E'
-let g:pymode_lint_info_symbol = 'I'
-let g:pymode_quickfix_minheight = 1
-let g:pymode_quickfix_maxheight = 8
-let g:pymode_rope_goto_definition_bind = "<Nop>"
-" Function for checking everything
-function! CheckAll()
-    let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe']
-    PymodeLint
-    let g:pymode_lint_checkers = ['pyflakes']
-endfunction
-" }}}
-
 " {{{ JEDI
 " Do not let jedi show the stupid window on autocomplete
 let g:jedi#auto_vim_configuration=0
 setlocal completeopt=menuone,longest
 " Do not show call signatures (sad, but just too slow...)
-let g:jedi#show_call_signatures = 0
-" let g:jedi#show_call_signatures_delay = 100
+let g:jedi#show_call_signatures = 1
+call jedi#configure_call_signatures()
+let g:jedi#show_call_signatures_delay = 100
 " Do not automatically select the first word
 let g:jedi#popup_select_first = 1
 " And do not start on .
@@ -64,13 +36,16 @@ vnoremap <buffer> <leader>s :sort<CR>
 " insert a organizing line
 nnoremap <buffer> <leader>i 80i#<Esc>o# <Esc>
 
-" alternate way to go to errors
-nnoremap <buffer> <leader>e :wincmd j<CR>gg<CR>
-nnoremap <buffer> <leader>n :wincmd j<CR>j<CR>
-nnoremap <buffer> <leader>N :wincmd j<CR>k<CR>
-
 " Nested quotes for python
 let b:delimitMate_nesting_quotes = ['"']
 set complete+=k~/.vim/dictionary/python_snippets
+
+" Function for checking everything
+nnoremap <buffer> <leader>a :call CheckAll()<CR>
+function! CheckAll()
+    let g:syntastic_python_checkers = ['pep8', 'pyflakes']
+    write
+    let g:syntastic_python_checkers = ['pyflakes']
+endfunction
 
 " vim:foldmethod=marker:foldlevel=0

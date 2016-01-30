@@ -64,10 +64,9 @@ URxvt.perl-ext-common: default,matcher,url-picker,font-size,osc-xterm-clipboard
 URxvt.perl-ext: default,url-select
 ! Selectable URLs
 URxvt.url-launcher: /usr/bin/qutebrowser --target window
+URxvt.url-select.launcher: /usr/bin/qutebrowser --target window
 URxvt.matcher.rend.0: Uline fg7
 URxvt.keysym.C-b: perl:url-select:select_next
-URxvt.url-select.launcher: /usr/bin/qutebrowser --target window
-URxvt.url-select.underline: true
 ! Catch ugly URL's
 URxvt.cutchars: `()'*<>[]{|}"
 ! Font size on the fly

@@ -1,14 +1,24 @@
 #!/bin/sh
 # A little script to check for updates
 
-updates=$(checkupdates | sed "s/conky//" | wc -w)
+updates=$(checkupdates)
+aurupdates=$(cower -u | awk '{print $2}')
+upnum=$(echo ${updates} | wc -w)
+aurupnum=$(echo ${aurupdates} | wc -w)
+sum=$(echo "${upnum} + ${aurupnum}" | bc)
 
-if (( $updates == 0 ))
+if [[ ${updates} == "" ]]; then
+    updates="No PAC updates"
+fi
+if [[ ${aurupdates} == "" ]]; then
+    aurupdates="No AUR updates\n"
+fi
+
+if (( $sum == 0 ))
 then
-    echo "everything up to date"
-elif (( $updates == 1 ))
-then
-    echo "one update available"
+    echo "everything up to date" > ~/.i3/update_info
+    echo "" > ~/.i3/update_names
 else
-    echo "$updates updates available"
+    printf "PAC:%2d  AUR:%2d\n" ${upnum} ${aurupnum} > ~/.i3/update_info
+    printf "${updates}\n--------------\n${aurupdates}\n" > ~/.i3/update_names
 fi

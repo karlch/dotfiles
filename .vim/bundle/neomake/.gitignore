@@ -1,0 +1,4 @@
+.project.vim
+neomake.log
+scratch/
+tags

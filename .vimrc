@@ -1,7 +1,4 @@
 " General stuff {{{
-" Do not try to be vi compatible, needed for various settings
-set nocompatible
-
 " Load Pathogen to handle my plugins
 call pathogen#infect()
 call pathogen#helptags()
@@ -27,9 +24,6 @@ set ignorecase smartcase
 " Substitute globally by default
 set gdefault
 
-" utf8 as standard encoding
-set encoding=utf8
-
 " Shows command and mode
 set showcmd showmode
 
@@ -37,7 +31,7 @@ set showcmd showmode
 set scrolloff=7 sidescrolloff=7
 
 " Smoother redrawing of windows
-set ttyfast lazyredraw
+set lazyredraw
 
 " Disable annoying backup and swap files
 set nobackup nowritebackup noswapfile
@@ -59,7 +53,7 @@ set completeopt=menuone,longest
 
 " Statusline
 set laststatus=2
-set statusline=%<\%t\ %y\%m\%r\%=\lin:\ %l\/\%L\ col:\ %c
+set statusline=%<\%t\ %y\%m\%r\%=%#warningmsg#%{neomake#statusline#LoclistStatus()}%*\ \ \lin:\ %l\/\%L\ col:\ %c
 
 " Copy and paste from system
 set clipboard=unnamedplus
@@ -72,8 +66,12 @@ set notitle
 
 " Change directory to the current buffer when opening files.
 set autochdir
+
 " Hide dotfiles
 let g:netrw_list_hide='\..*'
+
+" No mouse, tzz neovim
+set mouse=
 
 " }}}
 
@@ -90,14 +88,10 @@ set wildmenu
 " Enable folding by syntax
 set foldenable foldmethod=syntax
 set foldlevel=100
-" Opening and of folds
+" Opening of folds
 set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 
-" Dark background theme
-set background=dark
-
 " Favourite colorscheme and therefore 256 colors
-set t_Co=256
 colorscheme lhun
 
 " Textwidth is always 80, do not wrap, anything longer will be broken
@@ -108,6 +102,9 @@ set colorcolumn=+1
 
 " Highlighting Group for trailing whitespaces
 highlight trailing_whitespace ctermbg=red ctermfg=white
+
+" Higher help window
+set helpheight=30
 
 " }}}
 
@@ -149,6 +146,20 @@ cnoremap Ä ?
 " Going to lines
 noremap ü G
 
+" wbe properly
+map w <Plug>CamelCaseMotion_w
+map b <Plug>CamelCaseMotion_b
+map e <Plug>CamelCaseMotion_e
+sunmap w
+sunmap b
+sunmap e
+omap iw <Plug>CamelCaseMotion_iw
+xmap iw <Plug>CamelCaseMotion_iw
+omap ib <Plug>CamelCaseMotion_ib
+xmap ib <Plug>CamelCaseMotion_ib
+omap ie <Plug>CamelCaseMotion_ie
+xmap ie <Plug>CamelCaseMotion_ie
+
 " Switching between matches
 map <tab> %
 
@@ -159,8 +170,8 @@ noremap <leader>ä :set hlsearch!<Cr>
 nmap + *
 nmap <Bs> #
 " Search results are showed in the middle of the line
-nnoremap n nzz
-nnoremap N Nzz
+nmap n nzz
+nmap N Nzz
 " Also in visualmode keeping the selection
 vmap + *gnzz
 vmap <Bs> #gnzz
@@ -201,6 +212,12 @@ inoremap <Down> <Esc>:TmuxNavigateDown<CR>
 inoremap <Up> <Esc>:TmuxNavigateUp<CR>
 inoremap <Right> <Esc>:TmuxNavigateRight<CR>
 
+" Follow Tags with C-Space
+nnoremap <C-@> <C-]>
+
+" Access marks quickly
+nnoremap , `
+
 " }}}
 
 " Leader Mappings {{{
@@ -208,15 +225,13 @@ inoremap <Right> <Esc>:TmuxNavigateRight<CR>
 map <space> <leader>
 
 " Move to beggining/end of line
-noremap <leader>h ^
-noremap <leader>l $
+noremap H ^
+noremap L $
 
 " Quit all windows
 nnoremap <leader>q :qa!<CR>
 " Save the current window
 nnoremap <leader>w :w<CR>
-" Save and quit
-nnoremap <leader>z ZZ
 
 " Open and close folds quickly
 nnoremap <leader>f za
@@ -232,16 +247,10 @@ nnoremap <leader>g gqip
 vnoremap <leader>g gq
 
 " Move to quickfix errors
-nnoremap <leader>e :cc<CR>
-nnoremap <leader>n :cnext<CR>
-nnoremap <leader>N :cprevious<CR>
-
-" Make a latex table
-nnoremap <leader>T :%s / / \& <CR>:%s /^/    <CR>:%s /$/ \\\\ \\hline<CR>ggO<Bs><Bs>\begin{center}<CR><tab>\begin{tabular}<CR>\hline<Esc>Go\end{tabular}<Cr><Bs>\end{center}<Esc>2GA{\|c\|c\|}<left>
-vnoremap <leader>T :s / / \& <CR>gv:s /^/    <CR>gv:s /$/ \\\\ \\hline<CR>gvo<Esc>O<Bs><Bs>\begin{center}<CR><tab>\begin{tabular}<CR>\hline<Esc>gvo<Esc>o\end{tabular}<Cr><Bs>\end{center}<Esc>gvo2k<Esc>A{\|c\|c\|}<left>
-
-" Select file with ranger
-nnoremap <leader>r :<C-U>RangerChooser<CR>
+nnoremap <leader>o :lw<CR>
+nnoremap <leader>e :ll<CR>
+nnoremap <leader>n :lnext<CR>
+nnoremap <leader>N :lprevious<CR>
 
 " }}}
 
@@ -261,22 +270,18 @@ nnoremap <leader>te :Explore<CR>
 " Start the gundo plugin
 nnoremap<leader>u :GundoToggle<CR><CR>
 
-" Easymotion on ,
-map , <Plug>(easymotion,prefix)
-" Easymotion repeat
-map ,. <Plug>(easymotion,repeat)
-" Inline forward/backward
-map ,l <Plug>(easymotion,lineforward)
-map ,h <Plug>(easymotion,linebackward)
-" Words of the whole screen
-map ,a <Plug>(easymotion,bd,w)
-" Two letter searches
-map ,s <Plug>(easymotion,s2)
-" Longer searches
-map ,, <Plug>(easymotion,sn)
-" Smart f and t
+" Powerful hl
+map <leader>h <Plug>(easymotion-linebackward)
+map <leader>l <Plug>(easymotion-lineforward)
+map <leader>j <Plug>(easymotion-j)
+map <leader>k <Plug>(easymotion-k)
+" " Smart f and t
 map f <Plug>(easymotion-bd-f)
 map t <Plug>(easymotion-bd-t)
+" Two letter searches
+map F <Plug>(easymotion-s2)
+" Longer searches
+map - <Plug>(easymotion-sn)
 
 " Dragvisuals
 vmap <expr> <C-h> DVB_Drag('left')
@@ -323,15 +328,19 @@ smapclear
 
 " Settings for plugins {{{
 
-" Configure Tagbar
+" Tagbar
 let g:tagbar_left = 1
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
 let g:tagbar_foldlevel = 5
 let g:tagbar_compact = 1
+let g:tagbar_sort = 0
+let g:tagbar_indent = 1
+let g:tagbar_autopreview = 0
 
-" Configure easymotion
-let g:EasyMotion_keys = 'acdefghijklmnoqrstuvwö'
+" Easymotion
+let g:EasyMotion_keys = 'ACDEFGHIJKLMNQRSTUVWÖ'
+let g:EasyMotion_use_upper = 1
 
 " delimitMate
 let g:delimitMate_expand_space = 0
@@ -363,21 +372,35 @@ let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
 let g:SuperTabLongestEnhanced = 1
 let g:SuperTabLongestHighlight = 1
 
+" Gundo
+let g:gundo_close_on_revert = 1
+
+" Neomake
+let g:neomake_verbose = 0
+let g:neomake_python_enabled_makers = ['pyflakes']
+let g:neomake_python_pep8_args = ['--max-line-length=80']
+let g:neomake_cpp_clang_args = ['-Wno-c++11-extensions']
+
 "}}}
 
 " Autocommands {{{
 " Close the extra vimux buffer
 autocmd VimLeave * VimuxCloseRunner
+
 " Formatoptions
-autocmd FileType * setlocal formatoptions=qlnjaw
+autocmd FileType * setlocal formatoptions=tcqlnj
+autocmd FileType *.tex setlocal formatoptions=tcqlnjaw
+
 " Quickfixsize
 autocmd FileType qf call AdjustWindowHeight()
 function! AdjustWindowHeight()
-  execute min([line("$"), 20]) . "wincmd _"
+    echom line("$")
+  execute min([line("$"), 8]) . "wincmd _"
 endfunction
-" Nicer cursorline
-autocmd InsertEnter * highlight  CursorLine ctermbg=None ctermfg=None
-autocmd InsertLeave * highlight  CursorLine ctermbg=236 ctermfg=None
+
+" Neomake
+autocmd! BufWritePost *.{py,c,C,cpp} Neomake
+autocmd! BufWritePost vimiv Neomake
 
 " Python
 " Command to insert the python code for a nice header
@@ -385,14 +408,12 @@ autocmd BufNewFile *.py exe "normal a#!/usr/bin/env python\<Esc>o# encoding: utf
 
 " C
 " Set a compiler
-autocmd BufRead,BufNewFile *.c set makeprg=gcc\ %\ -o\ %<\ -lm
-autocmd BufRead,BufNewFile *.cpp set makeprg=g++\ %\ -o\ %<\ -std=c++11
+autocmd BufRead,BufNewFile *.c setlocal makeprg=gcc\ %\ -o\ %:t:r\ -lm
+autocmd BufRead,BufNewFile *.cpp setlocal makeprg=g++\ %\ -o\ %:t:r\ -std=c++11
 " Root
 autocmd BufRead,BufNewFile *.C set filetype=cpp.root
-autocmd BufRead,BufNewFile *.C set makeprg=root\ -q\ -l\ %
 
 " LaTex
-" Open Voom LaTex on startup
 autocmd BufRead,BufNewFile *.tex call ZathuraSync()
 autocmd VimLeave *.tex exe "!~/.vim/ftplugin/tex/close_zathura.sh"
 " Tex to LaTex
@@ -469,7 +490,7 @@ function! CalcQA()
     endif
     " escape chars for shell
     let @e = escape (@e, '*()')
-    " run bc, strip newline
+    " run qalc, strip newline
     let answer = substitute (system ("echo " . @e . " \| qalc"), "\n", "", "")
     " Strip the answer to what is needed
     let answer1 = split(answer, " ")

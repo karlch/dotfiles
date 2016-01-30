@@ -78,25 +78,11 @@ def win_menu(clients, l=20):
     """
     Displays a window menu using dmenu.
     """
-    dmenu = subprocess.Popen(['/usr/bin/dmenu',
-                              '-i',
-                              '-l',
-                              str(l),
-                              '-b',
-                              '-y',
-                              '21',
+    dmenu = subprocess.Popen(['rofi',
+                              '-dmenu',
                               '-p',
-                              'Go to:',
-                              '-fn',
-                              'SourceCodePro',
-                              '-nb',
-                              '#2C2C2C',
-                              '-nf',
-                              '#00C1FF',
-                              '-sb',
-                              '#00A0DD',
-                              '-sf',
-                              '#FFFFFF'],
+                              'window: '
+                              ],
                              stdin=subprocess.PIPE,
                              stdout=subprocess.PIPE)
     menu_str = '\n'.join(sorted(clients.keys()))

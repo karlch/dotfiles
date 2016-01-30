@@ -80,10 +80,6 @@ function! s:ClangCompleteInit()
     echoe 'clang_complete: conceal feature not available but requested'
   endif
 
-  if !exists('g:clang_complete_optional_args_in_snippets')
-    let g:clang_complete_optional_args_in_snippets = 0
-  endif
-
   if !exists('g:clang_trailing_placeholder')
     let g:clang_trailing_placeholder = 0
   endif
@@ -106,6 +102,10 @@ function! s:ClangCompleteInit()
 
   if !exists('g:clang_debug')
     let g:clang_debug = 0
+  endif
+
+  if !exists('g:clang_quiet')
+    let g:clang_quiet = 0
   endif
 
   if !exists('g:clang_sort_algo')
@@ -134,15 +134,6 @@ function! s:ClangCompleteInit()
 
   if !exists('g:clang_restore_cr_imap')
     let g:clang_restore_cr_imap = 'iunmap <buffer> <CR>'
-  endif
-
-  if !exists('g:clang_omnicppcomplete_compliance')
-    let g:clang_omnicppcomplete_compliance = 0
-  endif
-
-  if g:clang_omnicppcomplete_compliance == 1
-    let g:clang_complete_auto = 0
-    let g:clang_make_default_keymappings = 0
   endif
 
   call LoadUserOptions()
@@ -176,7 +167,7 @@ function! s:ClangCompleteInit()
     return
   endif
 
-  python snippetsInit()
+  execute s:get_python() . "snippetsInit()"
 
   if g:clang_make_default_keymappings == 1
     inoremap <expr> <buffer> <C-X><C-U> <SID>LaunchCompletion()
@@ -186,10 +177,6 @@ function! s:ClangCompleteInit()
     execute "nnoremap <buffer> <silent> " . g:clang_jumpto_declaration_key . " :call <SID>GotoDeclaration(0)<CR><Esc>"
     execute "nnoremap <buffer> <silent> " . g:clang_jumpto_declaration_in_preview_key . " :call <SID>GotoDeclaration(1)<CR><Esc>"
     execute "nnoremap <buffer> <silent> " . g:clang_jumpto_back_key . " <C-O>"
-  endif
-
-  if g:clang_omnicppcomplete_compliance == 1
-    inoremap <expr> <buffer> <C-X><C-U> <SID>LaunchCompletion()
   endif
 
   " Force menuone. Without it, when there's only one completion result,
@@ -211,10 +198,7 @@ function! s:ClangCompleteInit()
   endif
 
   setlocal completefunc=ClangComplete
-  if g:clang_omnicppcomplete_compliance == 0
-    setlocal omnifunc=ClangComplete
-  endif
-
+  setlocal omnifunc=ClangComplete
 endfunction
 
 function! LoadUserOptions()
@@ -274,7 +258,7 @@ function! s:processFilename(filename, root)
   if matchstr(a:filename, '\C^[''"\\]\=/') != ''
     let l:filename = a:filename
   " Handle Windows absolute path
-  elseif s:isWindows() 
+  elseif s:isWindows()
        \ && matchstr(a:filename, '\C^"\=[a-zA-Z]:[/\\]') != ''
     let l:filename = a:filename
   " Convert relative path to absolute path
@@ -294,14 +278,18 @@ function! s:processFilename(filename, root)
       let l:filename = shellescape(a:root) . a:filename
     endif
   endif
-  
+
   return l:filename
 endfunction
 
 function! s:parseConfig()
   let l:local_conf = findfile('.clang_complete', getcwd() . ',.;')
   if l:local_conf == '' || !filereadable(l:local_conf)
-    return
+    let l:local_conf = findfile('.syntastic_' . &filetype . '_config',
+                                \ getcwd() . ',.;')
+    if l:local_conf == '' || !filereadable(l:local_conf)
+      return
+    endif
   endif
 
   let l:sep = '/'
@@ -354,23 +342,53 @@ function! s:parsePathOption()
   endfor
 endfunction
 
+function! s:get_python()
+  if has('python3')
+    return 'python3 '
+  else
+    return 'python '
+  endif
+endfunction
+
+function! s:get_pyfile()
+  if has('python3')
+    return 'py3file '
+  else
+    return 'pyfile '
+  endif
+endfunction
+
 function! s:initClangCompletePython()
-  if !has('python')
-    echoe 'clang_complete: No python support available.'
-    echoe 'Cannot use clang library'
-    echoe 'Compile vim with python support to use libclang'
+  if !has('python3') && !has('python')
+    if !g:clang_quiet
+      echoe 'clang_complete: No python support available.'
+      echoe 'Cannot use clang library'
+      echoe 'Compile vim with python support to use libclang'
+    endif
     return 0
   endif
 
   " Only parse the python library once
   if !exists('s:libclang_loaded')
-    python import sys
+    execute s:get_python() . "import sys, vim"
 
-    exe 'python sys.path = ["' . s:plugin_path . '"] + sys.path'
-    exe 'pyfile ' . fnameescape(s:plugin_path) . '/libclang.py'
+    execute s:get_python() .
+          \ "vim.command('let l:less_than_python_2_6 = %d' % (sys.version_info < (2, 6),))"
+
+    " @vimlint(EVL101, 1, l:less_than_python_2_6)
+    if l:less_than_python_2_6
+      if !g:clang_quiet
+        echoe 'clang_complete: Python is too old'
+      endif
+      return 0
+    endif
+    " @vimlint(EVL101, 0, l:less_than_python_2_6)
+
+    execute s:get_python() . 'sys.path = ["' . s:plugin_path . '"] + sys.path'
+    execute s:get_pyfile() . fnameescape(s:plugin_path) . '/libclang.py'
 
     try
-      exe 'python from snippets.' . g:clang_snippets_engine . ' import *'
+      execute s:get_python() . 'from snippets.' . g:clang_snippets_engine . ' import *'
       let l:snips_loaded = 1
     catch
       let l:snips_loaded = 0
@@ -378,18 +396,20 @@ function! s:initClangCompletePython()
     if l:snips_loaded == 0
       " Oh yeah, vimscript rocks!
       " Putting that echoe inside the catch, will throw an error, and
-      " display spurious unwanted errors…
+      " display spurious unwanted errors.
       echoe 'Snippets engine ' . g:clang_snippets_engine . ' not found'
       return 0
     endif
 
-    py vim.command('let l:res = ' + str(initClangComplete(vim.eval('g:clang_complete_lib_flags'), vim.eval('g:clang_compilation_database'), vim.eval('g:clang_library_path'))))
+    execute s:get_python() . "vim.command('let l:res = ' + str(initClangComplete(vim.eval('g:clang_complete_lib_flags'), vim.eval('g:clang_compilation_database'), vim.eval('g:clang_library_path'))))"
+    " @vimlint(EVL101, 1, l:res)
     if l:res == 0
       return 0
     endif
+    " @vimlint(EVL101, 0, l:res)
     let s:libclang_loaded = 1
   endif
-  python WarmupCache()
+  execute s:get_python() . "WarmupCache()"
   return 1
 endfunction
 
@@ -400,7 +420,7 @@ function! s:DoPeriodicQuickFix()
   endif
   let b:my_changedtick = b:changedtick
 
-  python updateCurrentDiagnostics()
+  execute s:get_python() . "updateCurrentDiagnostics()"
   call s:ClangQuickFix()
 endfunction
 
@@ -409,9 +429,10 @@ function! s:ClangQuickFix()
   syntax clear SpellBad
   syntax clear SpellLocal
 
-  python vim.command('let l:list = ' + str(getCurrentQuickFixList()))
-  python highlightCurrentDiagnostics()
+  execute s:get_python() . "vim.command('let l:list = ' + str(getCurrentQuickFixList()))"
+  execute s:get_python() . "highlightCurrentDiagnostics()"
 
+  " @vimlint(EVL101, 1, l:list)
   if g:clang_complete_copen == 1
     " We should get back to the original buffer
     let l:bufnr = bufnr('%')
@@ -428,6 +449,7 @@ function! s:ClangQuickFix()
     exe l:winbufnr . 'wincmd w'
   endif
   call setqflist(l:list)
+  " @vimlint(EVL101, 0, l:list)
   silent doautocmd QuickFixCmdPost make
 endfunction
 
@@ -442,6 +464,7 @@ endfunction
 
 let b:col = 0
 
+" @vimlint(EVL103, 1, a:base)
 function! ClangComplete(findstart, base)
   if a:findstart
     let l:line = getline('.')
@@ -462,12 +485,13 @@ function! ClangComplete(findstart, base)
       let l:time_start = reltime()
     endif
 
-    python snippetsReset()
+    execute s:get_python() . "snippetsReset()"
 
-    python completions, timer = getCurrentCompletions(vim.eval('a:base'))
-    python vim.command('let l:res = ' + completions)
-    python timer.registerEvent("Load into vimscript")
+    execute s:get_python() . "completions, timer = getCurrentCompletions(vim.eval('a:base'))"
+    execute s:get_python() . "vim.command('let l:res = ' + completions)"
+    execute s:get_python() . "timer.registerEvent('Load into vimscript')"
 
+    " @vimlint(EVL101, 1, l:res)
     if g:clang_make_default_keymappings == 1
       if s:use_maparg
         let s:old_cr = maparg('<CR>', 'i', 0, 1)
@@ -487,14 +511,18 @@ function! ClangComplete(findstart, base)
     augroup end
     let b:snippet_chosen = 0
 
-    python timer.finish()
+    execute s:get_python() . "timer.finish()"
 
     if g:clang_debug == 1
+      " @vimlint(EVL104, 1, l:time_start)
       echom 'clang_complete: completion time ' . split(reltimestr(reltime(l:time_start)))[0]
+      " @vimlint(EVL104, 0, l:time_start)
     endif
     return l:res
+    " @vimlint(EVL101, 0, l:res)
   endif
 endfunction
+" @vimlint(EVL103, 0, a:base)
 
 function! s:HandlePossibleSelectionEnter()
   if pumvisible()
@@ -558,7 +586,7 @@ function! s:TriggerSnippet()
   call s:StopMonitoring()
 
   " Trigger the snippet
-  python snippetsTrigger()
+  execute s:get_python() . "snippetsTrigger()"
 
   if g:clang_close_preview
     pclose
@@ -617,15 +645,17 @@ function! s:CompleteColon()
   return ':' . s:LaunchCompletion()
 endfunction
 
+" @vimlint(EVL103, 1, a:preview)
 function! s:GotoDeclaration(preview)
   try
-    python gotoDeclaration(vim.eval('a:preview') == '1')
+    execute s:get_python() . "gotoDeclaration(vim.eval('a:preview') == '1')"
   catch /^Vim\%((\a\+)\)\=:E37/
     echoe "The current file is not saved, and 'hidden' is not set."
           \ "Either save the file or add 'set hidden' in your vimrc."
   endtry
   return ''
 endfunction
+" @vimlint(EVL103, 0, a:preview)
 
 " May be used in a mapping to update the quickfix window.
 function! g:ClangUpdateQuickFix()

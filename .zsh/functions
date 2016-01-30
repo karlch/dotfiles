@@ -28,16 +28,16 @@ function command_not_found_handler() {
 }
 
 # vim with server if necessary
-function vim {
-    eval last=\$$#
-    if echo $last | grep ".m\|.mma\|.c\|.h\|.C" > /dev/null; then
-        command vim --servername VimServer $@
-    elif echo $last | grep ".tex" > /dev/null; then
-        command vim --servername TexServer $@
-    else
-        command vim $@
-    fi
-}
+# function vim {
+#     eval last=\$$#
+#     if echo $last | grep "\.m\|\.mma\|\.c\|\.h\|\.C" > /dev/null; then
+#         command vim --servername VimServer $@
+#     elif echo $last | grep "\.tex" > /dev/null; then
+#         command vim --servername TexServer $@
+#     else
+#         command vim --servername DefaultServer $@
+#     fi
+# }
 
 # favourite command
 function favcmd() {
@@ -94,4 +94,11 @@ function cowd() {
 # Value of an alias
 function alias_value() {
     alias "$1" | sed "s/^$1='\(.*\)'$/\1/"
+}
+
+# All commands
+function ListAllCommands
+{
+    echo -n $PATH | xargs -d : -I {} find {} -maxdepth 1 \
+            -executable -type f -printf '%P\n' | sort -u
 }
