@@ -146,20 +146,6 @@ cnoremap Ä ?
 " Going to lines
 noremap ü G
 
-" wbe properly
-map w <Plug>CamelCaseMotion_w
-map b <Plug>CamelCaseMotion_b
-map e <Plug>CamelCaseMotion_e
-sunmap w
-sunmap b
-sunmap e
-omap iw <Plug>CamelCaseMotion_iw
-xmap iw <Plug>CamelCaseMotion_iw
-omap ib <Plug>CamelCaseMotion_ib
-xmap ib <Plug>CamelCaseMotion_ib
-omap ie <Plug>CamelCaseMotion_ie
-xmap ie <Plug>CamelCaseMotion_ie
-
 " Switching between matches
 map <tab> %
 
@@ -172,11 +158,11 @@ nmap <Bs> #
 " Search results are showed in the middle of the line
 nmap n nzz
 nmap N Nzz
-" Also in visualmode keeping the selection
+" Also in visual mode keeping the selection
 vmap + *gnzz
 vmap <Bs> #gnzz
 
-" Move codeblocks without losing the visualization
+" Move code blocks without losing the visualization
 vnoremap < <gv
 vnoremap > >gv
 
@@ -185,7 +171,7 @@ inoremap <C-c> =<Esc>vaW"ey:call CalcQA()<CR>F=dBxA
 vnoremap <C-c> "ey:call CalcQA()<CR>
 nnoremap <C-c> vaW"ey:call CalcQA()<CR>
 
-" Spellchecking on/off
+" Spell checking on/off
 nnoremap <F2> :set spell! spelllang=de<CR>
 nnoremap <F3> :set spell! spelllang=en<CR>
 " Next/previous error
@@ -224,7 +210,7 @@ nnoremap , `
 " Space is mapped for the use of the leader key (map for visibility)
 map <space> <leader>
 
-" Move to beggining/end of line
+" Move to beginning/end of line
 noremap H ^
 noremap L $
 
@@ -301,7 +287,7 @@ vmap <leader>+ °1gv°2
 vnoremap <Esc> <Esc>:set showmode<Cr>:<Bs>
 
 " Surround
-" Use normal s in visual mode aswell
+" Use normal s in visual mode as well
 vmap s S
 " Add a surrounding with s
 nmap s ysi
@@ -341,6 +327,7 @@ let g:tagbar_autopreview = 0
 " Easymotion
 let g:EasyMotion_keys = 'ACDEFGHIJKLMNQRSTUVWÖ'
 let g:EasyMotion_use_upper = 1
+let g:EasyMotion_smartcase = 1
 
 " delimitMate
 let g:delimitMate_expand_space = 0
@@ -377,14 +364,12 @@ let g:gundo_close_on_revert = 1
 
 " Neomake
 let g:neomake_verbose = 0
-let g:neomake_python_enabled_makers = ['pyflakes']
-let g:neomake_python_pep8_args = ['--max-line-length=80']
 let g:neomake_cpp_clang_args = ['-Wno-c++11-extensions']
 
 "}}}
 
 " Autocommands {{{
-" Close the extra vimux buffer
+" Close the extra tmux buffer
 autocmd VimLeave * VimuxCloseRunner
 
 " Formatoptions
@@ -445,7 +430,7 @@ autocmd BufRead,BufNewFile *mutt-* set foldlevel=3
 autocmd BufRead,BufNewFile *mutt-* exec "normal ggO\<CR>\<Esc>gg"
 
 " Shell
-autocmd BufNewFile *.sh silent exec "normal i#!/bin/bash\<CR>\<CR>\<Esc>:w\<CR>:! chmod +x %\<CR>\<CR>"
+autocmd BufNewFile *.sh silent exec "normal i#!/bin/bash\<CR>\<CR>\<Esc>:silent w\<CR>:silent! chmod +x %\<CR>\<CR>"
 
 " Calculator
 autocmd BufRead,BufNewFile calc inoremap <CR> =<Esc>vaW"ey:call CalcQA()<CR>F=lDo<Esc>i>   <Esc>po<Esc>i

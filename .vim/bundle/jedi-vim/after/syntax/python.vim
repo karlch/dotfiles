@@ -22,6 +22,11 @@ if g:jedi#show_call_signatures > 0 && has('conceal')
     hi def link jediFatSymbol Ignore
     hi def link jediSpace Normal
 
-    hi jediFunction term=NONE cterm=NONE ctermbg=234 ctermfg=250
-    hi jediFat term=bold cterm=bold ctermbg=234 ctermfg=45
+    if exists('g:colors_name')
+        hi def link jediFunction CursorLine
+        hi def link jediFat TabLine
+    else
+        hi jediFunction term=NONE cterm=NONE ctermfg=6 guifg=Black gui=NONE ctermbg=0 guibg=Grey
+        hi jediFat term=bold,underline cterm=bold,underline gui=bold,underline ctermbg=0 guibg=#555555
+    endif
 endif

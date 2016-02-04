@@ -3,7 +3,7 @@
 
 updates=$(checkupdates)
 aurupdates=$(cower -u | awk '{print $2}')
-upnum=$(echo ${updates} | wc -w)
+upnum=$(echo $(echo ${updates} | wc -w)/4 | bc)
 aurupnum=$(echo ${aurupdates} | wc -w)
 sum=$(echo "${upnum} + ${aurupnum}" | bc)
 
@@ -16,8 +16,8 @@ fi
 
 if (( $sum == 0 ))
 then
-    echo "everything up to date" > ~/.i3/update_info
-    echo "" > ~/.i3/update_names
+    echo "everything up to date" > ~/.i3/info/update_info
+    echo "" > ~/.i3/info/update_names
 else
     printf "PAC:%2d  AUR:%2d\n" ${upnum} ${aurupnum} > ~/.i3/update_info
     printf "${updates}\n--------------\n${aurupdates}\n" > ~/.i3/update_names

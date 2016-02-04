@@ -17,7 +17,7 @@ except:
     current = "Desktop"
 
 p = subprocess.Popen(
-    ['tmux', 'display-message', '-p', '#{?client_prefix,NORMAL,} #P'],
+    ['tmux', 'display-message', '-p', '#P'],
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE)
 

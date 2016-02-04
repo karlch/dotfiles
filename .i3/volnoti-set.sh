@@ -7,3 +7,5 @@ then
 else
     volnoti-show -s /usr/share/pixmaps/volnoti/volume_muted.svg $vol
 fi
+
+printf "%s\n%s\n" $vol $mute > ~/.i3/info/volume_info

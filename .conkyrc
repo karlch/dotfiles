@@ -32,7 +32,7 @@ gap_y = 10
 
 --------------------------------------------------------------------------------
 conky.text = [[
-${if_match "${exec cat ~/.i3/update_info}" == "everything up to date"}${image /home/christian/Bilder/Sonstiges/pacman.png -p 2,2 -s 22x22}${else}${image /home/christian/Bilder/Sonstiges/pacman-eating.png -p 2,2 -s 22x22}${endif} \
+${if_match "${exec cat ~/.i3/info/update_info}" == "everything up to date"}${image /home/christian/Bilder/Sonstiges/pacman.png -p 2,2 -s 22x22}${else}${image /home/christian/Bilder/Sonstiges/pacman-eating.png -p 2,2 -s 22x22}${endif} \
 ${font Source Code Pro:style=Bold:size=13}${color #ffffff}     ${exec cat ~/.i3/update_info}     \
 ${color #00C1FF} TOTAL ${color #ffffff} ${fs_size /}     \
 ${color #00C1FF} FREE ${color #ffffff} ${fs_free /}     \
@@ -42,6 +42,6 @@ ${color #00C1FF} SHELL ${color #ffffff} ${exec echo $SHELL}     \
 ${color #00C1FF} WM ${color #ffffff} i3     \
 ${color #00C1FF} WEATHER ${color #ffffff} ${exec ~/bin/weather.sh}
 ${color #00C1FF}${hr 2}${color #ffffff}
-${exec cat ~/.i3/update_names}
+${exec cat ~/.i3/info/update_names}
 ${exec ~/bin/update}
 ]]
