@@ -24,14 +24,8 @@ zle -N zle-line-finish
 zle -N zle-keymap-select
 zle -N edit-command-line
 
-
 bindkey -v
 
-# allow v to edit the command line (standard behaviour)
+# allow q to edit the command line (standard behaviour)
 autoload -Uz edit-command-line
 bindkey -M vicmd 'q' edit-command-line
-
-# allow ctrl-h, ctrl-w, ctrl-? for char and word deletion (standard behaviour)
-bindkey '^?' backward-delete-char
-bindkey '^h' backward-delete-char
-bindkey '^w' backward-kill-word

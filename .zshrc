@@ -8,18 +8,15 @@ ENABLE_CORRECTION="true"
 CHASE_LINKS="true"
 
 # Plugins
-plugins=(dircycle vi-mode clipboard zsh-history-substring-search prepend-sudo autosuggestions)
+plugins=(dircycle vi-mode clipboard zsh-history-substring-search sudo autosuggestions)
 
 # Initialize the actual zsh script
 source $ZSH/zsh.sh
-
 
 # God, this pause almost killed me
 stty -ixon
 
 # Custom keybindings
-bindkey '^S' clear-screen
-bindkey -s '^K' '' # Used for Window movement
 bindkey '^A' vi-forward-blank-word
 bindkey '^F' my-forward-word
 bindkey '^E' my-backward-word
@@ -28,6 +25,7 @@ bindkey '^N' insert-cycledleft
 bindkey '^P' insert-cycledright
 bindkey '^T' autosuggest-toggle
 bindkey '^R' history-incremental-pattern-search-backward
+bindkey '^S' push-line-or-edit
 #
 # Normal mode
 bindkey -M vicmd '\E' vi-beginning-of-line
@@ -35,8 +33,6 @@ bindkey -M vicmd ' ' vi-end-of-line
 bindkey -M vicmd 'K' run-help
 bindkey -M vicmd 'ä' vi-history-search-backward
 bindkey -M vicmd 'ö' execute-named-cmd
-bindkey -M vicmd 's' quote-region
-bindkey -M vicmd 'S' quote-line
 bindkey -M vicmd 'j' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 #
@@ -50,6 +46,19 @@ bindkey -M menuselect '+' accept-and-menu-complete
 
 # Great z programs
 autoload -U zmv
+# Zcalc
+autoload -U zcalc
+autoload -Uz zcalc-auto-insert
+zle -N zcalc-auto-insert
+bindkey '+' zcalc-auto-insert
+bindkey '\-' zcalc-auto-insert
+bindkey '\/' zcalc-auto-insert
+bindkey '\*' zcalc-auto-insert
+# Surround
+autoload -Uz surround
+zle -N change-surround surround
+bindkey -M vicmd 's' add-surround
+bindkey -M visual 's' add-surround
 
 # Colored man pages
 man() {

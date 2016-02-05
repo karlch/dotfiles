@@ -5,15 +5,17 @@ zle -N self-insert url-quote-magic
 ## jobs
 setopt long_list_jobs
 
-## pager
-export PAGER="less"
-export LESS="-R"
+# ls colors
+autoload -U colors && colors
+export LS_COLORS='di=1;34:fi=0:ln=35:pi=5:so=5:bd=5:cd=5:or=31:mi=31:ex=32:*.rpm=90'
 
-## super user alias
-alias _='sudo'
-alias please='sudo'
+# Enable ls colors
+alias ls='ls --color=tty --group-directories-first'
 
-# only define LC_CTYPE if undefined
-if [[ -z "$LC_CTYPE" && -z "$LC_ALL" ]]; then
-	export LC_CTYPE=${LANG%%:*} # pick the first entry from LANG
-fi
+setopt no_beep
+setopt auto_cd
+setopt multios
+setopt cdablevars
+
+# Setup the prompt with pretty colors
+setopt prompt_subst

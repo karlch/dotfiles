@@ -2,7 +2,7 @@
 # Find and do something
 
 # Files to find
-files=$(find 2>/dev/null . -name "*$1*")
+files=$(find 2>/dev/null . -iname "*$1*")
 # Exit if none are found
 len=$(echo $files | wc -w)
 if [[ $len == 0 ]]; then

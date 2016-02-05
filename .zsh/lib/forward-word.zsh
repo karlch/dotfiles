@@ -25,3 +25,15 @@ my-backward-word() {
 }
 
 zle -N my-backward-word
+
+my-backward-del-word() {
+    if [[ "${BUFFER[CURSOR]}" =~ "${SEPCHARS}" ]]; then
+        BUFFER=${BUFFER%?}
+    fi
+    while [[ CURSOR -gt 0 && ! "${BUFFER[CURSOR]}" =~ "${SEPCHARS}" ]]; do
+        BUFFER=${BUFFER%?}
+    done
+}
+
+zle -N my-backward-del-word
+bindkey '^W' my-backward-del-word

@@ -10,22 +10,21 @@ function chpwd()
 
 # command not found
 function command_not_found_handler() {
-    echo "\nDon’t pretend you want to talk to me, I know you hate me." 
-    printf "So you really want me to search the database? [nyae]: "
+    printf "\nDon’t pretend you want to talk to me, I know you hate me.\n" 
+    printf "So you really want me to search the database? [nye]: "
     stty raw && search=$(dd bs=1 count=1 2>/dev/null) && stty -raw
     if [[ $search == "y" || $search == "Y" ]]; then
-        echo ""
-        if pacaur -Ss $@ > ~/tmp.txt; then
-            cat ~/tmp.txt | head
-            echo "\nHere I am, brain the size of a planet, and you ask me search the database? Call that job satisfaction, 'cause I don't."
+        info=$(pacaur -Ss $@ | head)
+        if test -n ${info}; then
+            printf "\n%s\n\n" ${info}
+            printf "Here I am, brain the size of a planet, and you ask me search the database? Call that job satisfaction, 'cause I don't.\n"
         fi
-    elif [[ $search == "e" ]]; then
-        echo "Trying to edit"
+    elif [[ $search == "e" || $search == "E" ]]; then
+        print -z $@
     else
-        head -n -1 ~/.zsh_history > ~/new_hist && mv ~/new_hist ~/.zsh_history
-        echo "\nI think you ought to know I'm feeling very depressed."
+        sed -i '$d' ~/.zsh_history
+        printf "\nI think you ought to know I'm feeling very depressed.\n"
     fi
-    rm ~/tmp.txt
 }
 
 # vim with server if necessary
