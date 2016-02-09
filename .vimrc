@@ -199,7 +199,7 @@ inoremap <Up> <Esc>:TmuxNavigateUp<CR>
 inoremap <Right> <Esc>:TmuxNavigateRight<CR>
 
 " Follow Tags with C-Space
-nnoremap <C-@> <C-]>
+noremap <C-@> <C-]>
 
 " Access marks quickly
 nnoremap , `
@@ -365,6 +365,9 @@ let g:gundo_close_on_revert = 1
 " Neomake
 let g:neomake_verbose = 0
 let g:neomake_cpp_clang_args = ['-Wno-c++11-extensions']
+
+" AutoPairs
+let g:AutoPairsFlyMode = 1
 
 "}}}
 

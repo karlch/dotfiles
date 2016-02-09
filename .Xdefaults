@@ -44,7 +44,7 @@ URxvt.font: xft:Source Code Pro Medium:size=11
 ! URxvt.letterSpace: -5
 
 ! Cursor
-URxvt*cursorColor: #96ABB7
+URxvt*cursorColor: #00C1FF
 URxvt*cursorColor2: #1C1C1C
 
 ! Scrolling

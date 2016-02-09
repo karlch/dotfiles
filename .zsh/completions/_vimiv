@@ -1,0 +1,24 @@
+#compdef vimiv
+
+local curcontext="$curcontext" state line ret=1
+typeset -A opt_args
+
+_arguments -C \
+	'-h[show help message and exit]' \
+	'-b[display statusbar]' \
+	'-B[hide statusbar]' \
+	'-l[display library]' \
+	'-L[hide library]' \
+	'-f[start in fullscreen]' \
+	'-F[do not start in fullscreen]' \
+	'-s[shuffle filelist]' \
+	'-S[do not shuffle filelist]' \
+	'-r[search given directories recursively]' \
+	'-R[do not search given directories recursively]' \
+	'--slideshow[start slideshow immediately]' \
+	'--start-from-desktop[start using desktop_start_dir as path]' \
+	'--slideshow-delay[set the slideshow delay]:delay' \
+	'-g[set the starting geometry]:geometry' \
+	'*:images:_files -g "*"' && ret=0
+
+return ret

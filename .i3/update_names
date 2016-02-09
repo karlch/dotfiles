@@ -1,0 +1,34 @@
+cups 2.1.2-3 -> 2.1.3-1
+cups-filters 1.8.1-1.parabola1 -> 1.8.1-1.parabola2
+giflib 5.1.1-1 -> 5.1.2-1
+git 2.7.0-1 -> 2.7.1-1
+gnutls 3.4.8-1 -> 3.4.9-1
+ipython 4.0.1-1 -> 4.1.1-1
+jhead 3.00-1 -> 3.00-2
+libbsd 0.8.1-1 -> 0.8.2-2
+libcap 2.24-2 -> 2.25-1
+libcups 2.1.2-3 -> 2.1.3-1
+libinput 1.1.5-1 -> 1.1.6-1
+librsvg 2:2.40.11-1 -> 2:2.40.13-1
+libsndfile 1.0.25-3 -> 1.0.26-1
+libsystemd 228-3 -> 228-4
+lirc 1:0.9.3.a-1 -> 1:0.9.3.a-2
+neovim 0.1.1-2 -> 0.1.2-1
+pixman 0.32.8-1 -> 0.34.0-1
+poppler 0.39.0-1 -> 0.40.0-1
+poppler-glib 0.39.0-1 -> 0.40.0-1
+python-packaging 16.0-1 -> 16.1-1
+python-scipy 0.16.1-2 -> 0.17.0-1
+python-setuptools 1:19.6.2-1 -> 1:20.0-1
+sxiv 1.3.2-1 -> 1.3.2-2
+systemd 228-3.parabola1 -> 228-4.parabola1
+systemd-sysvcompat 228-3 -> 228-4
+texlive-bin 2015.37497-9.parabola1 -> 2015.37497-10.parabola1
+tor 0.2.7.6-1 -> 0.2.7.6-2
+tre 0.8.0-3 -> 0.8.0-4
+v4l-utils 1.6.3-3 -> 1.10.0-1
+zathura 0.3.4-1 -> 0.3.4-4
+zsh-lovers 0.9.0-1 -> 0.9.0-2
+--------------
+palemoon-bin
+pacaur

@@ -230,13 +230,13 @@ mode "NORMAL" {
 
     # Starters
     bindsym w mode "default", exec qutebrowser && cat /dev/null > ~/.local/share/qutebrowser/history 
-    bindsym t exec --no-startup-id urxvt, mode "default"
-    bindsym f exec --no-startup-id urxvt -e ranger, mode "default"
+    bindsym t exec --no-startup-id urxvtc, mode "default"
+    bindsym f exec --no-startup-id urxvtc -e ranger, mode "default"
     # bindsym c exec --no-startup-id urxvt -e ncmpcpp, mode "default"
     bindsym c exec --no-startup-id ~/bin/ncmpcpp.sh start, mode "default"
     bindsym c exec --no-startup-id ~/bin/ncmpcpp.sh start, mode "default"
     bindsym Shift+c exec --no-startup-id ~/bin/ncmpcpp.sh, mode "default"
-    bindsym z exec --no-startup-id urxvt -e mutt, mode "default"
+    bindsym z exec --no-startup-id urxvtc -e mutt, mode "default"
     bindsym Shift+z exec env GTK2_RC_FILES=/usr/share/themes/Raleigh/gtk-2.0/gtkrc firefox-nightly www.protonmail.ch/login, mode "default"
 
     # Shutdown, reboot, lock screen ..

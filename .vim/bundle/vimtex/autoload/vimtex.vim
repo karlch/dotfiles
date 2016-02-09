@@ -323,7 +323,7 @@ function! s:init_mappings() " {{{1
   call s:map('n', 'tsd', '<plug>(vimtex-toggle-delim)')
   call s:map('n', '<F7>', '<plug>(vimtex-create-cmd)')
   call s:map('i', '<F7>', '<plug>(vimtex-create-cmd)')
-  call s:map('i', ']]', '<plug>(vimtex-close-env)')
+  " call s:map('i', ']]', '<plug>(vimtex-close-env)')
 
   if g:vimtex_latexmk_enabled
     call s:map('n', '<localleader>ll', '<plug>(vimtex-compile-toggle)')

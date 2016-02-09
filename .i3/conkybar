@@ -11,8 +11,14 @@ conky.text = [[
 
 [\
 # Musik
+{"full_text":"${if_mpd_playing}","color":"\#00C1FF","separator":false},\
 {"full_text":"${mpd_artist}","color":"\#00C1FF","separator":false},\
+{"full_text":"-","color":"\#828282","separator":false},\
+{"full_text":"${mpd_track}","color":"\#EEEEEE","separator":false},\
 {"full_text":"${mpd_title}","color":"\#EEEEEE","separator":false},\
+{"full_text":"(${mpd_elapsed}/${mpd_length})","color":"\#828282","separator":false},\
+{"full_text":"        ","color":"\#EEEEEE","separator":false},\
+{"full_text":"${endif}","color":"\#EEEEEE","separator":false},\
 #
 # Brightness
 {"full_text":"BRI","color":"\#00C1FF","separator":false,"separator_block_width":4},\

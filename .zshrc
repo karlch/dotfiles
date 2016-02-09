@@ -6,9 +6,10 @@ ZSH_THEME="lhun"
 CASE_SENSITIVE="true"
 ENABLE_CORRECTION="true"
 CHASE_LINKS="true"
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 
 # Plugins
-plugins=(dircycle vi-mode clipboard zsh-history-substring-search sudo autosuggestions)
+plugins=(vi-mode clipboard zsh-history-substring-search sudo lscolors dot zsh-autosuggestions zsh-syntax-highlighting)
 
 # Initialize the actual zsh script
 source $ZSH/zsh.sh
@@ -20,10 +21,9 @@ stty -ixon
 bindkey '^A' vi-forward-blank-word
 bindkey '^F' my-forward-word
 bindkey '^E' my-backward-word
-bindkey '^ ' autosuggest-execute-suggestion
+bindkey '^ ' autosuggest-accept
 bindkey '^N' insert-cycledleft
 bindkey '^P' insert-cycledright
-bindkey '^T' autosuggest-toggle
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' push-line-or-edit
 #
@@ -56,7 +56,7 @@ bindkey '\/' zcalc-auto-insert
 bindkey '\*' zcalc-auto-insert
 # Surround
 autoload -Uz surround
-zle -N change-surround surround
+zle -N add-surround surround
 bindkey -M vicmd 's' add-surround
 bindkey -M visual 's' add-surround
 
@@ -96,6 +96,7 @@ if [[ -n ${TMUX} && -n ${commands[tmux]} ]];then
     esac
 fi
 
+autosuggest_start
 # Logo
 alsi
 marvin

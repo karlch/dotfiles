@@ -25,7 +25,7 @@ if !exists('g:AutoPairsMapBS')
 end
 
 if !exists('g:AutoPairsMapCR')
-  let g:AutoPairsMapCR = 0
+  let g:AutoPairsMapCR = 1
 end
 
 if !exists('g:AutoPairsMapSpace')
@@ -45,7 +45,7 @@ if !exists('g:AutoPairsShortcutFastWrap')
 end
 
 if !exists('g:AutoPairsShortcutJump')
-  let g:AutoPairsShortcutJump = '<C-e>'
+  let g:AutoPairsShortcutJump = '<M-n>'
 endif
 
 " Fly mode will for closed pair to jump to closed pair instead of insert.

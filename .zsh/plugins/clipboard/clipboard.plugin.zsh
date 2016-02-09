@@ -37,4 +37,4 @@ char-to-xsel() {
     print -rn -- $CUTBUFFER | xsel -i -b
 }
 zle -N char-to-xsel
-bindkey -M vicmd "x" char-to-xsel
+# bindkey -M vicmd "x" char-to-xsel

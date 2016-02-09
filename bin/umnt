@@ -74,6 +74,16 @@ if (( $input>0 )) && (( $input<=$deviceCount )); then
             fi
         fi
     fi
+elif [[ $input == "a" ]]; then
+    for device in ${deviceSources}; do
+        if (udevil umount ${device}); then
+            echo "unmounted ${device}"
+        else
+            echo "Failed to unmount ${device}"
+            exit 1
+        fi
+        exit 0
+    done
 fi
 echo -e "\e[31mInvalid menu choice\e[0m"
 read -p "Restart (y/n): " input

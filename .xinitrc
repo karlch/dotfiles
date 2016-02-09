@@ -19,23 +19,25 @@ setxkbmap -variant nodeadkeys
 ~/bin/keymapping/xcape -t 0 -e 'Super_L=F11' 
 ~/bin/keymapping/xcape -t 0 -e 'Super_R=F12' 
 ~/bin/keymapping/xcape -t 0 -e 'Control_R=F12' 
-# Disable touchpad while typing &
-syndaemon -t -k -d -i 2 &
+# Disable touchpad while typing
+syndaemon -k -d -i 1 &
 # Dont want to see the mouse
 unclutter --timeout 1 -b
 # Background
-~/.fehbg &
+hsetroot -fill ~/Bilder/Hintergrund/parabola_001.jpg &
 # Volume notifier
 volnoti -t 1.2
 # Merge rofi settings
 xrdb -load ~/.config/rofi/rofi &
 # Music
-mpd ~/.config/mpd/mpd.conf &
+export MPD_HOST="192.168.0.10"
 # Updates
 ~/bin/update &
 # Devmon for usb
 devmon --exec-on-drive 'rofi -show run -e "Mounted %f at %d"' --exec-on-remove "volnoti-show -n -s /usr/share/pixmaps/volnoti/media-eject-symbolic.svg 100" &
 # Conky
 ~/.i3/conky.sh &
+# Urxvt daemon
+urxvtd -f -o -q
 # WM
 exec i3

@@ -10,4 +10,16 @@ function vimode() {
 
 zle -N zle-keymap-select
 
-PROMPT='%{$fg[blue]%}%n %{$fg[green]%}%~ %{$fg[white]%}%(?..%? )%{$fg[blue]%}$(vimode)%{$reset_color%}'
+function gitinfo() {
+    (git symbolic-req -q HEAD || git name-rev --name-only --no-undefined --always HEAD ) 2> /dev/null
+}
+
+function gitstring() {
+    if [[ -z $(gitinfo) ]]; then
+        printf ""
+    else
+        printf " [%s]" $(gitinfo)
+    fi
+}
+
+PROMPT='%{$fg[blue]%}%n %{$fg[green]%}%~%{$fg[white]%}$(gitstring)%(?..%? ) %{$fg[blue]%}$(vimode)%{$reset_color%}'

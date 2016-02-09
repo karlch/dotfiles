@@ -50,7 +50,7 @@ hi Special		ctermfg=32	ctermbg=none	cterm=none
 hi Statement	        ctermfg=45	ctermbg=none	cterm=none
 hi StatusLine 	        ctermfg=45	ctermbg=236	cterm=bold
 hi StatusLineNC         ctermfg=233	ctermbg=236	cterm=none
-hi Split                ctermfg=236     ctermbg=none    cterm=none
+hi Split                ctermfg=236     ctermbg=236    cterm=none
 hi Tabline              ctermfg=250     ctermbg=236     cterm=none
 hi TablineSel           ctermfg=32      ctermbg=236     cterm=none
 hi TablineFill          ctermfg=32      ctermbg=236     cterm=none
@@ -64,6 +64,7 @@ hi EasyMotionShade      ctermfg=239     ctermbg=none    cterm=none
 hi EasyMotionTarget2First ctermfg=45    ctermbg=none    cterm=none
 hi EasyMotionTarget2Second ctermfg=32   ctermbg=none    cterm=none
 hi Conceal		ctermfg=32	ctermbg=none	cterm=none
+hi NonText              ctermfg=0       ctermbg=none       cterm=none
 
 hi! link Boolean		Constant
 hi! link Character		Constant
@@ -88,7 +89,6 @@ hi! link Label			Statement
 hi! link LineNr			Comment
 hi! link Macro			PreProc
 hi! link MoreMsg		ModeMsg
-hi! link NonText		Split
 hi! link Number                 Constant
 hi! link Operator		Special
 hi! link PreCondit		PreProc
@@ -200,43 +200,43 @@ hi! link xmlProcessingDelim	PreProc
 hi! link xmlNamespace		PreProc
 hi! link xmlTagName			Statement
 
-hi Comment		guifg=#6c6c6c	guibg=#1C1C1C	gui=none
+hi Comment		guifg=#6c6c6c	guibg=#2C2C2C	gui=none
 hi ColorColumn                          guibg=#303030
-hi Cursor 		guifg=#1C1C1C	guibg=#bcbcbc	gui=none
-hi Constant 	        guifg=#afaf87	guibg=#1C1C1C	gui=none
+hi Cursor 		guifg=#2C2C2C	guibg=#bcbcbc	gui=none
+hi Constant 	        guifg=#afaf87	guibg=#2C2C2C	gui=none
 hi CursorLine	                   	guibg=#303030	gui=none
-hi CursorLineNr         guifg=#5fffff   guibg=#1C1C1C   gui=none
-hi DiffAdd		guifg=#1C1C1C	guibg=#5fafd7	gui=none
-hi DiffChange	        guifg=#1C1C1C	guibg=#afaf87	gui=none
-hi DiffDelete	        guifg=#4e4e4e	guibg=#1C1C1C	gui=none
+hi CursorLineNr         guifg=#5fffff   guibg=#2C2C2C   gui=none
+hi DiffAdd		guifg=#2C2C2C	guibg=#5fafd7	gui=none
+hi DiffChange	        guifg=#2C2C2C	guibg=#afaf87	gui=none
+hi DiffDelete	        guifg=#4e4e4e	guibg=#2C2C2C	gui=none
 hi DiffText		guifg=#af0000	guibg=#afaf87	gui=none
-hi Folded 		guifg=#6c6c6c	guibg=#1C1C1C	gui=none
+hi Folded 		guifg=#6c6c6c	guibg=#2C2C2C	gui=none
 hi MatchParen	        guifg=#ffd75f	guibg=#303030	gui=bold,underline
-hi ModeMsg		guifg=#bcbcbc	guibg=#1C1C1C	gui=bold
-hi Normal 		guifg=#bcbcbc	guibg=#1C1C1C	gui=none
+hi ModeMsg		guifg=#bcbcbc	guibg=#2C2C2C	gui=bold
+hi Normal 		guifg=#bcbcbc	guibg=#2C2C2C	gui=none
 hi Pmenu		guifg=#5fd7ff	guibg=#303030	gui=none
 hi PmenuSel		guifg=#303030	guibg=#5fd7ff	gui=bold
-hi PmenuSbar	        guifg=#1C1C1C	guibg=#1C1C1C	gui=none
-hi PmenuThumb	        guifg=#1C1C1C	guibg=#1C1C1C	gui=none
-hi PreProc		guifg=#ffd75f	guibg=#1C1C1C	gui=none 
-hi Search		guifg=#1C1C1C	guibg=#bcbcbc	gui=none
-hi Special		guifg=#5fafd7	guibg=#1C1C1C	gui=none
-hi Statement	        guifg=#5fffff	guibg=#1C1C1C	gui=none
+hi PmenuSbar	        guifg=#2C2C2C	guibg=#2C2C2C	gui=none
+hi PmenuThumb	        guifg=#2C2C2C	guibg=#2C2C2C	gui=none
+hi PreProc		guifg=#ffd75f	guibg=#2C2C2C	gui=none 
+hi Search		guifg=#2C2C2C	guibg=#bcbcbc	gui=none
+hi Special		guifg=#5fafd7	guibg=#2C2C2C	gui=none
+hi Statement	        guifg=#5fffff	guibg=#2C2C2C	gui=none
 hi StatusLine 	        guifg=#5fafd7	guibg=#303030	gui=bold
 hi StatusLineNC         guifg=#121212	guibg=#303030	gui=none
-hi Split                guifg=#1C1C1C   guibg=#1C1C1C   gui=none
+hi Split                guifg=#2C2C2C   guibg=#2C2C2C   gui=none
 hi Tabline              guifg=#bcbcbc   guibg=#303030   gui=none
 hi TablineSel           guifg=#5fafd7   guibg=#303030   gui=none
-hi TablineFill          guifg=#5fafd7   guibg=#1C1C1C   gui=none
+hi TablineFill          guifg=#5fafd7   guibg=#2C2C2C   gui=none
 hi Todo 		guifg=#bcbcbc	guibg=#af0000	gui=bold
-hi Type 		guifg=#ffff6f	guibg=#1C1C1C	gui=none
-hi Underlined	        guifg=#bcbcbc	guibg=#1C1C1C	gui=underline
-hi Visual		guifg=#1C1C1C	guibg=#bcbcbc	gui=none
-hi Wildmenu		guifg=#5fffff	guibg=#1C1C1C	gui=bold
-hi EasyMotionTarget     guifg=#5fffff   guibg=#1C1C1C   gui=none
-hi EasyMotionShade      guifg=#4e4e4e   guibg=#1C1C1C   gui=none
-hi EasyMotionTarget2First guifg=#5fffff guibg=#1C1C1C   gui=none
-hi EasyMotionTarget2Second guifg=#5fafd7 guibg=#1C1C1C   gui=none
+hi Type 		guifg=#ffff6f	guibg=#2C2C2C	gui=none
+hi Underlined	        guifg=#bcbcbc	guibg=#2C2C2C	gui=underline
+hi Visual		guifg=#2C2C2C	guibg=#bcbcbc	gui=none
+hi Wildmenu		guifg=#5fffff	guibg=#2C2C2C	gui=bold
+hi EasyMotionTarget     guifg=#5fffff   guibg=#2C2C2C   gui=none
+hi EasyMotionShade      guifg=#4e4e4e   guibg=#2C2C2C   gui=none
+hi EasyMotionTarget2First guifg=#5fffff guibg=#2C2C2C   gui=none
+hi EasyMotionTarget2Second guifg=#5fafd7 guibg=#2C2C2C   gui=none
 
 hi! link Boolean		Constant
 hi! link Character		Constant
@@ -261,7 +261,6 @@ hi! link Label			Statement
 hi! link LineNr			Comment
 hi! link Macro			PreProc
 hi! link MoreMsg		ModeMsg
-hi! link NonText		Split
 hi! link Number			Constant
 hi! link Operator		Special
 hi! link PreCondit		PreProc
