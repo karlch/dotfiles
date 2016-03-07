@@ -11,7 +11,10 @@ line_length_limit=500
 declare -A selections
 ordered_selections=()
 
-files=("/home/$USER/.cache/history/"*)
+fildir=("/tmp/clipmenu.$USER/")
+
+# All files in directory
+files=("/tmp/clipmenu.$USER/"*)
 
 # We can't use `for ... in` here because we need to add files to
 # ordered_selections from last to first -- that is, newest to oldest. Incoming
@@ -32,21 +35,19 @@ for (( i=${#files[@]}-1; i>=0; i-- )); do
     fi
 
     ordered_selections+=("$first_line")
-    selections[$first_line]=$file
+    if [[ -z ${first_line} ]]; then
+        selections[$first_line]=$file
+    fi
 done
 
-# It's okay to hardcode `-l 8` here as a sensible default without checking
-# whether `-l` is also in "$@", because the way that dmenu works allows a later
-# argument to override an earlier one. That is, if the user passes in `-l`, our
-# one will be ignored.
-chosen_line=$(printf '%s\n' "${ordered_selections[@]}" | rofi -dmenu -p "clip: " -columns 2 "$@")
+# Echo all ordered lines into rofi with only one column (lines might be long)
+# Save the chosen one and continue if it is valid
+chosen_line=$(printf '%s\n' "${ordered_selections[@]}" | rofi -dmenu -columns 1 "$@")
 
 [[ $chosen_line ]] || exit 1
 
+# Enter the chosen line into the clipboard
 for selection in clipboard primary; do
-    if type -p xsel >/dev/null 2>&1; then
-        xsel -i --"$selection" < "${selections[$chosen_line]}"
-    else
-        xclip -sel "$selection" < "${selections[$chosen_line]}"
-    fi
+    xsel -i --"$selection" < "${selections[$chosen_line]}"
 done
+

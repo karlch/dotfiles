@@ -94,16 +94,52 @@ if !exists('g:indexed_search_unfold')
 endif
 
 command! -bang ShowSearchIndex :call indexed_search#show_index(<bang>0)
+command! -bang BlingHighlight :call BlingHighlight()
+command! -bang BlingUnHighlight :call BlingUnHighlight()
 
-noremap <Plug>(indexed-search-/)  :ShowSearchIndex<CR>/
-noremap <Plug>(indexed-search-?)  :ShowSearchIndex<CR>?
+noremap <Plug>(indexed-search-/)  :ShowSearchIndex<CR>:nohlsearch<CR>:BlingUnHighlight<CR>/
+noremap <Plug>(indexed-search-?)  :ShowSearchIndex<CR>:nohlsearch<CR>:BlingUnHighlight<CR>?
 
-noremap <silent> <Plug>(indexed-search-*)  *:ShowSearchIndex<CR>
-noremap <silent> <Plug>(indexed-search-#)  #:ShowSearchIndex<CR>
+noremap <silent> <Plug>(indexed-search-*) *:ShowSearchIndex<CR>:BlingHighlight<CR>
+noremap <silent> <Plug>(indexed-search-#) #:ShowSearchIndex<CR>:BlingHighlight<CR>
 
-noremap <silent> <Plug>(indexed-search-n)  n:ShowSearchIndex<CR>
-noremap <silent> <Plug>(indexed-search-N)  N:ShowSearchIndex<CR>
+noremap <silent> <Plug>(indexed-search-n) n:ShowSearchIndex<CR>:BlingHighlight<CR>
+noremap <silent> <Plug>(indexed-search-N) N:ShowSearchIndex<CR>:BlingHighlight<CR>
 
+" Additionally implement a visual indicator like in Bling
+let g:bling_current_ring = 0
+highlight BlingHighlight ctermbg=99 ctermfg=231 cterm=none
+
+function! BlingHighlight()
+    let param = getreg('/')
+    let pos = getpos('.')
+  
+    let pattern = '\%'.pos[1].'l\%'.pos[2].'c\%('.param
+    if match(param, '^\\v') == 0
+        let pattern = pattern.')'
+    else
+        let pattern = pattern.'\)'
+    endif
+  
+    if &ignorecase == 1 || &smartcase == 1
+        let pattern = pattern.'\c'
+    endif
+  
+    call BlingUnHighlight()
+    let g:bling_current_ring = matchadd('BlingHighlight', pattern)
+
+    redraw!
+endfunction
+
+function! BlingUnHighlight()
+    if g:bling_current_ring
+        call matchdelete(g:bling_current_ring)
+    endif
+    let g:bling_current_ring = 0
+endfunction
+
+
+" Map indexed search
 if g:indexed_search_mappings
     nmap / <Plug>(indexed-search-/)
     nmap ? <Plug>(indexed-search-?)
@@ -112,64 +148,24 @@ if g:indexed_search_mappings
         " These can't be implemented using the <Plug> mappings because the
         " 'N' needs to happen after the '*' (or '#') and before the
         " :ShowSearchIndex
-        nnoremap <silent>* *N:ShowSearchIndex<CR>zz
-        nnoremap <silent># #N:ShowSearchIndex<CR>zz
+        nnoremap <silent>* *N:ShowSearchIndex<CR>
+        nnoremap <silent># #N:ShowSearchIndex<CR>
     else
-        nmap * <Plug>(indexed-search-*)zz
-        nmap # <Plug>(indexed-search-#)zz
+        nmap * <Plug>(indexed-search-*)
+        nmap # <Plug>(indexed-search-#)
     endif
 
     if g:indexed_search_unfold
-        nmap n <Plug>(indexed-search-n)zvzz
-        nmap N <Plug>(indexed-search-N)zvzz
+        nmap n <Plug>(indexed-search-n)zv
+        nmap N <Plug>(indexed-search-N)zv
     else
-        nmap n <Plug>(indexed-search-n)zz
-        nmap N <Plug>(indexed-search-N)zz
+        nmap n <Plug>(indexed-search-n)
+        nmap N <Plug>(indexed-search-N)
     endif
 endif
 
+" A nice way to remove hlsearch and the visual indicator
+noremap <silent> <Plug>(clear_all_highlights) <Esc>:nohlsearch<CR>:BlingUnHighlight<CR>
+nmap <Esc> <Plug>(clear_all_highlights)
 
 let &cpo = s:save_cpo
-
-" Last changes
-" 2006-10-20 added limitation by # of matches
-" 061021 lerner fixed problem with cmap <enter> that screwed maps
-" 061021 colors added
-" 061022 fixed g/ when too many matches
-" 061106 got message to work with check for largefile right
-" 061110 addition of DelayedEcho(ScheduledEcho) fixes and simplifies things
-" 061110 mapping for nN*# greately simplifified by switching to ScheduledEcho
-" 061110 fixed problem with i<c-o>/pat<cr> and c/PATTERN<CR> Markus Braun
-" 061110 fixed bug in / and ?, Counting moved to Delayd
-" 061110 fixed bug extra line+enter prompt in [/?] by addinf redraw
-" 061110 fixed overwriting builtin errmsg with ">1000 matches"
-" 061111 fixed bug with gg & 'set nosol' (gg->gg0)
-" 061113 fixed mysterious eschewing of @/ wfte *,#
-" 061113 fixed counting of match at the very beginning of file
-" 061113 added msgs "Before single match", "After single match"
-" 061113 fixed bug with &ut not always restored. This could happen if
-"        ScheduleEcho() was called twice in a row.
-" 061114 fixed problem with **#n. Direction of the last n is incorrect (must be backward
-"              but was incorrectly forward)
-" 061114 fixed disappearrance of "Hit BOTTOM" native msg when file<max and numhits>max
-" 061116 changed hlgroup os "At last match" from DiffChange to LineNr. Looks more natural.
-" 061120 shortened text messages.
-" 061120 made to work on vim6
-" 061120 bugfix for vim6 (virtcol() not col())
-" 061120 another bug with virtcol() vs col()
-" 061120 fixed [/?] on vim6 (vim6 doesn't have getcmdtype())
-" 061121 fixed mapping in <cr> with supertab.vim. Switched to [/?] mapping, removed <cr> mapping.
-"        also shortened code considerably, made vim6 and vim7 work same way, removed need
-"        for getcmdtype().
-" 061121 fixed handling of g:indexed_search_colors (Markus Braun)
-
-
-" Wishlist
-" -  using high-precision timer of vim7, count number of millisec
-"    to run the counters, and base auto-disabling on time it takes.
-"    very complex regexes can be terribly slow even of files like 'man bash'
-"    which is mere 5k lines long. Also when there are >10k matches in the file
-"    set limit to 200 millisec
-" - implement CursorHold bg counting to which too_slow will resort
-" - even on large files, we can show "At last match", "After last match"
-" - define global vars for all highlights, with defaults

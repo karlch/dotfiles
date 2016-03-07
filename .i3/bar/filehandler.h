@@ -1,0 +1,1 @@
+char* filecontent(char* file);

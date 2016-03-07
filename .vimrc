@@ -17,7 +17,7 @@ set ttimeoutlen=0
 set autoread
 
 " Incremental search enabled, highlightsearch disabled
-set incsearch nohlsearch
+set incsearch hlsearch
 " Case insensitive unless uppercase is in the search
 set ignorecase smartcase
 
@@ -91,7 +91,7 @@ set foldlevel=100
 " Opening of folds
 set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 
-" Favourite colorscheme and therefore 256 colors
+" Favourite colorscheme
 colorscheme lhun
 
 " Textwidth is always 80, do not wrap, anything longer will be broken
@@ -133,6 +133,16 @@ cabbrev w!! w !sudo tee > /dev/null %
 " }}}
 
 " General Mappings {{{
+" Movement
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
+
 " Quicker way to enter a command
 noremap ö :
 
@@ -150,17 +160,12 @@ noremap ü G
 map <tab> %
 
 " Toggling the hlsearch
-noremap <leader>ä :set hlsearch!<Cr>
+noremap <leader>ä :set hlsearch!<CR>
+noremap <Esc> <Esc>:nohlsearch<CR>
 
-" Map + and <BS> to search
+" Map + and <BS> to search (keyboard layout...)
 nmap + *
 nmap <Bs> #
-" Search results are showed in the middle of the line
-nmap n nzz
-nmap N Nzz
-" Also in visual mode keeping the selection
-vmap + *gnzz
-vmap <Bs> #gnzz
 
 " Move code blocks without losing the visualization
 vnoremap < <gv
@@ -204,15 +209,15 @@ noremap <C-@> <C-]>
 " Access marks quickly
 nnoremap , `
 
+" Move to beginning/end of line
+noremap H ^
+noremap L $
+
 " }}}
 
 " Leader Mappings {{{
 " Space is mapped for the use of the leader key (map for visibility)
 map <space> <leader>
-
-" Move to beginning/end of line
-noremap H ^
-noremap L $
 
 " Quit all windows
 nnoremap <leader>q :qa!<CR>
@@ -237,6 +242,9 @@ nnoremap <leader>o :lw<CR>
 nnoremap <leader>e :ll<CR>
 nnoremap <leader>n :lnext<CR>
 nnoremap <leader>N :lprevious<CR>
+
+" Nice buffer switching
+nnoremap <leader>b :buffers<CR>:buffer<Space>
 
 " }}}
 
@@ -278,13 +286,13 @@ vmap <expr> D DVB_Duplicate()
 
 " Vmath
 " Needed helpers, mapped to something useless
-vnoremap °1 :<Bs><Bs><Bs><Bs><Bs>set noshowmode<Cr>
+vnoremap °1 :<Bs><Bs><Bs><Bs><Bs>set noshowmode<CR>
 vmap <expr> °2 VMATH_YankAndAnalyse()
 " The actual expressions
 nmap <leader>+ v°1vip°2
 vmap <leader>+ °1gv°2
 " Show mode again when done
-vnoremap <Esc> <Esc>:set showmode<Cr>:<Bs>
+vnoremap <Esc> <Esc>:set showmode<CR>:<Bs>
 
 " Surround
 " Use normal s in visual mode as well
@@ -342,15 +350,17 @@ let g:DVB_TrimWS = 1
 let g:UltiSnipsSnippetDirectories = ["UltiSnips", "MySnippets"]
 
 " Vimux
-let g:VimuxHeight = "30"
-let g:VimuxOrientation = "h"
+" let g:VimuxHeight = "30"
+" let g:VimuxOrientation = "h"
 let g:VimuxUseNearest = "0"
+let g:VimuxResetSequence = "q C-u C-s C-l"
 
 " Mathematica
 let g:mma_candy = 1
 
 " Indexed-search
 let g:indexed_search_colors = 0
+let g:indexed_search_shortmess = 1
 let g:indexed_search_numbered_only = 1
 let g:indexed_search_unfold = 1
 
@@ -366,8 +376,10 @@ let g:gundo_close_on_revert = 1
 let g:neomake_verbose = 0
 let g:neomake_cpp_clang_args = ['-Wno-c++11-extensions']
 
-" AutoPairs
-let g:AutoPairsFlyMode = 1
+" NeoTerm
+let g:neoterm_size = 60
+let g:neoterm_position = "vertical"
+let g:neoterm_keep_term_open = 0
 
 "}}}
 
@@ -378,6 +390,12 @@ autocmd VimLeave * VimuxCloseRunner
 " Formatoptions
 autocmd FileType * setlocal formatoptions=tcqlnj
 autocmd FileType *.tex setlocal formatoptions=tcqlnjaw
+
+" Rainbow Parens
+autocmd VimEnter * RainbowParenthesesToggle
+autocmd Syntax * RainbowParenthesesLoadRound
+autocmd Syntax * RainbowParenthesesLoadSquare
+autocmd Syntax * RainbowParenthesesLoadBraces
 
 " Quickfixsize
 autocmd FileType qf call AdjustWindowHeight()

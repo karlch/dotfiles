@@ -34,10 +34,10 @@ function! CustomFoldText(delim)
   " nice filling for well aligned numbers
   let foldSizeLen = strwidth(foldSizeStr)
   let fillLen = 6 - foldSizeLen
-  let fillStr = " " . repeat("-", fillLen) . " "
+  let fillStr = " " . repeat(" ", fillLen) . " "
   let percentLen = strwidth(foldPercentage)
   let fillLenEnd = 9 - percentLen
-  let fillStrEnd = repeat("-", fillLenEnd)
+  let fillStrEnd = repeat(" ", fillLenEnd)
 
   " build up foldtext
   let foldLineTail = foldSizeStr . fillStr . foldPercentage . fillStrEnd
@@ -51,7 +51,7 @@ function! CustomFoldText(delim)
   let lengthMiddle = w - strwidth(foldLineHead.foldLineTail)
 
   " truncate foldtext according to window width
-  let expansionString = repeat("-", lengthMiddle)
+  let expansionString = repeat(" ", lengthMiddle)
 
   let foldLine = foldLineHead . expansionString . foldLineTail
   return foldLine

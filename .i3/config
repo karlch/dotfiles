@@ -4,21 +4,24 @@
 set $mod Mod1
 
 # Font for window titles
-font pango: Source Sans Pro Regular 8
+font pango: Source Sans Pro Bold 9
 
 # Window borders
 new_window pixel 2
 new_float normal
 
-# Color settings
-client.focused          #00C1FF #00C1FF #000088 #00C1FF
-client.focused_inactive #3C3C3C #3C3C3C #FFFFFF #3C3C3C
-client.unfocused        #3C3C3C #3C3C3C #FFFFFF #3C3C3C
-client.urgent           #00C1FF #00C1FF #000088 #00C1FF
+# Color settings        Border      Background  Font        Indicator
+client.focused          #00C1FF     #0C0C0C     #EEEEEE     #7241D6
+client.focused_inactive #2C2C2C     #0C0C0C     #666666     #0C0C0C
+client.unfocused        #2C2C2C     #0C0C0C     #666666     #0C0C0C
+client.urgent           #A97FFF     #875FFF     #000000     #875FFF
 
 # Enable workspace back and forth
 workspace_auto_back_and_forth yes
-focus_on_window_activation focus
+
+# Urgency handling
+focus_on_window_activation urgent
+force_display_urgency_hint 1000 ms
 
 # Do not follow the mouse
 focus_follows_mouse no
@@ -27,7 +30,6 @@ focus_follows_mouse no
 floating_modifier $mod
 floating_minimum_size 300 x 200
 floating_maximum_size 1920 x 1080
-bindsym $mod+space move position mouse
 
 # }}}
 
@@ -46,7 +48,7 @@ bindsym mod4+h move left
 bindsym mod4+l move right 
 bindsym mod4+j move down
 bindsym mod4+k move up
-bindsym mod4+f move position mouse
+bindsym $mod+space move position mouse
 
 # Window stuff
 bindsym $mod+m focus mode_toggle
@@ -56,9 +58,9 @@ bindsym Control+m fullscreen
 # Function keys
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
 bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 4%- && ~/.i3/volnoti-set.sh
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 4%+ && ~/.i3/volnoti-set.sh
-bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle && ~/.i3/volnoti-set.sh
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.i3/volnoti-set.sh -
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.i3/volnoti-set.sh +
+bindsym XF86AudioMute exec --no-startup-id ~/.i3/volnoti-set.sh
 bindsym XF86AudioPlay exec --no-startup-id mpc toggle
 bindsym XF86AudioStop exec --no-startup-id mpc stop
 bindsym XF86AudioNext exec --no-startup-id mpc next
@@ -70,9 +72,9 @@ bindsym --release Control+Insert exec --no-startup-id import ~/Bilder/Screenshot
 bindsym --release Shift+Insert exec --no-startup-id import -window $(xdotool getactivewindow) ~/Bilder/Screenshot/scrot-$(date +%F_%H:%M:%S).png
 
 # Enter normal mode
-bindsym F10 mode "NORMAL"
+bindsym F10 mode "normal"
 # Open rofi
-bindsym F11 exec --no-startup-id i3-dmenu-desktop --entry-type='command' --dmenu='rofi -dmenu -p "exec: "', mode "default"
+bindsym F11 exec --no-startup-id rofi -width 100 -columns 6 -show run, mode "default"
 
 # }}}
 
@@ -85,16 +87,12 @@ for_window [window_role="dialog"] floating enable
 for_window [window_role="menu"] floating enable
 for_window [window_role="Preferences"] floating enable
 for_window [class="com-wolfram-jlink-Reader"] floating enable
-for_window [class="Gifview"] floating enable
-for_window [class="LIGHTHOUSE"] floating enable
 for_window [title="c*Editor"] floating enable
-# Matlab in tabs
-for_window [class="MATLAB R2015a - academic use"] focus, layout tabbed
 
 # }}}
 
-# Everything else in a vi like normal mode {{{
-mode "NORMAL" {
+# Everything else in a vim like normal mode {{{
+mode "normal" {
     # Resizing windows (like in tmux)
     bindsym h exec ~/bin/resize.sh h
     bindsym k exec ~/bin/resize.sh k
@@ -111,8 +109,8 @@ mode "NORMAL" {
     bindsym Shift+x exec --no-startup-id ~/.i3/py-scripts/closeall.py
 
     # Rofi
-    bindsym d exec --no-startup-id i3-dmenu-desktop --entry-type='command' --dmenu='rofi -dmenu', mode "default"
-    # Clipboard with rofi
+    bindsym d exec --no-startup-id rofi -width 100 -columns 6 -show run, mode "default"
+    # with clipboard
     bindsym a exec --no-startup-id ~/bin/clipmenu, mode "default"
 
     # Split in horizontal orientation
@@ -136,9 +134,9 @@ mode "NORMAL" {
     bindsym Shift+m focus mode_toggle
 
     # Move window to scratchpad
-    bindsym y move scratchpad
+    bindsym y move scratchpad, mode "default"
     # Get the scratchpad window
-    bindsym Shift+y scratchpad show
+    bindsym Shift+y scratchpad show, mode "default"
 
     # Focus the parent container
     bindsym p focus parent
@@ -146,63 +144,40 @@ mode "NORMAL" {
     bindsym n focus child
 
     # Switch to workspace
-    bindsym 1 workspace 1
-    bindsym 2 workspace 2
-    bindsym 3 workspace 3
-    bindsym 4 workspace 4
-    bindsym 5 workspace 5
-    bindsym 6 workspace 6
-    bindsym 7 workspace 7
-    bindsym 8 workspace 8
-    bindsym 9 workspace 9
-    bindsym 0 workspace 10
+    bindsym 1 workspace 1:one
+    bindsym 2 workspace 2:two
+    bindsym 3 workspace 3:three
+    bindsym 4 workspace 4:four
+    bindsym 5 workspace 5:five
+    bindsym 6 workspace 6:six
+    bindsym 7 workspace 7:seven
+    bindsym 8 workspace 8:eight
+    bindsym 9 workspace 9:nine
+    bindsym 0 workspace 10:ten
 
     # Move focused container to workspace
-    bindsym Shift+1 move container to workspace 1
-    bindsym Shift+2 move container to workspace 2
-    bindsym Shift+3 move container to workspace 3
-    bindsym Shift+4 move container to workspace 4
-    bindsym Shift+5 move container to workspace 5
-    bindsym Shift+6 move container to workspace 6
-    bindsym Shift+7 move container to workspace 7
-    bindsym Shift+8 move container to workspace 8
-    bindsym Shift+9 move container to workspace 9
-    bindsym Shift+0 move container to workspace 10
+    bindsym Shift+1 move container to workspace 1:one
+    bindsym Shift+2 move container to workspace 2:two
+    bindsym Shift+3 move container to workspace 3:three
+    bindsym Shift+4 move container to workspace 4:four
+    bindsym Shift+5 move container to workspace 5:five
+    bindsym Shift+6 move container to workspace 6:six
+    bindsym Shift+7 move container to workspace 7:seven
+    bindsym Shift+8 move container to workspace 8:eight
+    bindsym Shift+9 move container to workspace 9:nine
+    bindsym Shift+0 move container to workspace 10:ten
 
     # Move container and focus to workspace
-    bindsym Control+1 move container to workspace 1, workspace 1
-    bindsym Control+2 move container to workspace 2, workspace 2
-    bindsym Control+3 move container to workspace 3, workspace 3
-    bindsym Control+4 move container to workspace 4, workspace 4
-    bindsym Control+5 move container to workspace 5, workspace 5
-    bindsym Control+6 move container to workspace 6, workspace 6
-    bindsym Control+7 move container to workspace 7, workspace 7
-    bindsym Control+8 move container to workspace 8, workspace 8
-    bindsym Control+9 move container to workspace 9, workspace 9
-    bindsym Control+0 move container to workspace 10, workspace 10
-
-    # Move workspace to outputs
-    bindsym Control+$mod+1 move workspace 1 output eDP1
-    bindsym Control+$mod+2 move workspace 2 output eDP1
-    bindsym Control+$mod+3 move workspace 3 output eDP1
-    bindsym Control+$mod+4 move workspace 4 output eDP1
-    bindsym Control+$mod+5 move workspace 5 output eDP1
-    bindsym Control+$mod+6 move workspace 6 output eDP1
-    bindsym Control+$mod+7 move workspace 7 output eDP1
-    bindsym Control+$mod+8 move workspace 8 output eDP1
-    bindsym Control+$mod+9 move workspace 9 output eDP1
-    bindsym Control+$mod+0 move workspace 10 output eDP1
-
-    bindsym Control+Mod4+1 move workspace 1 output eDP1
-    bindsym Control+Mod4+2 move workspace 2 output eDP1
-    bindsym Control+Mod4+3 move workspace 3 output eDP1
-    bindsym Control+Mod4+4 move workspace 4 output eDP1
-    bindsym Control+Mod4+5 move workspace 5 output eDP1
-    bindsym Control+Mod4+6 move workspace 6 output eDP1
-    bindsym Control+Mod4+7 move workspace 7 output eDP1
-    bindsym Control+Mod4+8 move workspace 8 output eDP1
-    bindsym Control+Mod4+9 move workspace 9 output eDP1
-    bindsym Control+Mod4+0 move workspace 10 output eDP1
+    bindsym Control+1 move container to workspace 1:one, workspace 1:one
+    bindsym Control+2 move container to workspace 2:two, workspace 2:two
+    bindsym Control+3 move container to workspace 3:three, workspace 3:three
+    bindsym Control+4 move container to workspace 4:four, workspace 4:four
+    bindsym Control+5 move container to workspace 5:five, workspace 5:five
+    bindsym Control+6 move container to workspace 6:six, workspace 6:six
+    bindsym Control+7 move container to workspace 7:seven, workspace 7:seven
+    bindsym Control+8 move container to workspace 8:eight, workspace 8:eight
+    bindsym Control+9 move container to workspace 9:nine, workspace 9:nine
+    bindsym Control+0 move container to workspace 10:ten, workspace 10:ten
 
     # Intelligent movement
     # A window list to focus a window
@@ -232,18 +207,15 @@ mode "NORMAL" {
     bindsym w mode "default", exec qutebrowser && cat /dev/null > ~/.local/share/qutebrowser/history 
     bindsym t exec --no-startup-id urxvtc, mode "default"
     bindsym f exec --no-startup-id urxvtc -e ranger, mode "default"
-    # bindsym c exec --no-startup-id urxvt -e ncmpcpp, mode "default"
-    bindsym c exec --no-startup-id ~/bin/ncmpcpp.sh start, mode "default"
-    bindsym c exec --no-startup-id ~/bin/ncmpcpp.sh start, mode "default"
+    bindsym c exec --no-startup-id urxvt -e ncmpcpp, mode "default"
     bindsym Shift+c exec --no-startup-id ~/bin/ncmpcpp.sh, mode "default"
     bindsym z exec --no-startup-id urxvtc -e mutt, mode "default"
-    bindsym Shift+z exec env GTK2_RC_FILES=/usr/share/themes/Raleigh/gtk-2.0/gtkrc firefox-nightly www.protonmail.ch/login, mode "default"
 
     # Shutdown, reboot, lock screen ..
     bindsym q mode "$system"
 
     # Change the borders
-    bindsym odiaeresis mode "Borders"
+    bindsym odiaeresis mode "borders"
 
     # Wireless mode
     bindsym Shift+w mode "$Wireless"
@@ -252,22 +224,12 @@ mode "NORMAL" {
     bindsym u mode "$USB"
 
     # Monitor mode
-    bindsym e mode "$MONITOR"
+    bindsym e exec --no-startup-id ~/bin/monitor.sh, mode "default"
 
     # Back to normal
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym F10 mode "default"
-
-    # Make the Rest return
-    bindsym b mode "default"
-
-    bindsym Shift+e mode "default"
-    bindsym Shift+i mode "default"
-    bindsym Shift+n mode "default"
-    bindsym Shift+q mode "default"
-    bindsym Shift+v mode "default"
-    bindsym Shift+u mode "default"
 
 }
 # }}}
@@ -276,13 +238,13 @@ mode "NORMAL" {
 set $SYSTEM System ... logout (l), reboot (r), shutdown (s), suspend (S), blank (b)
 mode "$SYSTEM" {
     # Logout
-    bindsym l exec --no-startup-id i3-msg exit, mode "default"
+    bindsym l exec --no-startup-id i3-msg exit
     # Reboot
-    bindsym r exec reboot, mode "default"
+    bindsym r exec reboot
     # Shutdown
-    bindsym s exec poweroff, mode "default"
+    bindsym s exec poweroff
     # Suspend
-    bindsym Shift+s exec systemctl suspend, mode "default"
+    bindsym Shift+s exec systemctl suspend
     # Blank screen
     bindsym b exec xset dpms force off, mode "default"
 
@@ -293,7 +255,7 @@ mode "$SYSTEM" {
 # }}}
 
 # Various other modes {{{
-set $Wireless Wifi ... block (b), unblock (u), wifi-menu (w)
+set $Wireless  wifi ... block (b), unblock (u), wifi-menu (w)
 mode "$Wireless" {
     # Wifi
     bindsym b exec "rfkill block wifi", mode "default"
@@ -304,7 +266,7 @@ mode "$Wireless" {
     bindsym Escape mode "default"
 }
 
-set $USB USB devices ... mount (m), unmount (u)
+set $USB  USB devices ... mount (m), unmount (u)
 mode "$USB" {
     # USB
     bindsym m exec ~/bin/mnt-i3, mode "default"
@@ -314,47 +276,8 @@ mode "$USB" {
     bindsym Escape mode "default"
 }
 
-# Configuring multiple monitors
-set $MONITOR Monitors ... Laptop (l), Main (m)
-mode "$MONITOR" {
-    # Entering the screens
-    bindsym l mode "$LAPTOP"
-    bindsym m mode "$MAIN"
-
-    # Back to normal: Escape
-    bindsym Escape mode "default"
-}
-
-set $LAPTOP left (l), right (r), same (s), off (o)
-mode "$LAPTOP" {
-   # Different xrandr configurations 
-   bindsym l exec xrandr --output eDP1 --auto --left-of HDMI1, mode "default"
-   bindsym r exec xrandr --output eDP1 --auto --right-of HDMI1, mode "default"
-   bindsym s exec xrandr --output eDP1 --auto --same-as HDMI1, mode "default"
-   bindsym o exec xrandr --output eDP1 --off, mode "default"
-   bindsym Escape mode "default"
-}
-
-set $MAIN left (l), right (r), same (s), off (o)
-mode "$MAIN" {
-   # Different xrandr configurations 
-   bindsym l exec xrandr --output HDMI1 --auto --left-of eDP1, mode "default"
-   bindsym r exec xrandr --output HDMI1 --auto --right-of eDP1, mode "default"
-   bindsym s exec xrandr --output HDMI1 --same-as eDP1, mode "default"
-   bindsym o exec xrandr --output HDMI1 --off, mode "default"
-   bindsym Escape mode "default"
-}
-
-# A cycle mode, used with cycle.py
-mode "Cycle" {
-    # Accept window with space, enter or escape
-    bindsym Return exec "killall cycle.py", mode "default"
-    bindsym space exec "killall cycle.py", mode "default"
-    bindsym Escape exec "killall cycle.py", mode "default"
-}
-
-# A mode to change the borders and gaps
-mode "Borders" {
+# A mode to change the borders
+mode "borders" {
     # The different borders I use from time to time
     bindsym 1 border 1pixel
     bindsym 2 border pixel 2
@@ -377,15 +300,15 @@ bar {
         tray_output none
 
         colors {
-            background #2C2C2C
+            background #0C0C0C
             statusline #00C1FF
-            separator #00C1FF
+            separator  #00C1FF
             #                  BORDER  BACKGR. TEXT
-            focused_workspace  #2C2C2C #2C2C2C #00C1FF
-            active_workspace   #2C2C2C #2C2C2C #0066AA
-            inactive_workspace #2C2C2C #2C2C2C #EEEEEE
-            urgent_workspace   #00FF00 #2C2C2C #00FF00
-            binding_mode       #2C2C2C #2C2C2C #EEEEEE
+            focused_workspace  #00C1FF #0C0C0C #EEEEEE
+            active_workspace   #0C0C0C #0C0C0C #EEEEEE
+            inactive_workspace #0C0C0C #0C0C0C #666666
+            urgent_workspace   #A97FFF #875FFF #875FFF
+            binding_mode       #00C1FF #0C0C0C #EEEEEE
         }
 
         # Font for the bar
@@ -395,6 +318,7 @@ bar {
         bindsym button4 exec :
         bindsym button5 exec :
 }
+
 # }}}
 
 # vim:foldmethod=marker:foldlevel=0

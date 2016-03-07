@@ -1,13 +1,13 @@
 conky.config = {
 out_to_x = true,
 out_to_console = false,
-own_window = false,
--- own_window_transparent = true,
--- own_window_type = 'override',
--- own_window_hints = 'below,undecorated,sticky,skip_taskbar,skip_pager',
+own_window = true,
+own_window_transparent = true,
+own_window_type = 'override',
+own_window_hints = 'below,undecorated,sticky,skip_taskbar,skip_pager',
 background = true,
 max_text_width = 0,
-double_buffer = true,
+double_buffer = false,
 
 update_interval = 120,
 
@@ -19,7 +19,6 @@ total_run_times = 0,
 draw_outline = false,
 draw_borders = false,
 use_xft = true,
-xftalpha = 1.0,
 
 -- Graph and units
 temperature_unit = 'celsius',
@@ -27,7 +26,7 @@ format_human_readable = true,
 
 -- Alignment
 alignment = 'top_middle',
-gap_y = 10
+gap_y = 10,
 }
 
 --------------------------------------------------------------------------------
@@ -37,11 +36,12 @@ ${font Source Code Pro:style=Bold:size=13}${color #ffffff}     ${exec cat ~/.i3/
 ${color #00C1FF} TOTAL ${color #ffffff} ${fs_size /}     \
 ${color #00C1FF} FREE ${color #ffffff} ${fs_free /}     \
 ${color #00C1FF} KERNEL ${color #ffffff} ${kernel}     \
-${color #00C1FF} EDITOR ${color #ffffff} vim     \
-${color #00C1FF} SHELL ${color #ffffff} ${exec echo $SHELL}     \
+${color #00C1FF} EDITOR ${color #ffffff} nvim     \
+${color #00C1FF} SHELL ${color #ffffff} ${execi 1200 echo $SHELL}     \
 ${color #00C1FF} WM ${color #ffffff} i3     \
-${color #00C1FF} WEATHER ${color #ffffff} ${exec ~/bin/weather.sh}
+${color #00C1FF} WEATHER ${color #ffffff} ${execi 1200 ~/bin/weather.sh}
 ${color #00C1FF}${hr 2}${color #ffffff}
+${exec hsetroot -solid "#0C0C0C"}
 ${exec cat ~/.i3/info/update_names}
-${exec ~/bin/update}
 ]]
+-- vim:ft=lua.conkyrc

@@ -8,10 +8,8 @@ setlocal completeopt=menuone,longest
 let g:jedi#show_call_signatures = 0
 call jedi#configure_call_signatures()
 let g:jedi#show_call_signatures_delay = 100
-" Do not automatically select the first word
-" let g:jedi#popup_select_first = 1
-" And do not start on .
-let g:jedi#popup_on_dot = 0
+let g:jedi#popup_select_first = 1
+let g:jedi#popup_on_dot = 1
 " The Key mappings for jedi
 let g:jedi#completions_command = "<C-Space>"
 let g:jedi#goto_assignments_command = "<Nop>"
@@ -24,7 +22,6 @@ let g:jedi#rename_command = "<leader>r"
 " Tmux version for running python
 nnoremap <buffer> <leader>d :VimuxRunCommand("python <C-R>=expand("%:t")<CR>")<CR><CR>
 nmap <buffer> <leader>p :VimuxRunCommand("python")<CR><C-l>
-
 
 " SuperTab for jedi completion
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"

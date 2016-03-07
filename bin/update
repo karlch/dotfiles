@@ -16,9 +16,9 @@ fi
 
 if (( $sum == 0 ))
 then
-    echo "everything up to date" > ~/.i3/info/update_info
-    echo "" > ~/.i3/info/update_names
+    echo "everything up to date" > /home/christian/.i3/info/update_info
+    echo "" > /home/christian/.i3/info/update_names
 else
-    printf "PAC:%2d  AUR:%2d\n" ${upnum} ${aurupnum} > ~/.i3/update_info
-    printf "${updates}\n--------------\n${aurupdates}\n" > ~/.i3/update_names
+    printf "PAC:%2d  AUR:%2d\n" ${upnum} ${aurupnum} > /home/christian/.i3/info/update_info
+    printf "${updates}\n--------------\n${aurupdates}\n" > /home/christian/.i3/info/update_names
 fi

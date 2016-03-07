@@ -3,6 +3,7 @@
 # different cd aliases
 alias wp='cd ~/Dokumente/Uni/14W/WiPro'
 alias uni='cd ~/Dokumente/Uni'
+alias ba='cd ~/Dokumente/Uni/16S/Bachelorarbeit/data'
 alias pra='cd ~/Dokumente/Uni/15W/FoPra'
 alias unia='cd ~/Dokumente/Uni/15W'
 alias pro='cd ~/Dokumente/Programmieren/'
@@ -16,7 +17,6 @@ alias viml='vim -c "normal '\''0"'
 alias mma='vim ~/tmp.mma'
 
 # tmux
-alias tmux='TERM=xterm-256color tmux'
 alias tks='tmux kill-server'
 alias tkss='tmux kill-session -t'
 alias tls='tmux list-sessions'
@@ -73,7 +73,7 @@ alias marvin='fortune ~/bin/fortune/marvin'
 alias help='echo "Dont Panic!"'
 alias sw='telnet towel.blinkenlights.nl'
 alias yt='youtube-viewer -f'
-alias emacs='echo haha, nice try! && sleep 1 && nvim $@'
+# alias emacs='echo haha, nice try! && sleep 1 && nvim $@'
 
 # global aliases
 alias -g DN='/dev/null'

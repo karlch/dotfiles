@@ -27,7 +27,6 @@
 # vim: ft=zsh sw=2 ts=2 et
 # -------------------------------------------------------------------------------------------------
 
-
 # Define default styles.
 : ${ZSH_HIGHLIGHT_STYLES[default]:=none}
 : ${ZSH_HIGHLIGHT_STYLES[unknown-token]:=none}
@@ -44,15 +43,15 @@
 : ${ZSH_HIGHLIGHT_STYLES[path_prefix]:=none}
 : ${ZSH_HIGHLIGHT_STYLES[globbing]:=none}
 : ${ZSH_HIGHLIGHT_STYLES[history-expansion]:=none}
-: ${ZSH_HIGHLIGHT_STYLES[single-hyphen-option]:=fg=yellow}
-: ${ZSH_HIGHLIGHT_STYLES[double-hyphen-option]:=fg=yellow}
-: ${ZSH_HIGHLIGHT_STYLES[back-quoted-argument]:=fg=215}
+: ${ZSH_HIGHLIGHT_STYLES[single-hyphen-option]:=fg=cyan}
+: ${ZSH_HIGHLIGHT_STYLES[double-hyphen-option]:=fg=cyan}
+: ${ZSH_HIGHLIGHT_STYLES[back-quoted-argument]:=fg=99}
 : ${ZSH_HIGHLIGHT_STYLES[single-quoted-argument]:=fg=144}
 : ${ZSH_HIGHLIGHT_STYLES[double-quoted-argument]:=fg=144}
 : ${ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]:=fg=144}
-: ${ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]:=fg=215}
-: ${ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]:=fg=215}
-: ${ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]:=fg=215}
+: ${ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]:=fg=99}
+: ${ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]:=fg=99}
+: ${ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]:=fg=99}
 : ${ZSH_HIGHLIGHT_STYLES[assign]:=none}
 : ${ZSH_HIGHLIGHT_STYLES[redirection]:=none}
 : ${ZSH_HIGHLIGHT_STYLES[comment]:=none}

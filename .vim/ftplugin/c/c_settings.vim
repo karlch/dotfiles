@@ -15,3 +15,7 @@ let g:clang_complete_copen = 0
 let g:clang_periodic_quickfix = 0
 " Clang keys
 let g:clang_jumpto_declaration_key = "gd"
+
+" CPP Highlight
+let g:cpp_class_scope_highlight = 1
+let g:cpp_experimental_template_highlight = 1

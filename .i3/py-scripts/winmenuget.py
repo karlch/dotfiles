@@ -15,6 +15,7 @@
 
 import i3
 import subprocess
+import re
 
 
 def i3clients():
@@ -29,8 +30,9 @@ def i3clients():
     for ws in i3.get_workspaces():
         if not ws['focused']:
             wsname = ws['name']
-            if len(wsname) > lengths['workspace']:
-                lengths['workspace'] = len(wsname)
+            wsshow = re.sub(r'[0-9]+(:)', '', wsname)
+            if len(wsshow) > lengths['workspace']:
+                lengths['workspace'] = len(wsshow)
             workspace = i3.filter(tree, name=wsname)
             if not workspace:
                 continue
@@ -41,7 +43,8 @@ def i3clients():
             for window in windows:
                 windowdict = {
                     'con_id': window['id'],
-                    'ws': wsname,
+                    'ws': wsshow,
+                    'class': window['window_properties']['class'].lower(),
                     'name': window['name']}
                 try:
                     windowdict['mark'] = window['mark']
@@ -64,10 +67,10 @@ def i3clients():
     for con_id in clientlist:
         wslen = lengths['workspace']
         mlen = lengths['mark']
-        win_str = u'[{k:<{v}}] {l:<{w}} {m}'.format(
+        win_str = u'{k:<{v}} - {c:15} {m}'.format(
             k=clients[con_id]['ws'], v=wslen,
             l=clients[con_id]['mark'], w=mlen,
-            m=clients[con_id]['name'],
+            c=clients[con_id]['class'], m=clients[con_id]['name'],
             n=clients[con_id]['instance'])
         clients[win_str] = clients[con_id]
         del clients[con_id]
@@ -81,7 +84,7 @@ def win_menu(clients, l=20):
     dmenu = subprocess.Popen(['rofi',
                               '-dmenu',
                               '-p',
-                              'Get: '
+                              'window: '
                               ],
                              stdin=subprocess.PIPE,
                              stdout=subprocess.PIPE)
@@ -103,7 +106,7 @@ if __name__ == '__main__':
     workspaces = i3.get_workspaces()
     for w in workspaces:
         if w["focused"]:
-            goto = w["num"]
+            goto = w["name"]
             break
     i3.move("container", "to", "workspace", str(goto))
     i3.workspace(str(goto))

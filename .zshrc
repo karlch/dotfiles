@@ -6,7 +6,7 @@ ZSH_THEME="lhun"
 CASE_SENSITIVE="true"
 ENABLE_CORRECTION="true"
 CHASE_LINKS="true"
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
 # Plugins
 plugins=(vi-mode clipboard zsh-history-substring-search sudo lscolors dot zsh-autosuggestions zsh-syntax-highlighting)
@@ -26,6 +26,7 @@ bindkey '^N' insert-cycledleft
 bindkey '^P' insert-cycledright
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' push-line-or-edit
+bindkey '^K' history-substring-search-up
 #
 # Normal mode
 bindkey -M vicmd '\E' vi-beginning-of-line
@@ -35,6 +36,7 @@ bindkey -M vicmd 'ä' vi-history-search-backward
 bindkey -M vicmd 'ö' execute-named-cmd
 bindkey -M vicmd 'j' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd '^S' vi-insert # Used for vimux run command to enter i-mode
 #
 # Completion menu
 bindkey -M menuselect 'j' down-line-or-history
@@ -48,17 +50,12 @@ bindkey -M menuselect '+' accept-and-menu-complete
 autoload -U zmv
 # Zcalc
 autoload -U zcalc
-autoload -Uz zcalc-auto-insert
-zle -N zcalc-auto-insert
-bindkey '+' zcalc-auto-insert
-bindkey '\-' zcalc-auto-insert
-bindkey '\/' zcalc-auto-insert
-bindkey '\*' zcalc-auto-insert
 # Surround
 autoload -Uz surround
 zle -N add-surround surround
 bindkey -M vicmd 's' add-surround
 bindkey -M visual 's' add-surround
+autosuggest_start
 
 # Colored man pages
 man() {
@@ -96,8 +93,7 @@ if [[ -n ${TMUX} && -n ${commands[tmux]} ]];then
     esac
 fi
 
-autosuggest_start
 # Logo
-alsi
-marvin
+alsi    # Logo with system information
+marvin  # Marvin quotes
 echo ""

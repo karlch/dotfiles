@@ -26,6 +26,7 @@
 # -*- mode: zsh; sh-indentation: 2; indent-tabs-mode: nil; sh-basic-offset: 2; -*-
 # vim: ft=zsh sw=2 ts=2 et
 # -------------------------------------------------------------------------------------------------
+zmodload zsh/datetime
 
 
 if [[ -o function_argzero ]]; then
@@ -72,6 +73,11 @@ _zsh_highlight()
 
   # Do not highlight if there are pending inputs (copy/paste).
   [[ $PENDING -gt 0 ]] && return $ret
+
+  # Do not highlight if the time delta is less than 200ms
+   [[ -z "$LAST_INVOKE_EPOCH" ]] && typeset -g LAST_INVOKE_EPOCH=$EPOCHREALTIME
+   [[ $(( $EPOCHREALTIME - $LAST_INVOKE_EPOCH )) -lt 0.2 ]] && return $ret
+   typeset -g LAST_INVOKE_EPOCH=$EPOCHREALTIME
 
   # Reset region highlight to build it from scratch
   typeset -ga region_highlight

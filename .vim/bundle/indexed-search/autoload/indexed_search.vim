@@ -75,7 +75,7 @@ function! s:index_message(total, exact, after, force)
         let msg = "Last of ". shortmatch
     elseif a:exact >= 0
         let msg = (g:indexed_search_shortmess ? "" : "Match ")
-                 \. a:exact ." of ". matches
+                 \. a:exact ."/". matches
     elseif a:after == 0
         let hl = "MoreMsg"
         let msg = "Before first match, of ". shortmatch

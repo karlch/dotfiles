@@ -1,10 +1,8 @@
 #!/bin/bash
 
-# cache_dir=/tmp/clipmenu.$USER/
-cache_dir=/home/$USER/.cache/history
+cache_dir=/tmp/clipmenu.$USER/
 mkdir -p -m0700 "$cache_dir"
-cd $cache_dir
-rm *
+rm ${cache_dir}/*
 
 declare -A last_data
 declare -A last_filename
@@ -36,31 +34,39 @@ while sleep "${CLIPMENUD_SLEEP:-0.5}"; do
         # Otherwise, they would be stripped by the very nature of how POSIX
         # defines command substitution.
         data=${data%x}
+        if [[ ${#data} -gt 2 ]]; then
 
-        [[ $data == *[^[:blank:]]* ]] || continue
+            [[ $data == *[^[:blank:]]* ]] || continue
 
-        [[ ${last_data[$selection]} == "$data" ]] && continue
+            [[ ${last_data[$selection]} == "$data" ]] && continue
 
-        # If we were in the middle of doing a selection when the previous poll
-        # ran, then we may have got a partial clip.
-        possible_partial=${last_data[$selection]}
-        if [[ $possible_partial && $data == "$possible_partial"* ]]; then
-            rm -- "${last_filename[$selection]}"
-        fi
+            # If we were in the middle of doing a selection when the previous poll
+            # ran, then we may have gotten a partial clip.
+            possible_partial=${last_data[$selection]}
+            if [[ $possible_partial =~ $data ]] || [[ $data =~  $possible_partial ]]
+            then
+                rm -- "${last_filename[$selection]}"
+            fi
 
-        md5=$(md5sum <<< "$data")
-        md5=${md5%% *}
-        filename="$cache_dir/$(LC_ALL=C date +%F-%H-%M-%S)-$md5"
+            # Md5 identifier of the string
+            md5=$(md5sum <<< "$data")
+            md5=${md5%% *}
 
-        last_data[$selection]=$data
-        last_filename[$selection]=$filename
-        if [[ $(printf "$data" | wc -c) -gt 2 ]]; then
-            echo $data
+            # Remove duplicates immediately (thanks md5)
+            for fil in $(find ${cache_dir} -type f); do
+                if [[ ${fil} =~ ${md5} ]]; then
+                    rm ${fil}
+                fi
+            done
+
+            # Save the file
+            filename="$cache_dir/$(LC_ALL=C date +%F-%H-%M-%S)-$md5"
             printf '%s' "$data" > "$filename"
+
+            # Remember last part
+            last_data[$selection]=$data
+            last_filename[$selection]=$filename
+
         fi
-    done
-    while [[ $(ls | wc -l) -gt 50 ]]; do
-        tokill=$(ls $cache_dir | head -n +1)
-        rm $tokill
     done
 done

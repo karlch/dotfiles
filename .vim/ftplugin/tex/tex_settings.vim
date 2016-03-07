@@ -4,7 +4,7 @@
 nnoremap <buffer> <leader>d :call ZathuraSync()<CR>
 
 " map leader-w for the compiler
-nnoremap <buffer> <leader>w <Esc>:w<CR>:BuildTexPdf<CR>
+nnoremap <buffer> <leader>w <Esc>:call TexSync()<CR>
 
 " Linelength 90 for LaTex files, reasonable length in my opinion
 set tw=90
@@ -58,6 +58,13 @@ function! ErrorList()
         let errstring = "E:" . errors
     endif
     return errstring
+endfunction
+
+" Saves, Builds and moves to the preview
+function! TexSync()
+    silent write
+    silent BuildTexPdf
+    silent call ZathuraSync()
 endfunction
         
 set statusline=%<\%t\ %y\%m\%r\%=%#warningmsg#%{ErrorList()}%*\ \ \lin:\ %l\/\%L\ col:\ %c

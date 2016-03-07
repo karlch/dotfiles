@@ -1,5 +1,6 @@
+# vim:ft=zsh
 # Set VIMODE according to the current mode, default is i
-function vimode() {
+function _vimode() {
     mode=$(echo "${${KEYMAP/vicmd/<< }/(main|viins)/>> }")
     if [[ $mode == "" ]]; then
         echo ">> "
@@ -10,16 +11,19 @@ function vimode() {
 
 zle -N zle-keymap-select
 
-function gitinfo() {
-    (git symbolic-req -q HEAD || git name-rev --name-only --no-undefined --always HEAD ) 2> /dev/null
-}
+PROMPT='%{$fg[blue]%}%n %{$fg[green]%}%~%{$fg[white]%} %(?..%? )%{$fg[blue]%}$(_vimode)%{$reset_color%}'
 
-function gitstring() {
-    if [[ -z $(gitinfo) ]]; then
-        printf ""
+# Git information
+function _gitinfo() {
+    if [[ -n "$(git rev-parse HEAD 2>/dev/null)" ]]; then
+        branch=$(git rev-parse --abbrev-ref HEAD)
+        files=$(git diff --numstat 2>/dev/null | wc -l)
+        ins=$(git diff --numstat 2>/dev/null | awk '{sum+=$1} END {print sum}')
+        del=$(git diff --numstat 2>/dev/null | awk '{sum+=$2} END {print sum}')
+        print -- "@%F{4}${branch} %f${files} changed (%F{46}+${ins}%f/%F{1}-${del}%f)"
     else
-        printf " [%s]" $(gitinfo)
+        printf ""
     fi
 }
 
-PROMPT='%{$fg[blue]%}%n %{$fg[green]%}%~%{$fg[white]%}$(gitstring)%(?..%? ) %{$fg[blue]%}$(vimode)%{$reset_color%}'
+RPROMPT='$(_gitinfo)'

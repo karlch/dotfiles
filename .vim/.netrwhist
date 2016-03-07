@@ -1,7 +1,4 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
-let g:netrw_dirhist_1='/home/christian/Dokumente/git/vimiv/vimiv/core'
-let g:netrw_dirhist_2='/home/christian/src/pyspread/pyspread'
-let g:netrw_dirhist_3='/sys/class/sound/card0'
-let g:netrw_dirhist_4='/etc/X11/xorg.conf.d'
-let g:netrw_dirhist_5='/home/christian/.zsh/plugins/zsh-syntax-highlighting/highlighters/main'
+let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_1='/home/christian/.zsh/plugins'
+let g:netrw_dirhist_2='/home/christian/.zsh/plugins/lscolors'

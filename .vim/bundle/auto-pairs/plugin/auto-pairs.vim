@@ -25,7 +25,7 @@ if !exists('g:AutoPairsMapBS')
 end
 
 if !exists('g:AutoPairsMapCR')
-  let g:AutoPairsMapCR = 1
+  let g:AutoPairsMapCR = 0
 end
 
 if !exists('g:AutoPairsMapSpace')
@@ -532,6 +532,6 @@ endfunction
 " Always silent the command
 inoremap <silent> <SID>AutoPairsReturn <C-R>=AutoPairsReturn()<CR>
 imap <script> <Plug>AutoPairsReturn <SID>AutoPairsReturn
-
+imap <silent><CR> <CR><Plug>AutoPairsReturn
 
 au BufEnter * :call AutoPairsTryInit()
