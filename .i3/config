@@ -12,8 +12,8 @@ new_float normal
 
 # Color settings        Border      Background  Font        Indicator
 client.focused          #00C1FF     #0C0C0C     #EEEEEE     #7241D6
-client.focused_inactive #2C2C2C     #0C0C0C     #666666     #0C0C0C
-client.unfocused        #2C2C2C     #0C0C0C     #666666     #0C0C0C
+client.focused_inactive #2C2C2C     #0C0C0C     #888888     #0C0C0C
+client.unfocused        #2C2C2C     #0C0C0C     #888888     #0C0C0C
 client.urgent           #A97FFF     #875FFF     #000000     #875FFF
 
 # Enable workspace back and forth
