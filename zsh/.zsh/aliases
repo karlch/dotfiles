@@ -23,13 +23,6 @@ alias tkss='tmux kill-session -t'
 alias tls='tmux list-sessions'
 alias ta='tmux attach-session -t'
 
-# git
-alias gitup='cp -R ~/.vim ~/.vimrc ~/.zsh ~/.zshrc ~/.tmux.conf ~/.i3 ~/bin ~/.conkyrc ~/.Xdefaults ~/.xinitrc ~/Dokumente/git/dotfiles'
-alias gitclean='cd ~/Dokumente/git/dotfiles && rm -rf .vim .vimrc .zsh .zshrc .zsh_aliases .tmux.conf .i3 bin .conkyrc .Xdefaults .xinitrc'
-alias gitsync='gitclean && gitup'
-alias gitvimiv='cd ~/Dokumente/Programmieren/vimiv/vimiv && cp vimiv vimivrc.py readme.md LICENSE Makefile vimiv.desktop vimiv.1 contributing.md ~/Dokumente/git/vimiv && cd ~/Dokumente/git/vimiv'
-alias aurvimiv='cd ~/Dokumente/Programmieren/vimiv/vimiv/AUR && cp PKGBUILD .SRCINFO ~/Dokumente/git/AUR/vimiv-git && cd ~/Dokumente/git/AUR/vimiv-git'
-
 # pacman
 alias spac='sudo pacman'
 alias spacu='sudo pacman -Syu && echo -e "\e[1;34m:: \e[1;37mRefreshing update info\e[0;37m" && update && echo " done"'
@@ -73,8 +66,7 @@ alias chuck='clear && fortune ~/bin/fortune/chucknorris'
 alias marvin='fortune ~/bin/fortune/marvin'
 alias help='echo "Dont Panic!"'
 alias sw='telnet towel.blinkenlights.nl'
-alias yt='youtube-viewer -f'
-# alias emacs='echo haha, nice try! && sleep 1 && nvim $@'
+alias emacs='echo haha, nice try! && sleep 1 && nvim $@'
 
 # global aliases
 alias -g DN='/dev/null'
