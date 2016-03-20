@@ -1,7 +1,7 @@
 #! /bin/bash
 # Recording a really neat screencast
 
-mplayer tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0 &
+mpv tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0 &
 sleep 2
 i3-msg floating toggle
 i3-msg border none

@@ -74,7 +74,7 @@ endif
 let s:red          = ['#AF0000', 124]
 
 " Bright white
-let s:extra3       = ['#FFFFFF', 1]
+let s:extra3       = ['#FFFFFF', 231]
 
 " Flavours: {{{
 
@@ -86,6 +86,7 @@ if exists("g:lhun_flavour")
   let s:main_light   = g:lhun_flavour[3]
   let s:extra1       = g:lhun_flavour[4]
   let s:extra2       = g:lhun_flavour[5]
+  let s:extra4       = g:lhun_flavour[6]
 else
   " Blue
   let s:main_dark    = ['#005FAF', 25]
@@ -96,6 +97,8 @@ else
   let s:extra1       = ['#7251D6', 99]
   " Magenta
   let s:extra2       = ['#870087', 90]
+  " Green
+  let s:extra4       = ['#00DD00#', 34]
 endif
 
 " }}}
@@ -187,9 +190,9 @@ endif
 call s:HL('Comment', s:grey_med2)
 call s:HL('Constant', s:brown)
 call s:HL('Cursor', s:grey_dark0, s:grey_light)
-call s:HL('DiffAdd', s:extra1, s:grey_dark1)
+call s:HL('DiffAdd', s:extra3, s:extra4)
 call s:HL('DiffChange', s:main_dark, s:brown)
-call s:HL('DiffDelete', s:grey_med1)
+call s:HL('DiffDelete', s:extra3, s:red)
 call s:HL('DiffText', s:main_dark, s:brown)
 call s:HL('Folded', s:grey_med2, s:grey_dark0)
 call s:HL('LineNr', s:grey_med2, s:grey_dark0)

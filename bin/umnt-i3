@@ -11,7 +11,7 @@ deviceCount=$(echo $deviceSources | wc -w)
 
 # Are there any devices?
 if [[ $deviceCount == 0 ]]; then
-    rofi -show run -e "No devices found"
+    notify-send "No devices found"
     exit 1
 fi
 
@@ -40,10 +40,8 @@ else
     name=$(echo $input | cut -d " " -f2)
 fi
 
-if (udevil umount ${tounmount}); then
-    rofi -show run -e "Unmounted ${tounmount} successfully"
-else
-    rofi -show run -e "Input did not match any device"
+if !(udevil umount ${tounmount}); then
+    notify-send "Input did not match any device"
 fi
 rm ~/list.txt
 exit 0

@@ -25,8 +25,9 @@ syndaemon -k -d -i 1 &
 unclutter --timeout 1 -b
 # Background
 hsetroot -solid '#0C0C0C' &
-# Volume notifier
+# Notifiers
 volnoti -t 1.2
+dunst &
 # Merge rofi settings
 xrdb -load ~/.config/rofi/rofi &
 # Music
@@ -34,7 +35,7 @@ export MPD_HOST="192.168.0.10"
 # Updates
 ~/bin/update &
 # Devmon for usb
-devmon --exec-on-drive 'rofi -show run -e "Mounted %f at %d"' --exec-on-remove "volnoti-show -n -s /usr/share/pixmaps/volnoti/media-eject-symbolic.svg 100" &
+devmon --exec-on-drive 'notify-send "Mounted %l %f at %d"' --exec-on-unmount 'notify-send "Succesfully unmounted %l from %f"' &
 # Conky
 conky &
 # Urxvt daemon

@@ -1,15 +1,15 @@
 #! /bin/bash
-# A script using mplayer and ffmpeg for the different recordings one might want
+# A script using mpv and ffmpeg for the different recordings one might want
 # to do
 
 if [ $# -lt 1 ]; then
     echo "please use an option, enter '-h' for help"
 elif [ $1 == "-wp" ]; then
     echo "taking a picture"
-    mplayer tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0 -fps 15 -vf screenshot
+    mpv tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0 -fps 15 -vf screenshot
 elif [ $1 == "-wv" ]; then
     echo "streaming from webcam"
-    mplayer tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0
+    mpv tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0
 elif [ $1 == "-sv" ] && [ $# == 3 ]; then
     echo "recording a video of your screen"
     ffmpeg -r 30 -s 1920x1080 -f x11grab -i :0.0 -vcodec mpeg4 -qscale ${2} ${3}.mp4
@@ -22,7 +22,7 @@ elif [ $1 == "-sc" ] && [ $# == 3 ]; then
 else
     echo 1>&2 "Usage:
     -wp (take picture from webcam, press s to take the shot)
-    -wv (stream webcam to mplayer)
+    -wv (stream webcam to mpv)
     -sv quality filename (take a video of your screen, quality decreasing from 0
         to 10, filename without ending)
     -ss filename (record sound)

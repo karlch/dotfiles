@@ -375,6 +375,8 @@ let g:gundo_close_on_revert = 1
 " Neomake
 let g:neomake_verbose = 0
 let g:neomake_cpp_clang_args = ['-Wno-c++11-extensions']
+let g:neomake_error_sign = {'text': 'E:'}
+let g:neomake_warning = {'text': 'W:'}
 
 " NeoTerm
 let g:neoterm_size = 60

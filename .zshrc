@@ -27,6 +27,7 @@ bindkey '^P' insert-cycledright
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' push-line-or-edit
 bindkey '^K' history-substring-search-up
+bindkey '^?' backward-delete-char  # Backspace over everything in insert mode
 #
 # Normal mode
 bindkey -M vicmd '\E' vi-beginning-of-line
