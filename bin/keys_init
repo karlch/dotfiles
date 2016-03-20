@@ -1,9 +1,0 @@
-#!/bin/sh
-setxkbmap -option 'caps:ctrl_modifier' 
-setxkbmap de-ck 
-setxkbmap -variant nodeadkeys 
-~/bin/keymapping/xcape -t 0 -e 'Caps_Lock=Escape' 
-~/bin/keymapping/xcape -t 0 -e 'ISO_Level3_Shift=F10' 
-~/bin/keymapping/xcape -t 0 -e 'Super_L=F11' 
-~/bin/keymapping/xcape -t 0 -e 'Super_R=F12' 
-~/bin/keymapping/xcape -t 0 -e 'Control_R=F12' 

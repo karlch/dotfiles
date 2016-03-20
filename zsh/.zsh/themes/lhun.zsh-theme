@@ -9,9 +9,15 @@ function _vimode() {
     fi
 }
 
+function _short_user() {
+    user=$(whoami)
+    if [[ ${user} != "christian" ]]; then
+        printf "${user} "
+    fi
+}
+
 zle -N zle-keymap-select
 
-PROMPT='%{$fg[blue]%}%n %{$fg[green]%}%~%{$fg[white]%} %(?..%? )%{$fg[blue]%}$(_vimode)%{$reset_color%}'
 
 # Git information
 function _gitinfo() {
@@ -26,4 +32,4 @@ function _gitinfo() {
     fi
 }
 
-RPROMPT='$(_gitinfo)'
+PROMPT='%{$fg[red]%}$(_short_user)%{$fg[blue]%}%~%{$fg[white]%} %(?..%? )%{$fg[green]%}$(_vimode)%{$reset_color%}'

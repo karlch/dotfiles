@@ -168,7 +168,7 @@ endfunction
 " Features of later vim versions {{{
 if version >= 700
   " Cursorline/-column
-  call s:HL('CursorLine', s:none, s:grey_dark0)
+  call s:HL('CursorLine', s:none, s:grey_dark1)
   hi! link CursorColumn CursorLine
 
   " Tab pages line filler
@@ -180,9 +180,9 @@ if version >= 700
 endif
 
 if version >= 703
-  call s:HL('ColorColumn', s:none, s:grey_dark0)
+  call s:HL('ColorColumn', s:none, s:grey_dark1)
   call s:HL('Conceal', s:main_dark)
-  call s:HL('CursorLineNr', s:main_light, s:grey_dark0)
+  call s:HL('CursorLineNr', s:main_light, s:grey_dark1)
 endif
 " }}}
 

@@ -1,0 +1,7 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=4993
+
+Basic syntax highlighting for the ROOT Data Analysis Framework http://root.cern.ch/
+
+Initially inspired by Theo Christoudias' plugin: cern_root.vim. (vimscript #2387)
+
+In contrast to cern_root.vim, this plugin is structured to work with common Vim plugin managers. It attempts to be semantically correct, which also allows seamless integration with both the PyROOT, as well as the original C++ implementation.
