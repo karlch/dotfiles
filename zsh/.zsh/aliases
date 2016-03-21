@@ -17,11 +17,22 @@ alias vima='vim --servername VimServer --remote-tab'
 alias viml='vim -c "normal '\''0"'
 alias mma='vim ~/tmp.mma'
 
+# fasd
+alias v='f -e vim'
+alias r='f -e rifle'
+
 # tmux
 alias tks='tmux kill-server'
 alias tkss='tmux kill-session -t'
 alias tls='tmux list-sessions'
 alias ta='tmux attach-session -t'
+
+# git
+alias gitup='cp -R ~/.vim ~/.vimrc ~/.zsh ~/.zshrc ~/.tmux.conf ~/.i3 ~/bin ~/.conkyrc ~/.Xdefaults ~/.xinitrc ~/Dokumente/git/dotfiles'
+alias gitclean='cd ~/Dokumente/git/dotfiles && rm -rf .vim .vimrc .zsh .zshrc .zsh_aliases .tmux.conf .i3 bin .conkyrc .Xdefaults .xinitrc'
+alias gitsync='gitclean && gitup'
+alias gitvimiv='cd ~/Dokumente/Programmieren/vimiv/vimiv && cp vimiv vimivrc.py readme.md LICENSE Makefile vimiv.desktop vimiv.1 contributing.md ~/Dokumente/git/vimiv && cd ~/Dokumente/git/vimiv'
+alias aurvimiv='cd ~/Dokumente/Programmieren/vimiv/vimiv/AUR && cp PKGBUILD .SRCINFO ~/Dokumente/git/AUR/vimiv-git && cd ~/Dokumente/git/AUR/vimiv-git'
 
 # pacman
 alias spac='sudo pacman'
@@ -53,7 +64,6 @@ alias vi='nvim ~/.i3/config'
 alias mlint='/usr/local/MATLAB/R2015a/bin/glnxa64/mlint'
 alias elinks='elinks -no-connect -anonymous'
 alias feh='feh -. -B black'
-alias ri='rifle'
 alias x='exit'
 alias csv2latexi='csv2latex --nohead --position c'
 alias find='find 2>/dev/null'
@@ -64,8 +74,8 @@ alias root='root -l'
 # everyone need some fun
 alias chuck='clear && fortune ~/bin/fortune/chucknorris'
 alias marvin='fortune ~/bin/fortune/marvin'
-alias help='echo "Dont Panic!"'
 alias sw='telnet towel.blinkenlights.nl'
+alias yt='youtube-viewer -f'
 alias emacs='echo haha, nice try! && sleep 1 && nvim $@'
 
 # global aliases
