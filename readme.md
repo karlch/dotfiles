@@ -9,4 +9,4 @@ the directories (e.g vim) reside in $HOME.
 
 ### Screenshot
 
-![Image](http://s17.postimg.org/gth2kutcf/scrot_2016_03_08_14_43_55.png "scrot")
+![Image](http://s15.postimg.org/6sstckdnv/scrot_2016_03_22_00_21_53.png "scrot")
