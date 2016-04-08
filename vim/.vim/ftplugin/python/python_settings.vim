@@ -20,7 +20,7 @@ let g:jedi#rename_command = "<leader>r"
 " }}}
 
 " Tmux version for running python
-nnoremap <buffer> <leader>d :VimuxRunCommand("python <C-R>=expand("%:t")<CR>")<CR><CR>
+nnoremap <buffer> <leader>d :VimuxRunCommand("python <C-R>=expand("%:t")<CR>")<CR>
 nmap <buffer> <leader>p :VimuxRunCommand("python")<CR><C-l>
 
 " SuperTab for jedi completion

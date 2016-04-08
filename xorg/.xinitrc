@@ -24,14 +24,14 @@ syndaemon -k -d -i 1 &
 # Dont want to see the mouse
 unclutter --timeout 1 -b
 # Background
-hsetroot -solid '#0C0C0C' &
+hsetroot -solid '#2C2C30' &
 # Notifiers
 volnoti -t 1.2
 dunst &
 # Merge rofi settings
 xrdb -load ~/.config/rofi/rofi &
 # Music
-export MPD_HOST="192.168.0.10"
+export MPD_HOST="alarmpi"
 # Updates
 ~/bin/update &
 # Devmon for usb
@@ -40,9 +40,7 @@ devmon --exec-on-drive 'notify-send "Mounted %l %f at %d"' --exec-on-unmount 'no
 conky &
 # Urxvt daemon
 urxvtd -f -o -q
-# Clipboard manager
-~/bin/clipmenud &
-# Urgency hint when a window changes name
-~/.i3/py-scripts/ipc/urgencyhint.py &
+# Redshift is easy on the eyes
+redshift &
 # WM
 exec i3

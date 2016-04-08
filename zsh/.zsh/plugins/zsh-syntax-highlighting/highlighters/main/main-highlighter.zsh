@@ -27,31 +27,32 @@
 # vim: ft=zsh sw=2 ts=2 et
 # -------------------------------------------------------------------------------------------------
 
+
 # Define default styles.
 : ${ZSH_HIGHLIGHT_STYLES[default]:=none}
 : ${ZSH_HIGHLIGHT_STYLES[unknown-token]:=none}
-: ${ZSH_HIGHLIGHT_STYLES[reserved-word]:=fg=45}
-: ${ZSH_HIGHLIGHT_STYLES[alias]:=fg=32}
-: ${ZSH_HIGHLIGHT_STYLES[suffix-alias]:=fg=32}
-: ${ZSH_HIGHLIGHT_STYLES[builtin]:=fg=32}
-: ${ZSH_HIGHLIGHT_STYLES[function]:=fg=32}
-: ${ZSH_HIGHLIGHT_STYLES[command]:=fg=32}
-: ${ZSH_HIGHLIGHT_STYLES[precommand]:=fg=32}
+: ${ZSH_HIGHLIGHT_STYLES[reserved-word]:=fg=blue}
+: ${ZSH_HIGHLIGHT_STYLES[alias]:=fg=cyan}
+: ${ZSH_HIGHLIGHT_STYLES[suffix-alias]:=fg=cyan}
+: ${ZSH_HIGHLIGHT_STYLES[builtin]:=fg=cyan}
+: ${ZSH_HIGHLIGHT_STYLES[function]:=fg=cyan}
+: ${ZSH_HIGHLIGHT_STYLES[command]:=fg=cyan}
+: ${ZSH_HIGHLIGHT_STYLES[precommand]:=fg=cyan}
 : ${ZSH_HIGHLIGHT_STYLES[commandseparator]:=none}
-: ${ZSH_HIGHLIGHT_STYLES[hashed-command]:=fg=32}
+: ${ZSH_HIGHLIGHT_STYLES[hashed-command]:=fg=cyan}
 : ${ZSH_HIGHLIGHT_STYLES[path]:=none}
 : ${ZSH_HIGHLIGHT_STYLES[path_prefix]:=none}
 : ${ZSH_HIGHLIGHT_STYLES[globbing]:=none}
 : ${ZSH_HIGHLIGHT_STYLES[history-expansion]:=none}
 : ${ZSH_HIGHLIGHT_STYLES[single-hyphen-option]:=fg=cyan}
 : ${ZSH_HIGHLIGHT_STYLES[double-hyphen-option]:=fg=cyan}
-: ${ZSH_HIGHLIGHT_STYLES[back-quoted-argument]:=fg=99}
+: ${ZSH_HIGHLIGHT_STYLES[back-quoted-argument]:=fg=magenta}
 : ${ZSH_HIGHLIGHT_STYLES[single-quoted-argument]:=fg=144}
 : ${ZSH_HIGHLIGHT_STYLES[double-quoted-argument]:=fg=144}
 : ${ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]:=fg=144}
-: ${ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]:=fg=99}
-: ${ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]:=fg=99}
-: ${ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]:=fg=99}
+: ${ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]:=fg=magenta}
+: ${ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]:=fg=magenta}
+: ${ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]:=fg=magenta}
 : ${ZSH_HIGHLIGHT_STYLES[assign]:=none}
 : ${ZSH_HIGHLIGHT_STYLES[redirection]:=none}
 : ${ZSH_HIGHLIGHT_STYLES[comment]:=none}
@@ -107,12 +108,12 @@ _zsh_highlight_main_highlighter()
   emulate -L zsh
   setopt localoptions extendedglob bareglobqual
 
-  # At the PS3 prompt, highlight nothing.
+  # At the PS3 prompt and in vared, highlight nothing.
   #
   # (We can't check this in _zsh_highlight_main_highlighter_predicate because
   # if the predicate returns false, the previous value of region_highlight
   # would be reused.)
-  if [[ $CONTEXT == 'select' ]]; then
+  if [[ $CONTEXT == (select|vared) ]]; then
     return
   fi
 
@@ -124,6 +125,7 @@ _zsh_highlight_main_highlighter()
   typeset -a ZSH_HIGHLIGHT_TOKENS_CONTROL_FLOW
   local -a options_to_set # used in callees
   local buf="$PREBUFFER$BUFFER"
+  integer len="${#buf}"
   region_highlight=()
 
   if (( path_dirs_was_set )); then
@@ -233,11 +235,13 @@ _zsh_highlight_main_highlighter()
       # indistinguishable from 'echo foo echo bar' (one command with three
       # words for arguments).
       local needle=$'[;\n]'
-      integer offset=${${buf[start_pos+1,-1]}[(i)$needle]}
+      # Len-start_pos drops one character, but it should do it, as start_pos
+      # starts from next, not from "start_pos", character
+      integer offset=${${buf: start_pos: len-start_pos}[(i)$needle]}
       (( start_pos += offset - 1 ))
       (( end_pos = start_pos + $#arg ))
     else
-      ((start_pos+=${#buf[$start_pos+1,-1]}-${#${buf[$start_pos+1,-1]##([[:space:]]|\\[[:space:]])#}}))
+      ((start_pos+=(len-start_pos)-${#${${buf: start_pos: len-start_pos}##([[:space:]]|\\[[:space:]])#}}))
       ((end_pos=$start_pos+${#arg}))
     fi
 
@@ -338,7 +342,9 @@ _zsh_highlight_main_highlighter()
                             # (For array assignments, the command doesn't start until the ")" token.)
                             next_word+=':start:'
                           fi
-                        elif [[ $arg[0,1] == $histchars[0,1] || $arg[0,1] == $histchars[2,2] ]]; then
+                        elif [[ $arg[0,1] = $histchars[0,1] ]] && (( $#arg[0,2] == 2 )); then
+                          style=$ZSH_HIGHLIGHT_STYLES[history-expansion]
+                        elif [[ $arg[0,1] == $histchars[2,2] ]]; then
                           style=$ZSH_HIGHLIGHT_STYLES[history-expansion]
                         elif [[ -n ${(M)ZSH_HIGHLIGHT_TOKENS_COMMANDSEPARATOR:#"$arg"} ]]; then
                           if [[ $this_word == *':regular:'* ]]; then
@@ -410,7 +416,7 @@ _zsh_highlight_main_highlighter()
         [*?]*|*[^\\][*?]*)
                  $highlight_glob && style=$ZSH_HIGHLIGHT_STYLES[globbing] || style=$ZSH_HIGHLIGHT_STYLES[default];;
         *)       if false; then
-                 elif [[ $arg[0,1] = $histchars[0,1] ]]; then
+                 elif [[ $arg[0,1] = $histchars[0,1] ]] && (( $#arg[0,2] == 2 )); then
                    style=$ZSH_HIGHLIGHT_STYLES[history-expansion]
                  elif [[ -n ${(M)ZSH_HIGHLIGHT_TOKENS_COMMANDSEPARATOR:#"$arg"} ]]; then
                    if [[ $this_word == *':regular:'* ]]; then

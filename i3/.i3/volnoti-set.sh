@@ -8,7 +8,7 @@ else
     amixer set Master toggle
 fi
 
-vol=$(amixer -c 0 get Master | grep Mono | cut -d " " -f6 | tr -d '[]' | tr -d '\n')
+vol=$(amixer -c 0 get Master | grep Mono | cut -d " " -f6 | tr -d '[]' | tr -d '\n' | tr -d '%')
 mute=$(amixer -c 0 get Master | grep Mono | cut -d " " -f8)
 
 # Read from conkybar

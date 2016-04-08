@@ -18,7 +18,7 @@ alias viml='vim -c "normal '\''0"'
 alias mma='vim ~/tmp.mma'
 
 # fasd
-alias v='f -e vim'
+alias v='f -e nvim'
 alias r='f -e rifle'
 
 # tmux

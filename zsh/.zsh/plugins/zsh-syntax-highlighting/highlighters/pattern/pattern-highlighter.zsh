@@ -30,7 +30,6 @@
 
 # List of keyword and color pairs.
 typeset -gA ZSH_HIGHLIGHT_PATTERNS
-ZSH_HIGHLIGHT_PATTERNS+=('[0-9]' 'fg=144')
 
 # Whether the pattern highlighter should be called or not.
 _zsh_highlight_pattern_highlighter_predicate()

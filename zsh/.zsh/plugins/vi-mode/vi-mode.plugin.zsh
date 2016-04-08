@@ -1,6 +1,6 @@
 # Ensures that $terminfo values are valid and updates editor information when
 # the keymap changes.
-function zle-keymap-select zle-line-init zle-line-finish {
+function zle-keymap-select {
   # The terminal must be in application mode when ZLE is active for $terminfo
   # values to be valid.
   if (( ${+terminfo[smkx]} )); then
@@ -14,18 +14,11 @@ function zle-keymap-select zle-line-init zle-line-finish {
   zle -R
 }
 
-# Ensure that the prompt is redrawn when the terminal size changes.
-TRAPWINCH() {
-  zle && { zle reset-prompt; zle -R }
-}
-
-zle -N zle-line-init
-zle -N zle-line-finish
 zle -N zle-keymap-select
-zle -N edit-command-line
 
 bindkey -v
 
 # allow q to edit the command line (standard behaviour)
 autoload -Uz edit-command-line
+zle -N edit-command-line
 bindkey -M vicmd 'q' edit-command-line

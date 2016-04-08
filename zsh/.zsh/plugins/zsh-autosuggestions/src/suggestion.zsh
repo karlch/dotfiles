@@ -1,19 +1,26 @@
 
-#------------#
-# Suggestion #
-#------------#
+#--------------------------------------------------------------------#
+# Suggestion                                                         #
+#--------------------------------------------------------------------#
 
-# Get a suggestion from history that matches a given prefix
+# Delegate to the selected strategy to determine a suggestion
 _zsh_autosuggest_suggestion() {
-	setopt localoptions extendedglob
+	local prefix="$1"
+	local strategy_function="_zsh_autosuggest_strategy_$ZSH_AUTOSUGGEST_STRATEGY"
 
-	# Escape the prefix (requires EXTENDED_GLOB)
-	local prefix=${1//(#m)[\][()|\\*?#<>~^]/\\$MATCH}
+	if [ -n "$functions[$strategy_function]" ]; then
+		echo -E "$($strategy_function "$prefix")"
+	fi
+}
 
-	# Get all history items (reversed) that match pattern $prefix*
-	local history_matches
-	history_matches=(${history[(R)$prefix*]})
+_zsh_autosuggest_escape_command() {
+	setopt localoptions EXTENDED_GLOB
 
-	# Echo the first item that matches
-	echo ${history_matches[1]}
+	# Escape special chars in the string (requires EXTENDED_GLOB)
+	echo -E "${1//(#m)[\\()\[\]|*?]/\\$MATCH}"
+}
+
+# Get the previously executed command
+_zsh_autosuggest_prev_command() {
+	echo -E "${history[$((HISTCMD-1))]}"
 }

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+password_files="$(ls ~/.password-store)"
+passwords=""
+for password in ${password_files}; do
+    passwords+="${password/.gpg/}\n"
+done
+
+selected=$(printf "${passwords}" | rofi -dmenu)
+
+if [[ -z "${selected}" ]]; then
+    exit 0
+fi
+
+pass show --clip "${selected}"

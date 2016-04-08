@@ -1,1 +1,1 @@
-./dist/autosuggestions.zsh
+zsh-autosuggestions.zsh

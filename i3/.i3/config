@@ -11,16 +11,16 @@ new_window pixel 2
 new_float normal
 
 # Color settings        Border      Background  Font        Indicator
-client.focused          #00C1FF     #0C0C0C     #EEEEEE     #7241D6
-client.focused_inactive #2C2C2C     #0C0C0C     #888888     #0C0C0C
-client.unfocused        #2C2C2C     #0C0C0C     #888888     #0C0C0C
-client.urgent           #A97FFF     #875FFF     #000000     #875FFF
+client.focused          #AFD7FF     #3C3C40     #CCCCCC     #8787AF
+client.focused_inactive #444444     #2C2C30     #888888     #2C2C30
+client.unfocused        #444444     #2C2C30     #888888     #2C2C30
+client.urgent           #DFAFDF     #8787AF     #000000     #8787AF
 
 # Enable workspace back and forth
 workspace_auto_back_and_forth yes
 
 # Urgency handling
-focus_on_window_activation urgent
+focus_on_window_activation focus
 force_display_urgency_hint 1000 ms
 
 # Do not follow the mouse
@@ -112,8 +112,8 @@ mode "normal" {
 
     # Rofi
     bindsym d exec --no-startup-id rofi -width 100 -columns 6 -show run, mode "default"
-    # with clipboard
-    bindsym a exec --no-startup-id ~/bin/clipmenu, mode "default"
+    # with password manager
+    bindsym a exec --no-startup-id ~/bin/pass-rofi, mode "default"
 
     # Split in horizontal orientation
     bindsym s split v
@@ -302,15 +302,15 @@ bar {
         tray_output none
 
         colors {
-            background #0C0C0C
-            statusline #00C1FF
-            separator  #00C1FF
+            background #2C2C30
+            statusline #AFD7FF
+            separator  #AFD7FF
             #                  BORDER  BACKGR. TEXT
-            focused_workspace  #00C1FF #0C0C0C #EEEEEE
-            active_workspace   #0C0C0C #0C0C0C #EEEEEE
-            inactive_workspace #0C0C0C #0C0C0C #666666
-            urgent_workspace   #A97FFF #875FFF #875FFF
-            binding_mode       #00C1FF #0C0C0C #EEEEEE
+            focused_workspace  #2C2C30 #2C2C30 #CCCCCC
+            active_workspace   #2C2C30 #2C2C30 #CCCCCC
+            inactive_workspace #2C2C30 #2C2C30 #666666
+            urgent_workspace   #DFAFDF #2C2C30 #DFAFDF
+            binding_mode       #2C2C30 #2C2C30 #8787AF
         }
 
         # Font for the bar

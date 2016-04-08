@@ -92,7 +92,8 @@ set foldlevel=100
 set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 
 " Favourite colorscheme
-colorscheme lhun
+set background=dark
+colorscheme lhun_pastell
 
 " Textwidth is always 80, do not wrap, anything longer will be broken
 set textwidth=80 nowrap linebreak

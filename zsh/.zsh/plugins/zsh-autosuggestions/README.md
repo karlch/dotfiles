@@ -4,23 +4,43 @@ _[Fish](http://fishshell.com/)-like fast/unobtrusive autosuggestions for zsh._
 
 It suggests commands as you type, based on command history.
 
+<a href="https://asciinema.org/a/37390" target="_blank"><img src="https://asciinema.org/a/37390.png" width="400" /></a>
+
 
 ## Installation
+
+### Manual
 
 1. Clone this repository somewhere on your machine. This guide will assume `~/.zsh/zsh-autosuggestions`.
 
     ```sh
-    git clone git://github.com/tarruda/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+    git clone git://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
     ```
 
 2. Add the following to your `.zshrc`:
 
     ```sh
-    source ~/.zsh/zsh-autosuggestions/dist/autosuggestions.zsh
-    autosuggest_start
+    source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
     ```
 
-    **Note:** If you're using other zle plugins like `zsh-syntax-highlighting` or `zsh-history-substring-search`, check out the [section on compatibility](#compatibility-with-other-zle-plugins) below.
+3. Start a new terminal session.
+
+
+### Oh My Zsh
+
+1. Clone this repository into `$ZSH_CUSTOM/plugins` (by default `~/.oh-my-zsh/custom/plugins`)
+
+    ```sh
+    git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+    ```
+
+2. Add the plugin to the list of plugins for Oh My Zsh to load:
+
+    ```sh
+    plugins=(zsh-autosuggestions)
+    ```
+
+3. Start a new terminal session.
 
 
 ## Usage
@@ -34,7 +54,9 @@ If you invoke the `forward-word` widget, it will partially accept the suggestion
 
 ## Configuration
 
-You may want to override the default global config variables after sourcing the plugin. Default values of these variables can be found [here](https://github.com/tarruda/zsh-autosuggestions/blob/master/src/config.zsh).
+You may want to override the default global config variables after sourcing the plugin. Default values of these variables can be found [here](src/config.zsh).
+
+**Note:** If you are using Oh My Zsh, you can put this configuration in a file in the `$ZSH_CUSTOM` directory. See their comments on [overriding internals](https://github.com/robbyrussell/oh-my-zsh/wiki/Customization#overriding-internals).
 
 
 ### Suggestion Highlight Style
@@ -42,26 +64,35 @@ You may want to override the default global config variables after sourcing the 
 Set `ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE` to configure the style that the suggestion is shown with. The default is `fg=8`.
 
 
+### Suggestion Strategy
+
+Set `ZSH_AUTOSUGGEST_STRATEGY` to choose the strategy for generating suggestions. There are currently two to choose from:
+
+- `default`: Chooses the most recent match.
+- `match_prev_cmd`: Chooses the most recent match whose preceding history item matches the most recently executed command ([more info](src/strategies/match_prev_cmd.zsh)).
+
+
 ### Widget Mapping
 
 This plugin works by triggering custom behavior when certain [zle widgets](http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets) are invoked. You can add and remove widgets from these arrays to change the behavior of this plugin:
 
 - `ZSH_AUTOSUGGEST_CLEAR_WIDGETS`: Widgets in this array will clear the suggestion when invoked.
-- `ZSH_AUTOSUGGEST_MODIFY_WIDGETS`: Widgets in this array will modify the buffer and fetch a new suggestion when invoked.
 - `ZSH_AUTOSUGGEST_ACCEPT_WIDGETS`: Widgets in this array will accept the suggestion when invoked.
+- `ZSH_AUTOSUGGEST_EXECUTE_WIDGETS`: Widgets in this array will execute the suggestion when invoked.
 - `ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS`: Widgets in this array will partially accept the suggestion when invoked.
 
-**Note:** These arrays must be set before calling `autosuggest_start`.
+Widgets not in any of these lists will update the suggestion when invoked.
 
 **Note:** A widget shouldn't belong to more than one of the above arrays.
 
 
 ### Key Bindings
 
-This plugin provides two widgets that you can use with `bindkey`:
+This plugin provides three widgets that you can use with `bindkey`:
 
 1. `autosuggest-accept`: Accepts the current suggestion.
-2. `autosuggest-clear`: Clears the current suggestion.
+2. `autosuggest-execute`: Accepts and executes the current suggestion.
+3. `autosuggest-clear`: Clears the current suggestion.
 
 For example, this would bind <kbd>ctrl</kbd> + <kbd>space</kbd> to accept the current suggestion.
 
@@ -70,60 +101,9 @@ bindkey '^ ' autosuggest-accept
 ```
 
 
-## Compatibility With Other ZLE Plugins
-
-### [`zsh-syntax-highlighting`](https://github.com/zsh-users/zsh-syntax-highlighting)
-
-Source `zsh-autosuggestions.zsh` *before* `zsh-syntax-highlighting`.
-
-Call `autosuggest_start` *after* sourcing `zsh-syntax-highlighting`.
-
-For example:
-
-```sh
-source ~/.zsh/zsh-autosuggestions/dist/autosuggestions.zsh
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-autosuggest_start
-```
-
-
-### [`zsh-history-substring-search`](https://github.com/zsh-users/zsh-history-substring-search)
-
-When the buffer is empty and one of the `history-substring-search-up/down` widgets is invoked, it will call the `up/down-line-or-history` widget. If the `up/down-line-or-history` widgets are in `ZSH_AUTOSUGGEST_CLEAR_WIDGETS` (the list of widgets that clear the suggestion), this can create an infinite recursion, crashing the shell session.
-
-For best results, you'll want to remove `up-line-or-history` and `down-line-or-history` from `ZSH_AUTOSUGGEST_CLEAR_WIDGETS`:
-
-```
-# Remove *-line-or-history widgets from list of widgets that clear the autosuggestion to avoid conflict with history-substring-search-* widgets
-ZSH_AUTOSUGGEST_CLEAR_WIDGETS=("${(@)ZSH_AUTOSUGGEST_CLEAR_WIDGETS:#(up|down)-line-or-history}")
-```
-
-Additionally, the `history-substring-search-up` and `history-substring-search-down` widgets are not bound by default. You'll probably want to add them to `ZSH_AUTOSUGGEST_CLEAR_WIDGETS` so that the suggestion will be cleared when you start searching through history:
-
-```sh
-# Add history-substring-search-* widgets to list of widgets that clear the autosuggestion
-ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(history-substring-search-up history-substring-search-down)
-```
-
-Make sure you add/remove these widgets *before* calling `autosuggest_start`.
-
-For example:
-
-```sh
-source ~/.zsh/zsh-autosuggestions/dist/autosuggestions.zsh
-source ~/Code/zsh-history-substring-search/zsh-history-substring-search.zsh
-
-ZSH_AUTOSUGGEST_CLEAR_WIDGETS=("${(@)ZSH_AUTOSUGGEST_CLEAR_WIDGETS:#(up|down)-line-or-history}")
-ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(history-substring-search-up history-substring-search-down)
-
-autosuggest_start
-```
-
-
 ## Troubleshooting
 
-If you have a problem, please search through [the list of issues on GitHub](https://github.com/tarruda/zsh-autosuggestions/issues) to see if someone else has already reported it.
+If you have a problem, please search through [the list of issues on GitHub](https://github.com/zsh-users/zsh-autosuggestions/issues) to see if someone else has already reported it.
 
 
 ### Reporting an Issue
@@ -132,7 +112,7 @@ Before reporting an issue, please try temporarily disabling sections of your con
 
 When reporting an issue, please include:
 
-- The smallest, simplest `.zshrc` configuration that will reproduce the problem
+- The smallest, simplest `.zshrc` configuration that will reproduce the problem. See [this comment](https://github.com/zsh-users/zsh-autosuggestions/issues/102#issuecomment-180944764) for a good example of what this means.
 - The version of zsh you're using (`zsh --version`)
 - Which operating system you're running
 
@@ -152,7 +132,7 @@ When reporting an issue, please include:
 
 ### Build Process
 
-Edit the source files in `src/`. Run `make` to build `dist/autosuggestions.zsh` from those source files.
+Edit the source files in `src/`. Run `make` to build `zsh-autosuggestions.zsh` from those source files.
 
 
 ### Pull Requests

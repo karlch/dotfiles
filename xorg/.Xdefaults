@@ -10,30 +10,30 @@
 ! URxvt.blurRadius: 4
 
 ! colors
-urxvt*background:  #0C0C0C
+urxvt*background:  #2C2C30
 urxvt*foreground:  #EEEEEE
 URxvt.highlightColor: #00C1FF
 ! Black
-URxvt*color0: #0C0C0C
+URxvt*color0: #2C2C30
 URxvt*color8: #7C7C7C
 ! Red
-URxvt*color1: #DB3636
-URxvt*color9: #B53030
+URxvt*color1: #A25860
+URxvt*color9: #F58E8E
 ! Green (bright blue)
-URxvt*color2: #005FAF
-URxvt*color10: #9DD8F2
+URxvt*color2: #8787AF
+URxvt*color10: #875FAF
 ! Yellow (brown)
 URxvt*color3: #AFAF87
 URxvt*color11: #CC9900
 ! Blue
-URxvt*color4: #00C1FF
-URxvt*color12: #0066AA
+URxvt*color4: #AFD7FF
+URxvt*color12: #6B93BB
 ! Magenta
-URxvt*color5: #650065
-URxvt*color13: #870087
+URxvt*color5: #DFAFDF
+URxvt*color13: #D787AF
 ! Cyan (purple)
-URxvt*color6: #653DDD
-URxvt*color14: #875FFF
+URxvt*color6: #8787AF
+URxvt*color14: #875FAF
 ! White
 URxvt*color7: #EEEEEE
 URxvt*color15: #FFFFFF

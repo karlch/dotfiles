@@ -1,0 +1,41 @@
+#!/bin/bash
+
+LOGFILE="/home/christian/.i3/info/backup_info"
+
+# Exit if the PI isn't available
+if !(iwconfig | grep "HITRON"); then
+    exit 1
+fi
+
+# Pkgdir
+mkdir -p /tmp/pkg
+# official packages
+pacman -Qen > /tmp/pkg/pkg_official.txt
+# AUR packages
+pacman -Qem > /tmp/pkg/pkg_AUR.txt
+
+# Backup the folders
+echo "####################################################" >> ${LOGFILE}
+echo -e "\tStarting backup at $(date)" >> ${LOGFILE}
+notify-send "Starting backup"
+
+if rsync -avz --delete --progress -e 'ssh' /home/christian alarmpi:Backup/home 2>>${LOGFILE}; then
+    echo -e "\tBacked up home successfully" >> ${LOGFILE}
+else
+    echo -e "\tERR: Backing up home failed" >> ${LOGFILE}
+fi
+#
+if rsync -avz --delete --progress -e 'ssh' /etc alarmpi:Backup 2>>${LOGFILE}; then
+    echo -e "\tBacked up etc successfully" >> ${LOGFILE}
+else
+    echo -e "\tERR: Backing up etc failed" >> ${LOGFILE}
+fi
+
+if rsync -avz --delete --progress -e 'ssh' /tmp/pkg alarmpi:Backup 2>>${LOGFILE}; then
+    echo -e "\tBacked up pkg successfully" >> ${LOGFILE}
+else
+    echo -e "\tERR: Backing up pkg failed" >> ${LOGFILE}
+fi
+echo -e "\tFinished backup" >> ${LOGFILE}
+echo "####################################################" >> ${LOGFILE}
+notify-send "Backup finished"

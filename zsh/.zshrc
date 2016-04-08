@@ -9,10 +9,12 @@ CHASE_LINKS="true"
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
 # Plugins
-plugins=(vi-mode clipboard zsh-history-substring-search sudo lscolors dot zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(vi-mode zsh-history-substring-search sudo lscolors dot zsh-autosuggestions zsh-syntax-highlighting)
 
 # Initialize the actual zsh script
 source $ZSH/zsh.sh
+# ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=("expand-or-complete")
+ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=("my-forward-word")
 
 # God, this pause almost killed me
 stty -ixon
@@ -21,7 +23,7 @@ stty -ixon
 bindkey '^A' vi-forward-blank-word
 bindkey '^F' my-forward-word
 bindkey '^E' my-backward-word
-bindkey '^ ' autosuggest-accept
+bindkey '^ ' autosuggest-execute
 bindkey '^N' insert-cycledleft
 bindkey '^P' insert-cycledright
 bindkey '^R' history-incremental-pattern-search-backward
@@ -46,6 +48,7 @@ bindkey -M menuselect 'l' forward-char
 bindkey -M menuselect 'h' backward-char
 bindkey -M menuselect 'i' accept-and-infer-next-history
 bindkey -M menuselect '+' accept-and-menu-complete
+bindkey -M menuselect '\E' accept-line
 
 # Great z programs
 autoload -U zmv
@@ -56,7 +59,6 @@ autoload -Uz surround
 zle -N add-surround surround
 bindkey -M vicmd 's' add-surround
 bindkey -M visual 's' add-surround
-autosuggest_start
 
 # Colored man pages
 man() {
@@ -84,17 +86,6 @@ if [ "$TERM" = "linux" ]; then
 else
     # Tmux only automatically in X
     test -z ${TMUX} && exec tmux
-fi
-
-# Workaround for handling TERM variable in multiple tmux sessions properly
-if [[ -n ${TMUX} && -n ${commands[tmux]} ]];then
-    case $(tmux showenv TERM 2>/dev/null) in
-        *256color) ;&
-        TERM=fbterm)
-            TERM=screen-256color ;;
-        *)
-            TERM=screen
-    esac
 fi
 
 # Logo

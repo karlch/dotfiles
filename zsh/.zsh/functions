@@ -14,7 +14,7 @@ function command_not_found_handler() {
     printf "So you really want me to search the database? [nye]: "
     stty raw && search=$(dd bs=1 count=1 2>/dev/null) && stty -raw
     if [[ $search == "y" || $search == "Y" ]]; then
-        info=$(pacaur -Ss $@ | head)
+        info=$(pacaur -Ss $0 | head)
         if test -n ${info}; then
             printf "\n%s\n\n" ${info}
             printf "Here I am, brain the size of a planet, and you ask me search the database? Call that job satisfaction, 'cause I don't.\n"

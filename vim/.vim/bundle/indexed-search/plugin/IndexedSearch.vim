@@ -108,7 +108,7 @@ noremap <silent> <Plug>(indexed-search-N) N:ShowSearchIndex<CR>:BlingHighlight<C
 
 " Additionally implement a visual indicator like in Bling
 let g:bling_current_ring = 0
-highlight BlingHighlight ctermbg=99 ctermfg=231 cterm=none
+highlight BlingHighlight ctermbg=5 ctermfg=232 cterm=none
 
 function! BlingHighlight()
     let param = getreg('/')

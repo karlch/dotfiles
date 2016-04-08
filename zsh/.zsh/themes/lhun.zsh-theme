@@ -30,11 +30,11 @@ function _gitinfo() {
         local ins=$(git diff --numstat 2>/dev/null | awk '{sum+=$1} END {print sum}')
         local del=$(git diff --numstat 2>/dev/null | awk '{sum+=$2} END {print sum}')
         # Everything into one nicely formatted variable
-        local GIT="%{$fg_bold[green]%}${branch} ${branchstate} "
+        local GIT="%{$fg_bold[cyan]%}${branch} ${branchstate} "
         GIT+="%{$fg[white]%}C${tocommit} "
         GIT+="%{$fg[black]%}?${untracked} "
         GIT+="%{$fg[white]%}M${unstaged} "
-        GIT+="(%{$FG[046]%}+${ins}%{$fg[white]%}/%{$fg[red]%}-${del}$reset_color) "
+        GIT+="(%{$FG[115]%}+${ins}%{$fg[white]%}/%{$fg[red]%}-${del}$reset_color) "
         # Print everything in multiple lines
         print -- "
 ${GIT}
@@ -46,4 +46,4 @@ ${GIT}
     fi
 }
 
-PROMPT='$(_gitinfo)%{$fg[blue]%}${PWD/#$HOME/~}%{$fg[white]%} %(?..%? )%{$fg[green]%}$(_vimode)%{$reset_color%}'
+PROMPT='$(_gitinfo)%{$fg[blue]%}${PWD/#$HOME/~}%{$fg[white]%} %(?..%? )%{$fg[cyan]%}$(_vimode)%{$reset_color%}'

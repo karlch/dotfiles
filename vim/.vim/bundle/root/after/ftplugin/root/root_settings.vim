@@ -23,8 +23,8 @@ set filetype=cpp
 let g:neomake_cpp_enabled_makers = ['root']
 
 " Run Program
-nnoremap <buffer> <leader>d :VimuxRunCommand("root -l <C-R>=expand("%")<CR>")<CR><CR>
-nnoremap <buffer> <leader>r :VimuxRunCommand(".q")<CR><CR>
+nnoremap <buffer> <leader>d :VimuxRunCommand("root -l <C-R>=expand("%")<CR>")<CR>
+nnoremap <buffer> <leader>r :VimuxRunCommand(".q")<CR>
 
 " Dictionary
 set dictionary+=~/.vim/dictionary/root
