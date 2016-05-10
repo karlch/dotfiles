@@ -3,6 +3,18 @@
 # General settings {{{
 set $mod Mod1
 
+# Workspace names
+set $ws1 1:one
+set $ws2 2:two
+set $ws3 3:three
+set $ws4 4:four
+set $ws5 5:five
+set $ws6 6:six
+set $ws7 7:seven
+set $ws8 8:eight
+set $ws9 9:nine
+set $ws10 10:ten
+
 # Font for window titles
 font pango: Source Sans Pro Bold 9
 
@@ -90,6 +102,7 @@ for_window [window_role="menu"] floating enable
 for_window [window_role="Preferences"] floating enable
 for_window [class="com-wolfram-jlink-Reader"] floating enable
 for_window [title="c*Editor"] floating enable
+for_window [class="ROOT"] floating enable
 
 # }}}
 
@@ -146,40 +159,40 @@ mode "normal" {
     bindsym n focus child
 
     # Switch to workspace
-    bindsym 1 workspace 1:one
-    bindsym 2 workspace 2:two
-    bindsym 3 workspace 3:three
-    bindsym 4 workspace 4:four
-    bindsym 5 workspace 5:five
-    bindsym 6 workspace 6:six
-    bindsym 7 workspace 7:seven
-    bindsym 8 workspace 8:eight
-    bindsym 9 workspace 9:nine
-    bindsym 0 workspace 10:ten
+    bindsym 1 workspace $ws1
+    bindsym 2 workspace $ws2
+    bindsym 3 workspace $ws3
+    bindsym 4 workspace $ws4
+    bindsym 5 workspace $ws5
+    bindsym 6 workspace $ws6
+    bindsym 7 workspace $ws7
+    bindsym 8 workspace $ws8
+    bindsym 9 workspace $ws9
+    bindsym 0 workspace $ws10
 
     # Move focused container to workspace
-    bindsym Shift+1 move container to workspace 1:one
-    bindsym Shift+2 move container to workspace 2:two
-    bindsym Shift+3 move container to workspace 3:three
-    bindsym Shift+4 move container to workspace 4:four
-    bindsym Shift+5 move container to workspace 5:five
-    bindsym Shift+6 move container to workspace 6:six
-    bindsym Shift+7 move container to workspace 7:seven
-    bindsym Shift+8 move container to workspace 8:eight
-    bindsym Shift+9 move container to workspace 9:nine
-    bindsym Shift+0 move container to workspace 10:ten
+    bindsym Shift+1 move container to workspace $ws1
+    bindsym Shift+2 move container to workspace $ws2
+    bindsym Shift+3 move container to workspace $ws3
+    bindsym Shift+4 move container to workspace $ws4
+    bindsym Shift+5 move container to workspace $ws5
+    bindsym Shift+6 move container to workspace $ws6
+    bindsym Shift+7 move container to workspace $ws7
+    bindsym Shift+8 move container to workspace $ws8
+    bindsym Shift+9 move container to workspace $ws9
+    bindsym Shift+0 move container to workspace $ws10
 
     # Move container and focus to workspace
-    bindsym Control+1 move container to workspace 1:one, workspace 1:one
-    bindsym Control+2 move container to workspace 2:two, workspace 2:two
-    bindsym Control+3 move container to workspace 3:three, workspace 3:three
-    bindsym Control+4 move container to workspace 4:four, workspace 4:four
-    bindsym Control+5 move container to workspace 5:five, workspace 5:five
-    bindsym Control+6 move container to workspace 6:six, workspace 6:six
-    bindsym Control+7 move container to workspace 7:seven, workspace 7:seven
-    bindsym Control+8 move container to workspace 8:eight, workspace 8:eight
-    bindsym Control+9 move container to workspace 9:nine, workspace 9:nine
-    bindsym Control+0 move container to workspace 10:ten, workspace 10:ten
+    bindsym Control+1 move container to workspace $ws1, workspace $ws1
+    bindsym Control+2 move container to workspace $ws2, workspace $ws2
+    bindsym Control+3 move container to workspace $ws3, workspace $ws3
+    bindsym Control+4 move container to workspace $ws4, workspace $ws4
+    bindsym Control+5 move container to workspace $ws5, workspace $ws5
+    bindsym Control+6 move container to workspace $ws6, workspace $ws6
+    bindsym Control+7 move container to workspace $ws7, workspace $ws7
+    bindsym Control+8 move container to workspace $ws8, workspace $ws8
+    bindsym Control+9 move container to workspace $ws9, workspace $ws9
+    bindsym Control+0 move container to workspace $ws10, workspace $ws10
 
     # Intelligent movement
     # A window list to focus a window
@@ -314,7 +327,7 @@ bar {
         }
 
         # Font for the bar
-        font pango:Source Code Pro Bold 11
+        font pango:Awesome, Source Code Pro Bold 11
 
         # Mouse bindings are annoying
         bindsym button4 exec :

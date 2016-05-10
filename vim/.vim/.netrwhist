@@ -1,10 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='/home/christian/.zsh/plugins'
-let g:netrw_dirhist_2='/home/christian/.zsh/plugins/lscolors'
-let g:netrw_dirhist_3='/home/christian/Dokumente/Uni/16S/Bachelorarbeit/data/Myons'
-let g:netrw_dirhist_4='/home/christian/Dokumente/Uni/16S/Bachelorarbeit/data/Myons/Crystal_Ball'
-let g:netrw_dirhist_5='/home/christian/.zsh/themes'
-let g:netrw_dirhist_6='/home/christian/Dokumente/git/vimiv/vimiv'
-let g:netrw_dirhist_7='/home/christian/Dokumente/Uni/16S/Bachelorarbeit/data/.git'
-let g:netrw_dirhist_8='/home/christian/Dokumente/Uni/15W/theo-stat/Monte_Carlo'
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/usr/share/texmf-dist/tex/latex/beamer/themes/outer'
+let g:netrw_dirhist_2='/usr/share/texmf-dist/tex/latex/beamer/themes'
+let g:netrw_dirhist_3='/usr/share/texmf-dist/tex/latex/beamer/themes/theme'

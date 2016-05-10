@@ -7,7 +7,7 @@ own_window = false,
 -- own_window_hints = 'below,undecorated,sticky,skip_taskbar,skip_pager',
 background = true,
 max_text_width = 0,
-double_buffer = false,
+double_buffer = true,
 
 update_interval = 120,
 
@@ -42,7 +42,6 @@ ${color #8787AF} SHELL ${color #cccccc} ${execi 1200 echo $SHELL}     \
 ${color #8787AF} WM ${color #cccccc} i3     \
 ${color #875FAF} WEATHER ${color #cccccc} ${execi 1200 ~/bin/weather.sh}
 ${color #AFD7FF}${hr 2}${color #cccccc}
-${exec hsetroot -solid "#2C2C30"}
 ${exec cat ~/.i3/info/update_names}
 ]]
 -- vim:ft=lua.conkyrc

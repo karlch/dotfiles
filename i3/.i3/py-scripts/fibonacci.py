@@ -3,7 +3,7 @@
 import i3
 import time
 
-prog = "feh -. -B black ~/Bilder/Hintergrund/arch-logo.png"
+prog = "vimiv -B ~/Bilder/Hintergrund/arch-logo.png"
 
 
 def fibonacci(num):
