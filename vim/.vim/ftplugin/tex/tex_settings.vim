@@ -64,7 +64,7 @@ endfunction
 function! TexSync()
     silent write
     silent BuildTexPdf
-    silent call ZathuraSync()
+    " silent call ZathuraSync()
 endfunction
         
 set statusline=%<\%t\ %y\%m\%r\%=%#warningmsg#%{ErrorList()}%*\ \ \lin:\ %l\/\%L\ col:\ %c

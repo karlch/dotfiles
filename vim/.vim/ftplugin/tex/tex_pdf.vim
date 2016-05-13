@@ -137,7 +137,7 @@ function! <SID>BuildTexPdf(view_results, ...)
     silent setlocal shell=bash
     silent setlocal shellpipe=2>&1\ \|\ tee\ %s;exit\ \${PIPESTATUS[0]}
 
-    set makeprg=rubber\ -dfsq\ %
+    set makeprg=rubber\ -fsq\ -m\ xelatex\ %
     Neomake!
 
     " redraw vim

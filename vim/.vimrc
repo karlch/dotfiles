@@ -16,7 +16,7 @@ set ttimeoutlen=0
 " Set to read automatically when file is changed from outside
 set autoread
 
-" Incremental search enabled, highlightsearch disabled
+" Incremental search enabled, highlightsearch enabled
 set incsearch hlsearch
 " Case insensitive unless uppercase is in the search
 set ignorecase smartcase
@@ -210,9 +210,9 @@ noremap <C-@> <C-]>
 " Access marks quickly
 nnoremap , `
 
-" Move to beginning/end of line
-noremap H ^
-noremap L $
+" Nice buffer switching
+nnoremap <C-n> :bnext<CR>
+nnoremap <C-p> :bprev<CR>
 
 " }}}
 
@@ -244,8 +244,12 @@ nnoremap <leader>e :ll<CR>
 nnoremap <leader>n :lnext<CR>
 nnoremap <leader>N :lprevious<CR>
 
-" Nice buffer switching
+" Nice buffer list
 nnoremap <leader>b :buffers<CR>:buffer<Space>
+
+" Move to beginning/end of line
+noremap <leader>h ^
+noremap <leader>l $
 
 " }}}
 
@@ -265,11 +269,6 @@ nnoremap <leader>te :Explore<CR>
 " Start the gundo plugin
 nnoremap<leader>u :GundoToggle<CR><CR>
 
-" Powerful hl
-map <leader>h <Plug>(easymotion-linebackward)
-map <leader>l <Plug>(easymotion-lineforward)
-map <leader>j <Plug>(easymotion-j)
-map <leader>k <Plug>(easymotion-k)
 " " Smart f and t
 map f <Plug>(easymotion-bd-f)
 map t <Plug>(easymotion-bd-t)
@@ -351,13 +350,8 @@ let g:DVB_TrimWS = 1
 let g:UltiSnipsSnippetDirectories = ["UltiSnips", "MySnippets"]
 
 " Vimux
-" let g:VimuxHeight = "30"
-" let g:VimuxOrientation = "h"
 let g:VimuxUseNearest = "0"
 let g:VimuxResetSequence = "q C-u C-s C-l"
-
-" Mathematica
-let g:mma_candy = 1
 
 " Indexed-search
 let g:indexed_search_colors = 0
@@ -378,11 +372,6 @@ let g:neomake_verbose = 0
 let g:neomake_cpp_clang_args = ['-Wno-c++11-extensions']
 let g:neomake_error_sign = {'text': 'E:'}
 let g:neomake_warning = {'text': 'W:'}
-
-" NeoTerm
-let g:neoterm_size = 60
-let g:neoterm_position = "vertical"
-let g:neoterm_keep_term_open = 0
 
 "}}}
 

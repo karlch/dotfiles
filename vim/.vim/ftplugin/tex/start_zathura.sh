@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tex=$(echo $1 | sed 's/_VOOM1//g')
+tex=$1
 pdf=${1%.*}.pdf
 tex=$(ls | grep $tex)
 if [[ $tex ]]; then
