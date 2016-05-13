@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# A very simple task manager for my needs
+
+# Make the tasks directory
+mkdir -p ~/.cache/tasks
+taskfile=~/.cache/tasks/tasks
+
+# Check if an argument was given
+if [[ $@ ]]; then
+
+    # If it was an f finish the tasks given in sed format
+    if [[ $1 == "f" ]]; then
+        sed -i "${2} d" ${taskfile}
+    # If it was an e edit the task
+    elif [[ $1 == "e" ]]; then
+        subst=${@: 4: ${#@}}
+        sed -i "${2} s/${3}/${subst}/g" ${taskfile}
+    # If it was a c change the task
+    elif [[ $1 == "c" ]]; then
+        subst=${@: 3: ${#@}}
+        sed -i "${2} s/.*/${subst} ($(date --iso-8601))/g" ${taskfile}
+    # Else append the task to the task list
+    else
+        echo "$@ ($(date --iso-8601))" >> ${taskfile}
+    fi
+
+# If there was no argument simply display the tasks with line numbers
+else
+    cat -n ${taskfile}
+fi
