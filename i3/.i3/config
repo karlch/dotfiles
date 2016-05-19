@@ -250,10 +250,10 @@ mode "normal" {
 # }}}
 
 # A system mode for shutting down, ... {{{
-set $SYSTEM System ... logout (l), reboot (r), shutdown (s), suspend (S), blank (b)
+set $SYSTEM logout    reboot    shutdown    Suspend    blank    Lock
 mode "$SYSTEM" {
     # Logout
-    bindsym l exec --no-startup-id i3-msg exit
+    bindsym l exec i3-msg exit
     # Reboot
     bindsym r exec reboot
     # Shutdown
@@ -262,6 +262,8 @@ mode "$SYSTEM" {
     bindsym Shift+s exec systemctl suspend
     # Blank screen
     bindsym b exec xset dpms force off, mode "default"
+    # Lock screen
+    bindsym Shift+l exec i3lock -O 0 -T 1.0 -i ~/Bilder/Hintergrund/fjord.png -X 960 -Y 666 -R 150 -F 50 -w "#CCCCCC" -o "#DFAFDF" -l "2C2C2C" --24, mode "default"
 
     # Back to normal
     bindsym Return mode "default"
@@ -298,6 +300,9 @@ mode "borders" {
     bindsym 2 border pixel 2
     bindsym 3 border pixel 3
     bindsym 4 border pixel 4
+    bindsym 5 border pixel 5
+    bindsym 6 border pixel 6
+    bindsym 7 border pixel 7
     bindsym 0 border none
     bindsym asciicircum border normal
 
@@ -323,11 +328,11 @@ bar {
             active_workspace   #2C2C30 #2C2C30 #CCCCCC
             inactive_workspace #2C2C30 #2C2C30 #666666
             urgent_workspace   #DFAFDF #2C2C30 #DFAFDF
-            binding_mode       #2C2C30 #2C2C30 #8787AF
+            binding_mode       #2C2C30 #2C2C30 #DFAFDF
         }
 
         # Font for the bar
-        font pango:Awesome, Source Code Pro Bold 11
+        font pango:Source Code Pro Bold 11
 
         # Mouse bindings are annoying
         bindsym button4 exec :

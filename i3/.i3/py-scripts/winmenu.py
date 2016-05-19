@@ -28,19 +28,19 @@ def i3clients():
     lengths = {'workspace': 0, 'mark': 0}
     tree = i3.get_tree()
     for ws in i3.get_workspaces():
-        if not ws['focused']:
-            wsname = ws['name']
-            wsshow = re.sub(r'[0-9]+(:)', '', wsname)
-            if len(wsshow) > lengths['workspace']:
-                lengths['workspace'] = len(wsshow)
-            workspace = i3.filter(tree, name=wsname)
-            if not workspace:
-                continue
-            workspace = workspace[0]
-            windows = i3.filter(workspace, nodes=[])
-            instances = {}
-            # Adds windows and their ids to the clients dictionary
-            for window in windows:
+        wsname = ws['name']
+        wsshow = re.sub(r'[0-9]+(:)', '', wsname)
+        if len(wsshow) > lengths['workspace']:
+            lengths['workspace'] = len(wsshow)
+        workspace = i3.filter(tree, name=wsname)
+        if not workspace:
+            continue
+        workspace = workspace[0]
+        windows = i3.filter(workspace, nodes=[])
+        instances = {}
+        # Adds windows and their ids to the clients dictionary
+        for window in windows:
+            if not window['focused']:
                 windowdict = {
                     'con_id': window['id'],
                     'ws': wsshow,

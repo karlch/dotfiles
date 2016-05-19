@@ -8,6 +8,8 @@ Add this to your i3 config file:
 """
 import i3
 
+workspace_names = ["1:one", "2:two", "3:three", "4:four", "5:five",
+                   "6:six", "7:seven", "8:eight", "9:nine", "10:ten"]
 
 def main():
     # workspaces
@@ -24,10 +26,8 @@ def main():
         if i not in workints:
             break
 
-    print(i)
-
     for window in current:
-        i3.move("container", "to", "workspace", str(i))
+        i3.move("container", "to", "workspace", workspace_names[i-1])
 
 
 if __name__ == '__main__':
