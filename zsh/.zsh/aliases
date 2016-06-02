@@ -61,7 +61,6 @@ alias vt='nvim ~/.tmux.conf'
 alias vi='nvim ~/.i3/config'
 
 # others
-alias mlint='/usr/local/MATLAB/R2015a/bin/glnxa64/mlint'
 alias elinks='elinks -no-connect -anonymous'
 alias feh='feh -. -B black'
 alias x='exit'

@@ -21,12 +21,13 @@ font pango: Source Sans Pro Bold 9
 # Window borders
 new_window pixel 2
 new_float normal
+hide_edge_borders smart
 
-# Color settings        Border      Background  Font        Indicator
-client.focused          #AFD7FF     #3C3C40     #CCCCCC     #8787AF
-client.focused_inactive #444444     #2C2C30     #888888     #2C2C30
-client.unfocused        #444444     #2C2C30     #888888     #2C2C30
-client.urgent           #DFAFDF     #8787AF     #000000     #8787AF
+# Color settings        Border_top  Background  Text        Indicator  Border
+client.focused          #3C3C40     #3C3C40     #EEEEEE     #8787AF    #AFD7FF
+client.focused_inactive #2C2C30     #2C2C30     #666666     #444444    #444444
+client.unfocused        #2C2C30     #2C2C30     #666666     #444444    #444444
+client.urgent           #8787AF     #DFAFDF     #000000     #8787AF    #8787AF
 
 # Enable workspace back and forth
 workspace_auto_back_and_forth yes
@@ -88,7 +89,7 @@ bindsym --release Shift+Insert exec --no-startup-id import -window $(xdotool get
 # Enter normal mode
 bindsym F10 mode "normal"
 # Open rofi
-bindsym F11 exec --no-startup-id rofi -width 100 -columns 6 -show run, mode "default"
+bindsym F11 exec --no-startup-id rofi -columns 6 -show run, mode "default"
 
 # }}}
 
@@ -124,7 +125,7 @@ mode "normal" {
     bindsym Shift+x exec --no-startup-id ~/.i3/py-scripts/closeall.py
 
     # Rofi
-    bindsym d exec --no-startup-id rofi -width 100 -columns 6 -show run, mode "default"
+    bindsym d exec --no-startup-id rofi -columns 6 -show run, mode "default"
     # with password manager
     bindsym a exec --no-startup-id ~/bin/pass-rofi, mode "default"
 
@@ -327,7 +328,7 @@ bar {
             focused_workspace  #2C2C30 #2C2C30 #CCCCCC
             active_workspace   #2C2C30 #2C2C30 #CCCCCC
             inactive_workspace #2C2C30 #2C2C30 #666666
-            urgent_workspace   #DFAFDF #2C2C30 #DFAFDF
+            urgent_workspace   #2C2C30 #2C2C30 #DFAFDF
             binding_mode       #2C2C30 #2C2C30 #DFAFDF
         }
 
@@ -340,5 +341,7 @@ bar {
 }
 
 # }}}
+
+exec i3-msg workspace $ws1
 
 # vim:foldmethod=marker:foldlevel=0

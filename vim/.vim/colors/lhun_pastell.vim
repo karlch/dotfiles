@@ -96,7 +96,7 @@ else
   let s:extra1       = ['#7251D6', 182]
   let s:extra2       = ['#870087', 1]
   " Green
-  let s:extra3       = ['#00DD00', 194]
+  let s:extra4       = ['#00DD00', 194]
 endif
 
 " }}}
@@ -188,8 +188,8 @@ endif
 call s:HL('Comment', s:grey_med2)
 call s:HL('Constant', s:brown)
 call s:HL('Cursor', s:grey_dark0, s:grey_light)
-call s:HL('DiffAdd', s:extra3, s:extra3)
-call s:HL('DiffChange', s:main_dark, s:brown)
+call s:HL('DiffAdd', s:grey_dark0, s:extra4)
+call s:HL('DiffChange', s:extra3, s:brown)
 call s:HL('DiffDelete', s:extra3, s:red)
 call s:HL('DiffText', s:main_dark, s:brown)
 call s:HL('Folded', s:grey_med2, s:grey_dark0)

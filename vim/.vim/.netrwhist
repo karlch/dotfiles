@@ -1,8 +1,9 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_cnt =7
 let g:netrw_dirhist_1='/usr/share/texmf-dist/tex/latex/beamer/themes/outer'
 let g:netrw_dirhist_2='/usr/share/texmf-dist/tex/latex/beamer/themes'
 let g:netrw_dirhist_3='/usr/share/texmf-dist/tex/latex/beamer/themes/theme'
 let g:netrw_dirhist_4='/home/christian'
 let g:netrw_dirhist_5='/home/christian/Musik'
 let g:netrw_dirhist_6='/home/christian'
+let g:netrw_dirhist_7='/home/christian/Dokumente/Uni/16S/Bachelorarbeit/data/Myons/Crystal_Ball'
