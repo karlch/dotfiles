@@ -1,0 +1,29 @@
+#compdef hsetroot
+
+local curcontext="$curcontext" state line ret=1
+typeset -A opt_args
+
+_arguments -C \
+        '-add[Add color to range using distance 1]:color' \
+        '-addd[Add color to range using custom distance]:color:distance' \
+        '-gradient[Render gradient using specified angle]:angle' \
+        '-clear[Clear the color range]' \
+        '-solid[Render a solid using the specified color]:color' \
+        '-center[Render an image centered on screen]:image' \
+        '-tile[Render an image tiled]:image' \
+        '-full[Render an image maximum aspect]:image' \
+        '-fill[Render an image strechted:image]' \
+        '-tint[Tint the current image]:color' \
+        '-blur[Blur the current image]:radius' \
+        '-sharpen[Sharpen the current image]:radius' \
+        '-contrast[Adjust contrast of current image]:amount' \
+        '-brightness[Adjust brightness of current image]:amount' \
+        '-gamma[Adjust gamma level of current image]:amount' \
+        '-flipv[Flip the current image vertically]' \
+        '-fliph[Flip the current image horizontally]' \
+        '-flipd[Flip the current image diagonally]' \
+        '-alpha[Adjust alpha level for colors and images]:amount' \
+        '-write[Write current image to file]:filename' \
+	'*:images:_files -g "*"' && ret=0
+
+return ret
