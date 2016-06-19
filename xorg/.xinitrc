@@ -41,6 +41,6 @@ conky
 # Urxvt daemon
 urxvtd -f -o -q
 # Background
-hsetroot -solid '#2C2C30' &
+hsetroot -fill Bilder/Hintergrund/moon_small.png &
 # WM
 exec i3

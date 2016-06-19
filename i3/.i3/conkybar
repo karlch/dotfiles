@@ -18,10 +18,6 @@ conky.text = [[
 {"full_text":"    ","color":"\#CCCCCC","separator":false},\
 {"full_text":"${endif}","color":"\#CCCCCC","separator":false},\
 #
-# Current Window
-# {"full_text":"WIN","color":"\#AFD7FF","separator":false,"separator_block_width":6},\
-# {"full_text":"${exec cat ~/.i3/info/wincurrent}  ","color":"\#CCCCCC","separator":false,"separator_block_width":0},\
-#
 # Brightness
 {"full_text":"BRI","color":"\#AFD7FF","separator":false,"separator_block_width":6},\
 {"full_text":"${exec ~/.i3/brightness}  ","color":"\#CCCCCC","separator":false,"separator_block_width":0},\

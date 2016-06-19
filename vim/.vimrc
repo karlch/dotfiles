@@ -397,12 +397,16 @@ function! AdjustWindowHeight()
 endfunction
 
 " Neomake
-autocmd! BufWritePost *.{py,c,C,cpp} Neomake
+autocmd! BufWritePost *.{py,c,C,cpp,hs} Neomake
 autocmd! BufWritePost vimiv Neomake
 
 " Python
 " Command to insert the python code for a nice header
 autocmd BufNewFile *.py exe "normal a#!/usr/bin/env python\<Esc>o# encoding: utf-8\<Esc>o"
+
+" Perl
+" Insert perl header
+autocmd BufNewFile *.pl exe "normal a#!/usr/bin/env perl\<Esc>o\<Esc>ouse strict;\<Esc>ouse warnings;\<Esc>ouse diagnostics;\<Esc>ouse feature 'say';\<Esc>o"
 
 " C
 " Set a compiler
@@ -416,6 +420,9 @@ autocmd BufRead,BufNewFile *.tex call ZathuraSync()
 autocmd VimLeave *.tex exe "!~/.vim/ftplugin/tex/close_zathura.sh"
 " Tex to LaTex
 let g:tex_flavor='latex'
+
+" Haskell
+autocmd BufEnter *.hs compiler ghc
 
 " Matlab
 autocmd BufRead,BufNewFile *.m VimuxRunCommand("clear && matlab -nosplash -nodesktop")

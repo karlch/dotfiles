@@ -127,7 +127,7 @@ mode "normal" {
     # Rofi
     bindsym d exec --no-startup-id rofi -columns 6 -show run, mode "default"
     # with password manager
-    bindsym a exec --no-startup-id ~/bin/pass-rofi, mode "default"
+    bindsym a exec --no-startup-id rofi-pass, mode "default"
 
     # Split in horizontal orientation
     bindsym s split v
@@ -264,7 +264,7 @@ mode "$SYSTEM" {
     # Blank screen
     bindsym b exec xset dpms force off, mode "default"
     # Lock screen
-    bindsym Shift+l exec i3lock -O 0 -T 1.0 -i ~/Bilder/Hintergrund/fjord.png -X 960 -Y 666 -R 150 -F 50 -w "#CCCCCC" -o "#DFAFDF" -l "2C2C2C" --24, mode "default"
+    bindsym Shift+l exec i3lock -O 0 -T 1.0 -i ~/Bilder/Hintergrund/moon_small.png -X 1130 -Y 500 -R 2000 -F 50 -w "#CCCCCC" -o "#8787AF" -l "AFD7FF" --24, mode "default"
 
     # Back to normal
     bindsym Return mode "default"

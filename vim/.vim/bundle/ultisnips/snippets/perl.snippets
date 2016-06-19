@@ -7,31 +7,38 @@ snippet .
 	 =>
 # Function
 snippet sub
-	sub ${1:function_name} {
+	sub ${1:function_name}
+	{
 		${2:#body ...}
 	}
 # Conditional
 snippet if
-	if (${1}) {
+	if (${1})
+	{
 		${2:# body...}
 	}
 # Conditional if..else
 snippet ife
-	if (${1}) {
+	if (${1})
+	{
 		${2:# body...}
 	}
-	else {
+	else
+	{
 		${3:# else...}
 	}
 # Conditional if..elsif..else
 snippet ifee
-	if (${1}) {
+	if (${1})
+	{
 		${2:# body...}
 	}
-	elsif (${3}) {
+	elsif (${3})
+	{
 		${4:# elsif...}
 	}
-	else {
+	else
+	{
 		${5:# else...}
 	}
 # Conditional One-line
@@ -39,7 +46,8 @@ snippet xif
 	${1:expression} if ${2:condition};${3}
 # Unless conditional
 snippet unless
-	unless (${1}) {
+	unless (${1})
+	{
 		${2:# body...}
 	}
 # Unless conditional One-line
@@ -47,15 +55,18 @@ snippet xunless
 	${1:expression} unless ${2:condition};${3}
 # Try/Except
 snippet eval
-	eval {
+	eval
+	{
 		${1:# do something risky...}
 	};
-	if ($@) {
+	if ($@)
+	{
 		${2:# handle failure...}
 	}
 # While Loop
 snippet wh
-	while (${1}) {
+	while (${1})
+	{
 		${2:# body...}
 	}
 # While Loop One-line
@@ -63,7 +74,8 @@ snippet xwh
 	${1:expression} while ${2:condition};${3}
 # C-style For Loop
 snippet cfor
-	for (my $${2:var} = 0; $$2 < ${1:count}; $$2${3:++}) {
+	for (my $${2:var} = 0; $$2 < ${1:count}; $$2${3:++})
+	{
 		${4:# body...}
 	}
 # For loop one-line
@@ -71,7 +83,8 @@ snippet xfor
 	${1:expression} for @${2:array};${3}
 # Foreach Loop
 snippet for
-	foreach my $${1:x} (@${2:array}) {
+	foreach my $${1:x} (@${2:array})
+	{
 		${3:# body...}
 	}
 # Foreach Loop One-line
@@ -83,7 +96,8 @@ snippet cl
 
 	use base qw(${2:ParentClass});
 
-	sub new {
+	sub new
+	{
 		my $class = shift;
 		$class = ref $class if ref $class;
 		my $self = bless {}, $class;
