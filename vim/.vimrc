@@ -25,7 +25,7 @@ set ignorecase smartcase
 set gdefault
 
 " Shows command and mode
-set showcmd showmode
+set showcmd noshowmode
 
 " At least seven lines below and above the cursor and seven chars next to it
 set scrolloff=7 sidescrolloff=7
@@ -53,7 +53,6 @@ set completeopt=menuone,longest
 
 " Statusline
 set laststatus=2
-set statusline=%<\%t\ %y\%m\%r\%=%#warningmsg#%{neomake#statusline#LoclistStatus()}%*\ \ \lin:\ %l\/\%L\ col:\ %c
 
 " Copy and paste from system
 set clipboard=unnamedplus
@@ -291,8 +290,6 @@ vmap <expr> °2 VMATH_YankAndAnalyse()
 " The actual expressions
 nmap <leader>+ v°1vip°2
 vmap <leader>+ °1gv°2
-" Show mode again when done
-vnoremap <Esc> <Esc>:set showmode<CR>:<Bs>
 
 " Surround
 " Use normal s in visual mode as well
@@ -371,7 +368,23 @@ let g:gundo_close_on_revert = 1
 let g:neomake_verbose = 0
 let g:neomake_cpp_clang_args = ['-Wno-c++11-extensions']
 let g:neomake_error_sign = {'text': 'E:'}
-let g:neomake_warning = {'text': 'W:'}
+let g:neomake_warning_sign = {'text': 'W:'}
+
+" Lightline
+let g:lightline = {
+    \ 'active': {
+    \ 'left': [ [ 'mode', 'paste' ],
+    \           [ 'readonly', 'filename', 'modified' ] ],
+    \ 'right': [ [ 'lineinfo' ],
+    \            [ 'percent' ],
+    \            [ 'filetype'],
+    \            [ 'errors' ] ] },
+    \ 'component_function': {
+    \ 'errors': 'neomake#statusline#LoclistStatus' },
+    \ 'component_type': {
+    \ 'errors': 'error' }
+    \ }
+let g:lightline.colorscheme = "lhun"
 
 "}}}
 
