@@ -89,6 +89,7 @@ Plug 'lukerandall/haskellmode-vim', {'for': 'haskell'}
 Plug 'majutsushi/tagbar'
 Plug 'neomake/neomake'
 Plug 'potatoesmaster/i3-vim-syntax'
+Plug 'rhysd/vim-clang-format'
 Plug 'rip-rip/clang_complete'
 Plug 'simnalamburt/vim-mundo'
 Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'
@@ -96,6 +97,7 @@ Plug 'tmhedberg/simpylfold', {'for': 'python'}
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+
 
 " Local plugins in bundle
 Plug '~/.vim/bundle/root', {'for': 'root'}
@@ -418,6 +420,10 @@ let g:lightline = {
     \ 'errors': 'error' }
     \ }
 let g:lightline.colorscheme = "lhun"
+
+" Fix auto-pairs and clang_complete
+let g:AutoPairsMapCR = 0
+imap <silent> <CR> <CR><Plug>AutoPairsReturn
 
 "}}}
 
