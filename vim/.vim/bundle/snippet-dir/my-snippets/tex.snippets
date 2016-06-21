@@ -1,0 +1,661 @@
+snippet nc "\newcommand"
+\newcommand{\\${1:cmd}}[${2:opt}]{${3:realcmd}} ${4}
+endsnippet
+snippet up "\usepackage"
+\usepackage{${1:package}} ${2}
+endsnippet
+snippet upo "\usepackage"
+\usepackage[${1:options}]{${2:package}} ${3}
+endsnippet
+snippet nuc "\newunicodechar"
+\newunicodechar{${1}}{${2:\ensuremath}${3:tex-substitute}}} ${4}
+endsnippet
+snippet dmo "\DeclareMathOperator"
+\DeclareMathOperator{${1}}{${2}} ${3}
+endsnippet
+snippet tabular "tabular (or arbitrary) environment"
+\begin{${1:tabular}}{${2:c}}
+	${3}
+\end{$1}
+endsnippet
+snippet thm "thm (or arbitrary) environment with optional argument"
+\begin[${1:author}]{${2:thm}}
+	${3}
+\end{$2}
+endsnippet
+snippet center "center environment"
+\begin{center}
+	${1}
+\end{center}
+endsnippet
+snippet ali "align(ed) environment"
+\begin{align${1:ed}}
+	\label{eq:${2}}
+	${3}
+\end{align$1}
+endsnippet
+snippet gat "gather(ed) environment"
+\begin{gather${1:ed}}
+	${2}
+\end{gather$1}
+endsnippet
+snippet eq "equation environment"
+\begin{equation}
+\label{eq:${1}}
+	${2}
+\end{equation}
+endsnippet
+snippet eq* "unnumbered equation environment"
+\begin{equation*}
+	${1}
+\end{equation*}
+endsnippet
+snippet eqnarray "eqnarray environment"
+\begin{eqnarray}
+	${1}
+\end{eqnarray}
+endsnippet
+snippet lab "\label"
+\label{${1:eq:}${2:fig:}${3:tab:}${4}}
+endsnippet
+snippet ]i "\item (recursive)" w
+\item ${1}
+	${2:]i}
+endsnippet
+snippet mat "smart matrix environment"
+\begin{${1:p/b/v/V/B/small}matrix}
+	${2}
+\end{$1matrix}
+endsnippet
+snippet cas "cases environment"
+\begin{cases}
+	${1:equation}, &\text{ if }${2:case}\\
+	${3}
+\end{cases}
+endsnippet
+snippet spl "split environment"
+\begin{split}
+	${1}
+\end{split}
+endsnippet
+snippet part "document \part"
+\part{${1:part name}} % (fold)
+\label{prt:${2:$1}}
+${3}
+% part $2 (end)
+endsnippet
+snippet cha "\chapter"
+\chapter{${1:chapter name}}
+\label{cha:${2:$1}}
+${3}
+endsnippet
+snippet sec "\section"
+\section{${1:section name}}
+${3}
+endsnippet
+snippet sec* "\section*"
+\section*{${1:section name}}
+${3}
+endsnippet
+snippet sub "\subsection"
+\subsection{${1:subsection name}}
+${3}
+endsnippet
+snippet sub* "\subsection*"
+\subsection*{${1:subsection name}}
+${3}
+endsnippet
+snippet subs "\subsubsection"
+\subsubsection{${1:subsubsection name}}
+${3}
+endsnippet
+snippet subs* "\subsubsection*"
+\subsubsection*{${1:subsubsection name}}
+${3}
+endsnippet
+snippet par "\paragraph"
+\paragraph{${1:paragraph name}}
+\label{par:${2:$1}}
+${3}
+endsnippet
+snippet subp "\subparagraph"
+\subparagraph{${1:subparagraph name}}
+\label{subp:${2:$1}}
+${3}
+endsnippet
+snippet ni "\noindent"
+\noindent
+${1}
+endsnippet
+snippet itd "description \item"
+\item[${1:description}] ${2:item}
+endsnippet
+snippet figref "reference to a figure"
+\ref{fig:${0}}
+endsnippet
+snippet eqref "reference to an equation"
+(\ref{eq:${0}})
+endsnippet
+snippet tabref "reference to a table"
+\ref{tab:${0}}
+endsnippet
+snippet listref "reference to a listing"
+\ref{list:${0}}
+endsnippet
+snippet secref "reference to a section"
+\ref{sec:${0}}
+endsnippet
+snippet pageref "reference to a page"
+\pageref{${0}}
+endsnippet
+snippet index "\index"
+\index{${1:index}} ${2}
+endsnippet
+snippet citen "\citen"
+\citen{${1}} ${2}
+endsnippet
+snippet citep "\citep"
+\citep{${1}} ${2}
+endsnippet
+snippet citet "\citet"
+\citet{${1}} ${2}
+endsnippet
+snippet cite "\cite[]{}"
+\cite[${1}]{${2}} ${3}
+endsnippet
+snippet citea "\citeauthor"
+\citeauthor{${1}} ${2}
+endsnippet
+snippet citey "\citeyear"
+\citeyear{${1}} ${2}
+endsnippet
+snippet fcite "\footcite[]{}"
+\footcite[${1}]{${2}}${3}
+endsnippet
+snippet ita "italic text"
+\textit{${1:text}}
+endsnippet
+snippet bf "bold face text"
+\textbf{${1:text}}
+endsnippet
+snippet under "underline text"
+\underline{${1:text}}
+endsnippet
+snippet emp "emphasize text"
+\emph{${1:text}}
+endsnippet
+snippet sc "small caps text"
+\textsc{${1:text}}
+endsnippet
+snippet sf "sans serife text"
+\textsf{${1:text}}
+endsnippet
+snippet rm "roman font text"
+\textrm{${1:text}}
+endsnippet
+snippet tt "typewriter (monospace) text"
+\texttt{${1:text}}
+endsnippet
+snippet ft "\footnote"
+\footnote{${1:text}}
+endsnippet
+snippet fig "figure environment (includegraphics)"
+\begin{figure}[!htbp]
+\begin{center}
+	\includegraphics[width=${1}\textwidth]{${2:name}}
+\caption{${3}}
+\label{fig:${4}}
+\end{center}
+\end{figure}
+${5}
+endsnippet
+snippet mini2 "minipage with 2 columns"
+\begin{figure}[!htbp]
+    \centering
+    \begin{minipage}[c]{0.49\textwidth}
+	${1}
+    \end{minipage}
+    \begin{minipage}[c]{0.49\textwidth}
+	${2}
+    \end{minipage}
+\end{figure}
+${0}
+endsnippet
+snippet tikz "figure environment (tikzpicture)"
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[scale=${1:1}]
+	${2}
+\end{tikzpicture}
+\end{center}
+\caption{${3}}
+\label{fig:${4}}
+\end{figure}
+${5}
+endsnippet
+snippet stackrel "\stackrel{}{}"
+\stackrel{${1:above}}{${2:below}} ${3}
+endsnippet
+snippet frac "\frac{}{}" w
+\frac{${1:num}}{${2:denom}} ${3}
+endsnippet
+snippet sum "\sum^{}_{}" w
+\sum^{${1:n}}_{${2:i=1}} ${3}
+endsnippet
+snippet lim "\lim_{}" w
+\lim_{${1:x \to +\infty}} ${2}
+endsnippet
+snippet block "block environment"
+\begin{block}{${1:title}}
+${2}
+\end{block}
+endsnippet
+snippet alert "alertblock environment"
+\begin{alertblock}{${1:title}}
+${2}
+\end{alertblock}
+endsnippet
+snippet example "exampleblock environment"
+\begin{exampleblock}{${1:title}}
+${2}
+\end{exampleblock}
+endsnippet
+snippet col2 "two-column environment"
+\begin{columns}
+	\begin{column}{0.5\textwidth}
+		${1}
+	\end{column}
+	\begin{column}{0.5\textwidth}
+		${2}
+	\end{column}
+\end{columns}
+endsnippet
+snippet lst
+\begin{listing}[language=${1:language}]
+	${2}
+\end{listing}
+endsnippet
+snippet lsw
+\lstinline|${1}| ${2}
+endsnippet
+snippet url
+\url{${1}} ${2}
+endsnippet
+snippet href
+\href{${1}}{${2}} ${3}
+endsnippet
+snippet urlc
+\url{`@+`} ${1}
+endsnippet
+snippet hrefc
+\href{`@+`}{${1}} ${2}
+endsnippet
+snippet al "" w
+\alpha${0}
+endsnippet
+snippet be "" w
+\beta${0}
+endsnippet
+snippet ga "" w
+\gamma${0}
+endsnippet
+snippet Ga "" w
+\Gamma${0}
+endsnippet
+snippet de "" w
+\delta${0}
+endsnippet
+snippet De "" w
+\Delta${0}
+endsnippet
+snippet ep "" w
+\epsilon${0}
+endsnippet
+snippet ze "" w
+\zeta${0}
+endsnippet
+snippet et "" w
+\eta${0}
+endsnippet
+snippet th "" w
+\theta${0}
+endsnippet
+snippet Th "" w
+\Theta${0}
+endsnippet
+snippet ka "" w
+\kappa${0}
+endsnippet
+snippet la "" w
+\lambda${0}
+endsnippet
+snippet La "" w
+\Lambda${0}
+endsnippet
+snippet mu "" w
+\mu${0}
+endsnippet
+snippet nu "" w
+\nu${0}
+endsnippet
+snippet xi "" w
+\xi${0}
+endsnippet
+snippet Xi "" w
+\Xi${0}
+endsnippet
+snippet pi "" w
+\pi${0}
+endsnippet
+snippet Pi "" w
+\Pi${0}
+endsnippet
+snippet rh "" w
+\rho${0}
+endsnippet
+snippet si "" w
+\sigma${0}
+endsnippet
+snippet Si "" w
+\Sigma${0}
+endsnippet
+snippet ta "" w
+\tau${0}
+endsnippet
+snippet ups "" w
+\upsilon${0}
+endsnippet
+snippet Up "" w
+\Upsilon${0}
+endsnippet
+snippet ph "" w
+\phi${0}
+endsnippet
+snippet Ph "" w
+\Phi${0}
+endsnippet
+snippet ch "" w
+\ci${0}
+endsnippet
+snippet ps "" w
+\psi${0}
+endsnippet
+snippet Ps "" w
+\Psi${0}
+endsnippet
+snippet om "" w
+\omega${0}
+endsnippet
+snippet Om "" w
+\Omega${0}
+endsnippet
+snippet SI "start a nice si unit" w
+~\si{${0}}
+endsnippet
+snippet ref
+\ref{${0}}
+endsnippet
+snippet tab "own tabular environment"
+\begin{center}
+	\begin{tabular}{|c|c|${1}}
+	\hline
+	${2}
+	\end{tabular}
+\end{center}
+endsnippet
+snippet tabl "add a tabular line"
+${1} & ${2} \\\ \hline${3}
+endsnippet
+snippet _ "underscore env" w
+${1:value}_{${2:index}} ${3}
+endsnippet
+snippet ^ "upperscore env" w
+${1:base}^{${2:exponent}} ${3}
+endsnippet
+snippet + "+ with spaces in math mode" w
+~+~ ${1}
+endsnippet
+snippet - "- with spaces in math mode" w
+~-~ ${1}
+endsnippet
+snippet = "= with spaces in math mode" w
+~=~ ${1}
+endsnippet
+snippet * "multiply" w
+\cdot ${1}
+endsnippet
+snippet geq "greater or equal than" w
+~\geq ~ ${1}
+endsnippet
+snippet leq "less or equal than" w
+~\leq ~ ${1}
+endsnippet
+snippet sq "square root" w
+\sqrt{${1}}
+endsnippet
+snippet val "value with error" w
+(${1:value} ~\pm ~ ${2:error})~${3:unit}
+endsnippet
+snippet err "begin an error" w
+$\Delta ${1:Fehler}~=~${2:Fehlerrechnung}$ \\\
+endsnippet
+snippet stat "general statistical error" w
+\Delta ${1:Fehler}^2 \cdot \left| ${2:Ableitungen} \right| ^2
+endsnippet
+snippet sys "general systematical error" w
+\Delta ${1:Fehler} \cdot \left| ${2:Ableitungen} \right|
+endsnippet
+snippet start "start complete physics document"
+\documentclass[11pt]{article}
+\title{${1:title}}
+\author{${2:author}}
+\date{\today}
+
+\synctex=1
+
+\usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{$2}
+\chead{${3:group}}
+\rhead{\today}
+\cfoot{\thepage}
+
+\usepackage[${4:language}]{babel}
+
+\usepackage{graphicx}
+
+\usepackage[utf8]{inputenc}
+
+\pretolerance=10000
+
+\usepackage[colorlinks,
+pdfpagelabels,
+pdfstartview = FitH,
+bookmarksopen = true,
+bookmarksnumbered = true,
+linkcolor = black,
+plainpages = false,
+hypertexnames = false,
+citecolor = black] {hyperref}
+
+\begin{document}
+
+\parindent0pt
+\enlargethispage{1.5cm}
+\maketitle
+\tableofcontents
+\newpage
+
+${5}
+
+\end{document}
+endsnippet
+snippet pres "start a presentation"
+\documentclass{beamer}
+\usepackage[german]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+\title{${1:title}}
+\author{${2:author}}
+
+\usetheme{CambridgeUS}
+\usecolortheme{dolphin}
+\usefonttheme{professionalfonts}
+\useinnertheme{circles}
+
+\begin{document}
+\sf
+\begin{frame}
+    \titlepage
+\end{frame}
+
+${3}
+
+\end{document}
+endsnippet
+snippet frame "enter a new frame"
+\begin{frame}{${1:title}}{${2:subtitle}}
+    ${3}
+\end{frame}
+endsnippet
+snippet letter "start a letter"
+\documentclass[enlargefistpage, parskip=half]{scrlttr2}
+
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{lmodern}
+\usepackage{pdfpages}
+
+\KOMAoptions{
+    pagenumber=false,
+    fromalign=left,
+    fromphone=true,
+    fromemail=true,
+    fromlogo=false,
+    fontsize=11pt
+}
+
+\setkomavar{fromname}{Christian Karl}
+\setkomavar{fromaddress}{Münchener Str. 32b \\ 85748 Garching}
+\setkomavar{fromphone}{0170 8248174}
+\setkomavar{fromemail}{christian.karl.13@gmail.com}
+\setkomavar{signature}{}
+
+\setkomavar{subject}{${1:Betreff des Briefes}}
+\setkomavar{date}{\today}
+
+
+\let\raggedsignature=\raggedright
+
+\begin{document}
+\sf
+\begin{letter}{${2:Anschrift: Name} \\\\ ${3:Anschrift: Straße} \\\\ ${4:Anschrift: PLZ Ort}}
+\opening{Sehr geehrte Damen und Herren,}
+
+${0}
+
+\closing{Mit freundlichen Grüßen, \\\\
+\includegraphics[width=4.0cm]{/home/christian/Bilder/Sonstiges/unterschrift.jpg} \\\\
+Christian Karl}
+
+\encl{
+\begin{itemize}
+    \item[-] ${5:Anlagen}
+\end{itemize}
+}
+
+\end{letter}
+
+\end{document}
+endsnippet
+snippet fopra "For the FoPra"
+\documentclass[11pt]{article}
+\date{\today}
+
+\synctex=1
+
+\usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{A. Engelhardt, C. Karl, K. Mehrgan}
+\chead{Team-Nummer 37}
+\rhead{\today}
+\cfoot{\thepage}
+
+\usepackage[${1:language}]{babel}
+
+\usepackage{graphicx}
+
+\usepackage[utf8]{inputenc}
+
+\pretolerance=10000
+
+\usepackage{amsmath}
+\usepackage{siunitx}
+
+\usepackage[colorlinks,
+pdfpagelabels,
+pdfstartview = FitH,
+pdfauthor = Gruppe\ 37,
+pdfsubject = Forteschrittenenpraktikum,
+pdftitle = $2,
+bookmarksopen = true,
+bookmarksnumbered = true,
+linkcolor = red,
+linktoc = page,
+plainpages = false,
+hypertexnames = false,
+citecolor = black] {hyperref}
+
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\definecolor{tum}{HTML}{0071BD}
+
+\begin{document}
+
+\parindent0pt
+\newpage
+
+\begin{titlepage}
+	\centering
+        {\scshape\LARGE Fortgeschrittenenpraktikum \par}
+	\vspace{2cm}
+	{\huge\bfseries ${2:title}\par}
+	\vspace{2cm}
+	\includegraphics[width=4cm]{physik_logo_notext.png}\par\vspace{1cm}
+        \vspace{-1.2cm}
+        \hspace{-1.8cm}
+        {\Large\sf\bfseries\textcolor{tum}{PHYSIK} \\\\}
+        {\Large\sf\bfseries\textcolor{tum}{DEPARTMENT} \\\\}
+        \vspace{0.1cm}
+        {\Large\sf\bfseries\textcolor{tum}{TECHNISCHE UNIVERSITÄT MÜNCHEN} \\\\}
+	\vspace{2cm}
+        \begin{tabular}{lll}
+            \vspace{0.2cm}
+            {\Large\bfseries Team-Nummer 37} &  \\\\
+            \vspace{0.1cm}
+            {\Large Alexander Engelhardt} & \Large 03648409 & \Large ga38cot \\\\
+            \vspace{0.1cm}
+            {\Large Christian Karl} & \Large 03649644 & \Large ga97nix \\\\
+            \vspace{0.1cm}
+            {\Large Kianusch Mehrgan} & \Large 03648784 & \Large ga38heh \\\\
+        \end{tabular}
+
+
+	\vfill
+
+% Bottom of the page
+	\centering\large \today\par
+\end{titlepage}
+\enlargethispage{1.5cm}
+
+\tableofcontents
+\newpage
+
+${0}
+
+\end{document}
+endsnippet

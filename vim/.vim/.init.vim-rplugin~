@@ -1,7 +1,10 @@
 " python3 plugins
-call remote#host#RegisterPlugin('python3', '/home/christian/.config/nvim/bundle/deoplete.nvim/rplugin/python3/deoplete.py', [
-      \ {'sync': 1, 'name': 'DeopleteInitializePython', 'type': 'command', 'opts': {}},
+call remote#host#RegisterPlugin('python3', '/home/christian/.config/nvim/bundle/deoplete.nvim/rplugin/python3/deoplete', [
+      \ {'sync': v:true, 'name': '_deoplete', 'type': 'function', 'opts': {}},
      \ ])
+
+
+" ruby plugins
 
 
 " python plugins

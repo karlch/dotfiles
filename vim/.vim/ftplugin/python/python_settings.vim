@@ -6,8 +6,6 @@ let g:jedi#auto_vim_configuration=0
 setlocal completeopt=menuone,longest
 " Do not show call signatures (sad, but just too slow...)
 let g:jedi#show_call_signatures = 0
-call jedi#configure_call_signatures()
-let g:jedi#show_call_signatures_delay = 100
 let g:jedi#popup_select_first = 1
 let g:jedi#popup_on_dot = 1
 " The Key mappings for jedi

@@ -1,8 +1,4 @@
 " General stuff {{{
-" Load Pathogen to handle my plugins
-call pathogen#infect()
-call pathogen#helptags()
-
 " Use filetype plugins and indentation
 filetype plugin indent on
 
@@ -72,6 +68,43 @@ let g:netrw_list_hide='\..*'
 " No mouse, tzz neovim
 set mouse=
 
+" }}}
+
+" Plugins {{{
+" Synchronized plugins in plugged
+call plug#begin('~/.vim/plugged')
+
+Plug 'benmills/vimux'
+Plug 'davidhalter/jedi-vim', {'for': 'python'}
+Plug 'easymotion/vim-easymotion'
+Plug 'ervandew/supertab'
+Plug 'henrik/vim-indexed-search'
+Plug 'itchyny/lightline.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'joshukraine/dragvisuals'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'konfekt/fastfold'
+Plug 'lervag/vimtex', {'for': 'tex'}
+Plug 'lukerandall/haskellmode-vim', {'for': 'haskell'}
+Plug 'majutsushi/tagbar'
+Plug 'neomake/neomake'
+Plug 'potatoesmaster/i3-vim-syntax'
+Plug 'rip-rip/clang_complete'
+Plug 'simnalamburt/vim-mundo'
+Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'tmhedberg/simpylfold', {'for': 'python'}
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+
+" Local plugins in bundle
+Plug '~/.vim/bundle/root', {'for': 'root'}
+Plug '~/.vim/bundle/syntax-improvements'
+Plug '~/.vim/bundle/tmux-navigator'
+Plug '~/.vim/bundle/visual-star-search'
+Plug '~/.vim/bundle/vmath'
+
+call plug#end()
 " }}}
 
 " Optics {{{
@@ -265,8 +298,8 @@ nnoremap <leader>tv :Vexplore<CR>
 nnoremap <leader>ts :Sexplore<CR>
 nnoremap <leader>te :Explore<CR>
 
-" Start the gundo plugin
-nnoremap<leader>u :GundoToggle<CR><CR>
+" Start the mundo plugin
+nnoremap<leader>u :MundoToggle<CR><CR>
 
 " " Smart f and t
 map f <Plug>(easymotion-bd-f)
@@ -344,7 +377,7 @@ let g:delimitMate_balance_matchpairs = 1
 let g:DVB_TrimWS = 1
 
 " UltiSnips
-let g:UltiSnipsSnippetDirectories = ["UltiSnips", "MySnippets"]
+let g:UltiSnipsSnippetDirectories = ['bundle/snippet-dir/my-snippets', 'UltiSnips']
 
 " Vimux
 let g:VimuxUseNearest = "0"
@@ -361,8 +394,8 @@ let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
 let g:SuperTabLongestEnhanced = 1
 let g:SuperTabLongestHighlight = 1
 
-" Gundo
-let g:gundo_close_on_revert = 1
+" Mundo
+let g:mundo_close_on_revert = 1
 
 " Neomake
 let g:neomake_verbose = 0
