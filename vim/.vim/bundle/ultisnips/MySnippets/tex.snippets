@@ -2,6 +2,9 @@ snippet nc "\newcommand"
 \newcommand{\\${1:cmd}}[${2:opt}]{${3:realcmd}} ${4}
 endsnippet
 snippet up "\usepackage"
+\usepackage{${1:package}} ${2}
+endsnippet
+snippet upo "\usepackage"
 \usepackage[${1:options}]{${2:package}} ${3}
 endsnippet
 snippet nuc "\newunicodechar"
@@ -130,6 +133,9 @@ endsnippet
 snippet figref "reference to a figure"
 \ref{fig:${0}}
 endsnippet
+snippet eqref "reference to an equation"
+(\ref{eq:${0}})
+endsnippet
 snippet tabref "reference to a table"
 \ref{tab:${0}}
 endsnippet
@@ -194,17 +200,17 @@ snippet ft "\footnote"
 \footnote{${1:text}}
 endsnippet
 snippet fig "figure environment (includegraphics)"
-\begin{figure}[h!]
+\begin{figure}[!htbp]
 \begin{center}
-	\includegraphics[width=${1}cm]{${2:name}}
-\end{center}
+	\includegraphics[width=${1}\textwidth]{${2:name}}
 \caption{${3}}
 \label{fig:${4}}
+\end{center}
 \end{figure}
 ${5}
 endsnippet
 snippet mini2 "minipage with 2 columns"
-\begin{figure}[h!]
+\begin{figure}[!htbp]
     \centering
     \begin{minipage}[c]{0.49\textwidth}
 	${1}
@@ -285,103 +291,103 @@ snippet hrefc
 \href{`@+`}{${1}} ${2}
 endsnippet
 snippet al "" w
-\alpha ${0}
+\alpha${0}
 endsnippet
 snippet be "" w
-\beta ${0}
+\beta${0}
 endsnippet
 snippet ga "" w
-\gamma ${0}
+\gamma${0}
 endsnippet
 snippet Ga "" w
-\Gamma ${0}
+\Gamma${0}
 endsnippet
 snippet de "" w
-\delta ${0}
+\delta${0}
 endsnippet
 snippet De "" w
-\Delta ${0}
+\Delta${0}
 endsnippet
 snippet ep "" w
-\epsilon ${0}
+\epsilon${0}
 endsnippet
 snippet ze "" w
-\zeta ${0}
+\zeta${0}
 endsnippet
 snippet et "" w
-\eta ${0}
+\eta${0}
 endsnippet
 snippet th "" w
-\theta ${0}
+\theta${0}
 endsnippet
 snippet Th "" w
-\Theta ${0}
+\Theta${0}
 endsnippet
 snippet ka "" w
-\kappa ${0}
+\kappa${0}
 endsnippet
 snippet la "" w
-\lambda ${0}
+\lambda${0}
 endsnippet
 snippet La "" w
-\Lambda ${0}
+\Lambda${0}
 endsnippet
 snippet mu "" w
-\mu ${0}
+\mu${0}
 endsnippet
 snippet nu "" w
-\nu ${0}
+\nu${0}
 endsnippet
 snippet xi "" w
-\xi ${0}
+\xi${0}
 endsnippet
 snippet Xi "" w
-\Xi ${0}
+\Xi${0}
 endsnippet
 snippet pi "" w
-\pi ${0}
+\pi${0}
 endsnippet
 snippet Pi "" w
-\Pi ${0}
+\Pi${0}
 endsnippet
 snippet rh "" w
-\rho ${0}
+\rho${0}
 endsnippet
 snippet si "" w
-\sigma ${0}
+\sigma${0}
 endsnippet
 snippet Si "" w
-\Sigma ${0}
+\Sigma${0}
 endsnippet
 snippet ta "" w
-\tau ${0}
+\tau${0}
 endsnippet
 snippet ups "" w
-\upsilon ${0}
+\upsilon${0}
 endsnippet
 snippet Up "" w
-\Upsilon ${0}
+\Upsilon${0}
 endsnippet
 snippet ph "" w
-\phi ${0}
+\phi${0}
 endsnippet
 snippet Ph "" w
-\Phi ${0}
+\Phi${0}
 endsnippet
 snippet ch "" w
-\ci ${0}
+\ci${0}
 endsnippet
 snippet ps "" w
-\psi ${0}
+\psi${0}
 endsnippet
 snippet Ps "" w
-\Psi ${0}
+\Psi${0}
 endsnippet
 snippet om "" w
-\omega  ${0}
+\omega${0}
 endsnippet
 snippet Om "" w
-\Omega  ${0}
+\Omega${0}
 endsnippet
 snippet SI "start a nice si unit" w
 ~\si{${0}}
@@ -518,8 +524,8 @@ endsnippet
 snippet letter "start a letter"
 \documentclass[enlargefistpage, parskip=half]{scrlttr2}
 
-\usepackage[utf8]{inputenc} 
-\usepackage[german]{babel} 
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
 \usepackage{lmodern}
 \usepackage{pdfpages}
 
@@ -528,7 +534,7 @@ snippet letter "start a letter"
     fromalign=left,
     fromphone=true,
     fromemail=true,
-    fromlogo=false, 
+    fromlogo=false,
     fontsize=11pt
 }
 
@@ -589,7 +595,7 @@ snippet fopra "For the FoPra"
 \pretolerance=10000
 
 \usepackage{amsmath}
-\usepackage{siunitx} 
+\usepackage{siunitx}
 
 \usepackage[colorlinks,
 pdfpagelabels,

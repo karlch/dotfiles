@@ -16,5 +16,9 @@ if [[ $tex ]]; then
         done
     else
         zathura --synctex-forward ${2}:1:${1} ${pdf}
+        i3-msg focus right
+        sleep 0.5
+        xdotool key Escape
+        i3-msg focus left
     fi
 fi
