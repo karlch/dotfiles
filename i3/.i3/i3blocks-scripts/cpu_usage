@@ -15,6 +15,7 @@ use Getopt::Long;
 my $t_warn = 50;
 my $t_crit = 80;
 my $cpu_usage = -1;
+my $block_button = $ENV{BLOCK_BUTTON} || 0;
 
 sub help {
     print "Usage: cpu_usage [-w <warning>] [-c <critical>]\n";
@@ -26,6 +27,11 @@ sub help {
 GetOptions("help|h" => \&help,
            "w=i"    => \$t_warn,
            "c=i"    => \$t_crit);
+
+# show info on right click
+if ($block_button eq '3') {
+        system('urxvt -name floating -e "htop"');
+}
 
 # Get CPU usage
 $ENV{LC_ALL}="en_US"; # if mpstat is not run under en_US locale, things may break, so make sure it is
@@ -41,6 +47,7 @@ close(MPSTAT);
 $cpu_usage eq -1 and die 'Can\'t find CPU information';
 
 # Print short_text, full_text
+printf "<span foreground='#8DB5DD'>CPU </span>";
 printf "%.0f\n", $cpu_usage;
 printf "%.0f\n", $cpu_usage;
 

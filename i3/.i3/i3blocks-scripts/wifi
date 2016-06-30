@@ -18,6 +18,13 @@
 
 INTERFACE="${BLOCK_INSTANCE:-wlan0}"
 
+case $BLOCK_BUTTON in
+    3) urxvt -name floating -e sudo wifi-menu ;;
+esac
+
+printf '<span foreground="#8787AF">WIFI </span>'
+
+
 #------------------------------------------------------------------------
 
 # As per #36 -- It is transparent: e.g. if the machine has no battery or wireless

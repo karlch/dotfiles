@@ -16,6 +16,12 @@
 
 TYPE="${BLOCK_INSTANCE:-mem}"
 
+case $BLOCK_BUTTON in
+    3) urxvt -name floating -e htop ;;
+esac
+
+printf '<span foreground="#8DB5DD">RAM </span>'
+
 awk -v type=$TYPE '
 /^MemTotal:/ {
 	mem_total=$2

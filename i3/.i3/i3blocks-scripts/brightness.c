@@ -46,6 +46,7 @@ int main(void)
             break;
     }
 
+    printf("<span foreground='#AFD7FF'>BRI </span>");
     printf("%d\n", bri);
     fclose(input_file);
     return 0;

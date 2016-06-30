@@ -43,6 +43,7 @@ int main(void)
             break;
     }
 
+    printf("<span foreground='#AFD7FF'>VOL </span>");
     if (strcmp(mute, "[on]"))
         printf("%s\n%s\n%s\n", volume, "", "#666666");
     else
