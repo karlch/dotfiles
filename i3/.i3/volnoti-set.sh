@@ -1,6 +1,5 @@
 #!/bin/bash
 
-virtual=""
 # Check what to do
 if [[ -n $1 ]]; then
     amixer set Master 5%${1}

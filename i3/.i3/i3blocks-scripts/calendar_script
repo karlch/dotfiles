@@ -1,0 +1,8 @@
+#/bin/bash
+
+printf "Calendar\n\n"
+cal -3
+printf "\n\n"
+~/bin/t
+
+read -n1 input

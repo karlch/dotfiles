@@ -1,0 +1,38 @@
+#!/bin/bash
+
+start_client() {
+    urxvt -name floating -e ncmpcpp &
+    show_info
+}
+
+show_info() {
+    if [[ $(mpc status | wc -l) -gt 1 ]]; then
+    artist=$(mpc -f %artist% current)
+    title=$(mpc -f "%position% %title%" current)
+    printf '<span foreground="#AFD7FF">'
+    printf "%s  </span>%s" "$artist" "$title"
+    print_length
+    fi
+}
+
+print_length() {
+    song_length=$(mpc status | grep -o '(.*)' | tr -d '()%')
+    indicator_length=10
+    indicator_pos=$(echo "$song_length*$indicator_length/100" | bc)
+    rest=$(echo "$indicator_length-$indicator_pos" | bc)
+    printf '  <span foreground="#AFD7FF">'
+    yes ─ | head -n $indicator_pos | tr -d "\n"
+    printf '╼</span>'
+    printf '<span foreground="#5C5C60">'
+    yes ─ | head -n $rest | tr -d "\n"
+    printf '</span>'
+}
+
+case $BLOCK_BUTTON in
+    2) start_client 2>/dev/null 1>&2 ;;
+    3) mpc toggle 2>/dev/null 1>&2 ;;
+    4) /home/christian/.i3/volnoti-set-raspberry.sh + 2>/dev/null 1>&2 ;;
+    5) /home/christian/.i3/volnoti-set-raspberry.sh - 2>/dev/null 1>&2 ;;
+esac
+
+show_info

@@ -1,0 +1,42 @@
+#!/bin/bash
+#vim:ft=sh
+
+infofile=~/.i3/info/show_extra_info
+info_length=$(cat $infofile)
+
+short_info() {
+    echo ""
+}
+
+long_info() {
+    tasks=$(~/bin/t | wc -l)
+    printf '<span foreground="#5C5C60">'
+    printf "  "
+    printf "</span>"
+    printf '<span foreground="#875FAF">'
+    printf 'TASKS'
+    printf "</span>"
+    printf " %s" "$tasks"
+    printf "\n"
+    echo ""
+    echo "#CCCCCC"
+}
+
+toggle_info_length() {
+    if [[ $info_length == "1" ]]; then
+        echo 0 > $infofile
+    else
+        echo 1 > $infofile
+    fi
+    info_length=$(cat $infofile)
+}
+
+case $BLOCK_BUTTON in
+    1) toggle_info_length ;;
+esac
+
+if [[ $info_length == "1" ]]; then
+    long_info
+else
+    short_info
+fi

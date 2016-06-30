@@ -104,6 +104,7 @@ for_window [window_role="Preferences"] floating enable
 for_window [class="com-wolfram-jlink-Reader"] floating enable
 for_window [title="c*Editor"] floating enable
 for_window [class="ROOT"] floating enable
+for_window [class="URxvt" instance="floating"] floating enable
 
 # }}}
 
@@ -264,7 +265,7 @@ mode "$SYSTEM" {
     # Blank screen
     bindsym b exec xset dpms force off, mode "default"
     # Lock screen
-    bindsym Shift+l exec i3lock -O 0 -T 1.0 -i ~/Bilder/Hintergrund/moon_small.png -X 1130 -Y 500 -R 2000 -F 50 -w "#CCCCCC" -o "#8787AF" -l "AFD7FF" --24, mode "default"
+    bindsym Shift+l exec i3lock -O 0 -T 1.0 -i ~/Bilder/Hintergrund/moon_small.png -X 1120 -Y 530 -R 2000 -F 50 -w "#CCCCCC" -o "#8787AF" -l "AFD7FF" --24 --no-keyboard-layout, mode "default"
 
     # Back to normal
     bindsym Return mode "default"
@@ -314,8 +315,10 @@ mode "borders" {
 
 # Start i3bar to display a workspace bar {{{
 bar {
-        status_command ~/.i3/conkybar.sh
+        # status_command ~/.i3/conkybar.sh
+        status_command i3blocks
         strip_workspace_numbers yes
+        separator_symbol " "
 
         # Do not allow applications to use the bar as icon tray
         tray_output none

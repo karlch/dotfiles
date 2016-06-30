@@ -1,0 +1,6 @@
+#/bin/bash
+
+printf "Battery information\n\n"
+acpi -abi
+
+read -n1 input

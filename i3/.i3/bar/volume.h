@@ -1,1 +1,0 @@
-char* volstring(void);
