@@ -278,8 +278,8 @@ set $Wireless  wifi ... block (b), unblock (u), wifi-menu (w)
 mode "$Wireless" {
     # Wifi
     bindsym b exec "rfkill block wifi", mode "default"
-    bindsym u exec rfkill unblock wifi && urxvt -e systemctl restart netctl-auto@wlp1s0.service & sleep 0.1 && i3-msg floating enable, mode "default"
-    bindsym w exec "urxvt -e sudo wifi-menu & sleep 0.3 && i3-msg floating enable", mode "default"
+    bindsym u exec rfkill unblock wifi && urxvt -name floating -e systemctl restart netctl-auto@wlp1s0.service, mode "default"
+    bindsym w exec "urxvt -name floating -e sudo wifi-menu", mode "default"
 
     # Back to normal: Escape
     bindsym Escape mode "default"

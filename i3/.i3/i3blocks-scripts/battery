@@ -50,10 +50,10 @@ print '<span foreground="#8787AF">BAT </span>';
 print "$full_text\n";
 print "$short_text\n";
 
-# consider color and urgent flag only on discharge
+# Consider color and urgent flag only on discharge
 if ($status eq 'Discharging') {
 
-	if ($percent < 5) {
+	if ($percent < 6) {
             exit(33);
         } elsif ($percent < 20) {
 		print "#666666\n";

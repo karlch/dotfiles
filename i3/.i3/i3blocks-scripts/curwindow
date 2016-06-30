@@ -1,0 +1,11 @@
+#!/bin/bash
+
+long_name=$(xdotool getwindowfocus getwindowname)
+short_name=${long_name:0:22}
+
+printf '<span foreground="#AFD7FF">WIN </span>'
+if [[ $short_name == $long_name ]]; then
+    printf "%s\n" "$short_name"
+else
+    printf "%s...\n" "$short_name"
+fi

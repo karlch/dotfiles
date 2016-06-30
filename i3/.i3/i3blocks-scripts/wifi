@@ -18,32 +18,26 @@
 
 INTERFACE="${BLOCK_INSTANCE:-wlan0}"
 
+# Open wifi-menu on right-click
 case $BLOCK_BUTTON in
     3) urxvt -name floating -e sudo wifi-menu ;;
 esac
-
-printf '<span foreground="#8787AF">WIFI </span>'
-
-
-#------------------------------------------------------------------------
-
-# As per #36 -- It is transparent: e.g. if the machine has no battery or wireless
-# connection (think desktop), the corresponding block should not be displayed.
-[[ ! -d /sys/class/net/${INTERFACE}/wireless ]] ||
-    [[ "$(cat /sys/class/net/$INTERFACE/operstate)" = 'down' ]] && exit
-
-#------------------------------------------------------------------------
 
 QUALITY=$(grep $INTERFACE /proc/net/wireless | awk '{ print int($3 * 100 / 70) }')
 
 #------------------------------------------------------------------------
 
+# Label
+printf '<span foreground="#8787AF">WIFI </span>'
+
+# If there is signal, display the quality, otherwise --- and urgent
 if [[ -n $QUALITY ]]; then
     echo $QUALITY # full text
     echo $QUALITY # short text
 else
     echo "---"
     echo "---"
+    exit 33
 fi
 
 # color
