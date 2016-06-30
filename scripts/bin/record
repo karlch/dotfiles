@@ -4,6 +4,7 @@
 
 if [ $# -lt 1 ]; then
     echo "please use an option, enter '-h' for help"
+    exit 1
 elif [ $1 == "-wp" ]; then
     echo "taking a picture"
     mpv tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0 -fps 15 -vf screenshot
@@ -13,6 +14,9 @@ elif [ $1 == "-wv" ]; then
 elif [ $1 == "-sv" ] && [ $# == 3 ]; then
     echo "recording a video of your screen"
     ffmpeg -r 30 -s 1920x1080 -f x11grab -i :0.0 -vcodec mpeg4 -qscale ${2} ${3}.mp4
+elif [ $1 == "-sg" ] && [ $# == 2 ]; then
+    echo "recording a gif of your screen"
+    ffmpeg -r 30 -s 1920x1080 -f x11grab -i :0.0 -vcodec gif ${2}.gif
 elif [ $1 == "-ss" ] && [ $# == 2 ]; then
     echo "recording sound"
     ffmpeg -f alsa -ac 2 -i default ${2}.ogg
@@ -25,6 +29,7 @@ else
     -wv (stream webcam to mpv)
     -sv quality filename (take a video of your screen, quality decreasing from 0
         to 10, filename without ending)
+    -sg filename (record a gif of your screen, filename without ending)
     -ss filename (record sound)
     -sc quality filename (complete screencast with sound and video)
     -h (print this help)"
