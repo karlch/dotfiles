@@ -302,11 +302,11 @@ mode "borders" {
     bindsym 2 border pixel 2
     bindsym 3 border pixel 3
     bindsym 4 border pixel 4
-    bindsym 5 border pixel 5
-    bindsym 6 border pixel 6
-    bindsym 7 border pixel 7
     bindsym 0 border none
     bindsym asciicircum border normal
+    bindsym plus exec ~/.i3/border_set.sh +
+    bindsym minus exec ~/.i3/border_set.sh -
+    bindsym Return exec ~/.i3/border_set.sh
 
     # Back to normal: Escape
     bindsym Escape mode "default"
