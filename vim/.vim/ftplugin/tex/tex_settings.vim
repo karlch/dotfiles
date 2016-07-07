@@ -11,16 +11,12 @@ set tw=90
 set sidescrolloff=0
 
 " Use the LaTeX dictionaries
-set dictionary+=~/.vim/dictionary/latex_fav
-set dictionary+=~/.vim/dictionary/latex
-set dictionary+=~/.vim/dictionary/latex_texmaker
-set complete+=k~/.vim/dictionary/latex_fav
-set complete+=k~/.vim/dictionary/latex
-set complete+=k~/.vim/dictionary/latex_texmaker
+set dictionary=~/.vim/dictionary/latex
+set complete=k~/.vim/dictionary/latex
 
 " Show me autocomplete
-inoremap <buffer> <C-f> \<c-x><c-k><c-p>
-vnoremap <buffer> <C-f> di\<c-x><c-k><c-p>
+inoremap <buffer> <C-f> \<c-x><c-k>
+vnoremap <buffer> <C-f> di\<c-x><c-k>
 imap <buffer> \ <C-f>
 vmap <buffer> \ <C-f>
 
@@ -66,5 +62,7 @@ function! TexSync()
     silent BuildTexPdf
     " silent call ZathuraSync()
 endfunction
-        
-set statusline=%<\%t\ %y\%m\%r\%=%#warningmsg#%{ErrorList()}%*\ \ \lin:\ %l\/\%L\ col:\ %c
+
+" Function for a bit weird autocompletion
+function! CommandComplete()
+

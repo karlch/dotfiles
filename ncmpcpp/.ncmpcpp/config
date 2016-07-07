@@ -82,7 +82,7 @@ fetch_lyrics_for_current_song_in_background = yes
 store_lyrics_in_song_dir = no
 
 #### Editor ####
-external_editor = vim
+external_editor = nvim
 use_console_editor = yes
 
 ##### colors and look #####
@@ -116,7 +116,7 @@ main_window_color = "default"
 color1 = "default"
 color2 = "blue"
 main_window_highlight_color = "blue"
-progressbar_color = "236"
+progressbar_color = "242"
 progressbar_elapsed_color = "blue"
 statusbar_color = "blue"
 active_column_color = "cyan"

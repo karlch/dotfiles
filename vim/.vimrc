@@ -91,13 +91,13 @@ Plug 'neomake/neomake'
 Plug 'potatoesmaster/i3-vim-syntax'
 Plug 'rhysd/vim-clang-format'
 Plug 'rip-rip/clang_complete'
+Plug 'ron89/thesaurus_query.vim'
 Plug 'simnalamburt/vim-mundo'
 Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tmhedberg/simpylfold', {'for': 'python'}
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-
 
 " Local plugins in bundle
 Plug '~/.vim/bundle/root', {'for': 'root'}
@@ -242,7 +242,7 @@ inoremap <Right> <Esc>:TmuxNavigateRight<CR>
 noremap <C-@> <C-]>
 
 " Access marks quickly
-nnoremap , `
+noremap , `
 
 " Nice buffer switching
 nnoremap <C-n> :bnext<CR>
@@ -424,6 +424,9 @@ let g:lightline.colorscheme = "lhun"
 " Fix auto-pairs and clang_complete
 let g:AutoPairsMapCR = 0
 imap <silent> <CR> <CR><Plug>AutoPairsReturn
+
+" Thesaurus_query
+let g:tq_language = ['en', 'de']
 
 "}}}
 

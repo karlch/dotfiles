@@ -67,7 +67,7 @@ let s:none         = ['NONE', 'NONE']
 if exists('g:lhun_background')
   let s:bg         = g:lhun_background
 else
-  let s:bg         = [0, 'NONE']
+  let s:bg         = ['#2C2C30', 'NONE']
 endif
 
 " Red
