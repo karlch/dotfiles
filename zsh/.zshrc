@@ -9,7 +9,7 @@ CHASE_LINKS="true"
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
 # Plugins
-plugins=(vi-mode zsh-history-substring-search sudo lscolors dot zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(vi-mode zsh-history-substring-search sudo lscolors dot zsh-autosuggestions zsh-syntax-highlighting clipboard)
 
 # Initialize the actual zsh script
 source $ZSH/zsh.sh

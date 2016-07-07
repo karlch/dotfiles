@@ -28,16 +28,14 @@ function command_not_found_handler() {
 }
 
 # vim with server if necessary
-# function vim {
-#     eval last=\$$#
-#     if echo $last | grep "\.m\|\.mma\|\.c\|\.h\|\.C" > /dev/null; then
-#         command vim --servername VimServer $@
-#     elif echo $last | grep "\.tex" > /dev/null; then
-#         command vim --servername TexServer $@
-#     else
-#         command vim --servername DefaultServer $@
-#     fi
-# }
+function vim {
+    eval last=\$$#
+    if echo $last | grep "\.tex" > /dev/null; then
+        NVIM_LISTEN_ADDRESS=/tmp/nvim_texsocket nvim $@
+    else
+        NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim $@
+    fi
+}
 
 # favourite command
 function favcmd() {
@@ -114,4 +112,12 @@ function zsh_stats() {
 # Quick github clone
 function gitc() {
     git clone "https://github.com/$1/$2"
+}
+
+# Persistent loop
+function pers_loop() {
+    while true; do
+        ${*:2}
+        sleep $1
+    done
 }

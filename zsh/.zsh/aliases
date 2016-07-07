@@ -10,16 +10,16 @@ alias pro='cd ~/Dokumente/Programmieren/'
 alias prov='cd ~/Dokumente/Programmieren/vimiv'
 
 # vim aliases
-alias vim='nvim'
 alias vimdiff='nvim -d'
-alias vims='vim --servername VimServer'
-alias vima='vim --servername VimServer --remote-tab'
 alias viml='vim -c "normal '\''0"'
 alias mma='vim ~/tmp.mma'
 
 # fasd
 alias v='f -e nvim'
 alias r='f -e rifle'
+
+# t
+alias t='t.sh'
 
 # tmux
 alias tks='tmux kill-server'
