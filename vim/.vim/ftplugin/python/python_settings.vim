@@ -37,12 +37,12 @@ set complete+=k~/.vim/dictionary/python_snippets
 
 " Neomake
 let g:neomake_python_enabled_makers = ['pyflakes']
-let g:neomake_python_pep8_args = ['--max-line-length=80']
+let g:neomake_python_pycodestyle_args = ['--max-line-length=80']
 let g:neomake_verbose = 1
 
 nnoremap <buffer> <leader>a :call CheckAll()<CR>
 function! CheckAll()
-    let g:neomake_python_enabled_makers = ['pep8', 'pyflakes', 'pylint']
+    let g:neomake_python_enabled_makers = ['pycodestyle', 'pyflakes', 'pylint']
     write
     let g:neomake_python_enabled_makers = ['pyflakes']
 endfunction

@@ -62,7 +62,3 @@ function! TexSync()
     silent BuildTexPdf
     " silent call ZathuraSync()
 endfunction
-
-" Function for a bit weird autocompletion
-function! CommandComplete()
-

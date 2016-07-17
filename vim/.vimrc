@@ -411,15 +411,19 @@ let g:lightline = {
     \ 'left': [ [ 'mode', 'paste' ],
     \           [ 'readonly', 'filename', 'modified' ] ],
     \ 'right': [ [ 'lineinfo' ],
-    \            [ 'percent' ],
-    \            [ 'filetype'],
+    \            [ 'percent' ], 
+    \            [ 'filetype' ],
     \            [ 'errors' ] ] },
+    \ 'component' : {
+    \ 'lineinfo': "%{printf('%03d/%03d', line('.'),  line('$'))}" },
     \ 'component_function': {
     \ 'errors': 'neomake#statusline#LoclistStatus' },
     \ 'component_type': {
     \ 'errors': 'error' }
     \ }
 let g:lightline.colorscheme = "lhun"
+let g:lightline.separator = { 'left': '', 'right': '' }
+let g:lightline.subseparator = { 'left': '', 'right': '' }
 
 " Fix auto-pairs and clang_complete
 let g:AutoPairsMapCR = 0

@@ -72,6 +72,16 @@ function killws() {
     done
 }
 
+function killws_all() {
+    for a in ./**/*\ *(Dod); do 
+        if [[ -f ${a:h}/${a:t:gs/ /_} ]]; then
+            mv "$a" "${a:h}/${a:t:gs/ /_/:s/./_2.}"
+        else
+            mv "$a" "${a:h}/${a:t:gs/ /_}"
+        fi
+    done
+}
+
 # Up we go (nicer than ...)
 function up() {
     for (( i = 0; i < $1; i++ )); do

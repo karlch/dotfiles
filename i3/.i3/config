@@ -69,8 +69,8 @@ bindsym Control+q kill
 bindsym Control+m fullscreen
 
 # Function keys
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
+bindsym XF86MonBrightnessDown exec --no-startup-id sudo xbacklight -dec 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
+bindsym XF86MonBrightnessUp exec --no-startup-id sudo xbacklight -inc 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
 bindsym XF86AudioLowerVolume exec --no-startup-id ~/.i3/volnoti-set.sh -
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.i3/volnoti-set.sh +
 bindsym $mod+F11 exec --no-startup-id ~/.i3/volnoti-set-raspberry.sh -
