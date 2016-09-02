@@ -21,8 +21,6 @@ xcape -t 0 -e 'ISO_Level3_Shift=F10'
 xcape -t 0 -e 'Super_L=F11' 
 xcape -t 0 -e 'Super_R=F12' 
 xcape -t 0 -e 'Control_R=F12' 
-# Disable touchpad while typing
-syndaemon -k -d -i 1 &
 # Dont want to see the mouse
 unclutter --timeout 1 -b
 # Notifiers

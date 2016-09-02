@@ -51,8 +51,6 @@ URxvt*scrollTtyOutput: false
 URxvt*scrollTtyKeypress: true
 URxvt*secondaryScreen: 1
 URxvt*secondaryScroll: 0
-URxvt*keysym.C-M-k: command:\033]720;1\007
-URxvt*keysym.C-M-j: command:\033]721;1\007
 ! Scrollback lines (kept small because of tmux)
 URxvt*saveLines: 100
 
@@ -60,7 +58,7 @@ URxvt*saveLines: 100
 URxvt*urgentOnBell: True
 
 ! Extensions
-URxvt*perl-ext-common: default,matcher,url-picker,font-size,osc-xterm-clipboard
+URxvt*perl-ext-common: default,matcher,font-size
 URxvt*perl-ext: default,url-select
 ! Selectable URLs
 URxvt*url-launcher: /usr/bin/qutebrowser
