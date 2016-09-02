@@ -98,9 +98,10 @@ Plug 'tmhedberg/simpylfold', {'for': 'python'}
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'jamshedvesuna/vim-markdown-preview'
 
 " Local plugins in bundle
-Plug '~/.vim/bundle/root', {'for': 'root'}
+Plug '~/.vim/bundle/root'
 Plug '~/.vim/bundle/syntax-improvements'
 Plug '~/.vim/bundle/tmux-navigator'
 Plug '~/.vim/bundle/visual-star-search'
@@ -177,6 +178,7 @@ tnoremap <C-h> <C-\><C-n><C-w>h
 tnoremap <C-j> <C-\><C-n><C-w>j
 tnoremap <C-k> <C-\><C-n><C-w>k
 tnoremap <C-l> <C-\><C-n><C-w>l
+tnoremap <Esc> <C-\><C-n>
 
 " Quicker way to enter a command
 noremap ö :
@@ -431,6 +433,11 @@ imap <silent> <CR> <CR><Plug>AutoPairsReturn
 
 " Thesaurus_query
 let g:tq_language = ['en', 'de']
+
+" Markdown preview
+let vim_markdown_preview_browser='qutebrowser'
+let vim_markdown_preview_github=1
+let vim_markdown_preview_use_xdg_open=1
 
 "}}}
 

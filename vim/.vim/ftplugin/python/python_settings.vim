@@ -47,5 +47,4 @@ function! CheckAll()
     let g:neomake_python_enabled_makers = ['pyflakes']
 endfunction
 
-
 " vim:foldmethod=marker:foldlevel=0

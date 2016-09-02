@@ -20,7 +20,7 @@ let g:neomake_cpp_root_maker = {
 
 " Back to cpp when everything has loaded
 set filetype=cpp
-let g:neomake_cpp_enabled_makers = ['root']
+let g:neomake_cpp_enabled_makers = []
 
 " Run Program
 nnoremap <buffer> <leader>d :VimuxRunCommand("root -l <C-R>=expand("%")<CR>")<CR>
