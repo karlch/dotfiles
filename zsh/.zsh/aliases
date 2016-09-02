@@ -69,6 +69,7 @@ alias find='find 2>/dev/null'
 alias mkdir='mkdir -p'
 alias calc='nvim -c "startinsert" calc'
 alias root='root -l'
+alias view_coverage='qutebrowser ~/Dokumente/git/vimiv/tests/htmlcov/index.html'
 
 # everyone need some fun
 alias chuck='clear && fortune ~/bin/fortune/chucknorris'
