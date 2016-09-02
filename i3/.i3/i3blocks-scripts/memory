@@ -22,34 +22,4 @@ esac
 
 printf '<span foreground="#8DB5DD">RAM </span>'
 
-awk -v type=$TYPE '
-/^MemTotal:/ {
-	mem_total=$2
-}
-/^MemFree:/ {
-	mem_free=$2
-}
-/^Buffers:/ {
-	mem_free+=$2
-}
-/^Cached:/ {
-	mem_free+=$2
-}
-/^SwapTotal:/ {
-	swap_total=$2
-}
-/^SwapFree:/ {
-	swap_free=$2
-}
-END {
-	# full text
-	if (type == "swap")
-		printf("%.0fG\n", (swap_total-swap_free)/1024/1024)
-	else
-		printf("%.0f\n", mem_free/mem_total)
-
-	# TODO: short text
-
-	# TODO: color (if less than X%)
-}
-' /proc/meminfo
+awk 'NR==1 {total=$2;} NR==3 {free=$2;} END {printf "%0.f\n", (1-free/total)*100;}' /proc/meminfo

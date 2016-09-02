@@ -41,7 +41,7 @@ focus_follows_mouse no
 
 # Floating stuff
 floating_modifier $mod
-floating_minimum_size 300 x 200
+# floating_minimum_size 300 x 200
 floating_maximum_size 1920 x 1080
 
 # }}}
@@ -101,6 +101,7 @@ for_window [window_role="task_dialog"] floating enable
 for_window [window_role="dialog"] floating enable
 for_window [window_role="menu"] floating enable
 for_window [window_role="Preferences"] floating enable
+for_window [window_type="Desktop"] border pixel 1
 for_window [class="com-wolfram-jlink-Reader"] floating enable
 for_window [title="c*Editor"] floating enable
 for_window [class="ROOT"] floating enable
@@ -226,6 +227,8 @@ mode "normal" {
     bindsym f exec --no-startup-id urxvtc -e ranger, mode "default"
     bindsym c exec --no-startup-id urxvt -e ncmpcpp, mode "default"
     bindsym Shift+c exec --no-startup-id ~/bin/ncmpcpp.sh, mode "default"
+    bindsym c exec --no-startup-id urxvt -e ncmpcpp, mode "default"
+    bindsym b exec --no-startup-id urxvt -e newsbeuter, mode "default"
     bindsym z exec --no-startup-id urxvtc -e mutt, mode "default"
 
     # Shutdown, reboot, lock screen ..
@@ -329,7 +332,7 @@ bar {
             separator  #AFD7FF
             #                  BORDER  BACKGR. TEXT
             focused_workspace  #2C2C30 #2C2C30 #CCCCCC
-            active_workspace   #2C2C30 #2C2C30 #CCCCCC
+            active_workspace   #2C2C30 #2C2C30 #6A93BB
             inactive_workspace #2C2C30 #2C2C30 #666666
             urgent_workspace   #2C2C30 #2C2C30 #DFAFDF
             binding_mode       #2C2C30 #2C2C30 #DFAFDF

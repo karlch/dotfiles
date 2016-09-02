@@ -8,7 +8,7 @@ start_client() {
 show_info() {
     if [[ $(mpc status | wc -l) -gt 1 ]]; then
     artist=$(mpc -f %artist% current)
-    title=$(mpc -f "%position% %title%" current)
+    title=$(mpc -f "%track% %title%" current)
     printf '<span foreground="#AFD7FF">'
     printf "%s  </span>%s" "$artist" "$title"
     print_length

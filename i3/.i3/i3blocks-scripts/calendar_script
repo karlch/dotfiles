@@ -3,6 +3,6 @@
 printf "Calendar\n\n"
 cal -3
 printf "\n\n"
-~/bin/t
+t.sh
 
 read -n1 input
