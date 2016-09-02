@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+""" Really simple Gtk3 color picker that copies the color to clipboard"""
+
+from gi import require_version
+require_version('Gtk', '3.0')
+from gi.repository import Gtk, Gdk
+
+class ColorPicker(Gtk.Window):
+
+    def __init__(self):
+        Gtk.Window.__init__(self, title="Color Picker")
+        self.set_type_hint(Gdk.WindowTypeHint.DIALOG)
+
+        self.connect("delete-event", Gtk.main_quit)
+
+        color_selection = Gtk.ColorSelection()
+        color_selection.connect("color-changed", self.color_to_clipboard)
+        self.clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+
+        self.add(color_selection)
+        self.show_all()
+
+    def color_to_clipboard(self, widget):
+        color = widget.get_current_color()
+        long_name = color.to_string()
+        name = long_name[0:3] + long_name[5:7] + long_name[9:11]
+        formatted_name = name.upper()
+        self.clipboard.set_text(formatted_name, -1)
+
+
+win = ColorPicker()
+Gtk.main()

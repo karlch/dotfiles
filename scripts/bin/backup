@@ -15,23 +15,23 @@ pacman -Qen > /tmp/pkg/pkg_official.txt
 pacman -Qem > /tmp/pkg/pkg_AUR.txt
 
 # Backup the folders
-echo "####################################################" >> ${LOGFILE}
+echo "####################################################" > ${LOGFILE}
 echo -e "\tStarting backup at $(date)" >> ${LOGFILE}
 notify-send "Starting backup"
 
-if rsync -avz --delete-after --exclude '*' '/home/christian/Dokumente/Privat/Taekwondo/' -e 'ssh' /home/christian alarmpi:Backup/home 2>>${LOGFILE}; then
+if rsync -avz --delete --delete-after --ignore-errors -e 'ssh' /home/christian alarmpi:Backup/home 2>>${LOGFILE}; then
     echo -e "\tBacked up home successfully" >> ${LOGFILE}
 else
     echo -e "\tERR: Backing up home failed" >> ${LOGFILE}
 fi
 #
-if rsync -avz --delete-after -e 'ssh' /etc alarmpi:Backup 2>>${LOGFILE}; then
+if rsync -avz --delete --delete-after --ignore-errors -e 'ssh' /etc alarmpi:Backup 2>>${LOGFILE}; then
     echo -e "\tBacked up etc successfully" >> ${LOGFILE}
 else
     echo -e "\tERR: Backing up etc failed" >> ${LOGFILE}
 fi
 
-if rsync -avz --delete-after -e 'ssh' /tmp/pkg alarmpi:Backup 2>>${LOGFILE}; then
+if rsync -avz --delete --delete-after --ignore-errors -e 'ssh' /tmp/pkg alarmpi:Backup 2>>${LOGFILE}; then
     echo -e "\tBacked up pkg successfully" >> ${LOGFILE}
 else
     echo -e "\tERR: Backing up pkg failed" >> ${LOGFILE}
