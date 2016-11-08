@@ -34,11 +34,9 @@ export MPD_HOST="alarmpi"
 ~/bin/update &
 # Devmon for usb
 devmon --exec-on-drive 'notify-send "Mounted %l %f at %d"' --exec-on-unmount 'notify-send "Succesfully unmounted %l from %f"' &
-# Conky
-conky
 # Urxvt daemon
 urxvtd -f -o -q
-# Background
-hsetroot -fill Bilder/Hintergrund/moon_small.png &
+# Conky
+conky
 # WM
 exec i3

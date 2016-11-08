@@ -105,6 +105,7 @@ for_window [window_type="Desktop"] border pixel 1
 for_window [class="com-wolfram-jlink-Reader"] floating enable
 for_window [title="c*Editor"] floating enable
 for_window [class="ROOT"] floating enable
+for_window [class="telegram-desktop"] floating enable
 for_window [class="URxvt" instance="floating"] floating enable
 
 # }}}
@@ -123,8 +124,6 @@ mode "normal" {
 
     # Kill a window
     bindsym x kill
-    # Kill all windows
-    bindsym Shift+x exec --no-startup-id ~/.i3/py-scripts/closeall.py
 
     # Rofi
     bindsym d exec --no-startup-id rofi -columns 6 -show run, mode "default"
@@ -226,8 +225,6 @@ mode "normal" {
     bindsym t exec --no-startup-id urxvtc, mode "default"
     bindsym f exec --no-startup-id urxvtc -e ranger, mode "default"
     bindsym c exec --no-startup-id urxvt -e ncmpcpp, mode "default"
-    bindsym Shift+c exec --no-startup-id ~/bin/ncmpcpp.sh, mode "default"
-    bindsym c exec --no-startup-id urxvt -e ncmpcpp, mode "default"
     bindsym b exec --no-startup-id urxvt -e newsbeuter, mode "default"
     bindsym z exec --no-startup-id urxvtc -e mutt, mode "default"
 
@@ -324,7 +321,7 @@ bar {
         separator_symbol " "
 
         # Do not allow applications to use the bar as icon tray
-        tray_output none
+        tray_output eDP-1
 
         colors {
             background #2C2C30
@@ -349,5 +346,6 @@ bar {
 # }}}
 
 exec i3-msg workspace $ws1
+exec hsetroot -fill Bilder/Hintergrund/moon_small.png
 
 # vim:foldmethod=marker:foldlevel=0
