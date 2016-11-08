@@ -99,6 +99,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'jamshedvesuna/vim-markdown-preview'
+Plug 'JuliaEditorSupport/julia-vim'
 
 " Local plugins in bundle
 Plug '~/.vim/bundle/root'
