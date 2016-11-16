@@ -19,9 +19,10 @@ set $ws10 10:ten
 font pango: Source Sans Pro Bold 9
 
 # Window borders
-new_window pixel 2
+new_window pixel 3
 new_float normal
-hide_edge_borders smart
+gaps inner 20
+# hide_edge_borders smart
 
 # Color settings        Border_top  Background  Text        Indicator  Border
 client.focused          #3C3C40     #3C3C40     #EEEEEE     #8787AF    #AFD7FF
@@ -89,7 +90,7 @@ bindsym --release Shift+Insert exec --no-startup-id import -window $(xdotool get
 # Enter normal mode
 bindsym F10 mode "normal"
 # Open rofi
-bindsym F11 exec --no-startup-id rofi -columns 6 -show run, mode "default"
+bindsym F11 exec --no-startup-id rofi -show run, mode "default"
 
 # }}}
 
@@ -105,7 +106,6 @@ for_window [window_type="Desktop"] border pixel 1
 for_window [class="com-wolfram-jlink-Reader"] floating enable
 for_window [title="c*Editor"] floating enable
 for_window [class="ROOT"] floating enable
-for_window [class="telegram-desktop"] floating enable
 for_window [class="URxvt" instance="floating"] floating enable
 
 # }}}
@@ -126,7 +126,7 @@ mode "normal" {
     bindsym x kill
 
     # Rofi
-    bindsym d exec --no-startup-id rofi -columns 6 -show run, mode "default"
+    bindsym d exec --no-startup-id rofi -show run, mode "default"
     # with password manager
     bindsym a exec --no-startup-id rofi-pass, mode "default"
 
@@ -221,11 +221,11 @@ mode "normal" {
     bindsym Shift+r restart
 
     # Starters
-    bindsym w mode "default", exec qutebrowser && cat /dev/null > ~/.local/share/qutebrowser/history 
+    bindsym w mode "default", exec qutebrowser --backend webengine && cat /dev/null > ~/.local/share/qutebrowser/history 
     bindsym t exec --no-startup-id urxvtc, mode "default"
     bindsym f exec --no-startup-id urxvtc -e ranger, mode "default"
-    bindsym c exec --no-startup-id urxvt -e ncmpcpp, mode "default"
-    bindsym b exec --no-startup-id urxvt -e newsbeuter, mode "default"
+    bindsym c exec --no-startup-id urxvtc -e ncmpcpp, mode "default"
+    bindsym b exec --no-startup-id urxvtc -e newsbeuter, mode "default"
     bindsym z exec --no-startup-id urxvtc -e mutt, mode "default"
 
     # Shutdown, reboot, lock screen ..
@@ -265,7 +265,7 @@ mode "$SYSTEM" {
     # Blank screen
     bindsym b exec xset dpms force off, mode "default"
     # Lock screen
-    bindsym Shift+l exec i3lock -O 0 -T 1.0 -i ~/Bilder/Hintergrund/moon_small.png -X 1120 -Y 530 -R 2000 -F 50 -w "#CCCCCC" -o "#8787AF" -l "AFD7FF" --24 --no-keyboard-layout, mode "default"
+    bindsym Shift+l exec xwobf -s 5 /tmp/.i3lock.png && i3lock -O 0.3 -T 1.0 -i /tmp/.i3lock.png -R 130 -F 50 -w "#CCCCCC" -o "#8787AF" -l "6B93BB" --24 --no-keyboard-layout, mode "default"
 
     # Back to normal
     bindsym Return mode "default"
@@ -278,8 +278,8 @@ set $Wireless  wifi ... block (b), unblock (u), wifi-menu (w)
 mode "$Wireless" {
     # Wifi
     bindsym b exec "rfkill block wifi", mode "default"
-    bindsym u exec rfkill unblock wifi && urxvt -name floating -e systemctl restart netctl-auto@wlp1s0.service, mode "default"
-    bindsym w exec "urxvt -name floating -e sudo wifi-menu", mode "default"
+    bindsym u exec rfkill unblock wifi && urxvtc -name floating -e systemctl restart netctl-auto@wlp1s0.service, mode "default"
+    bindsym w exec "urxvtc -name floating -e sudo wifi-menu", mode "default"
 
     # Back to normal: Escape
     bindsym Escape mode "default"
@@ -303,6 +303,8 @@ mode "borders" {
     bindsym 3 border pixel 3
     bindsym 4 border pixel 4
     bindsym 0 border none
+    bindsym n gaps inner all set 0
+    bindsym g gaps inner all set 20
     bindsym asciicircum border normal
     bindsym plus exec ~/.i3/border_set.sh +
     bindsym minus exec ~/.i3/border_set.sh -
@@ -316,27 +318,30 @@ mode "borders" {
 # Start i3bar to display a workspace bar {{{
 bar {
         # status_command ~/.i3/conkybar.sh
+        i3bar_command i3bar -t
         status_command i3blocks
         strip_workspace_numbers yes
         separator_symbol " "
+        height 30
+        position top
 
         # Do not allow applications to use the bar as icon tray
-        tray_output eDP-1
+        tray_output none
 
         colors {
-            background #2C2C30
+            background #00000080
             statusline #AFD7FF
             separator  #AFD7FF
-            #                  BORDER  BACKGR. TEXT
-            focused_workspace  #2C2C30 #2C2C30 #CCCCCC
-            active_workspace   #2C2C30 #2C2C30 #6A93BB
-            inactive_workspace #2C2C30 #2C2C30 #666666
-            urgent_workspace   #2C2C30 #2C2C30 #DFAFDF
-            binding_mode       #2C2C30 #2C2C30 #DFAFDF
+            #                  BORDER    BACKGR.   TEXT
+            focused_workspace  #00000080 #00000080 #CCCCCC
+            active_workspace   #00000080 #00000080 #6A93BB
+            inactive_workspace #00000080 #00000080 #666666
+            urgent_workspace   #00000080 #00000080 #DFAFDF
+            binding_mode       #00000080 #00000080 #DFAFDF
         }
 
         # Font for the bar
-        font pango:Source Code Pro Bold 11
+        font pango:FontAwesome 12
 
         # Mouse bindings are annoying
         bindsym button4 exec :
@@ -346,6 +351,6 @@ bar {
 # }}}
 
 exec i3-msg workspace $ws1
-exec hsetroot -fill Bilder/Hintergrund/moon_small.png
+exec hsetroot -fill ~/Bilder/Hintergrund/galaxy_view.jpg
 
 # vim:foldmethod=marker:foldlevel=0
