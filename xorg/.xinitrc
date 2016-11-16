@@ -13,18 +13,17 @@ xset -dpms &
 # Redshift is easy on the eyes
 redshift &
 # Keyboard
-setxkbmap -option 'caps:ctrl_modifier' 
-setxkbmap de-ck 
-setxkbmap -variant nodeadkeys 
+setxkbmap -option 'caps:ctrl_modifier'
+setxkbmap de-ck
+setxkbmap -variant nodeadkeys
 xcape -t 0 -e 'Caps_Lock=Escape' 
 xcape -t 0 -e 'ISO_Level3_Shift=F10' 
 xcape -t 0 -e 'Super_L=F11' 
-xcape -t 0 -e 'Super_R=F12' 
 xcape -t 0 -e 'Control_R=F12' 
 # Dont want to see the mouse
 unclutter --timeout 1 -b
 # Notifiers
-volnoti -t 1.2
+volnoti -t 1.2 -a 0.8
 dunst &
 # Merge rofi settings
 xrdb -load ~/.config/rofi/rofi &
@@ -36,7 +35,6 @@ export MPD_HOST="alarmpi"
 devmon --exec-on-drive 'notify-send "Mounted %l %f at %d"' --exec-on-unmount 'notify-send "Succesfully unmounted %l from %f"' &
 # Urxvt daemon
 urxvtd -f -o -q
-# Conky
-conky
-# WM
+# WM and compositor
+compton &
 exec i3
