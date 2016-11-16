@@ -1,5 +1,21 @@
+# Check for VT immediately to start tmux as early as possible
+if [ "$TERM" = "linux" ]; then
+    # Nice colors for VT
+    echo "nice and so on and so forth"
+    read throwaway\?"Press return to continue"
+    _SEDCMD='s/.*\*color\([0-9]\{1,\}\).*#\([0-9a-fA-F]\{6\}\).*/\1 \2/p'
+    for i in $(sed -n "$_SEDCMD" $HOME/.Xdefaults | \
+               awk '$1 < 16 {printf "\\e]P%X%s", $1, $2}'); do
+        echo -en "$i"
+    done
+    clear
+else
+    # Tmux only automatically in X
+    test -z ${TMUX} && exec tmux
+fi
+
 # Path to zsh folder
-export ZSH=/home/christian/.zsh
+export ZSH=~/.zsh
 
 # Settings
 ZSH_THEME="lhun"
@@ -24,8 +40,6 @@ bindkey '^A' vi-forward-blank-word
 bindkey '^F' my-forward-word
 bindkey '^E' my-backward-word
 bindkey '^ ' autosuggest-execute
-bindkey '^N' insert-cycledleft
-bindkey '^P' insert-cycledright
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' push-line-or-edit
 bindkey '^K' history-substring-search-up
@@ -46,19 +60,12 @@ bindkey -M menuselect 'j' down-line-or-history
 bindkey -M menuselect 'k' up-line-or-history
 bindkey -M menuselect 'l' forward-char
 bindkey -M menuselect 'h' backward-char
-bindkey -M menuselect 'i' accept-and-infer-next-history
-bindkey -M menuselect '+' accept-and-menu-complete
 bindkey -M menuselect '\E' accept-line
 
 # Great z programs
 autoload -U zmv
 # Zcalc
 autoload -U zcalc
-# Surround
-autoload -Uz surround
-zle -N add-surround surround
-bindkey -M vicmd 's' add-surround
-bindkey -M visual 's' add-surround
 
 # Colored man pages
 man() {
@@ -73,20 +80,8 @@ man() {
 }
 
 # Fasd
-eval "$(fasd --init auto)"
-
-# nice colors for VT
-if [ "$TERM" = "linux" ]; then
-    _SEDCMD='s/.*\*color\([0-9]\{1,\}\).*#\([0-9a-fA-F]\{6\}\).*/\1 \2/p'
-    for i in $(sed -n "$_SEDCMD" $HOME/.Xdefaults | \
-               awk '$1 < 16 {printf "\\e]P%X%s", $1, $2}'); do
-        echo -en "$i"
-    done
-    clear
-else
-    # Tmux only automatically in X
-    test -z ${TMUX} && exec tmux
-fi
+eval "$(fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install \
+    zsh-wcomp zsh-wcomp-install)"
 
 # Logo
 alsi    # Logo with system information
