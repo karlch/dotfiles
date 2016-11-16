@@ -48,13 +48,13 @@ set background=dark
 " Palette: {{{
 
 " Grey
-let s:grey_dark0   = ['#2C2C2C', 235]
-let s:grey_dark1   = ['#303030', 237]
-let s:grey_dark2   = ['#444444', 238]
-let s:grey_med0    = ['#444444', 240]
-let s:grey_med1    = ['#4E4E4E', 241]
-let s:grey_med2    = ['#6C6C6C', 243]
-let s:grey_light   = ['#BCBCBC', 252]
+let s:grey_dark0   = ['#2C2C2C', 0]
+let s:grey_dark1   = ['#303030', 236]
+let s:grey_dark2   = ['#444444', 237]
+let s:grey_med0    = ['#444444', 239]
+let s:grey_med1    = ['#4E4E4E', 240]
+let s:grey_med2    = ['#6C6C6C', 242]
+let s:grey_light   = ['#BCBCBC', 251]
 
 " Brown
 let s:brown        = ['#AFAF87', 144]
