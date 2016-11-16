@@ -8,7 +8,7 @@ background = true,
 max_text_width = 0,
 double_buffer = true,
 
-update_interval = 120,
+update_interval = 1,
 
 -- This is the number of times Conky will update before quitting.
 -- Set to zero to run forever.
@@ -25,8 +25,8 @@ temperature_unit = 'celsius',
 format_human_readable = true,
 
 -- Alignment
-alignment = 'top_middle',
-gap_y = 10,
+alignment = 'bottom_middle',
+gap_y = 2
 }
 
 --------------------------------------------------------------------------------
@@ -40,7 +40,6 @@ ${color #8DB5DD} EDITOR ${color #cccccc} nvim     \
 ${color #8787AF} SHELL ${color #cccccc} ${execi 1200 echo $SHELL}     \
 ${color #8787AF} WM ${color #cccccc} i3     \
 ${color #875FAF} WEATHER ${color #cccccc} ${execi 1200 ~/bin/weather.sh}
-${color #AFD7FF}${hr 2}${color #cccccc}
 ${exec cat ~/.i3/info/update_names}
 ]]
 -- vim:ft=lua.conkyrc
