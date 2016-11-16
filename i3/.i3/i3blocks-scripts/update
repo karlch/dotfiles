@@ -1,0 +1,14 @@
+#!/bin/sh
+# A little script to check for updates
+
+upd=$(cat ~/.i3/info/update_info)
+
+case $BLOCK_BUTTON in
+    1) urxvt -name floating -e "/home/christian/.i3/i3blocks-scripts/update_script" ;;
+esac
+
+if [[ $upd == "everything up to date" ]]; then
+    printf ' '
+else
+    printf '<span foreground="#DFAFDF"></span>'
+fi

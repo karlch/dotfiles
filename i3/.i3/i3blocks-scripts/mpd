@@ -7,11 +7,16 @@ start_client() {
 
 show_info() {
     if [[ $(mpc status | wc -l) -gt 1 ]]; then
-    artist=$(mpc -f %artist% current)
-    title=$(mpc -f "%track% %title%" current)
-    printf '<span foreground="#AFD7FF">'
-    printf "%s  </span>%s" "$artist" "$title"
-    print_length
+        artist=$(mpc -f %artist% current)
+        title=$(mpc -f "%track% %title%" current)
+        if mpc status | grep "paused" 1>/dev/null; then
+            printf "  "
+        else
+            printf "  "
+        fi
+        printf '<span foreground="#AFD7FF">'
+        printf "%s  </span>%s" "$artist" "$title"
+        print_length
     fi
 }
 
@@ -29,7 +34,7 @@ print_length() {
 }
 
 case $BLOCK_BUTTON in
-    2) start_client 2>/dev/null 1>&2 ;;
+    1) start_client 2>/dev/null 1>&2 ;;
     3) mpc toggle 2>/dev/null 1>&2 ;;
     4) /home/christian/.i3/volnoti-set-raspberry.sh + 2>/dev/null 1>&2 ;;
     5) /home/christian/.i3/volnoti-set-raspberry.sh - 2>/dev/null 1>&2 ;;

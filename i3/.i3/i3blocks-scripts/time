@@ -2,14 +2,14 @@
 #vim:ft=sh
 
 show_date() {
-    printf '<span foreground="#875FAF">%s </span>' $(date '+%^a')
-    date '+%d.%m.%y %H:%M ' | \
+    printf '<span foreground="#875FAF">%s  </span>' $(date '+%^a')
+    date '+%d.%m.%y  %H:%M ' | \
     sed 's/\./<span foreground="#875FAF">.<\/span>/g' | \
     sed 's/\:/<span foreground="#875FAF">:<\/span>/g'
 }
 
 case $BLOCK_BUTTON in
-    2) urxvt -name floating -e "/home/christian/.i3/i3blocks-scripts/calendar_script" ;;
+    1) urxvt -name floating -e "/home/christian/.i3/i3blocks-scripts/calendar_script" ;;
 esac
 
 show_date

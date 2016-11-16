@@ -28,10 +28,10 @@ int main(void)
     switch (mouse_button) {
         case 1:
             // Left Click
+            popen("/home/christian/.i3/volnoti-set.sh", "r");
             break;
         case 3:
             // Right Click
-            popen("/home/christian/.i3/volnoti-set.sh", "r");
             break;
         case 4:
             // Scroll Up
@@ -43,11 +43,16 @@ int main(void)
             break;
     }
 
-    printf("<span foreground='#AFD7FF'>VOL </span>");
     if (strcmp(mute, "[on]"))
+    {
+        printf("<span foreground='#AFD7FF'>    </span>");
         printf("%s\n%s\n%s\n", volume, "", "#666666");
+    }
     else
+    {
+        printf("<span foreground='#AFD7FF'>  </span>");
         printf("%s\n%s\n%s\n", volume, "", "#CCCCCC");
+    }
     fclose(input_file);
     return 0;
 }

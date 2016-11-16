@@ -26,27 +26,27 @@ int main(void)
     switch (mouse_button) {
         case 1:
             // Left Click
-            popen("xbacklight -set 30 && /home/christian/.i3/brightness-show.sh", "r");
+            popen("sudo xbacklight -set 30 && /home/christian/.i3/brightness-show.sh", "r");
             break;
         case 2:
             // Middle Click
-            popen("xbacklight -set 50 && /home/christian/.i3/brightness-show.sh", "r");
+            popen("sudo xbacklight -set 50 && /home/christian/.i3/brightness-show.sh", "r");
             break;
         case 3:
             // Right Click
-            popen("xbacklight -set 70 && /home/christian/.i3/brightness-show.sh", "r");
+            popen("sudo xbacklight -set 70 && /home/christian/.i3/brightness-show.sh", "r");
             break;
         case 4:
             // Scroll Up
-            popen("xbacklight -inc 5 -time 0 -steps 1 && /home/christian/.i3/brightness-show.sh", "r");
+            popen("sudo xbacklight -inc 5 -time 0 -steps 1 && /home/christian/.i3/brightness-show.sh", "r");
             break;
         case 5:
             // Scroll Down
-            popen("xbacklight -dec 5 -time 0 -steps 1 && /home/christian/.i3/brightness-show.sh", "r");
+            popen("sudo xbacklight -dec 5 -time 0 -steps 1 && /home/christian/.i3/brightness-show.sh", "r");
             break;
     }
 
-    printf("<span foreground='#AFD7FF'>BRI </span>");
+    printf("<span foreground='#AFD7FF'>  </span>");
     printf("%d\n", bri);
     fclose(input_file);
     return 0;

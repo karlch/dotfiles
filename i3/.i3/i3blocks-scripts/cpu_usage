@@ -29,7 +29,7 @@ GetOptions("help|h" => \&help,
            "c=i"    => \$t_crit);
 
 # show info on right click
-if ($block_button eq '3') {
+if ($block_button eq '1') {
         system('urxvt -name floating -e "htop"');
 }
 
@@ -47,7 +47,7 @@ close(MPSTAT);
 $cpu_usage eq -1 and die 'Can\'t find CPU information';
 
 # Print short_text, full_text
-printf "<span foreground='#8DB5DD'>CPU </span>";
+printf "<span foreground='#8DB5DD'>  </span>";
 printf "%.0f\n", $cpu_usage;
 printf "%.0f\n", $cpu_usage;
 

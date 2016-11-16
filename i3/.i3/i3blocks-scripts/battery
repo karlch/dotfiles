@@ -25,7 +25,7 @@ my $block_button = $ENV{BLOCK_BUTTON} || 0;
 my $bat_number = $ENV{BLOCK_INSTANCE} || 0;
 
 # show info on right click
-if ($block_button eq '3') {
+if ($block_button eq '1') {
         system('urxvt -name floating -e "/home/christian/.i3/i3blocks-scripts/battery_script"');
 }
 
@@ -45,25 +45,39 @@ $full_text = "$percent";
 
 $short_text = $full_text;
 
-# print text
-print '<span foreground="#8787AF">BAT </span>';
-print "$full_text\n";
-print "$short_text\n";
-
 # Consider color and urgent flag only on discharge
 if ($status eq 'Discharging') {
-
-	if ($percent < 6) {
+    if ($percent < 6) {
+            print '<span foreground="#8787AF">  </span>';
+            print "$full_text\n";
+            print "$short_text\n";
             exit(33);
-        } elsif ($percent < 20) {
-		print "#666666\n";
-	} elsif ($percent < 40) {
-		print "#888888\n";
-	} elsif ($percent < 60) {
-		print "#AAAAAA\n";
-	} elsif ($percent < 85) {
-		print "#CCCCCC\n";
-	}
+    } elsif ($percent < 25) {
+            print '<span foreground="#8787AF">  </span>';
+            print "$full_text\n";
+            print "$short_text\n";
+            print "#666666\n";
+    } elsif ($percent < 50) {
+            print '<span foreground="#8787AF">  </span>';
+            print "$full_text\n";
+            print "$short_text\n";
+            print "#888888\n";
+    } elsif ($percent < 75) {
+            print '<span foreground="#8787AF">  </span>';
+            print "$full_text\n";
+            print "$short_text\n";
+            print "#AAAAAA\n";
+    } else {
+            print '<span foreground="#8787AF">  </span>';
+            print "$full_text\n";
+            print "$short_text\n";
+            print "#CCCCCC\n";
+    }
+}
+else {
+    print '<span foreground="#8787AF">  </span>';
+    print "$full_text\n";
+    print "$short_text\n";
 }
 
 exit(0);

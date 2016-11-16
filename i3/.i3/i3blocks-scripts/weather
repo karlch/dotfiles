@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if (iwconfig 2>/dev/null | grep "LGB" 1>/dev/null); then
+    loc="EUR|DE|altdorf|84032"
+else
+    loc="EUR|DE|garching-bei-munchen"
+fi
+
+data=$(curl -s --connect-timeout 30 http://rss.accuweather.com/rss/liveweather_rss.asp\?metric\=1\&locCode\=${loc} | perl -ne 'if (/Currently/) {chomp;/\<title\>Currently: (.*)?\<\/title\>/; print "$1"; }' | sed 's/W\//+/')
+
+if [[ $data == *"Sun"* ]]; then
+    printf '<span foreground="#F3FF0D">  </span>'
+elif [[ $data == *"Rain"* || $data == *"Shower"* ]]; then
+    printf '<span foreground="#6B93BB">  </span>'
+elif [[ $data == *"Cloud"* ]]; then
+    printf '<span foreground="#888888">  </span>'
+else
+    printf "%s" "$data"
+fi
+printf "%s" "$data" | grep -oE '[^ ]+$'

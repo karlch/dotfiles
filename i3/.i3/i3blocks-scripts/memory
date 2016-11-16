@@ -17,9 +17,9 @@
 TYPE="${BLOCK_INSTANCE:-mem}"
 
 case $BLOCK_BUTTON in
-    3) urxvt -name floating -e htop ;;
+    1) urxvt -name floating -e htop ;;
 esac
 
-printf '<span foreground="#8DB5DD">RAM </span>'
+printf '<span foreground="#8DB5DD">  </span>'
 
 awk 'NR==1 {total=$2;} NR==3 {free=$2;} END {printf "%0.f\n", (1-free/total)*100;}' /proc/meminfo
