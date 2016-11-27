@@ -1,9 +1,9 @@
 ## My dotfiles
 
-This setup is on all of my arch and arch-based systems. I use i3 with i3blocks,
-conky, zsh, tmux and nvim. Most of the configs are commented rather well and
-should be easy to adapt. If you still have questions, feel free to open an
-issue.
+This setup is on all of my arch and arch-based systems. I use i3-gaps with
+i3blocks, compton, zsh, tmux and nvim. Most of the configs are commented rather
+well and should be easy to adapt. If you still have questions, feel free to open
+an issue.
 
 The dotfiles are managed with GNU stow. Typically all files grouped in one of
 the directories (e.g vim) reside in $HOME.
@@ -12,11 +12,11 @@ the directories (e.g vim) reside in $HOME.
 
 **Dirty with urxvt, nvim and ncmpcpp**
 
-![Image](https://raw.githubusercontent.com/karlch/dotfiles/gh-pages/dirty.png "Dirty with urxvt, nvim and ncmpcpp")
+![Image](https://s21.postimg.org/74327rjhj/scrot_2016_11_17_17_02_18.png "Dirty with urxvt, nvim and ncmpcpp")
 
-**Clean with wallpaper and conky**
+**Clean**
 
-![Image](https://raw.githubusercontent.com/karlch/dotfiles/gh-pages/clean.png "Clean with wallpaper and conky")
+![Image](https://s21.postimg.org/thasukkfb/scrot_2016_11_17_17_02_24.png "Clean with wallpaper and conky")
 
-The Wallpaper is uploaded to the gh-pages branch. It is modified from the
-original which you can find here: http://i.imgur.com/feVRCIO.png
+The Wallpaper is the all time favourite of /r/EarthPorn, imgur link:
+https://imgur.com/AmWThvw
