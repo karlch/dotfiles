@@ -1,0 +1,11 @@
+#!/bin/bash
+
+temp_mirror="$(mktemp -t mirrorgen.XXXXXXXXXX)"
+
+# Backup current mirrorlist
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.$(date +%F).bak
+
+reflector --age 1 --save "${temp_mirror}"
+rankmirrors -v -n 5 "${temp_mirror}" > /etc/pacman.d/mirrorlist
+
+rm -f "${temp_mirror}"
