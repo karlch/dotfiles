@@ -17,7 +17,7 @@ elif [[ $selected_option == 2* ]]; then
     urxvt -name "floating" -e ffmpeg -r 30 -s 1920x1080 -f x11grab -i :0.0 -vcodec mpeg4 -qscale $quality ${filename}.mp4
 elif [[ $selected_option == 3* ]]; then
     filename=$(printf "" | rofi -dmenu -p "Filename ")
-    urxvt -name "floating" -e ffmpeg -r 30 -s 1920x1080 -f x11grab -i :0.0 -vcodec gif ${2}.gif
+    urxvt -name "floating" -e ffmpeg -r 30 -s 1920x1080 -f x11grab -i :0.0 -vcodec gif ${filename}.gif
 elif [[ $selected_option == 4* ]]; then
     quality=$(seq 1 10 | rofi -dmenu -lines 10 -p "Quality ")
     filename=$(printf "" | rofi -dmenu -p "Filename ")

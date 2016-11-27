@@ -74,8 +74,8 @@ bindsym XF86MonBrightnessDown exec --no-startup-id sudo xbacklight -dec 5 -time 
 bindsym XF86MonBrightnessUp exec --no-startup-id sudo xbacklight -inc 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
 bindsym XF86AudioLowerVolume exec --no-startup-id ~/.i3/volnoti-set.sh -
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.i3/volnoti-set.sh +
-bindsym $mod+F11 exec --no-startup-id ~/.i3/volnoti-set-raspberry.sh -
-bindsym $mod+F12 exec --no-startup-id ~/.i3/volnoti-set-raspberry.sh +
+bindsym $mod+XF86AudioLowerVolume exec --no-startup-id ~/.i3/volnoti-set-raspberry.sh -
+bindsym $mod+XF86AudioRaiseVolume exec --no-startup-id ~/.i3/volnoti-set-raspberry.sh +
 bindsym XF86AudioMute exec --no-startup-id ~/.i3/volnoti-set.sh
 bindsym XF86AudioPlay exec --no-startup-id mpc toggle
 bindsym XF86AudioStop exec --no-startup-id mpc stop
@@ -221,7 +221,7 @@ mode "normal" {
     bindsym Shift+r restart
 
     # Starters
-    bindsym w mode "default", exec qutebrowser --backend webengine && cat /dev/null > ~/.local/share/qutebrowser/history 
+    bindsym w mode "default", exec qutebrowser --backend webengine && rm -rf  ~/.local/share/qutebrowser/webengine/
     bindsym t exec --no-startup-id urxvtc, mode "default"
     bindsym f exec --no-startup-id urxvtc -e ranger, mode "default"
     bindsym c exec --no-startup-id urxvtc -e ncmpcpp, mode "default"

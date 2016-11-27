@@ -18,9 +18,9 @@
 
 INTERFACE="${BLOCK_INSTANCE:-wlan0}"
 
-# Open wifi-menu on right-click
+# Open wavemon on click
 case $BLOCK_BUTTON in
-    1) urxvt -name floating -e sudo wifi-menu ;;
+    1) urxvt -name floating -e wavemon ;;
 esac
 
 QUALITY=$(grep $INTERFACE /proc/net/wireless | awk '{ print int($3 * 100 / 70) }')
