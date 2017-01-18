@@ -1,8 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
-let g:netrw_dirhist_1='/home/christian/Dokumente/git/vimiv/tests/__pycache__'
-let g:netrw_dirhist_2='/home/christian/Dokumente/git/vimiv/tests'
-let g:netrw_dirhist_3='/home/christian/.vimiv'
-let g:netrw_dirhist_4='/home/christian/docker/archbuild'
-let g:netrw_dirhist_5='/home/christian/Dokumente/git/vimiv/vimiv'
-let g:netrw_dirhist_6='/home/christian/.config/rofi'
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/home/christian/Dokumente/Programmieren/jekyll/Midnight/changelog'
+let g:netrw_dirhist_2='/home/christian/Dokumente'
+let g:netrw_dirhist_3='/usr/bin'
+let g:netrw_dirhist_4='/home/christian/.config/gtk-3.0'
+let g:netrw_dirhist_5='/home/christian/Dokumente/MPP/Root/RC/ZMassConstraint/Root'

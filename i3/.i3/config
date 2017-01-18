@@ -16,7 +16,7 @@ set $ws9 9:nine
 set $ws10 10:ten
 
 # Font for window titles
-font pango: Source Sans Pro Bold 9
+font pango: Overpass 10
 
 # Window borders
 new_window pixel 3
@@ -25,13 +25,10 @@ gaps inner 20
 # hide_edge_borders smart
 
 # Color settings        Border_top  Background  Text        Indicator  Border
-client.focused          #3C3C40     #3C3C40     #EEEEEE     #8787AF    #AFD7FF
-client.focused_inactive #2C2C30     #2C2C30     #666666     #444444    #444444
-client.unfocused        #2C2C30     #2C2C30     #666666     #444444    #444444
+client.focused          #2C2C30     #2C2C30     #EEEEEE     #8787AF    #AFD7FF
+client.focused_inactive #1C1C20     #1C1C20     #666666     #444444    #444444
+client.unfocused        #1C1C20     #1C1C20     #666666     #444444    #444444
 client.urgent           #8787AF     #DFAFDF     #000000     #8787AF    #8787AF
-
-# Enable workspace back and forth
-workspace_auto_back_and_forth yes
 
 # Urgency handling
 focus_on_window_activation focus
@@ -42,7 +39,7 @@ focus_follows_mouse no
 
 # Floating stuff
 floating_modifier $mod
-# floating_minimum_size 300 x 200
+floating_minimum_size 300 x 200
 floating_maximum_size 1920 x 1080
 
 # }}}
@@ -106,7 +103,8 @@ for_window [window_type="Desktop"] border pixel 1
 for_window [class="com-wolfram-jlink-Reader"] floating enable
 for_window [title="c*Editor"] floating enable
 for_window [class="ROOT"] floating enable
-for_window [class="URxvt" instance="floating"] floating enable
+for_window [class="Sxiv"] floating enable
+for_window [class="st-256color" instance="floating"] floating enable
 
 # }}}
 
@@ -221,12 +219,12 @@ mode "normal" {
     bindsym Shift+r restart
 
     # Starters
-    bindsym w mode "default", exec qutebrowser --backend webengine && rm -rf  ~/.local/share/qutebrowser/webengine/
-    bindsym t exec --no-startup-id urxvtc, mode "default"
-    bindsym f exec --no-startup-id urxvtc -e ranger, mode "default"
-    bindsym c exec --no-startup-id urxvtc -e ncmpcpp, mode "default"
-    bindsym b exec --no-startup-id urxvtc -e newsbeuter, mode "default"
-    bindsym z exec --no-startup-id urxvtc -e mutt, mode "default"
+    bindsym w exec qutebrowser --backend webengine && (rm -rf ~/.local/share/qutebrowser/webengine && rm ~/.local/share/qutebrowser/history), mode "default"
+    bindsym t exec --no-startup-id st, mode "default"
+    bindsym f exec --no-startup-id st -e ranger, mode "default"
+    bindsym c exec --no-startup-id st -e ncmpcpp, mode "default"
+    bindsym b exec --no-startup-id st -e newsbeuter, mode "default"
+    bindsym z exec --no-startup-id st -e mutt, mode "default"
 
     # Shutdown, reboot, lock screen ..
     bindsym q mode "$system"
@@ -265,7 +263,7 @@ mode "$SYSTEM" {
     # Blank screen
     bindsym b exec xset dpms force off, mode "default"
     # Lock screen
-    bindsym Shift+l exec xwobf -s 5 /tmp/.i3lock.png && i3lock -O 0.3 -T 1.0 -i /tmp/.i3lock.png -R 130 -F 50 -w "#CCCCCC" -o "#8787AF" -l "6B93BB" --24 --no-keyboard-layout, mode "default"
+    bindsym Shift+l exec convert x:root -blur 0x10 /tmp/.i3lock.png && i3lock -O 0.3 -T 1.0 -i /tmp/.i3lock.png -R 130 -F 50 -w "#CCCCCC" -o "#8787AF" -l "6B93BB" --24 --no-keyboard-layout, mode "default"
 
     # Back to normal
     bindsym Return mode "default"
@@ -278,8 +276,8 @@ set $Wireless  wifi ... block (b), unblock (u), wifi-menu (w)
 mode "$Wireless" {
     # Wifi
     bindsym b exec "rfkill block wifi", mode "default"
-    bindsym u exec rfkill unblock wifi && urxvtc -name floating -e systemctl restart netctl-auto@wlp1s0.service, mode "default"
-    bindsym w exec "urxvtc -name floating -e sudo wifi-menu", mode "default"
+    bindsym u exec rfkill unblock wifi && st -n floating -e systemctl restart netctl-auto@wlp1s0.service, mode "default"
+    bindsym w exec "st -n floating -e sudo wifi-menu", mode "default"
 
     # Back to normal: Escape
     bindsym Escape mode "default"
@@ -329,19 +327,17 @@ bar {
         tray_output none
 
         colors {
-            background #00000080
-            statusline #AFD7FF
-            separator  #AFD7FF
+            background #000000A0
             #                  BORDER    BACKGR.   TEXT
-            focused_workspace  #00000080 #00000080 #CCCCCC
-            active_workspace   #00000080 #00000080 #6A93BB
-            inactive_workspace #00000080 #00000080 #666666
-            urgent_workspace   #00000080 #00000080 #DFAFDF
-            binding_mode       #00000080 #00000080 #DFAFDF
+            focused_workspace  #000000A0 #000000A0 #EEEEEE
+            active_workspace   #000000A0 #000000A0 #6A93BB
+            inactive_workspace #000000A0 #000000A0 #AAAAAA
+            urgent_workspace   #000000A0 #000000A0 #DFAFDF
+            binding_mode       #000000A0 #000000A0 #DFAFDF
         }
 
         # Font for the bar
-        font pango:FontAwesome 12
+        font pango:Overpass 12
 
         # Mouse bindings are annoying
         bindsym button4 exec :
@@ -351,6 +347,6 @@ bar {
 # }}}
 
 exec i3-msg workspace $ws1
-exec hsetroot -fill ~/Bilder/Hintergrund/galaxy_view.jpg
+exec hsetroot -fill ~/Bilder/Hintergrund/background
 
 # vim:foldmethod=marker:foldlevel=0

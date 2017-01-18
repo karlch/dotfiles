@@ -48,13 +48,13 @@ set background=dark
 " Palette: {{{
 
 " Grey
-let s:grey_dark0   = ['#2C2C2C', 0]
-let s:grey_dark1   = ['#303030', 236]
-let s:grey_dark2   = ['#444444', 237]
-let s:grey_med0    = ['#444444', 239]
-let s:grey_med1    = ['#4E4E4E', 240]
-let s:grey_med2    = ['#6C6C6C', 242]
-let s:grey_light   = ['#BCBCBC', 251]
+let s:grey_dark0   = ['#1F1F23', 0]
+let s:grey_dark1   = ['#303036', 236]
+let s:grey_dark2   = ['#444450', 237]
+let s:grey_med0    = ['#444450', 239]
+let s:grey_med1    = ['#4E4E55', 240]
+let s:grey_med2    = ['#6C6C73', 242]
+let s:grey_light   = ['#BCBCC3', 251]
 
 " Brown
 let s:brown        = ['#AFAF87', 144]
@@ -67,11 +67,11 @@ let s:none         = ['NONE', 'NONE']
 if exists('g:lhun_background')
   let s:bg         = g:lhun_background
 else
-  let s:bg         = ['#2C2C30', 'NONE']
+  let s:bg         = [0, 'NONE']
 endif
 
 " Red
-let s:red          = ['#AF0000', 9]
+let s:red          = ['#F58E8E', 9]
 
 " Bright white
 let s:extra3       = ['#FFFFFF', 231]
@@ -88,15 +88,15 @@ if exists("g:lhun_flavour")
   let s:extra3       = g:lhun_flavour[6]
 else
   " Gray/purple
-  let s:main_dark    = ['#005FAF', 103]
-  let s:main_med    = ['#0087D7', 96]
+  let s:main_dark    = ['#8787AF', 103]
+  let s:main_med    = ['#875FAF', 96]
   " Light blue
-  let s:main_light   = ['#00D3FA', 153]
+  let s:main_light   = ['#AFD7FF', 153]
   " Pink
-  let s:extra1       = ['#7251D6', 182]
-  let s:extra2       = ['#870087', 1]
+  let s:extra1       = ['#DFAFDF', 182]
+  let s:extra2       = ['#A25860', 1]
   " Green
-  let s:extra4       = ['#00DD00', 194]
+  let s:extra4       = ['#89EA7D', 194]
 endif
 
 " }}}

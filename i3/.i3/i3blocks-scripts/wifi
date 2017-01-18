@@ -20,7 +20,7 @@ INTERFACE="${BLOCK_INSTANCE:-wlan0}"
 
 # Open wavemon on click
 case $BLOCK_BUTTON in
-    1) urxvt -name floating -e wavemon ;;
+    1) st -n floating -e wavemon ;;
 esac
 
 QUALITY=$(grep $INTERFACE /proc/net/wireless | awk '{ print int($3 * 100 / 70) }')

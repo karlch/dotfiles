@@ -26,7 +26,7 @@ my $bat_number = $ENV{BLOCK_INSTANCE} || 0;
 
 # show info on right click
 if ($block_button eq '1') {
-        system('urxvt -name floating -e "/home/christian/.i3/i3blocks-scripts/battery_script"');
+        system('st -n floating -e "/home/christian/.i3/i3blocks-scripts/battery_script"');
 }
 
 # read the first line of the "acpi" command output

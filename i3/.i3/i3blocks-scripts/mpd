@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
 start_client() {
-    urxvt -name floating -e ncmpcpp &
+    st -n floating -e ncmpcpp &
     show_info
 }
 
@@ -30,7 +30,7 @@ print_length() {
     printf '╼</span>'
     printf '<span foreground="#5C5C60">'
     yes ─ | head -n $rest | tr -d "\n"
-    printf '</span>'
+    printf '</span> '
 }
 
 case $BLOCK_BUTTON in

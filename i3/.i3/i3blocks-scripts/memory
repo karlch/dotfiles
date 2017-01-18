@@ -17,7 +17,7 @@
 TYPE="${BLOCK_INSTANCE:-mem}"
 
 case $BLOCK_BUTTON in
-    1) urxvt -name floating -e htop ;;
+    1) st -n floating -e htop ;;
 esac
 
 printf '<span foreground="#8DB5DD">  </span>'

@@ -94,6 +94,11 @@ def win_menu(clients, l=20):
     return win_str
 
 if __name__ == '__main__':
+    workspaces = i3.get_workspaces()
+    for w in workspaces:
+        if w["focused"]:
+            name = w["name"]
+            break
     clients = i3clients()
     win_str = win_menu(clients)
     try:
@@ -103,10 +108,5 @@ if __name__ == '__main__':
         raise SystemExit
     con_id = clients[win_str]['con_id']
     i3.focus(con_id=con_id)
-    workspaces = i3.get_workspaces()
-    for w in workspaces:
-        if w["focused"]:
-            goto = w["name"]
-            break
-    i3.move("container", "to", "workspace", str(goto))
-    i3.workspace(str(goto))
+    i3.move("container", "to", "workspace", str(name))
+    i3.workspace(str(name))

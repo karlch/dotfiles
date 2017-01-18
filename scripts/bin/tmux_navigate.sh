@@ -52,13 +52,13 @@ elif [[ $1 == "l" ]]; then
 fi
 
 curwin=$(xdotool getactivewindow)
-if (xprop -id $curwin | grep "urxvt" > /dev/null); then
+if (xprop -id $curwin | grep "st" > /dev/null); then
     prev=`tmux display-message -p '#P'`
     if [[ $2 == "v" ]]; then
         tmux select-pane $tdir
         printf "v"
     else
-        tmux display-message -p '#{pane_current_command}' | grep -iq vim && tmux send-keys $Dir && exit 0 || tmux select-pane $tdir || :
+        tmux display-message -p '#{pane_current_command}' | grep -iq nvim && tmux send-keys $Dir && exit 0 || tmux select-pane $tdir || :
     fi
     cur=`tmux display-message -p '#P'`
 

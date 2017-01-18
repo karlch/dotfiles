@@ -14,15 +14,15 @@ if [[ $selected_option == 1* ]]; then
 elif [[ $selected_option == 2* ]]; then
     quality=$(seq 1 10 | rofi -dmenu -lines 10 -p "Quality ")
     filename=$(printf "" | rofi -dmenu -p "Filename ")
-    urxvt -name "floating" -e ffmpeg -r 30 -s 1920x1080 -f x11grab -i :0.0 -vcodec mpeg4 -qscale $quality ${filename}.mp4
+    st -name "floating" -e ffmpeg -r 30 -s 1920x1080 -f x11grab -i :0.0 -vcodec mpeg4 -qscale $quality ${filename}.mp4
 elif [[ $selected_option == 3* ]]; then
     filename=$(printf "" | rofi -dmenu -p "Filename ")
-    urxvt -name "floating" -e ffmpeg -r 30 -s 1920x1080 -f x11grab -i :0.0 -vcodec gif ${filename}.gif
+    st -name "floating" -e ffmpeg -r 30 -s 1920x1080 -f x11grab -i :0.0 -vcodec gif ${filename}.gif
 elif [[ $selected_option == 4* ]]; then
     quality=$(seq 1 10 | rofi -dmenu -lines 10 -p "Quality ")
     filename=$(printf "" | rofi -dmenu -p "Filename ")
-    urxvt -name "floating" -e ffmpeg -f alsa -ac 2 -i default -itsoffset 00:00:00.5 -f x11grab -r 25 -s 1920x1080 -i :0.0 -vcodec mpeg4 -preset ultrafast -crf 0 -strict experimental -qscale ${2} ${3}.mp4
+    st -name "floating" -e ffmpeg -f alsa -ac 2 -i default -itsoffset 00:00:00.5 -f x11grab -r 25 -s 1920x1080 -i :0.0 -vcodec mpeg4 -preset ultrafast -crf 0 -strict experimental -qscale ${2} ${3}.mp4
 elif [[ $selected_option == 5* ]]; then
     filename=$(printf "" | rofi -dmenu -p "Filename ")
-    urxvt -name "floating" -e ffmpeg -f alsa -ac 2 -i default ${2}.ogg
+    st -name "floating" -e ffmpeg -f alsa -ac 2 -i default ${2}.ogg
 fi

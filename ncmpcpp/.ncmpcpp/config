@@ -86,7 +86,8 @@ external_editor = nvim
 use_console_editor = yes
 
 ##### colors and look #####
-progressbar_look = "─╼─"
+progressbar_look = "───"
+
 progressbar_boldness = no
 
 screen_switcher_mode = playlist, media_library
@@ -116,7 +117,7 @@ main_window_color = "default"
 color1 = "default"
 color2 = "blue"
 main_window_highlight_color = "blue"
-progressbar_color = "242"
+progressbar_color = "black"
 progressbar_elapsed_color = "blue"
 statusbar_color = "blue"
 active_column_color = "cyan"

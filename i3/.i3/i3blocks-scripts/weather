@@ -16,6 +16,8 @@ elif [[ $data == *"Cloud"* || $data == *"Fog"* ]]; then
     printf '<span foreground="#888888">  </span>'
 elif [[ $data == *"Clear"* ]]; then
     printf '<span foreground="#888888">  </span>'
+elif [[ $data == *"Snow"* || $data == *"Flurr"* ]]; then
+    printf '<span foreground="#FFFFFF">  </span>'
 else
     printf "%s" "$data"
 fi

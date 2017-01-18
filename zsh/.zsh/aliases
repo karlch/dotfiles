@@ -3,7 +3,7 @@
 # different cd aliases
 alias uni='cd ~/Dokumente/Uni'
 alias ba='cd ~/Dokumente/Uni/16S/Bachelorarbeit/'
-alias pra='cd ~/Dokumente/Uni/15W/FoPra'
+alias pra='cd ~/Dokumente/Uni/16W/FoPra'
 alias unia='cd ~/Dokumente/Uni/16W'
 alias pro='cd ~/Dokumente/Programmieren/'
 alias prov='cd ~/Dokumente/Programmieren/vimiv'
@@ -69,6 +69,7 @@ alias mkdir='mkdir -p'
 alias calc='nvim -c "startinsert" calc'
 alias root='root -l'
 alias view_coverage='qutebrowser ~/Dokumente/git/vimiv/tests/htmlcov/index.html'
+alias ssh_cern='ssh -t cern "zsh -l"'
 
 # everyone need some fun
 alias chuck='clear && fortune ~/bin/fortune/chucknorris'

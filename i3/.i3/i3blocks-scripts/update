@@ -4,7 +4,7 @@
 upd=$(cat ~/.i3/info/update_info)
 
 case $BLOCK_BUTTON in
-    1) urxvt -name floating -e "/home/christian/.i3/i3blocks-scripts/update_script" ;;
+    1) st -n floating -e "/home/christian/.i3/i3blocks-scripts/update_script" ;;
 esac
 
 if [[ $upd == "everything up to date" ]]; then

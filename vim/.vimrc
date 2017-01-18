@@ -68,6 +68,9 @@ let g:netrw_list_hide='\..*'
 " No mouse, tzz neovim
 set mouse=
 
+" Use true colors
+set termguicolors
+
 " }}}
 
 " Plugins {{{
@@ -89,7 +92,6 @@ Plug 'lukerandall/haskellmode-vim', {'for': 'haskell'}
 Plug 'majutsushi/tagbar'
 Plug 'neomake/neomake'
 Plug 'potatoesmaster/i3-vim-syntax'
-Plug 'rhysd/vim-clang-format'
 Plug 'rip-rip/clang_complete'
 Plug 'ron89/thesaurus_query.vim'
 Plug 'simnalamburt/vim-mundo'
@@ -99,7 +101,8 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'jamshedvesuna/vim-markdown-preview'
-Plug 'JuliaEditorSupport/julia-vim'
+Plug 'chrisbra/unicode.vim'
+Plug 'rhysd/committia.vim'
 
 " Local plugins in bundle
 Plug '~/.vim/bundle/root'
@@ -401,6 +404,7 @@ let g:SuperTabLongestHighlight = 1
 
 " Mundo
 let g:mundo_close_on_revert = 1
+let g:mundo_prefer_python3 = 1
 
 " Neomake
 let g:neomake_verbose = 0
@@ -440,6 +444,9 @@ let vim_markdown_preview_browser='qutebrowser'
 let vim_markdown_preview_github=1
 let vim_markdown_preview_use_xdg_open=1
 
+" YCM
+let g:ycm_show_diagnostics_ui = 0
+
 "}}}
 
 " Autocommands {{{
@@ -464,12 +471,12 @@ function! AdjustWindowHeight()
 endfunction
 
 " Neomake
-autocmd! BufWritePost *.{py,c,C,cpp,hs} Neomake
+autocmd! BufWritePost *.{py,c,C,cpp,cxx,hs} Neomake
 autocmd! BufWritePost vimiv Neomake
 
 " Python
 " Command to insert the python code for a nice header
-autocmd BufNewFile *.py exe "normal a#!/usr/bin/env python\<Esc>o# encoding: utf-8\<Esc>o"
+autocmd BufNewFile *.py exe "normal a# vim: ft=python fileencoding=utf-8 sw=4 et sts=4 \<Esc>o"
 
 " Perl
 " Insert perl header
@@ -479,6 +486,7 @@ autocmd BufNewFile *.pl exe "normal a#!/usr/bin/env perl\<Esc>o\<Esc>ouse strict
 " Set a compiler
 autocmd BufRead,BufNewFile *.c setlocal makeprg=gcc\ %\ -o\ %:t:r\ -lm
 autocmd BufRead,BufNewFile *.cpp setlocal makeprg=g++\ %\ -o\ %:t:r\ -std=c++11
+autocmd BufRead,BufNewFile *.cxx setlocal makeprg=g++\ %\ -o\ %:t:r\ -std=c++11
 " Root
 autocmd BufRead,BufNewFile *.C set filetype=cpp.root
 
@@ -513,8 +521,8 @@ autocmd BufLeave *.tsv inoremap = =
 
 " Mail
 autocmd BufRead,BufNewFile *mutt-* setfiletype mail
-autocmd BufRead,BufNewFile *mutt-* set foldlevel=3
-autocmd BufRead,BufNewFile *mutt-* exec "normal ggO\<CR>\<Esc>gg"
+autocmd BufRead,BufNewFile *mutt-* setlocal foldlevel=3
+autocmd BufRead,BufNewFile *mutt-* setlocal textwidth=72
 
 " Shell
 autocmd BufNewFile *.sh silent exec "normal i#!/bin/bash\<CR>\<CR>\<Esc>:silent w\<CR>:silent! chmod +x %\<CR>\<CR>"

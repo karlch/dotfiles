@@ -7,7 +7,7 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  done
  unset f
 fi
-
+#
 # No screen blanking
 xset -dpms &
 # Redshift is easy on the eyes
@@ -29,12 +29,8 @@ dunst &
 xrdb -load ~/.config/rofi/rofi &
 # Music
 export MPD_HOST="alarmpi"
-# Updates
-~/bin/update &
 # Devmon for usb
 devmon --exec-on-drive 'notify-send "Mounted %l %f at %d"' --exec-on-unmount 'notify-send "Succesfully unmounted %l from %f"' &
-# Urxvt daemon
-urxvtd -f -o -q
 # WM and compositor
 compton &
 exec i3

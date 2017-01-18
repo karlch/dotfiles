@@ -1,72 +1,72 @@
-! Xresources file
-! Transparency
-! URxvt*.transparent: true
-! URxvt*.shading: 0 to 99 darkens, 101 to 200 lightens
-! URxvt*.shading: 90
-! URxvt*.tintColor: #002244
-! Fading non focused windows
-! URxvt*.fading: 20
-! Blur the background
-! URxvt*blurRadius: 4
-
-! colors
-URxvt*background:  #1C1C20
-URxvt*foreground:  #EEEEEE
-URxvt*highlightColor: #00C1FF
-! Black
-URxvt*color0: #202026
-URxvt*color8: #7C7C7C
-! Red
-URxvt*color1: #A25860
-URxvt*color9: #F58E8E
-! Green (bright blue)
-URxvt*color2: #8787AF
-URxvt*color10: #875FAF
-! Yellow (brown)
-URxvt*color3: #AFAF87
-URxvt*color11: #CC9900
-! Blue
-URxvt*color4: #AFD7FF
-URxvt*color12: #6B93BB
-! Magenta
-URxvt*color5: #DFAFDF
-URxvt*color13: #D787AF
-! Cyan (purple)
-URxvt*color6: #8787AF
-URxvt*color14: #875FAF
-! White
-URxvt*color7: #EEEEEE
-URxvt*color15: #FFFFFF
-
-! Font
-URxvt*font: xft:Source Code Pro Medium:size=11
-
-! Cursor
-URxvt*cursorColor: #96ABB7
-URxvt*cursorColor2: #000000
-
-! Scrolling
-URxvt*scrollBar: false
-URxvt*scrollTtyOutput: false
-URxvt*scrollTtyKeypress: true
-URxvt*secondaryScreen: 1
-URxvt*secondaryScroll: 0
-! Scrollback lines (kept small because of tmux)
-URxvt*saveLines: 100
-
-! Urgency on bell
-URxvt*urgentOnBell: True
-
-! Extensions
-URxvt*perl-ext-common: default,matcher,font-size
-URxvt*perl-ext: default,url-select
-! Selectable URLs
-URxvt*url-launcher: /usr/bin/qutebrowser
-URxvt*url-select.launcher: /usr/bin/qutebrowser
-URxvt*matcher.rend.0: Uline fg7
-URxvt*keysym.C-b: perl:url-select:select_next
-! Catch ugly URL's
-URxvt*cutchars: `()'*<>[]{|}"
-! Font size on the fly
-URxvt*keysym.C-plus:     perl:font-size:increase
-URxvt*keysym.C-minus:   perl:font-size:decrease
+! ! Xresources file
+! ! Transparency
+! ! URxvt*.transparent: true
+! ! URxvt*.shading: 0 to 99 darkens, 101 to 200 lightens
+! ! URxvt*.shading: 90
+! ! URxvt*.tintColor: #002244
+! ! Fading non focused windows
+! ! URxvt*.fading: 20
+! ! Blur the background
+! ! URxvt*blurRadius: 4
+!
+! ! colors
+! *background:  #1C1C20
+! *foreground:  #EEEEEE
+! *highlightColor: #00C1FF
+! ! Black
+! *color0: #202026
+! *color8: #7C7C7C
+! ! Red
+! *color1: #A25860
+! *color9: #F58E8E
+! ! Green (bright blue)
+! *color2: #8787AF
+! *color10: #875FAF
+! ! Yellow (brown)
+! *color3: #AFAF87
+! *color11: #CC9900
+! ! Blue
+! *color4: #AFD7FF
+! *color12: #6B93BB
+! ! Magenta
+! *color5: #DFAFDF
+! *color13: #D787AF
+! ! Cyan (purple)
+! *color6: #8787AF
+! *color14: #875FAF
+! ! White
+! *color7: #EEEEEE
+! *color15: #FFFFFF
+!
+! ! Font
+! URxvt*font: xft:Source Code Pro Medium:size=11
+!
+! ! Cursor
+! URxvt*cursorColor: #96ABB7
+! URxvt*cursorColor2: #000000
+!
+! ! Scrolling
+! URxvt*scrollBar: false
+! URxvt*scrollTtyOutput: false
+! URxvt*scrollTtyKeypress: true
+! URxvt*secondaryScreen: 1
+! URxvt*secondaryScroll: 0
+! ! Scrollback lines (kept small because of tmux)
+! URxvt*saveLines: 100
+!
+! ! Urgency on bell
+! URxvt*urgentOnBell: True
+!
+! ! Extensions
+! URxvt*perl-ext-common: default,matcher,font-size
+! URxvt*perl-ext: default,url-select
+! ! Selectable URLs
+! URxvt*url-launcher: /usr/bin/qutebrowser
+! URxvt*url-select.launcher: /usr/bin/qutebrowser
+! URxvt*matcher.rend.0: Uline fg7
+! URxvt*keysym.C-b: perl:url-select:select_next
+! ! Catch ugly URL's
+! URxvt*cutchars: `()'*<>[]{|}"
+! ! Font size on the fly
+! URxvt*keysym.C-plus:     perl:font-size:increase
+! URxvt*keysym.C-minus:   perl:font-size:decrease

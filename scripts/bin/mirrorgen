@@ -1,11 +1,43 @@
-#!/bin/bash
+#!/bin/sh
 
 temp_mirror="$(mktemp -t mirrorgen.XXXXXXXXXX)"
+temp_mirror_sorted="$(mktemp -t mirrorgen.XXXXXXXXXX)"
 
-# Backup current mirrorlist
-cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.$(date +%F).bak
+function print_info()
+{
+    printf "\e[1;34m:: \e[1;37m%s\n\e[0;0m" "$1"
+}
 
-reflector --age 1 --save "${temp_mirror}"
-rankmirrors -v -n 5 "${temp_mirror}" > /etc/pacman.d/mirrorlist
+function delete_backups()
+{
+    backups=$(ls /etc/pacman.d/*.bak)
+    if [[ -z $backups ]]; then return; fi
 
-rm -f "${temp_mirror}"
+    read -n 1 -p "Delete old backups? [yN] " _delete_backups
+    printf "\n"
+    if [[ $_delete_backups == "y" || $_delete_backups == "Y" ]]; then
+        for file in $backups; do
+            sudo rm $file
+            printf "\tRemoved %s\n" $file
+        done
+    fi
+}
+
+reflector --age 1 --save "$temp_mirror"
+print_info "Ranking new mirrorlist"
+rankmirrors -v -n 5 "$temp_mirror" > "$temp_mirror_sorted"
+less "$temp_mirror_sorted"
+read -n 1 -p "Use generated mirrorlist? [yN] " _use_mirrorlist
+printf "\n"
+
+if [[ $_use_mirrorlist == "y" || $_use_mirrorlist == "Y" ]]; then
+    delete_backups
+    print_info "Backing up current mirrorlist"
+    sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.$(date +%F).bak
+    sudo mv "$temp_mirror_sorted" /etc/pacman.d/mirrorlist
+fi
+
+print_info "Cleaning up temporary files"
+rm -f "$temp_mirror"
+rm -f "$temp_mirror_sorted"
+print_info "Done"

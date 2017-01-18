@@ -131,3 +131,10 @@ function pers_loop() {
         sleep $1
     done
 }
+
+# Run a command in Xvfb as xvfb-run does not work for e.g. Gtk3 applications
+function run_42() {
+    Xvfb :42 -screen 0 800x600x24 1>/dev/null 2>&1 & xvfb_pid="$!"
+    DISPLAY=":42" $@
+    kill $xvfb_pid
+}

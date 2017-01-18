@@ -30,7 +30,7 @@ GetOptions("help|h" => \&help,
 
 # show info on right click
 if ($block_button eq '1') {
-        system('urxvt -name floating -e "htop"');
+        system('st -n floating -e "htop"');
 }
 
 # Get CPU usage
