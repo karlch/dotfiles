@@ -2,8 +2,7 @@
 # File to save custom functions
 
 # ls right after cd
-function chpwd()
-{
+function chpwd() {
     emulate -L zsh
     ls
 }
@@ -14,13 +13,13 @@ function command_not_found_handler() {
     printf "So you really want me to search the database? [nye]: "
     stty raw && search=$(dd bs=1 count=1 2>/dev/null) && stty -raw
     if [[ $search == "y" || $search == "Y" ]]; then
-        info=$(pacaur -Ss $0 | head)
-        if test -n ${info}; then
-            printf "\n%s\n\n" ${info}
+        info=$(pacaur -Ss "$0" | head)
+        if test -n "$info"; then
+            printf "\n%s\n\n" "$info"
             printf "Here I am, brain the size of a planet, and you ask me search the database? Call that job satisfaction, 'cause I don't.\n"
         fi
     elif [[ $search == "e" || $search == "E" ]]; then
-        print -z $@
+        print -z "$@"
     else
         sed -i '$d' ~/.zsh_history
         printf "\nI think you ought to know I'm feeling very depressed.\n"
@@ -30,29 +29,27 @@ function command_not_found_handler() {
 # vim with server if necessary
 function vim {
     eval last=\$$#
-    if echo $last | grep "\.tex" > /dev/null; then
-        NVIM_LISTEN_ADDRESS=/tmp/nvim_texsocket nvim $@
+    if echo "$last" | grep "\.tex" > /dev/null; then
+        NVIM_LISTEN_ADDRESS=/tmp/nvim_texsocket nvim "$@"
     else
-        NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim $@
+        NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim "$@"
     fi
 }
 
 # favourite command
 function favcmd() {
-    history|awk '{print $2}'|awk 'BEGIN {FS="|"} {print $1}'|sort|uniq -c|sort -rn|head -$1
+    history | awk '{print $2}' | awk 'BEGIN {FS="|"} {print $1}' | \
+        sort | uniq -c | sort -rn | head -n "$1"
 }
 
 # Create directory and enter it
-function mkcd(){ mkdir "$1" && cd "$1" ; }
+function mkcd() {
+    mkdir "$1" && cd "$1"
+}
 
 # Image renaming
 function listjpg(){ autoload -U zmv && c=1 base="$1" zmv '*.JPG||*.jpg' '${base}_${(l:3::0:)$((c++))}.jpg' ; }
 function listall(){ autoload -U zmv && c=1 base="$1" end="$2" zmv '*' '${base}_${(l:3::0:)$((c++))}.${end}' ; }
-
-# Mathematica kernel to solve input
-function m() {
-echo $@ | math | grep "Out" | cut -d " " -f2
-}
 
 # Nice short cpu process overview
 function pscpu() {
@@ -61,23 +58,23 @@ function pscpu() {
 
 # Remove all spaces
 function killws() {
-    for a in ./**/*\ *(Dod); do 
-    printf "Clean $a? (Y/n): " && read input
-    if [[ $input == "Y" || $input == "y" ]]; then
-        mv $a ${a:h}/${a:t:gs/ /_};
-        echo "Cleaned $a"
-    else
-        echo "Ignored $a"
-    fi
+    for f in ./**/*\ *(Dod); do 
+        printf "Clean %s? (Y/n): " "$f" && read -r input
+        if [[ $input == "Y" || $input == "y" ]]; then
+            mv "$f" "${f:h}"/"${f:t:gs/ /_}";
+            printf "Cleaned %s\n" "$f"
+        else
+            printf "Ignored %s\n" "$f"
+        fi
     done
 }
 
 function killws_all() {
-    for a in ./**/*\ *(Dod); do 
-        if [[ -f ${a:h}/${a:t:gs/ /_} ]]; then
-            mv "$a" "${a:h}/${a:t:gs/ /_/:s/./_2.}"
+    for f in ./**/*\ *(Dod); do 
+        if [[ -f ${f:h}/${f:t:gs/ /_} ]]; then
+            mv "$f" "${f:h}/${f:t:gs/ /_/:s/./_2.}"
         else
-            mv "$a" "${a:h}/${a:t:gs/ /_}"
+            mv "$f" "${f:h}/${f:t:gs/ /_}"
         fi
     done
 }
@@ -85,36 +82,16 @@ function killws_all() {
 # Up we go (nicer than ...)
 function up() {
     for (( i = 0; i < $1; i++ )); do
-        cd .. 1>/dev/null
+        cd .. 1>/dev/null || return
     done
     ls
-}
-
-# Download src via cower nicely
-function cowd() {
-    \cd ~/src
-    mkdir $1
-    \cd $1
-    cower -dd $@
-    ls
-}
-
-# Value of an alias
-function alias_value() {
-    alias "$1" | sed "s/^$1='\(.*\)'$/\1/"
-}
-
-# All commands
-function ListAllCommands
-{
-    echo -n $PATH | xargs -d : -I {} find {} -maxdepth 1 \
-            -executable -type f -printf '%P\n' | sort -u
 }
 
 # Precmd to bell when a command is done
 function precmd() {
     printf "\a"
 }
+
 function zsh_stats() {
     fc -l 1 | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n20
 }
@@ -128,13 +105,13 @@ function gitc() {
 function pers_loop() {
     while true; do
         ${*:2}
-        sleep $1
+        sleep "$1"
     done
 }
 
 # Run a command in Xvfb as xvfb-run does not work for e.g. Gtk3 applications
 function run_42() {
     Xvfb :42 -screen 0 800x600x24 1>/dev/null 2>&1 & xvfb_pid="$!"
-    DISPLAY=":42" $@
-    kill $xvfb_pid
+    DISPLAY=":42" "$@"
+    kill "$xvfb_pid"
 }
