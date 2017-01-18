@@ -133,9 +133,6 @@ mode "normal" {
     # Split in vertical orientation
     bindsym v split h
 
-    # Enter fullscreen mode for the focused container
-    bindsym m fullscreen
-
     # Change container layout (stacked, tabbed, toggle split)
     bindsym Shift+s layout stacking
     bindsym Shift+t layout tabbed
@@ -226,20 +223,17 @@ mode "normal" {
     bindsym b exec --no-startup-id st -e newsbeuter, mode "default"
     bindsym z exec --no-startup-id st -e mutt, mode "default"
 
-    # Shutdown, reboot, lock screen ..
-    bindsym q mode "$system"
-
     # Change the borders
     bindsym odiaeresis mode "borders"
 
-    # Wireless mode
-    bindsym Shift+w mode "$Wireless"
-
-    # USB mode
-    bindsym u mode "$USB"
-
-    # Monitor mode
-    bindsym e exec --no-startup-id ~/bin/monitor.sh, mode "default"
+    # Shutdown, reboot, lock screen ..
+    bindsym q exec --no-startup-id ~/.i3/rofi-scripts/system.sh, mode "default"
+    # Wireless
+    bindsym Shift+w exec --no-startup-id ~/.i3/rofi-scripts/wifi.sh, mode "default"
+    # USB devices
+    bindsym u exec --no-startup-id ~/.i3/rofi-scripts/devices.sh, mode "default"
+    # Monitors
+    bindsym m exec --no-startup-id ~/.i3/rofi-scripts/monitor.sh, mode "default"
 
     # Back to normal
     bindsym Return mode "default"
@@ -248,50 +242,6 @@ mode "normal" {
 
 }
 # }}}
-
-# A system mode for shutting down, ... {{{
-set $SYSTEM logout    reboot    shutdown    Suspend    blank    Lock
-mode "$SYSTEM" {
-    # Logout
-    bindsym l exec i3-msg exit
-    # Reboot
-    bindsym r exec reboot
-    # Shutdown
-    bindsym s exec poweroff
-    # Suspend
-    bindsym Shift+s exec systemctl suspend
-    # Blank screen
-    bindsym b exec xset dpms force off, mode "default"
-    # Lock screen
-    bindsym Shift+l exec convert x:root -blur 0x10 /tmp/.i3lock.png && i3lock -O 0.3 -T 1.0 -i /tmp/.i3lock.png -R 130 -F 50 -w "#CCCCCC" -o "#8787AF" -l "6B93BB" --24 --no-keyboard-layout, mode "default"
-
-    # Back to normal
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-# }}}
-
-# Various other modes {{{
-set $Wireless  wifi ... block (b), unblock (u), wifi-menu (w)
-mode "$Wireless" {
-    # Wifi
-    bindsym b exec "rfkill block wifi", mode "default"
-    bindsym u exec rfkill unblock wifi && st -n floating -e systemctl restart netctl-auto@wlp1s0.service, mode "default"
-    bindsym w exec "st -n floating -e sudo wifi-menu", mode "default"
-
-    # Back to normal: Escape
-    bindsym Escape mode "default"
-}
-
-set $USB  USB devices ... mount (m), unmount (u)
-mode "$USB" {
-    # USB
-    bindsym m exec ~/bin/mnt-i3, mode "default"
-    bindsym u exec ~/bin/umnt-i3, mode "default"
-
-    # Back to normal: Escape
-    bindsym Escape mode "default"
-}
 
 # A mode to change the borders
 mode "borders" {
