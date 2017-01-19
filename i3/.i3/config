@@ -243,7 +243,7 @@ mode "normal" {
 }
 # }}}
 
-# A mode to change the borders
+# {{{ Borders mode
 mode "borders" {
     # The different borders I use from time to time
     bindsym 1 border 1pixel
