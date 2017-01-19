@@ -1,10 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
-if (iwconfig 2>/dev/null | grep "LGB" 1>/dev/null); then
-    loc="EUR|DE|altdorf|84032"
-else
-    loc="EUR|DE|garching-bei-munchen"
-fi
+# Get location code
+loc=$(bash < ~/.i3/info/getlocation.sh)
 
 data=$(curl -s --connect-timeout 30 http://rss.accuweather.com/rss/liveweather_rss.asp\?metric\=1\&locCode\=${loc} | perl -ne 'if (/Currently/) {chomp;/\<title\>Currently: (.*)?\<\/title\>/; print "$1"; }' | sed 's/W\//+/')
 

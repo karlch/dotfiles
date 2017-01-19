@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 uname -sr
 printf '\n'
@@ -7,11 +7,11 @@ perl -E 'say "─" x 80'
 if [[ $(cat ~/.i3/info/update_names) ]]; then
     cat ~/.i3/info/update_names
     printf "\n"
-    read -n1 -p "Update? [Y/n]  " update
+    read -r -n1 -p "Update? [Y/n]  " update
 
     if [[ $update != n ]] && [[ $update != N ]]; then
         pacaur -Syu
     fi
 else
-    read -n1 input
+    read -r -n1 input
 fi

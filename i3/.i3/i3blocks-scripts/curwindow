@@ -1,11 +1,10 @@
 #!/bin/bash
 
-long_name=$(xdotool getwindowfocus getwindowname)
-short_name=${long_name:0:22}
+get_window_names() {
+    for win in $(xdotool search --onlyvisible --name ""); do
+        xdotool getwindowname $win | cut -d " " -f1
+    done
+}
 
-printf '<span foreground="#AFD7FF">WIN </span>'
-if [[ $short_name == $long_name ]]; then
-    printf "%s\n" "$short_name"
-else
-    printf "%s...\n" "$short_name"
-fi
+windows=$(get_window_names | grep -v "i3" | tr "\n" " ")
+printf "%s\n" "$windows"

@@ -2,9 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "concat.c"
+
 int main(void)
 {
     char *file_contents;
+    char *home = getenv("HOME");
+    char *brightness_script = concat(home, "/.i3/brightness-show.sh");
     long input_file_size;
     FILE *input_file = fopen("/sys/class/backlight/acpi_video0/brightness", "rb");
 
@@ -26,23 +30,23 @@ int main(void)
     switch (mouse_button) {
         case 1:
             // Left Click
-            popen("sudo xbacklight -set 30 && /home/christian/.i3/brightness-show.sh", "r");
+            popen(concat("sudo xbacklight -set 30 && ", brightness_script), "r");
             break;
         case 2:
             // Middle Click
-            popen("sudo xbacklight -set 50 && /home/christian/.i3/brightness-show.sh", "r");
+            popen(concat("sudo xbacklight -set 50 && ", brightness_script), "r");
             break;
         case 3:
             // Right Click
-            popen("sudo xbacklight -set 70 && /home/christian/.i3/brightness-show.sh", "r");
+            popen(concat("sudo xbacklight -set 70 && ", brightness_script), "r");
             break;
         case 4:
             // Scroll Up
-            popen("sudo xbacklight -inc 5 -time 0 -steps 1 && /home/christian/.i3/brightness-show.sh", "r");
+            popen(concat("sudo xbacklight -inc 5 -time 0 -steps 1  && ", brightness_script), "r");
             break;
         case 5:
             // Scroll Down
-            popen("sudo xbacklight -dec 5 -time 0 -steps 1 && /home/christian/.i3/brightness-show.sh", "r");
+            popen(concat("sudo xbacklight -dec 5 -time 0 -steps 1  && ", brightness_script), "r");
             break;
     }
 

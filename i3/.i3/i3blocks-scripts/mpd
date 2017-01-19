@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 start_client() {
     st -n floating -e ncmpcpp &
@@ -26,18 +26,18 @@ print_length() {
     indicator_pos=$(echo "$song_length*$indicator_length/100" | bc)
     rest=$(echo "$indicator_length-$indicator_pos" | bc)
     printf '  <span foreground="#AFD7FF">'
-    yes ─ | head -n $indicator_pos | tr -d "\n"
+    yes ─ | head -n "$indicator_pos" | tr -d "\n"
     printf '╼</span>'
     printf '<span foreground="#5C5C60">'
-    yes ─ | head -n $rest | tr -d "\n"
+    yes ─ | head -n "$rest" | tr -d "\n"
     printf '</span> '
 }
 
 case $BLOCK_BUTTON in
     1) start_client 2>/dev/null 1>&2 ;;
     3) mpc toggle 2>/dev/null 1>&2 ;;
-    4) /home/christian/.i3/volnoti-set-raspberry.sh + 2>/dev/null 1>&2 ;;
-    5) /home/christian/.i3/volnoti-set-raspberry.sh - 2>/dev/null 1>&2 ;;
+    4) ~/.i3/volnoti-set-raspberry.sh + 2>/dev/null 1>&2 ;;
+    5) ~/.i3/volnoti-set-raspberry.sh - 2>/dev/null 1>&2 ;;
 esac
 
 show_info

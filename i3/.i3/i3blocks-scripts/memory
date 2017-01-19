@@ -14,8 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-TYPE="${BLOCK_INSTANCE:-mem}"
-
 case $BLOCK_BUTTON in
     1) st -n floating -e htop ;;
 esac

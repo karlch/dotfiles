@@ -1,0 +1,16 @@
+#!/bin/bash
+
+windows_in_scratchpad=$(i3-msg -t get_tree | \
+                        grep -o 'scratchpad_state":"fresh' | \
+                        wc -l)
+
+case $BLOCK_BUTTON in
+    1) i3-msg scratchpad show 1>/dev/null 2>&1
+esac
+
+if [[ $windows_in_scratchpad == 0 ]]; then
+    printf '\n'
+else
+    printf '<span foreground="#DFAFDF">%s  </span>%s\n' "" "$windows_in_scratchpad"
+fi
+

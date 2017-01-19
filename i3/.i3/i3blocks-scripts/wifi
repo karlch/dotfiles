@@ -23,7 +23,7 @@ case $BLOCK_BUTTON in
     1) st -n floating -e wavemon ;;
 esac
 
-QUALITY=$(grep $INTERFACE /proc/net/wireless | awk '{ print int($3 * 100 / 70) }')
+QUALITY=$(grep "$INTERFACE" /proc/net/wireless | awk '{ print int($3 * 100 / 70) }')
 
 #------------------------------------------------------------------------
 
@@ -32,8 +32,7 @@ printf '<span foreground="#8787AF">  </span>'
 
 # If there is signal, display the quality, otherwise --- and urgent
 if [[ -n $QUALITY ]]; then
-    echo $QUALITY # full text
-    echo $QUALITY # short text
+    echo "$QUALITY" # full text
 else
     echo "---"
     echo "---"

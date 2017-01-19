@@ -1,0 +1,16 @@
+#!/bin/bash
+
+show_cover() {
+    # Show album cover if a new one is started
+    albumfile=~/.i3/info/last_album
+    album=$(mpc -f "%album%" current)
+    read -r last_album < "$albumfile"
+    if [[ -z "$album" ]]; then
+        printf "" > "$albumfile"
+    elif [[ "$last_album" != "$album" ]]; then
+        printf "%s" "$album" > "$albumfile"
+        ~/bin/cover_view.sh 1>/dev/null 2>&1
+    fi
+}
+
+show_cover
