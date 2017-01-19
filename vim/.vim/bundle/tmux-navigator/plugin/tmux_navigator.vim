@@ -55,13 +55,13 @@ function! s:TmuxAwareNavigate(direction)
     endif
     " let cmd = 'tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR')
     if a:direction == 'j'
-        let cmd = '/home/christian/bin/tmux_navigate.sh j v'
+        let cmd = "~/bin/tmux_navigate.sh j v"
     elseif a:direction == 'k'
-        let cmd = '/home/christian/bin/tmux_navigate.sh k v'
+        let cmd = "~/bin/tmux_navigate.sh k v"
     elseif a:direction == 'l'
-        let cmd = '/home/christian/bin/tmux_navigate.sh l v'
+        let cmd = "~/bin/tmux_navigate.sh l v"
     elseif a:direction == 'h'
-        let cmd = '/home/christian/bin/tmux_navigate.sh h v'
+        let cmd = "~/bin/tmux_navigate.sh h v"
     endif
     silent call system(cmd)
     if s:NeedsVitalityRedraw()
