@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""Print 1s and 0s in random colors on the terminal screen."""
 
 # ______ _ __ __ __ _
 # / ____/____(_)___ ____ ___ ____ _____/ /__ / /_/ /_ (_)____
@@ -23,8 +24,8 @@ l = ''
 ch = "10 "
 
 while True:
-	l = "%s%s" % (choice(cols), choice(ch))
-	o.flush()
-	o.write(l)
-	o.write(endcol)
-	sleep(0.001)
+    l = "%s%s" % (choice(cols), choice(ch))
+    o.flush()
+    o.write(l)
+    o.write(endcol)
+    sleep(0.001)

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-LOGFILE="/home/christian/.i3/info/backup_info"
+LOGFILE=~/.i3/info/backup_info
 
 # Exit if the PI isn't available
-if !(iwconfig | grep "HITRON"); then
+if ! (iwconfig | grep "HITRON"); then
     exit 1
 fi
 
@@ -19,7 +19,7 @@ echo "####################################################" > ${LOGFILE}
 echo -e "\tStarting backup at $(date)" >> ${LOGFILE}
 notify-send "Starting backup"
 
-if rsync -avz --delete --delete-after --ignore-errors -e 'ssh' /home/christian alarmpi:Backup/home 2>>${LOGFILE}; then
+if rsync -avz --delete --delete-after --ignore-errors -e 'ssh' ~ alarmpi:Backup/home 2>>${LOGFILE}; then
     echo -e "\tBacked up home successfully" >> ${LOGFILE}
 else
     echo -e "\tERR: Backing up home failed" >> ${LOGFILE}

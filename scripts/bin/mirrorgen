@@ -1,15 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 
 temp_mirror="$(mktemp -t mirrorgen.XXXXXXXXXX)"
 temp_mirror_sorted="$(mktemp -t mirrorgen.XXXXXXXXXX)"
 
-function print_info()
-{
+print_info() {
     printf "\e[1;34m:: \e[1;37m%s\n\e[0;0m" "$1"
 }
 
-function delete_backups()
-{
+delete_backups() {
     backups=$(ls /etc/pacman.d/*.bak)
     if [[ -z $backups ]]; then return; fi
 
