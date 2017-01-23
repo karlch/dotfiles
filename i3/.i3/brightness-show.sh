@@ -1,5 +1,7 @@
 #!/bin/sh
 brightness=$(xbacklight -get)
-brightness=${brightness%.*}
 
-volnoti-show -s "/usr/share/pixmaps/volnoti/display-brightness-symbolic.svg" ${brightness}
+volnoti-show -s "/usr/share/pixmaps/volnoti/display-brightness-symbolic.svg" "$brightness"
+
+# Refresh i3blocks
+pkill -SIGRTMIN+11 i3blocks

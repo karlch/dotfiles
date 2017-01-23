@@ -103,7 +103,6 @@ for_window [window_type="Desktop"] border pixel 1
 for_window [class="com-wolfram-jlink-Reader"] floating enable
 for_window [title="c*Editor"] floating enable
 for_window [class="ROOT"] floating enable
-for_window [class="Sxiv"] floating enable
 for_window [class="st-256color" instance="floating"] floating enable
 
 # }}}
@@ -297,6 +296,5 @@ bar {
 # }}}
 
 exec i3-msg workspace $ws1
-exec hsetroot -fill ~/Bilder/Hintergrund/background
 
 # vim:foldmethod=marker:foldlevel=0

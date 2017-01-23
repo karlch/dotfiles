@@ -3,19 +3,41 @@
 # Get location code
 loc=$(bash < ~/.i3/info/getlocation.sh)
 
-data=$(curl -s --connect-timeout 30 http://rss.accuweather.com/rss/liveweather_rss.asp\?metric\=1\&locCode\=${loc} | perl -ne 'if (/Currently/) {chomp;/\<title\>Currently: (.*)?\<\/title\>/; print "$1"; }' | sed 's/W\//+/')
+# Open website with weather information on click
+case $BLOCK_BUTTON in
+    1) $BROWSER http://www.wetter.com/suche/?q="$loc" ;;
+esac
 
-if [[ $data == *"Sun"* ]]; then
-    printf '<span foreground="#F3FF0D">  </span>'
-elif [[ $data == *"Rain"* || $data == *"Shower"* ]]; then
-    printf '<span foreground="#6B93BB">  </span>'
-elif [[ $data == *"Cloud"* || $data == *"Fog"* ]]; then
-    printf '<span foreground="#888888">  </span>'
-elif [[ $data == *"Clear"* ]]; then
-    printf '<span foreground="#888888">  </span>'
-elif [[ $data == *"Snow"* || $data == *"Flurr"* ]]; then
-    printf '<span foreground="#FFFFFF">  </span>'
+# Get information
+data=$(curl -s --connect-timeout 30 wttr.in/"$loc" | sed -n "3,4p")
+weather=$(printf "%s\n" "$data" | awk 'NR == 1 {print $NF}')
+temperature=$(printf "%s\n" "$data" | \
+    awk 'NR == 2 {print $(NF - 1)}' | \
+    sed -e "s/\x1b\[.\{1,9\}m//g")
+
+# Meteocons font for the nice icons
+printf '<span font="meteocons">'
+if [[ $weather == *"Sun"* ]]; then
+    printf '<span foreground="#F3FF0D"></span>'
+elif [[ $weather == *"Rain"* || $weather == *"Shower"* ]]; then
+    printf '<span foreground="#6B93BB"></span>'
+elif [[ $weather == *"Cloud"* ]]; then
+    printf '<span foreground="#888888"></span>'
+elif [[ $weather == *"Mist"* || $weather == *"Fog"* || $weather == *"Haze"* ]]; then
+    printf '<span foreground="#FFFFFF"></span>'
+elif [[ $weather == *"Clear"* ]]; then
+    printf '<span foreground="#888888"></span>'
+elif [[ $weather == *"Snow"* || $weather == *"Flurr"* ]]; then
+    printf '<span foreground="#FFFFFF"></span>'
 else
-    printf "%s" "$data"
+    printf "%s  " "$weather"
 fi
-printf "%s" "$data" | grep -oE '[^ ]+$'
+printf '</span>  '
+printf "%sC\n" "$temperature"
+
+# Blue for cold, yellow for warm temperature
+if [[ $temperature -lt 0 ]]; then
+    printf "\n#AFD7FF\n"
+elif [[ $temperature -gt 20 ]]; then
+    printf "\n#F3FF0D\n"
+fi
