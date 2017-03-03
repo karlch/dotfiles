@@ -18,6 +18,6 @@ case $BLOCK_BUTTON in
     1) st -n floating -e htop ;;
 esac
 
-printf '<span foreground="#8DB5DD">  </span>'
+printf '<span foreground="#5FB3B3">  </span>'
 
 awk 'NR==1 {total=$2;} NR==3 {free=$2;} END {printf "%0.f\n", (1-free/total)*100;}' /proc/meminfo

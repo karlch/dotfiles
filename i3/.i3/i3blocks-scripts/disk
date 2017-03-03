@@ -17,6 +17,8 @@
 DIR="${BLOCK_INSTANCE:-$HOME}"
 ALERT_LOW="${1:-10}" # color will turn red under this value (default: 10%)
 
+printf "<span foreground='#5FB3B3'>  </span>"
+
 df -h -P -l "$DIR" | awk -v alert_low="$ALERT_LOW" '
 /\/.*/ {
 	# full text

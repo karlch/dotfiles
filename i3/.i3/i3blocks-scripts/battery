@@ -48,34 +48,34 @@ $short_text = $full_text;
 # Consider color and urgent flag only on discharge
 if ($status eq 'Discharging') {
     if ($percent < 6) {
-            print '<span foreground="#8787AF">  </span>';
+            print '<span foreground="#6699CC">  </span>';
             print "$full_text\n";
             print "$short_text\n";
             exit(33);
     } elsif ($percent < 25) {
-            print '<span foreground="#8787AF">  </span>';
+            print '<span foreground="#6699CC">  </span>';
             print "$full_text\n";
             print "$short_text\n";
             print "#666666\n";
     } elsif ($percent < 50) {
-            print '<span foreground="#8787AF">  </span>';
+            print '<span foreground="#6699CC">  </span>';
             print "$full_text\n";
             print "$short_text\n";
             print "#888888\n";
     } elsif ($percent < 75) {
-            print '<span foreground="#8787AF">  </span>';
+            print '<span foreground="#6699CC">  </span>';
             print "$full_text\n";
             print "$short_text\n";
             print "#AAAAAA\n";
     } else {
-            print '<span foreground="#8787AF">  </span>';
+            print '<span foreground="#6699CC">  </span>';
             print "$full_text\n";
             print "$short_text\n";
             print "#CCCCCC\n";
     }
 }
 else {
-    print '<span foreground="#8787AF">  </span>';
+    print '<span foreground="#6699CC">  </span>';
     print "$full_text\n";
     print "$short_text\n";
 }

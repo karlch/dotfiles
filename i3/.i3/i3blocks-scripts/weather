@@ -1,43 +1,74 @@
-#!/bin/bash
+#!/usr/bin/env python3
+# vim: ft=python fileencoding=utf-8 sw=4 et sts=4 
 
-# Get location code
-loc=$(bash < ~/.i3/info/getlocation.sh)
+import os
+import re
+import sys
+from subprocess import getoutput
 
-# Open website with weather information on click
-case $BLOCK_BUTTON in
-    1) $BROWSER http://www.wetter.com/suche/?q="$loc" ;;
-esac
+def get_location():
+    cmd = "bash < " + os.path.expanduser("~/.i3/info/getlocation.sh")
+    return getoutput(cmd)
 
-# Get information
-data=$(curl -s --connect-timeout 30 wttr.in/"$loc" | sed -n "3,4p")
-weather=$(printf "%s\n" "$data" | awk 'NR == 1 {print $NF}')
-temperature=$(printf "%s\n" "$data" | \
-    awk 'NR == 2 {print $(NF - 1)}' | \
-    sed -e "s/\x1b\[.\{1,9\}m//g")
+def get_weather_information(location):
+    # Get output
+    cmd = "curl -s http://rss.accuweather.com/rss/liveweather_rss.asp\?metric\=1\&locCode\=%s" % (location)
+    output = getoutput(cmd)
+    if not output:
+        return "", ""
+    lines = output.split("\n")
+    # Get weather and temperature
+    for line in lines:
+        if "Currently" in line:
+            info = line
+            break
+    info = info.lstrip().replace("</title>", "").split()[1:]
+    weather = " ".join(info[:-1])
+    temperature = info[-1].rstrip("C")
+    return weather.lower(), int(temperature)
 
-# Meteocons font for the nice icons
-printf '<span font="meteocons">'
-if [[ $weather == *"Sun"* ]]; then
-    printf '<span foreground="#F3FF0D"></span>'
-elif [[ $weather == *"Rain"* || $weather == *"Shower"* ]]; then
-    printf '<span foreground="#6B93BB"></span>'
-elif [[ $weather == *"Cloud"* ]]; then
-    printf '<span foreground="#888888"></span>'
-elif [[ $weather == *"Mist"* || $weather == *"Fog"* || $weather == *"Haze"* ]]; then
-    printf '<span foreground="#FFFFFF"></span>'
-elif [[ $weather == *"Clear"* ]]; then
-    printf '<span foreground="#888888"></span>'
-elif [[ $weather == *"Snow"* || $weather == *"Flurr"* ]]; then
-    printf '<span foreground="#FFFFFF"></span>'
-else
-    printf "%s  " "$weather"
-fi
-printf '</span>  '
-printf "%sC\n" "$temperature"
+def get_formatted_weather(weather, temperature):
+    color = "#CCCCCC"
+    icon = weather
+    if "sun" in weather:
+        icon = ""
+        color = "#F3FF0D"
+    elif "rain" in weather or "shower" in weather:
+        icon = ""
+        color = "#6B93BB"
+    elif "cloud" in weather or "overcast" in weather:
+        icon = ""
+        color = "#AAAAAA"
+    elif "mist" in weather or "fog" in weather or "haze" in weather:
+        icon = ""
+        color = "#FFFFFF"
+    elif "clear" in weather:
+        icon = ""
+        color = "#FFFFFF"
+    elif "snow" in weather:
+        icon = ""
+        color = "#FFFFFF"
+    formatted_weather = \
+        "<span foreground='%s' font='Weather Icons Bold'>%s  </span>%.0f°" \
+        % (color, icon, temperature)
+    return formatted_weather
 
-# Blue for cold, yellow for warm temperature
-if [[ $temperature -lt 0 ]]; then
-    printf "\n#AFD7FF\n"
-elif [[ $temperature -gt 20 ]]; then
-    printf "\n#F3FF0D\n"
-fi
+if __name__ == "__main__":
+    location = get_location()
+    # Handle block buttons
+    if "BLOCK_BUTTON" in os.environ and os.environ["BLOCK_BUTTON"] == "1":
+        script = os.path.expanduser("~/.i3/i3blocks-scripts/weather_script")
+        cmd = "st -g 125x41 -n floating -e " + script + " " + location
+        os.system(cmd)
+    # Print weather info
+    weather, temperature = get_weather_information(location)
+    if weather:
+        formatted_weather = get_formatted_weather(weather, temperature)
+        print(formatted_weather)
+        # Color of temperature
+        if temperature < 0:
+            print("\n#AFD7FF")
+        elif temperature > 20:
+            print("\n#F3FF0D")
+    else:
+        print("")

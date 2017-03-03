@@ -1,0 +1,5 @@
+#!/bin/bash
+
+curl -s --connect-timeout 30 wttr.in/"$1"
+
+read -n1 input

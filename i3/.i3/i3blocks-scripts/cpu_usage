@@ -47,7 +47,7 @@ close(MPSTAT);
 $cpu_usage eq -1 and die 'Can\'t find CPU information';
 
 # Print short_text, full_text
-printf "<span foreground='#8DB5DD'>  </span>";
+printf "<span foreground='#99C794'>  </span>";
 printf "%.0f\n", $cpu_usage;
 printf "%.0f\n", $cpu_usage;
 

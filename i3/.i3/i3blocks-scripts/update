@@ -4,11 +4,11 @@
 upd=$(cat ~/.i3/info/update_info)
 
 case $BLOCK_BUTTON in
-    1) st -n floating -e "~/.i3/i3blocks-scripts/update_script" ;;
+    1) st -n floating -e ~/.i3/i3blocks-scripts/update_script ;;
 esac
 
 if [[ $upd == "everything up to date" ]]; then
     printf " \n"
 else
-    printf "<span foreground='#DFAFDF'>  </span>%s\n" "$upd"
+    printf "<span foreground='#EC5F67'>  </span>%s\n" "$upd"
 fi

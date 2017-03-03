@@ -28,7 +28,7 @@ QUALITY=$(grep "$INTERFACE" /proc/net/wireless | awk '{ print int($3 * 100 / 70)
 #------------------------------------------------------------------------
 
 # Label
-printf '<span foreground="#8787AF">  </span>'
+printf '<span foreground="#6699CC">  </span>'
 
 # If there is signal, display the quality, otherwise --- and urgent
 if [[ -n $QUALITY ]]; then

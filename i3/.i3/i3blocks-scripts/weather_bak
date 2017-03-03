@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Get location code
+loc=$(bash < ~/.i3/info/getlocation.sh)
+
+# Open website with weather information on click
+case $BLOCK_BUTTON in
+    1) st -g 125x41 -n floating -e ~/.i3/i3blocks-scripts/weather_script
+esac
+
+# Get information
+ansiweather -l "$loc" -s true -w false -h false -p false -d false | \
+    awk '{printf "%s  %s°\n", $NF, $(NF-2)}'
+exit 0

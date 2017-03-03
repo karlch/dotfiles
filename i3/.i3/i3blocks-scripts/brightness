@@ -12,4 +12,4 @@ esac
 # Get brightness
 brightness=$(xbacklight -get)
 
-printf "<span foreground='#AFD7FF'>  </span>%s\n" "$brightness"
+printf "<span foreground='#FAC863'>  </span>%s\n" "$brightness"

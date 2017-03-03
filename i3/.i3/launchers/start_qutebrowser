@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if ! xdotool search --name "qutebrowser"; then
+    qutebrowser --backend webengine
+    rm -rf ~/.local/share/qutebrowser/webengine
+    rm ~/.local/share/qutebrowser/history
+fi

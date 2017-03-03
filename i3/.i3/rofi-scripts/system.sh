@@ -6,7 +6,7 @@ selected_option=$(printf "
      Reboot
      Logout
      Suspend
-     Lock\n" | rofi -dmenu -p "" -i)
+      Lock\n" | rofi -dmenu -l 6 -p "" -i)
 
 case $selected_option in
     *"Shutdown" ) poweroff;;

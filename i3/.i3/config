@@ -4,35 +4,37 @@
 set $mod Mod1
 
 # Workspace names
-set $ws1 1:one
-set $ws2 2:two
-set $ws3 3:three
-set $ws4 4:four
-set $ws5 5:five
-set $ws6 6:six
-set $ws7 7:seven
-set $ws8 8:eight
-set $ws9 9:nine
-set $ws10 10:ten
+set $ws1 1:<b>Ⅰ</b>
+set $ws2 2:<b>Ⅱ</b>
+set $ws3 3:<b>Ⅲ</b>
+set $ws4 4:<b>Ⅳ</b>
+set $ws5 5:<b>Ⅴ</b>
+set $ws6 6:<b>Ⅵ</b>
+set $ws7 7:<b>Ⅶ</b>
+set $ws8 8:<b>Ⅷ</b>
+set $ws9 9:<b>Ⅸ</b>
+set $ws10 10:<b>Ⅹ</b>
+set $wsweb 101: <span font="FontAwesome"></span>
+set $wschat 102: <span font="FontAwesome"></span>
+set $wsmusic 100: <span font="FontAwesome"></span>
 
 # Font for window titles
 font pango: Overpass 10
 
 # Window borders
-new_window pixel 3
+new_window pixel 4
 new_float normal
 gaps inner 20
-# hide_edge_borders smart
 
 # Color settings        Border_top  Background  Text        Indicator  Border
-client.focused          #2C2C30     #2C2C30     #EEEEEE     #8787AF    #AFD7FF
-client.focused_inactive #1C1C20     #1C1C20     #666666     #444444    #444444
-client.unfocused        #1C1C20     #1C1C20     #666666     #444444    #444444
-client.urgent           #8787AF     #DFAFDF     #000000     #8787AF    #8787AF
+client.focused          #343D46     #343D46     #D8DEE9     #5FB3B3    #6699CC
+client.focused_inactive #1B2B34     #1B2B34     #A7ADBA     #65737E    #65737E
+client.unfocused        #1B2B34     #1B2B34     #A7ADBA     #65737E    #65737E
+client.urgent           #FAC863     #FAC863     #000000     #CDD3DE    #FAC863
 
 # Urgency handling
 focus_on_window_activation focus
-force_display_urgency_hint 1000 ms
+force_display_urgency_hint 200 ms
 
 # Do not follow the mouse
 focus_follows_mouse no
@@ -104,12 +106,18 @@ for_window [class="com-wolfram-jlink-Reader"] floating enable
 for_window [title="c*Editor"] floating enable
 for_window [class="ROOT"] floating enable
 for_window [class="st-256color" instance="floating"] floating enable
+for_window [class="Galendae"] border pixel 3
+
+# Workspace assignments
+assign [class="qutebrowser"] $wsweb
+assign [class="TelegramDesktop"] $wschat
+assign [title="ncmpcpp"] $wsmusic
 
 # }}}
 
 # Everything else in a vim like normal mode {{{
 mode "normal" {
-    # Resizing windows (like in tmux)
+    # Resizing windows (like in tmux) {{{
     bindsym h exec ~/bin/resize.sh h
     bindsym k exec ~/bin/resize.sh k
     bindsym j exec ~/bin/resize.sh j
@@ -118,15 +126,9 @@ mode "normal" {
     bindsym Shift+k exec ~/bin/resize2.sh k
     bindsym Shift+j exec ~/bin/resize2.sh j
     bindsym Shift+l exec ~/bin/resize2.sh l
+    # }}}
 
-    # Kill a window
-    bindsym x kill
-
-    # Rofi
-    bindsym d exec --no-startup-id rofi -show run, mode "default"
-    # with password manager
-    bindsym a exec --no-startup-id rofi-pass, mode "default"
-
+    # Splits and layout {{{
     # Split in horizontal orientation
     bindsym s split v
     # Split in vertical orientation
@@ -153,7 +155,9 @@ mode "normal" {
     bindsym p focus parent
     # Focus the child container
     bindsym n focus child
+    # }}}
 
+    # Workspace handling {{{
     # Switch to workspace
     bindsym 1 workspace $ws1
     bindsym 2 workspace $ws2
@@ -177,6 +181,8 @@ mode "normal" {
     bindsym Shift+8 move container to workspace $ws8
     bindsym Shift+9 move container to workspace $ws9
     bindsym Shift+0 move container to workspace $ws10
+    bindsym Shift+i move container to workspace $wschat
+    bindsym Shift+w move container to workspace $wsweb
 
     # Move container and focus to workspace
     bindsym Control+1 move container to workspace $ws1, workspace $ws1
@@ -189,56 +195,65 @@ mode "normal" {
     bindsym Control+8 move container to workspace $ws8, workspace $ws8
     bindsym Control+9 move container to workspace $ws9, workspace $ws9
     bindsym Control+0 move container to workspace $ws10, workspace $ws10
+    bindsym Control+i move container to workspace $wschat, workspace $wschat
+    bindsym Control+w move container to workspace $wsweb, workspace $wsweb
 
     # Intelligent movement
     # A window list to focus a window
     bindsym g exec --no-startup-id ~/.i3/py-scripts/winmenu.py, mode "default"
     # A window list to get a window
-    bindsym Shift+g exec --no-startup-id ~/.i3/py-scripts/winmenuget.py, mode "default"
+    bindsym Shift+g exec --no-startup-id ~/.i3/py-scripts/winmenu.py --get, mode "default"
     # Go to next empty workspace
     bindsym o exec --no-startup-id ~/.i3/py-scripts/firstfree.py
     # Move window to next empty workspace
-    bindsym Shift+o exec --no-startup-id ~/.i3/py-scripts/wintofirstfree.py
+    bindsym Shift+o exec --no-startup-id ~/.i3/py-scripts/firstfree.py --move-to
     # Go to next empty workspace with the window
-    bindsym Control+o exec --no-startup-id ~/.i3/py-scripts/wintofirstfree-go.py
+    bindsym Control+o exec --no-startup-id ~/.i3/py-scripts/firstfree-go.py --take-with
     # Moving back and forth between the last workspace
     bindsym Tab workspace back_and_forth
     bindsym Control+Tab move container to workspace back_and_forth; workspace back_and_forth
     bindsym Shift+Tab move container to workspace back_and_forth
+    # }}}
 
-    # Useless but fun
-    bindsym Shift+b exec --no-startup-id ~/.i3/py-scripts/fibonacci.py
+    # Launchers {{{
+    bindsym w exec ~/.i3/launchers/start_qutebrowser, mode "default", workspace $wsweb
+    bindsym i exec telegram-desktop, mode "default", workspace $wschat
+    bindsym t exec --no-startup-id st, mode "default"
+    bindsym f exec --no-startup-id st -e ranger, mode "default"
+    bindsym c exec --no-startup-id ~/.i3/launchers/start_term_program ncmpcpp, mode "default", workspace $wsmusic
+    bindsym z exec --no-startup-id st -e mutt, mode "default"
+    # }}}
+
+    # Rofi {{{
+    bindsym d exec --no-startup-id rofi -show run, mode "default"
+    # with password manager
+    bindsym a exec --no-startup-id rofi-pass, mode "default"
+    # with clipboard manager
+    bindsym e exec --no-startup-id rofi -modi "clipboard:greenclip print" -show, mode "default"
+    # with shutdown, reboot, lock screen ..
+    bindsym q exec --no-startup-id ~/.i3/rofi-scripts/system.sh, mode "default"
+    # for wireless
+    bindsym Shift+n exec --no-startup-id ~/.i3/rofi-scripts/wifi.sh, mode "default"
+    # for USB devices
+    bindsym u exec --no-startup-id ~/.i3/rofi-scripts/devices.sh, mode "default"
+    # for monitors
+    bindsym m exec --no-startup-id ~/.i3/rofi-scripts/monitor.sh, mode "default"
+    # for brightness
+    bindsym b exec --no-startup-id ~/.i3/rofi-scripts/brightness.sh, mode "default"
+    # }}}
 
     # Reload the configuration file
     bindsym r reload, mode "default"
     # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
     bindsym Shift+r restart
 
-    # Starters
-    bindsym w exec qutebrowser --backend webengine && (rm -rf ~/.local/share/qutebrowser/webengine && rm ~/.local/share/qutebrowser/history), mode "default"
-    bindsym t exec --no-startup-id st, mode "default"
-    bindsym f exec --no-startup-id st -e ranger, mode "default"
-    bindsym c exec --no-startup-id st -e ncmpcpp, mode "default"
-    bindsym b exec --no-startup-id st -e newsbeuter, mode "default"
-    bindsym z exec --no-startup-id st -e mutt, mode "default"
-
     # Change the borders
     bindsym odiaeresis mode "borders"
-
-    # Shutdown, reboot, lock screen ..
-    bindsym q exec --no-startup-id ~/.i3/rofi-scripts/system.sh, mode "default"
-    # Wireless
-    bindsym Shift+w exec --no-startup-id ~/.i3/rofi-scripts/wifi.sh, mode "default"
-    # USB devices
-    bindsym u exec --no-startup-id ~/.i3/rofi-scripts/devices.sh, mode "default"
-    # Monitors
-    bindsym m exec --no-startup-id ~/.i3/rofi-scripts/monitor.sh, mode "default"
 
     # Back to normal
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym F10 mode "default"
-
 }
 # }}}
 
@@ -250,6 +265,7 @@ mode "borders" {
     bindsym 3 border pixel 3
     bindsym 4 border pixel 4
     bindsym 0 border none
+    bindsym c exec pkill compton || compton
     bindsym n gaps inner all set 0
     bindsym g gaps inner all set 20
     bindsym asciicircum border normal
@@ -262,7 +278,7 @@ mode "borders" {
 }
 # }}}
 
-# Start i3bar to display a workspace bar {{{
+# Statusbar {{{
 bar {
         # status_command ~/.i3/conkybar.sh
         i3bar_command i3bar -t
@@ -276,25 +292,22 @@ bar {
         tray_output none
 
         colors {
-            background #000000A0
+            background #1B2B34C0
             #                  BORDER    BACKGR.   TEXT
-            focused_workspace  #000000A0 #000000A0 #EEEEEE
-            active_workspace   #000000A0 #000000A0 #6A93BB
-            inactive_workspace #000000A0 #000000A0 #AAAAAA
-            urgent_workspace   #000000A0 #000000A0 #DFAFDF
-            binding_mode       #000000A0 #000000A0 #DFAFDF
+            focused_workspace  #1B2B34C0 #1B2B34C0 #D8DEE9
+            active_workspace   #1B2B34C0 #1B2B34C0 #A7ADBA
+            inactive_workspace #1B2B34C0 #1B2B34C0 #848D98
+            urgent_workspace   #1B2B34C0 #1B2B34C0 #FAC863
+            binding_mode       #1B2B34C0 #1B2B34C0 #FAC863
         }
 
         # Font for the bar
         font pango:Overpass 12
 
         # Mouse bindings are annoying
-        bindsym button4 exec :
-        bindsym button5 exec :
+        bindsym button4 nop
+        bindsym button5 nop
 }
-
 # }}}
-
-exec i3-msg workspace $ws1
 
 # vim:foldmethod=marker:foldlevel=0

@@ -5,9 +5,9 @@ temperature=$(sensors | awk '/Core 0/ {printf "%d", $3}')
 
 # Change icon and color according to temperature
 if [[ $temperature -lt 60 ]]; then
-    printf "<span foreground='#8DB5DD'>  </span>%sC" "$temperature";
+    printf "<span foreground='#99C794'>  </span>%sC" "$temperature";
 elif [[ $temperature -lt 80 ]]; then
-    printf "<span foreground='#8DB5DD'>  </span>%sC" "$temperature";
+    printf "<span foreground='#99C794'>  </span>%sC" "$temperature";
 else
-    printf "<span foreground='#CC0000'>  </span>%sC" "$temperature";
+    printf "<span foreground='#EC5F67'>  </span>%sC" "$temperature";
 fi

@@ -1,16 +1,26 @@
 #!/bin/bash
 
 show_cover() {
-    # Show album cover if a new one is started
-    albumfile=~/.i3/info/last_album
-    album=$(mpc -f "%album%" current)
-    read -r last_album < "$albumfile"
-    if [[ -z "$album" ]]; then
-        printf "" > "$albumfile"
-    elif [[ "$last_album" != "$album" ]]; then
-        printf "%s" "$album" > "$albumfile"
-        ~/bin/cover_view.sh 1>/dev/null 2>&1
-    fi
+    notify-send -i cover "$2" "$1"
 }
 
-show_cover
+get_cover() {
+    album="$1"
+    artist="$2"
+    covername="$3"
+    glyrc cover --artist "$artist" --album "$album" -w "$covername" 2>/dev/null 1>&2
+    mogrify -thumbnail 128x128 "$covername"
+}
+
+check_cover() {
+    album=$(mpc -f "%album%" current)
+    artist=$(mpc -f "%artist%" current)
+    song=$(mpc -f "%title%" current)
+    covername=~/Musik/${artist}_${album}.png
+    if [[ ! -f "$covername" ]]; then
+        get_cover "$album" "$artist" "$covername"
+    fi
+    notify-send -i "${artist}_${album}" "$artist - $album" "$song"
+}
+
+check_cover

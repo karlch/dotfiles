@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ -n $1 ]]; then
+    if ! xdotool search --name "$1"; then
+        st -e $1
+    fi
+fi
+
