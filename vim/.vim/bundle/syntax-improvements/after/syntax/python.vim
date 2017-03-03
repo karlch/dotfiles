@@ -219,9 +219,9 @@
 
     hi! link  pythonExtraOperator        Operator
     hi! link  pythonExtraPseudoOperator  Operator
-    hi! link  pythonCompOperator         CompOperator
-    hi! link  pythonOperator             CompOperator
-    hi! link  pythonConditional          CompOperator
+    hi! link  pythonCompOperator         Conditional
+    hi! link  pythonOperator             Conditional
+    hi! link  pythonConditional          Conditional
 
     hi! link  pythonDecorator    Define
     hi! link  pythonDottedName   Function

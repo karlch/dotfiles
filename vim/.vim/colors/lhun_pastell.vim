@@ -144,8 +144,10 @@ function! s:HL(name, fg, ...)
   endif
 
   " emphasis
-  if a:0 >= 2 && strlen(a:2)
+  if a:0 == 2 && strlen(a:2)
     let emp = a:2
+  elseif a:0 == 3 && strlen(a:2) && strlen(a:3)
+    let emp = a:2 . a:3
   else
     let emp = 'NONE,'
   endif
@@ -203,7 +205,7 @@ call s:HL('Pmenu', s:main_light, s:grey_dark1)
 call s:HL('PmenuSbar', s:grey_dark0)
 call s:HL('PmenuSel', s:grey_dark2, s:main_light, s:bold)
 call s:HL('PmenuThumb', s:grey_dark0)
-call s:HL('Search', s:grey_dark0, s:main_light)
+call s:HL('Search', s:extra3, s:none, s:bold)
 call s:HL('Special', s:main_light)
 call s:HL('Split', s:grey_dark0, s:grey_dark0)
 call s:HL('Statement', s:main_dark)

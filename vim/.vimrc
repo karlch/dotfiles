@@ -20,7 +20,7 @@ set ignorecase smartcase
 " Substitute globally by default
 set gdefault
 
-" Shows command and mode
+" Shows command and hides mode as this is handled by lightline
 set showcmd noshowmode
 
 " At least seven lines below and above the cursor and seven chars next to it
@@ -78,31 +78,32 @@ set termguicolors
 call plug#begin('~/.vim/plugged')
 
 Plug 'benmills/vimux'
+Plug 'chrisbra/unicode.vim'
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
 Plug 'henrik/vim-indexed-search'
 Plug 'itchyny/lightline.vim'
+Plug 'jamshedvesuna/vim-markdown-preview', {'for': 'markdown'}
 Plug 'jiangmiao/auto-pairs'
 Plug 'joshukraine/dragvisuals'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'konfekt/fastfold'
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'lukerandall/haskellmode-vim', {'for': 'haskell'}
-Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 Plug 'neomake/neomake'
 Plug 'potatoesmaster/i3-vim-syntax'
+Plug 'rhysd/committia.vim'
 Plug 'rip-rip/clang_complete'
 Plug 'ron89/thesaurus_query.vim'
-Plug 'simnalamburt/vim-mundo'
+Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
 Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tmhedberg/simpylfold', {'for': 'python'}
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'jamshedvesuna/vim-markdown-preview'
-Plug 'chrisbra/unicode.vim'
-Plug 'rhysd/committia.vim'
+Plug 'mhartington/oceanic-next'
 
 " Local plugins in bundle
 Plug '~/.vim/bundle/root'
@@ -132,7 +133,7 @@ set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 
 " Favourite colorscheme
 set background=dark
-colorscheme lhun_pastell
+colorscheme OceanicNext
 
 " Textwidth is always 80, do not wrap, anything longer will be broken
 set textwidth=80 nowrap linebreak
@@ -428,7 +429,7 @@ let g:lightline = {
     \ 'component_type': {
     \ 'errors': 'error' }
     \ }
-let g:lightline.colorscheme = "lhun"
+let g:lightline.colorscheme = "oceanicnext"
 let g:lightline.separator = { 'left': '', 'right': '' }
 let g:lightline.subseparator = { 'left': '', 'right': '' }
 
