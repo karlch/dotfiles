@@ -16,7 +16,7 @@ fi
 export ZSH=~/.zsh
 
 # Path for rubygems
-export PATH=$PATH:~/.gem/ruby/2.3.0/bin
+export PATH=$PATH:~/.gem/ruby/2.4.0/bin
 # Settings
 ZSH_THEME="lhun"
 CASE_SENSITIVE="true"
