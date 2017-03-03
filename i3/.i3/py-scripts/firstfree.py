@@ -1,26 +1,45 @@
 #!/usr/bin/python
-
 """
-Find the first free workspace and switch to it
-
-Add this to your i3 config file:
-    bindsym <key-combo> exec python /path/to/this/script.py
+Find the first free workspace and switch to it.
 """
+
+import os
+import sys
+
 import i3
 
-workspace_names = ["1:one", "2:two", "3:three", "4:four", "5:five",
-                   "6:six", "7:seven", "8:eight", "9:nine", "10:ten"]
 
-def main():
-    workspaces = i3.get_workspaces()
-    print(workspaces)
-    workints = list()
-    for w in workspaces:
-        workints.append(w['num'])
-    for i in range(1, 11):
-        if i not in workints:
-            i3.workspace(workspace_names[i-1])
-            break
+def get_workspace_names():
+    """Return a list of the workspace names set in ~/.i3/config."""
+    default = range(1, 11)
+    ws_names = []
+
+    configfile = os.path.expanduser("~/.i3/config")
+    if not os.path.exists(configfile):
+        return default
+
+    with open(configfile) as f:
+        for line in f.readlines():
+            if line.startswith("set $ws"):
+                line_content = line.rstrip("\n").split()
+                ws_names.append(" ".join(line_content[2:]))
+
+    return ws_names if ws_names else default
 
 if __name__ == '__main__':
-    main()
+    ws_names = get_workspace_names()
+    ws_nums = []
+    for w in i3.get_workspaces():
+        ws_nums.append(w['num'])
+    i = 1
+    while i in ws_nums:
+        i += 1
+    first_free = ws_names[i-1]
+
+    if "--move-to" in sys.argv:
+        i3.move("container", "to", "workspace", first_free)
+    elif "--take-with" in sys.argv:
+        i3.move("container", "to", "workspace", first_free)
+        i3.workspace(first_free)
+    else:
+        i3.workspace(first_free)
