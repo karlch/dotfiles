@@ -18,3 +18,5 @@ else
     printf "PAC:%2d  AUR:%2d\n" "$upnum" "$aur_upnum" > ~/.i3/info/update_info
     printf "%s\n--------------\n%s\n" "$updates" "$aur_updates" > ~/.i3/info/update_names
 fi
+
+pkill -SIGRTMIN+11 i3blocks

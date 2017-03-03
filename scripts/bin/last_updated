@@ -1,0 +1,41 @@
+#!/bin/python
+# vim: ft=python fileencoding=utf-8 sw=4 et sts=4 
+
+import os
+import sys
+import re
+
+def get_updated_pkgs():
+    updated = []
+
+    with open("/var/log/pacman.log", "r") as f:
+        lines = f.readlines()
+
+    upgrade_start_points = [i for i, line in enumerate(lines)
+                            if "full system upgrade" in line]
+
+    for i in reversed(upgrade_start_points):
+        for line in lines[i + 1:]:
+            if "PACMAN" in line:
+                break
+            elif "upgraded" in line:
+                content = line.split()
+                pkg_pos = content.index("upgraded") + 1
+                updated.append(content[pkg_pos])
+        if updated:
+            break
+    return updated
+
+def downgrade_pkg(pkg, pkglist):
+    matchstr = pkg + "-[0-9]"
+    cached = sorted([f for f in pkglist if re.match(matchstr, f)])
+    callstr = "sudo pacman -U /var/cache/pacman/pkg/" + cached[-2]
+    os.system(callstr)
+
+if __name__ == "__main__":
+    updated = get_updated_pkgs()
+    print("\n".join(updated))
+    if "--downgrade" in sys.argv:
+        pkglist = os.listdir("/var/cache/pacman/pkg/")
+        for pkg in updated:
+            downgrade_pkg(pkg, pkglist)

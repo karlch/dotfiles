@@ -1,0 +1,140 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
+import os
+import shutil
+import sys
+from subprocess import Popen, PIPE
+
+ubuntu_export_info = \
+        """
+$ ssh ubuntu_touch
+$ syncevolution --export Contacts/ubuntu_contacts.vcard backend=evolution-contacts
+$ exit
+$ scp ubuntu_touch:./Contacts/ubuntu_contacts.vcard ~/.abook/
+        """
+ubuntu_import_info = \
+        """
+$ scp ~/.abook/ubuntu_contacts.vcard ubuntu_touch:./Contacts/
+$ ssh ubuntu_touch
+$ syncevolution --delete-items backend=evolution-contacts --luids '*'
+$ syncevolution --import Contacts/ubuntu_contacts.vcard backend=evolution-contacts
+$ exit
+        """
+# Print export from ubuntu information
+is_current = input("Is the ubuntu contacfile up to date? [Yn]  ")
+if is_current == "n":
+    print(ubuntu_export_info)
+    sys.exit(1)
+
+# Temporary dir and files to work with
+tmpdir = "/tmp/contact_sync"
+tmpfile = os.path.join(tmpdir, "ubuntu_contacts.abook")
+if os.path.isdir(tmpdir):
+    shutil.rmtree(tmpdir)
+os.mkdir(tmpdir)
+
+# Addressbook files
+abook = os.path.expanduser("~/.abook/addressbook")
+ubuntu = os.path.expanduser("~/.abook/ubuntu_contacts.vcard")
+
+# Convert ubuntu vcard to a temporary abook
+execstr = "abook --convert --infile " + ubuntu + \
+          " --informat vcard --outfile " + tmpfile + " --outformat abook"
+execlist = execstr.split()
+p = Popen(execlist, stdout=PIPE, stderr=PIPE)
+out, err = p.communicate()
+
+# Create a dictionaries of the entries
+def create_dict_with_info(inputfile):
+    """Create a dictionary with names as keys and all info as items.abook
+
+    Args:
+        inputfile: File from which to read address information.
+    Return:
+        The dictionary that will be filled.
+    """
+    created_dict = dict()
+    entry = ""
+    name = ""
+    with open(inputfile) as f:
+        for line in f.readlines():
+            if "name=" in line:
+                name = line.replace("name=", "").replace("\n", "")
+            elif "[" in line:  # Numbers are not relevant
+                continue
+            elif line == "\n":
+                if name:
+                    created_dict[name] = entry
+                entry = ""
+            else:
+                entry += line
+    return created_dict
+ubuntu_dict = create_dict_with_info(tmpfile)
+abook_dict = create_dict_with_info(abook)
+
+# Merge them
+complete_dict = abook_dict
+def create_entry_dict(entry):
+    entry_dict = dict()
+    for line in entry:
+        try:
+            key, entry = line.split("=")
+            entry_dict[key] = entry
+        except:
+            continue
+    return entry_dict
+
+def merge_different_entries(ubuntu_entry, abook_entry):
+    """Merge varying entries according to users choice.
+
+    Args:
+        ubuntu_entry: The entry coming from the ubuntu phone.
+        abook_entry: The entry coming from abook.
+    Return:
+        The entry to use.
+    """
+    ubuntu_lines = ubuntu_entry.split("\n")
+    abook_lines = abook_entry.split("\n")
+    ubuntu_dict_entry = create_entry_dict(ubuntu_lines)
+    abook_dict_entry = create_entry_dict(abook_lines)
+    complete_dict_entry = abook_dict_entry
+    for key in ubuntu_dict_entry.keys():
+        if key not in abook_dict_entry:
+            print("Adding entry", key, "from ubuntu")
+            complete_dict_entry[key] = ubuntu_dict_entry[key]
+        elif ubuntu_dict_entry[key] != abook_dict_entry[key]:
+            print("ubuntu:", ubuntu_dict_entry[key])
+            print("abook:", abook_dict_entry[key])
+            which_key = input("Use ubuntu key? [Yn]  ")
+            if "n" not in which_key.lower():
+                complete_dict_entry[key] = ubuntu_dict_entry[key]
+
+for key in ubuntu_dict.keys():
+    if key not in abook_dict.keys():
+        print("Adding", key, "from ubuntu")
+        complete_dict[key] = ubuntu_dict[key]
+    elif ubuntu_dict[key] != abook_dict[key]:
+        print("\n", key, "differs")
+        merge_different_entries(ubuntu_dict[key], abook_dict[key])
+
+shutil.move(abook, abook + ".bak")
+shutil.move(ubuntu, ubuntu + ".bak")
+
+# Write merged abookfile
+with open(abook, "w") as f:
+    for i, key in enumerate(sorted(complete_dict.keys())):
+        f.write("[%d]\n" % (i))
+        f.write("name=" + key + "\n")
+        f.write(complete_dict[key] + "\n")
+
+# Create new ubuntu file
+execstr = "abook --convert --infile " + abook + \
+          " --informat abook --outfile " + ubuntu + " --outformat vcard"
+execlist = execstr.split()
+p = Popen(execlist, stdout=PIPE, stderr=PIPE)
+out, err = p.communicate()
+
+print(ubuntu_import_info)
+
+shutil.rmtree(tmpdir)

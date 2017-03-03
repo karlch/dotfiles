@@ -52,7 +52,7 @@ elif [[ $1 == "l" ]]; then
 fi
 
 curwin=$(xdotool getactivewindow)
-if (xprop -id $curwin | grep "st" > /dev/null); then
+if (xprop -id $curwin | grep "st-256color" > /dev/null); then
     prev=`tmux display-message -p '#P'`
     if [[ $2 == "v" ]]; then
         tmux select-pane $tdir

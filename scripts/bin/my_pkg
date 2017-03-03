@@ -1,0 +1,7 @@
+#!/bin/bash
+
+_pkgdir=/tmp/.pkginfo
+mkdir -p /tmp/.pkginfo/
+pacman -Qgq base base-devel | sort > $_pkgdir/base
+pacman -Qetq > $_pkgdir/installed_explicit
+comm -13 $_pkgdir/base $_pkgdir/installed_explicit | less

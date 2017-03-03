@@ -1,0 +1,14 @@
+#!/bin/bash
+
+datediff() {
+    d1=$(date -d "$1" +%s)
+    d2=$(date -d "today" +%s)
+    printf "%s\n" $(( (d2 - d1) / 86400 ))
+}
+
+mirrorlist_date=$(head -n 1 /etc/pacman.d/mirrorlist | cut -d " " -f8)
+
+diff=$(datediff "$mirrorlist_date")
+if [[ "$diff" -gt 10 ]]; then
+    printf "\e[1;33mwarning:\e[0;0m Mirrorlist out of date -- consider re-running mirrorgen\n"
+fi
