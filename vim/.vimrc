@@ -47,7 +47,7 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Show with one menu item, no preview
 set completeopt=menuone,longest
 
-" Statusline
+" Always display statusline
 set laststatus=2
 
 " Copy and paste from system
@@ -64,9 +64,6 @@ set autochdir
 
 " Hide dotfiles
 let g:netrw_list_hide='\..*'
-
-" No mouse, tzz neovim
-set mouse=
 
 " Use true colors
 set termguicolors
@@ -92,18 +89,17 @@ Plug 'konfekt/fastfold'
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'lukerandall/haskellmode-vim', {'for': 'haskell'}
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
+Plug 'mhartington/oceanic-next'
 Plug 'neomake/neomake'
 Plug 'potatoesmaster/i3-vim-syntax'
 Plug 'rhysd/committia.vim'
 Plug 'rip-rip/clang_complete'
-Plug 'ron89/thesaurus_query.vim'
 Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
 Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tmhedberg/simpylfold', {'for': 'python'}
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'mhartington/oceanic-next'
 
 " Local plugins in bundle
 Plug '~/.vim/bundle/root'
@@ -122,7 +118,7 @@ set number relativenumber
 " Highlight the cursorline
 set cursorline
 
-" Visual autocomplete for command menu
+" Visual autocomplete for command line
 set wildmenu
 
 " Enable folding by syntax
@@ -248,9 +244,6 @@ inoremap <Right> <Esc>:TmuxNavigateRight<CR>
 " Follow Tags with C-Space
 noremap <C-@> <C-]>
 
-" Access marks quickly
-noremap , `
-
 " Nice buffer switching
 nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bprev<CR>
@@ -268,7 +261,6 @@ nnoremap <leader>w :w<CR>
 
 " Open and close folds quickly
 nnoremap <leader>f za
-nnoremap <leader>F :call ToggleFoldlevel()<CR>
 
 " Edit my vimrc
 nnoremap <leader>ve :vsplit $MYVIMRC<CR>
@@ -298,7 +290,6 @@ noremap <leader>l $
 
 " Quicker commenting of code
 map <leader>c <c-_><c-_>
-nnoremap <leader>C A<Space><Space><Esc>:TCommentRight<CR>l
 
 " Start Tagbar
 nnoremap <leader>tb :TagbarToggle<CR>
@@ -306,6 +297,7 @@ nnoremap <leader>tb :TagbarToggle<CR>
 nnoremap <leader>tv :Vexplore<CR>
 nnoremap <leader>ts :Sexplore<CR>
 nnoremap <leader>te :Explore<CR>
+" TODO
 
 " Start the mundo plugin
 nnoremap<leader>u :MundoToggle<CR><CR>
@@ -335,7 +327,8 @@ vmap <leader>+ °1gv°2
 
 " Surround
 " Use normal s in visual mode as well
-vmap s S
+" vmap s S
+" TODO
 " Add a surrounding with s
 nmap s ysi
 
@@ -375,12 +368,6 @@ let g:tagbar_autopreview = 0
 let g:EasyMotion_keys = 'ACDEFGHIJKLMNQRSTUVWÖ'
 let g:EasyMotion_use_upper = 1
 let g:EasyMotion_smartcase = 1
-
-" delimitMate
-let g:delimitMate_expand_space = 0
-let g:delimitMate_expand_cr = 0
-let g:delimitMate_expand_inside_quotes = 1
-let g:delimitMate_balance_matchpairs = 1
 
 " Dragvisuals
 let g:DVB_TrimWS = 1
@@ -445,9 +432,6 @@ let vim_markdown_preview_browser='qutebrowser'
 let vim_markdown_preview_github=1
 let vim_markdown_preview_use_xdg_open=1
 
-" YCM
-let g:ycm_show_diagnostics_ui = 0
-
 "}}}
 
 " Autocommands {{{
@@ -500,26 +484,6 @@ let g:tex_flavor='latex'
 " Haskell
 autocmd BufEnter *.hs compiler ghc
 
-" Matlab
-autocmd BufRead,BufNewFile *.m VimuxRunCommand("clear && matlab -nosplash -nodesktop")
-" Compiler
-autocmd BufEnter *.m compiler mlint
-
-" Mathematica
-autocmd BufRead,BufNewFile *.mma      setfiletype mma
-autocmd BufRead,BufNewFile *.mma VimuxRunCommand("clear && math")
-autocmd BufNewFile *.mma exe "normal a<<~/.vim/ftplugin/mma/startjava\<Esc>"
-
-" Tsv (Vim as spreadsheet)
-autocmd BufEnter *.tsv setlocal noexpandtab shiftwidth=20 softtabstop=20 tabstop=20
-autocmd BufEnter *.tsv setlocal textwidth=800 nowrap nolinebreak colorcolumn=0 norelativenumber
-autocmd BufEnter *.tsv let g:SuperTabDefaultCompletionType = "<Tab>"
-autocmd BufEnter *.tsv nnoremap <buffer> <leader>tb :sp<CR>:wincmd k<CR>:0<CR>1<C-W>_:wincmd j<CR>
-autocmd BufEnter *.tsv inoremap <buffer> = =<Esc>vB"ey:call CalcQA()<CR>?=<CR>ldBE
-autocmd BufLeave *.tsv setlocal expandtab shiftwidth=4 tabstop=4
-autocmd BufLeave *.tsv setlocal textwidth=80 nowrap linebreak colorcolumn=+1 relativenumber
-autocmd BufLeave *.tsv inoremap = =
-
 " Mail
 autocmd BufRead,BufNewFile *mutt-* setfiletype mail
 autocmd BufRead,BufNewFile *mutt-* setlocal foldlevel=3
@@ -527,10 +491,6 @@ autocmd BufRead,BufNewFile *mutt-* setlocal textwidth=72
 
 " Shell
 autocmd BufNewFile *.sh silent exec "normal i#!/bin/bash\<CR>\<CR>\<Esc>:silent w\<CR>:silent! chmod +x %\<CR>\<CR>"
-
-" Calculator
-autocmd BufRead,BufNewFile calc inoremap <CR> =<Esc>vaW"ey:call CalcQA()<CR>F=lDo<Esc>i>   <Esc>po<Esc>i
-autocmd BufRead,BufNewFile calc inoremap <Space> <Esc>pa
 
 " }}}
 
@@ -585,10 +545,6 @@ function! CalcQA()
     else
         echo "answer = " . answer4
     endif
-endfunction
-
-function! Chomp(str)
-  return substitute(a:str, '\n$', '', '')
 endfunction
 
 " }}}
