@@ -1,6 +1,6 @@
 # Initializes Zsh
 
-# add a function path
+# Add a function path
 fpath=($ZSH/functions $ZSH/completions $fpath)
 
 # Load all of the config files in lib
@@ -19,9 +19,6 @@ is_plugin() {
 for plugin ($plugins); do
     fpath=($ZSH/plugins/$plugin $fpath)
 done
-
-# Figure out the SHORT hostname
-SHORT_HOST=${HOST/.*/}
 
 # Save the location of the current completion dump file.
 if [ -z "$ZSH_COMPDUMP" ]; then

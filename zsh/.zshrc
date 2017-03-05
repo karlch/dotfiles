@@ -1,13 +1,5 @@
 # Check for VT immediately to start tmux as early as possible
-if [ "$TERM" = "linux" ]; then
-    # Nice colors for VT
-    _SEDCMD='s/.*\*color\([0-9]\{1,\}\).*#\([0-9a-fA-F]\{6\}\).*/\1 \2/p'
-    for i in $(sed -n "$_SEDCMD" $HOME/.Xdefaults | \
-               awk '$1 < 16 {printf "\\e]P%X%s", $1, $2}'); do
-        echo -en "$i"
-    done
-    clear
-else
+if [ "$TERM" != "linux" ]; then
     # Tmux only automatically in X
     test -z ${TMUX} && exec tmux
 fi
@@ -29,20 +21,17 @@ plugins=(vi-mode zsh-history-substring-search sudo lscolors dot zsh-autosuggesti
 
 # Initialize the actual zsh script
 source $ZSH/zsh.sh
-# ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=("expand-or-complete")
+
+# Accept autosuggested word with ^F with slightly different word separators
 ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=("my-forward-word")
 
 # God, this pause almost killed me
 stty -ixon
 
 # Custom keybindings
-bindkey '^A' vi-forward-blank-word
 bindkey '^F' my-forward-word
-bindkey '^E' my-backward-word
 bindkey '^ ' autosuggest-execute
-bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' push-line-or-edit
-bindkey '^K' history-substring-search-up
 bindkey '^?' backward-delete-char  # Backspace over everything in insert mode
 #
 # Normal mode
@@ -63,9 +52,7 @@ bindkey -M menuselect 'h' backward-char
 bindkey -M menuselect '\E' accept-line
 
 # Great z programs
-autoload -U zmv
-# Zcalc
-autoload -U zcalc
+autoload -U zmv zcalc
 
 # Colored man pages
 export LESS_TERMCAP_mb=$'\E[01;31m'
@@ -81,6 +68,6 @@ eval "$(fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install \
     zsh-wcomp zsh-wcomp-install)"
 
 # Logo
-alsi    # Logo with system information
+alsi
 my_fortune marvin
 echo ""
