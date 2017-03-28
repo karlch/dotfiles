@@ -10,9 +10,9 @@ show_info() {
         artist=$(mpc -f %artist% current)
         title=$(mpc -f "%track% %title%" current)
         if mpc status | grep "paused" 1>/dev/null; then
-            printf "  "
+            printf "   "
         else
-            printf "  "
+            printf "   "
         fi
         printf '<span foreground="#F99157">'
         printf "%s  </span>%s" "$artist" "$title"

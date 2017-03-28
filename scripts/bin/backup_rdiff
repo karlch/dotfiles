@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Check if drive is mounted
+[[ -d /media/data-ck ]] || exit 1
+
+notify-send "Backup" "...starting"
+
+# Create necessary directories
+mkdir -p /media/data-ck/rdiff/etc
+mkdir -p /media/data-ck/rdiff/home
+mkdir -p /media/data-ck/rdiff/pkg
+
+# Run rdiff one by one
+rdiff-backup ~ /media/data-ck/rdiff/home
+rdiff-backup /etc /media/data-ck/rdiff/etc
+
+# Save packages
+pacman -Qqn > /media/data-ck/rdiff/pkg/pkg_official.txt
+pacman -Qqm > /media/data-ck/rdiff/pkg/pkg_aur.txt
+
+notify-send "Backup" "...done"

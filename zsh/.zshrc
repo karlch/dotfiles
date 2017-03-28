@@ -31,6 +31,7 @@ stty -ixon
 # Custom keybindings
 bindkey '^F' my-forward-word
 bindkey '^ ' autosuggest-execute
+bindkey '^K' history-substring-search-up # I always hit this accidentally
 bindkey '^S' push-line-or-edit
 bindkey '^?' backward-delete-char  # Backspace over everything in insert mode
 #

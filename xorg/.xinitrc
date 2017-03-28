@@ -32,6 +32,9 @@ xrdb -load ~/.config/rofi/rofi &
 export MPD_HOST="alarmpi"
 # Devmon for usb
 devmon --exec-on-drive 'notify-send "Mounted %l %f at %d"' --exec-on-unmount 'notify-send "Succesfully unmounted %l from %f"' &
+# Clipboard manager
+greenclip daemon &
 # WM and compositor
-compton &
+compton -b
 exec i3
+# exec gnome-session

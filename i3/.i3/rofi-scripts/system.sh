@@ -13,7 +13,9 @@ case $selected_option in
     *"Reboot" ) reboot;;
     *"Logout" ) i3-msg exit;;
     *"Suspend" ) systemctl suspend;;
-    *"Lock" ) convert x:root -blur 0x10 /tmp/.i3lock.png && \
-        i3lock -O 0.3 -T 1.0 -i /tmp/.i3lock.png -R 130 -F 50 \
-        -w "#CCCCCC" -o "#8787AF" -l "6B93BB" --24 --no-keyboard-layout;;
+    *"Lock" ) convert x:root -resize 192x108 /tmp/.i3lock.png
+        mogrify -resize 1920x1080 /tmp/.i3lock.png
+        i3lock -O 0.1 -T 1.0 -i /tmp/.i3lock.png -R 260 -F 100 \
+        -w "#99C794" -o "#EC5F67" -l "#6699CC" \
+        --24 --no-keyboard-layout;;
 esac

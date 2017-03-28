@@ -4,22 +4,22 @@
 set $mod Mod1
 
 # Workspace names
-set $ws1 1:<b>Ⅰ</b>
-set $ws2 2:<b>Ⅱ</b>
-set $ws3 3:<b>Ⅲ</b>
-set $ws4 4:<b>Ⅳ</b>
-set $ws5 5:<b>Ⅴ</b>
-set $ws6 6:<b>Ⅵ</b>
-set $ws7 7:<b>Ⅶ</b>
-set $ws8 8:<b>Ⅷ</b>
-set $ws9 9:<b>Ⅸ</b>
-set $ws10 10:<b>Ⅹ</b>
-set $wsweb 101: <span font="FontAwesome"></span>
-set $wschat 102: <span font="FontAwesome"></span>
-set $wsmusic 100: <span font="FontAwesome"></span>
+set $ws1 1:<b> Ⅰ </b>
+set $ws2 2:<b> Ⅱ </b>
+set $ws3 3:<b> Ⅲ </b>
+set $ws4 4:<b> Ⅳ </b>
+set $ws5 5:<b> Ⅴ </b>
+set $ws6 6:<b> Ⅵ </b>
+set $ws7 7:<b> Ⅶ </b>
+set $ws8 8:<b> Ⅷ </b>
+set $ws9 9:<b> Ⅸ </b>
+set $ws10 10:<b> Ⅹ </b>
+set $wsweb 101:<span font="FontAwesome">  </span>
+set $wschat 102:<span font="FontAwesome">  </span>
+set $wsmusic 100:<span font="FontAwesome">  </span>
 
 # Font for window titles
-font pango: Overpass 10
+font pango: Overpass Bold 10
 
 # Window borders
 new_window pixel 4
@@ -27,7 +27,7 @@ new_float normal
 gaps inner 20
 
 # Color settings        Border_top  Background  Text        Indicator  Border
-client.focused          #343D46     #343D46     #D8DEE9     #5FB3B3    #6699CC
+client.focused          #3B4B54     #3B4B54     #D8DEE9     #5FB3B3    #6699CC
 client.focused_inactive #1B2B34     #1B2B34     #A7ADBA     #65737E    #65737E
 client.unfocused        #1B2B34     #1B2B34     #A7ADBA     #65737E    #65737E
 client.urgent           #FAC863     #FAC863     #000000     #CDD3DE    #FAC863
@@ -69,8 +69,8 @@ bindsym Control+q kill
 bindsym Control+m fullscreen
 
 # Function keys
-bindsym XF86MonBrightnessDown exec --no-startup-id sudo xbacklight -dec 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
-bindsym XF86MonBrightnessUp exec --no-startup-id sudo xbacklight -inc 5 -time 0 -steps 1 && ~/.i3/brightness-show.sh
+bindsym XF86MonBrightnessDown exec --no-startup-id  ~/.i3/brightness.sh dec
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.i3/brightness.sh inc
 bindsym XF86AudioLowerVolume exec --no-startup-id ~/.i3/volnoti-set.sh -
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.i3/volnoti-set.sh +
 bindsym $mod+XF86AudioLowerVolume exec --no-startup-id ~/.i3/volnoti-set-raspberry.sh -
@@ -285,7 +285,7 @@ bar {
         status_command i3blocks
         strip_workspace_numbers yes
         separator_symbol " "
-        height 30
+        height 34
         position top
 
         # Do not allow applications to use the bar as icon tray
@@ -309,5 +309,7 @@ bar {
         bindsym button5 nop
 }
 # }}}
+
+exec i3-msg workspace "$ws1"
 
 # vim:foldmethod=marker:foldlevel=0
