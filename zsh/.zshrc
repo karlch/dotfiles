@@ -1,6 +1,5 @@
-# Check for VT immediately to start tmux as early as possible
+# Tmux automatically in X
 if [ "$TERM" != "linux" ]; then
-    # Tmux only automatically in X
     test -z ${TMUX} && exec tmux
 fi
 

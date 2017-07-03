@@ -46,4 +46,4 @@ ${GIT}
     fi
 }
 
-PROMPT='$(_gitinfo)USE FASD! %{$fg[blue]%}${PWD/#$HOME/~}%{$fg[white]%} %(?..%? )%{$fg[cyan]%}$(_vimode)%{$reset_color%}'
+PROMPT='$(_gitinfo)%{$fg[blue]%}${PWD/#$HOME/~}%{$fg[white]%} %(?..%? )%{$fg[cyan]%}$(_vimode)%{$reset_color%}'

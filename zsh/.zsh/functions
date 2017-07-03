@@ -115,3 +115,20 @@ function run_42() {
     DISPLAY=":42" "$@"
     kill "$xvfb_pid"
 }
+
+# Setup python virtualenv
+function setup_pythonvenv() {
+    export WORKON_HOME=~/Python/Envs
+    source virtualenvwrapper.sh
+}
+
+# Kill all tmux sessions except default
+# I use this instead of tmux kill-server to always have one session loaded which
+# greatly improves the startup time of my terminal
+function tks() {
+    for session in $(tmux list-sessions -F '#S'); do
+        if [[ $session != "default" ]]; then
+            tmux kill-session -t $session
+        fi
+    done
+}
