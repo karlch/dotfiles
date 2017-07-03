@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Check and location if VPN is running
+if ip route get 8.8.8.8 | grep "tun" 1>/dev/null; then
+    IP_ADDR=$(curl -s http://api.ipify.org/\?format\=text)
+    IP_LOC=$(geoiplookup $IP_ADDR | cut -d " " -f4 | tr -d ",")
+    printf "<span foreground='#99C794'>✔ </span>%s\n" "$IP_LOC"
+# A simple red cross otherwise
+else
+    printf "<span foreground='#EC5F67'>✘ </span>\n"
+fi
