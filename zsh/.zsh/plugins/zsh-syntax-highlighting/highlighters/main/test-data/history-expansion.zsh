@@ -27,13 +27,12 @@
 # vim: ft=zsh sw=2 ts=2 et
 # -------------------------------------------------------------------------------------------------
 
-ZSH_HIGHLIGHT_STYLES[default]=$unused_highlight
 BUFFER='!foo bar !baz ! ; !'
 
 expected_region_highlight=(
-  "1 4 $ZSH_HIGHLIGHT_STYLES[history-expansion]" # !foo
-  "6 8 $ZSH_HIGHLIGHT_STYLES[default]" # bar
-  "10 13 $ZSH_HIGHLIGHT_STYLES[history-expansion]" # !baz
-  "15 15 $ZSH_HIGHLIGHT_STYLES[default]" # ! (before the semicolon)
-  "19 19 $ZSH_HIGHLIGHT_STYLES[reserved-word]" # ! (after the semicolon)
+  "1 4 history-expansion" # !foo
+  "6 8 default" # bar
+  "10 13 history-expansion" # !baz
+  "15 15 default" # ! (before the semicolon)
+  "19 19 reserved-word" # ! (after the semicolon)
 )

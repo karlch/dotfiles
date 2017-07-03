@@ -32,6 +32,7 @@ ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(
 	end-of-line
 	vi-forward-char
 	vi-end-of-line
+	vi-add-eol
 )
 
 # Widgets that accept the entire suggestion and execute it
@@ -46,3 +47,16 @@ ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(
 	vi-forward-blank-word
 	vi-forward-blank-word-end
 )
+
+# Widgets that should be ignored (globbing supported but must be escaped)
+ZSH_AUTOSUGGEST_IGNORE_WIDGETS=(
+	orig-\*
+	beep
+	run-help
+	set-local-history
+	which-command
+	yank
+)
+
+# Max size of buffer to trigger autosuggestion. Leave undefined for no upper bound.
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=

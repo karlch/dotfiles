@@ -27,14 +27,15 @@
 # vim: ft=zsh sw=2 ts=2 et
 # -------------------------------------------------------------------------------------------------
 
-BUFFER='() echo hello; () { echo world }'
+BUFFER='() echo hello; () { echo world } "argument"'
 
 expected_region_highlight=(
-  "1 2 $ZSH_HIGHLIGHT_STYLES[reserved-word]" # () 
-  "4 7 $ZSH_HIGHLIGHT_STYLES[command]" # echo
-  "9 13 $ZSH_HIGHLIGHT_STYLES[default]" # hello
-  "14 14 $ZSH_HIGHLIGHT_STYLES[commandseparator]" # ;
-  "16 17 $ZSH_HIGHLIGHT_STYLES[reserved-word]" # ()
-  "19 19 $ZSH_HIGHLIGHT_STYLES[reserved-word]" # {
-  "21 24 $ZSH_HIGHLIGHT_STYLES[command]" # echo
+  "1 2 reserved-word" # ()
+  "4 7 builtin" # echo
+  "9 13 default" # hello
+  "14 14 commandseparator" # ;
+  "16 17 reserved-word" # ()
+  "19 19 reserved-word" # {
+  "21 24 builtin" # echo
+  "34 43 double-quoted-argument" # "argument"
 )

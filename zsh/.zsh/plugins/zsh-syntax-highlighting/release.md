@@ -1,9 +1,12 @@
 # Release procedure (for developers):
 
+- For minor (A.B.0) releases:
+  - Check whether the release uses any not-yet-released zsh features
 - Check open issues and outstanding pull requests
 - Confirm `make test` passes
   - check with multiple zsh versions
 - Update changelog.md
+  `tig --abbrev=12  --abbrev-commit 0.4.1..upstream/master`
 - Remove `-dev` suffix from `./.version`;
   Commit that using 'git commit -m "Tag version $(<.version).";
   Tag it using `git tag $(<.version)`;

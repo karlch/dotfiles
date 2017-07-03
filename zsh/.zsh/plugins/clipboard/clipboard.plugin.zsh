@@ -8,12 +8,22 @@ copy-to-xsel() {
 zle -N copy-to-xsel
 bindkey -M vicmd "y" copy-to-xsel
 
-# Paste
+# Paste in form of p
 paste-xsel() {
-    RBUFFER=$(xsel -o -b </dev/null)$RBUFFER
+    # We need to do some ugly shifting here
+    LENGTH=${#RBUFFER}
+    LBUFFER=$LBUFFER${RBUFFER[1]}$(xsel -o -b </dev/null)
+    RBUFFER=${RBUFFER[2,$LENGTH]}
 }
 zle -N paste-xsel
 bindkey -M vicmd "p" paste-xsel
+
+# Paste in form of P
+Paste-xsel() {
+    RBUFFER=$(xsel -o -b </dev/null)$RBUFFER
+}
+zle -N Paste-xsel
+bindkey -M vicmd "P" Paste-xsel
 
 # Delete
 delete-to-xsel() {
@@ -37,4 +47,4 @@ char-to-xsel() {
     print -rn -- $CUTBUFFER | xsel -i -b
 }
 zle -N char-to-xsel
-# bindkey -M vicmd "x" char-to-xsel
+bindkey -M vicmd "x" char-to-xsel

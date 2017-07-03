@@ -27,21 +27,21 @@
 # vim: ft=zsh sw=2 ts=2 et
 # -------------------------------------------------------------------------------------------------
 
-ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=$unused_highlight
 # Tests three codepaths:
 # * -i  (no argument)
 # * -C3 (pasted argument)
 # * -u otheruser (non-pasted argument)
-BUFFER='sudo -C3 -u otheruser -i ls /; sudo ; sudo -u ;'
+BUFFER='sudo -C3 -u otheruser -i ls /; sudo ; sudo -u ; sudo notacommand'
 
 expected_region_highlight=(
-  "1 4 $ZSH_HIGHLIGHT_STYLES[precommand]" # sudo
-  "6 8 $ZSH_HIGHLIGHT_STYLES[single-hyphen-option]" # -C3
-  "10 11 $ZSH_HIGHLIGHT_STYLES[single-hyphen-option]" # -u
-  "13 21 $ZSH_HIGHLIGHT_STYLES[default]" # otheruser
-  "23 24 $ZSH_HIGHLIGHT_STYLES[single-hyphen-option]" # -i
-  "26 27 $ZSH_HIGHLIGHT_STYLES[command]" # ls
-  "29 29 $ZSH_HIGHLIGHT_STYLES[path]" # /
-  "37 37 $ZSH_HIGHLIGHT_STYLES[unknown-token]" # ;, error because empty command
-  "47 47 $ZSH_HIGHLIGHT_STYLES[unknown-token]" # ;, error because incomplete command
+  "1 4 precommand" # sudo
+  "6 8 single-hyphen-option" # -C3
+  "10 11 single-hyphen-option" # -u
+  "13 21 default" # otheruser
+  "23 24 single-hyphen-option" # -i
+  "26 27 command" # ls
+  "29 29 path" # /
+  "37 37 unknown-token" # ;, error because empty command
+  "47 47 unknown-token" # ;, error because incomplete command
+  "54 64 unknown-token" # notacommand - doesn't falls back to "not a command word" codepath
 )
