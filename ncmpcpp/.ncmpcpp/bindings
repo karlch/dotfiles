@@ -318,9 +318,6 @@ def_key "m"
 def_key "m"
  move_selected_items_up
 
-def_key "m"
- set_visualizer_sample_multiplier
-
 def_key "n"
  move_sort_order_down
 

@@ -2,7 +2,7 @@
 ncmpcpp_directory = "~/.ncmpcpp"
 lyrics_directory = "~/.ncmpcpp/lyrics"
 ##### connection settings #####
-mpd_host = alarmpi
+mpd_host = "alarmpi"
 mpd_port = 6600
 mpd_connection_timeout = 5
 
@@ -31,12 +31,12 @@ now_playing_prefix = "$b$4❯  $0"
 now_playing_suffix = "$/b"
 
 #### browser ####
-browser_playlist_prefix = "$2playlist$9 "
-selected_item_prefix = $6
-selected_item_suffix = $9
-modified_item_prefix = $3> $9
-browser_sort_mode = name
-browser_sort_format = {%a - }{%t}|{%f} {(%l)}
+browser_playlist_prefix = "$(cyan)$bPlaylist: $/b$(end)"
+selected_item_prefix = "$(cyan)"
+selected_item_suffix = "$(end)"
+modified_item_prefix = "$(yellow)> $(end)"
+browser_sort_mode = "name"
+browser_sort_format = "{%a - }{%t}|{%f} {(%l)}"
 
 ##### columns settings #####
 song_columns_list_format = "(25)[white]{a} (25)[green]{brE} (47)[blue]{t|f:Title} (6f)[white]{l}"
@@ -88,12 +88,11 @@ use_console_editor = yes
 ##### colors and look #####
 progressbar_look = "▬▬▬"
 
-progressbar_boldness = no
+current_item_prefix = "$(blue)$r"
+current_item_suffix = "$/r$(end)"
 
 screen_switcher_mode = playlist, media_library
 startup_screen = playlist
-# startup_slave_screen = visualizer
-# startup_slave_screen_focus = no
 locked_screen_width_part = 80
 jump_to_now_playing_song_at_start = yes
 
@@ -116,10 +115,8 @@ state_flags_color = "blue"
 main_window_color = "default"
 color1 = "default"
 color2 = "blue"
-main_window_highlight_color = "blue"
 progressbar_color = "black"
 progressbar_elapsed_color = "blue"
 statusbar_color = "blue"
-active_column_color = "cyan"
 window_border_color = "blue"
 active_window_border = "blue"
