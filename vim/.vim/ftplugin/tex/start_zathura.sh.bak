@@ -1,8 +1,0 @@
-#! /bin/bash
-
-if !(xdotool search --onlyvisible --class "Zathura"); then
-    zathura &>/dev/null >/dev/null $1 &
-    xdotool search --sync --onlyvisible --class "Zathura"
-    i3-msg -q resize shrink width 50 px or 10 ppt
-    i3-msg -q focus left
-fi

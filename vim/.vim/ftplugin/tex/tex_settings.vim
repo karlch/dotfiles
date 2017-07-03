@@ -3,9 +3,6 @@
 " map a pdf viewer
 nnoremap <buffer> <leader>d :call ZathuraSync()<CR>
 
-" map leader-w for the compiler
-nnoremap <buffer> <leader>w <Esc>:call TexSync()<CR>
-
 " Linelength 90 for LaTex files, reasonable length in my opinion
 set tw=90
 set sidescrolloff=0
@@ -26,9 +23,13 @@ iabbrev ° ^\circ
 " Tables
 source ~/.vim/ftplugin/tex/tex_tables.vim
 
+" Neomake
+let g:neomake_tex_enabled_makers = ['lacheck']
+
 " Vimtex
 let g:vimtex_index_show_help = 0
-let g:vimtex_latexmk_enabled = 0
+let g:vimtex_latexmk_enabled = 1
+let g:vimtex_compiler_progname = 'nvr'
 let g:vimtex_view_enabled = 1
 let g:vimtex_imaps_enabled = 0
 let g:vimtex_fold_enabled = 1
@@ -56,9 +57,8 @@ function! ErrorList()
     return errstring
 endfunction
 
-" Saves, Builds and moves to the preview
-function! TexSync()
-    silent write
-    silent BuildTexPdf
-    " silent call ZathuraSync()
+" View in Zathura
+function! ZathuraSync()
+    exec "normal :NeomakeSh ~/.vim/ftplugin/tex/start_zathura.sh\<Space>\<C-R>=expand('%')\<CR>\<Space>\<C-R>=line('.')\<CR>\<CR>"
+    redraw!
 endfunction

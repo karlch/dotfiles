@@ -62,9 +62,6 @@ set notitle
 " Change directory to the current buffer when opening files.
 set autochdir
 
-" Hide dotfiles
-let g:netrw_list_hide='\..*'
-
 " Use true colors
 set termguicolors
 
@@ -84,6 +81,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'jamshedvesuna/vim-markdown-preview', {'for': 'markdown'}
 Plug 'jiangmiao/auto-pairs'
 Plug 'joshukraine/dragvisuals'
+Plug 'justmao945/vim-clang'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'konfekt/fastfold'
 Plug 'lervag/vimtex', {'for': 'tex'}
@@ -93,7 +91,7 @@ Plug 'mhartington/oceanic-next'
 Plug 'neomake/neomake'
 Plug 'potatoesmaster/i3-vim-syntax'
 Plug 'rhysd/committia.vim'
-Plug 'rip-rip/clang_complete'
+Plug 'ron89/thesaurus_query.vim'
 Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
 Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tmhedberg/simpylfold', {'for': 'python'}
@@ -166,6 +164,9 @@ set shiftround
 " Abbreviations {{{
 " Save as root
 cabbrev w!! w !sudo tee > /dev/null %
+
+" Find for vertical splits
+cabbrev fvs vert sf
 
 " }}}
 
@@ -242,7 +243,7 @@ inoremap <Up> <Esc>:TmuxNavigateUp<CR>
 inoremap <Right> <Esc>:TmuxNavigateRight<CR>
 
 " Follow Tags with C-Space
-noremap <C-@> <C-]>
+noremap <C-Space> <C-]>
 
 " Nice buffer switching
 nnoremap <C-n> :bnext<CR>
@@ -289,15 +290,15 @@ noremap <leader>l $
 " Plugin Mappings {{{
 
 " Quicker commenting of code
-map <leader>c <c-_><c-_>
+map <leader>c gcc
 
 " Start Tagbar
 nnoremap <leader>tb :TagbarToggle<CR>
+
 " Netrw (Not a plugin, but replaces one :D)
 nnoremap <leader>tv :Vexplore<CR>
 nnoremap <leader>ts :Sexplore<CR>
 nnoremap <leader>te :Explore<CR>
-" TODO
 
 " Start the mundo plugin
 nnoremap<leader>u :MundoToggle<CR><CR>
@@ -396,9 +397,7 @@ let g:mundo_prefer_python3 = 1
 
 " Neomake
 let g:neomake_verbose = 0
-let g:neomake_cpp_clang_args = ['-Wno-c++11-extensions']
-let g:neomake_error_sign = {'text': 'E:'}
-let g:neomake_warning_sign = {'text': 'W:'}
+let g:neomake_open_list = 2
 
 " Lightline
 let g:lightline = {
@@ -420,17 +419,20 @@ let g:lightline.colorscheme = "oceanicnext"
 let g:lightline.separator = { 'left': '', 'right': '' }
 let g:lightline.subseparator = { 'left': '', 'right': '' }
 
-" Fix auto-pairs and clang_complete
-let g:AutoPairsMapCR = 0
-imap <silent> <CR> <CR><Plug>AutoPairsReturn
-
 " Thesaurus_query
 let g:tq_language = ['en', 'de']
+let g:tq_map_keys = 0
 
 " Markdown preview
 let vim_markdown_preview_browser='qutebrowser'
 let vim_markdown_preview_github=1
 let vim_markdown_preview_use_xdg_open=1
+
+" netrw
+let g:netrw_banner=0                            " disable banner
+let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'      " hide dotfiles
+let g:netrw_list_hide.=netrw_gitignore#Hide()     " hide gitignored files
+
 
 "}}}
 
@@ -456,12 +458,12 @@ function! AdjustWindowHeight()
 endfunction
 
 " Neomake
-autocmd! BufWritePost *.{py,c,C,cpp,cxx,hs} Neomake
+autocmd! BufWritePost *.{py,C,cpp,cxx,hs} Neomake
 autocmd! BufWritePost vimiv Neomake
 
 " Python
 " Command to insert the python code for a nice header
-autocmd BufNewFile *.py exe "normal a# vim: ft=python fileencoding=utf-8 sw=4 et sts=4 \<Esc>o"
+autocmd BufNewFile *.py exe "normal a# vim: ft=python fileencoding=utf-8 sw=4 et sts=4\<Esc>o"
 
 " Perl
 " Insert perl header
@@ -476,10 +478,8 @@ autocmd BufRead,BufNewFile *.cxx setlocal makeprg=g++\ %\ -o\ %:t:r\ -std=c++11
 autocmd BufRead,BufNewFile *.C set filetype=cpp.root
 
 " LaTex
-autocmd BufRead,BufNewFile *.tex call ZathuraSync()
-autocmd VimLeave *.tex exe "!~/.vim/ftplugin/tex/close_zathura.sh"
-" Tex to LaTex
 let g:tex_flavor='latex'
+autocmd VimEnter *.tex VimtexCompile
 
 " Haskell
 autocmd BufEnter *.hs compiler ghc

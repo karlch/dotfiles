@@ -145,10 +145,6 @@ function! <SID>BuildTexPdf(view_results, ...)
 
 endfunction
 
-function! ZathuraSync()
-    exec "normal :NeomakeSh ~/.vim/ftplugin/tex/start_zathura.sh\<Space>\<C-R>=expand('%')\<CR>\<Space>\<C-R>=line('.')\<CR>\<CR>"
-    redraw!
-endfunction
 
 function! <SID>ViewTexPdf(...)
     sleep 500m
