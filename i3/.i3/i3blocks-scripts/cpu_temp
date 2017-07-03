@@ -11,3 +11,7 @@ elif [[ $temperature -lt 80 ]]; then
 else
     printf "<span foreground='#EC5F67'>  </span>%sC" "$temperature";
 fi
+
+case $BLOCK_BUTTON in
+    1 ) st -n floating -e htop ;;
+esac

@@ -14,8 +14,11 @@ show_info() {
         else
             printf "   "
         fi
+        # We need to limit size for some awkwardly long songs
+        if [[ ${#artist} -gt 17 ]]; then artist="${artist:0:17}..."; fi
+        if [[ ${#title} -gt 27 ]]; then title="${title:0:27}..."; fi
         printf '<span foreground="#F99157">'
-        printf "%s  </span>%s" "$artist" "$title"
+        printf "%s  </span>%s" "${artist}" "${title}"
         print_length
     fi
 }

@@ -51,12 +51,12 @@ if ($status eq 'Discharging') {
             print '<span foreground="#6699CC">  </span>';
             print "$full_text\n";
             print "$short_text\n";
-            exit(33);
+            print "#EC5F67\n";
     } elsif ($percent < 25) {
             print '<span foreground="#6699CC">  </span>';
             print "$full_text\n";
             print "$short_text\n";
-            print "#666666\n";
+            print "#EC5F67\n";
     } elsif ($percent < 50) {
             print '<span foreground="#6699CC">  </span>';
             print "$full_text\n";

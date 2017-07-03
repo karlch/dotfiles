@@ -11,6 +11,6 @@ esac
 if [[ $windows_in_scratchpad == 0 ]]; then
     printf '\n'
 else
-    printf '<span foreground="#EC5F67">%s  </span>%s\n' "" "$windows_in_scratchpad"
+    printf '<span foreground="#EC5F67">%s  </span>%s      \n' "" "$windows_in_scratchpad"
 fi
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-printf "<span foreground='#C594C5'> </span>\n"
+printf "<span foreground='#C594C5'>  </span>\n"
 
 case $BLOCK_BUTTON in
     1) ~/.i3/rofi-scripts/system.sh

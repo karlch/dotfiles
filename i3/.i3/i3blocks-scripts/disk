@@ -41,3 +41,7 @@ END {
 	}
 }
 '
+
+case $BLOCK_BUTTON in
+    1 ) st -n floating -e ranger ;;
+esac

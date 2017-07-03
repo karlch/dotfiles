@@ -16,5 +16,5 @@ if [ $mute == "[on]" ]; then
     printf "<span foreground='#FAC863'> </span> %s" "$vol"
 else
     printf "<span foreground='#FAC863'>  </span>"
-    printf "%s\n\n#666666\n"  "$vol"
+    printf "%s\n\n#888888\n"  "$vol"
 fi

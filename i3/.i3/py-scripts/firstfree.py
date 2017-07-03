@@ -19,10 +19,12 @@ def get_workspace_names():
         return default
 
     with open(configfile) as f:
-        for line in f.readlines():
+        for line in f:
             if line.startswith("set $ws"):
-                line_content = line.rstrip("\n").split()
-                ws_names.append(" ".join(line_content[2:]))
+                line_content = line.rstrip("\n")
+                ws_start = " ".join(line_content.split()[0:2])
+                ws_name = line_content.replace(ws_start, "").strip()
+                ws_names.append(ws_name)
 
     return ws_names if ws_names else default
 

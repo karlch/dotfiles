@@ -46,6 +46,6 @@ elif [[ $QUALITY -ge 60 ]]; then
     echo "#AAAAAA"
 elif [[ $QUALITY -ge 40 ]]; then
     echo "#888888"
-elif [[ $QUALITY -lt 40 ]]; then
-    echo "#666666"
+else
+    echo "#EC5F67"
 fi

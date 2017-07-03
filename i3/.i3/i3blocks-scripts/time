@@ -9,7 +9,7 @@ show_date() {
 }
 
 case $BLOCK_BUTTON in
-    1) galendae
+    1) st -n floating -g 120x36 -e "calcurse"
 esac
 
 show_date

@@ -1,1 +1,22 @@
-/home/christian/bin/update
+#!/bin/bash
+# A little script to check for updates
+
+updates=$(checkupdates)
+aur_updates=$(cower -u | awk '{print $2}')
+upnum=$(printf "%s\n" "$updates" | wc -w)
+(( upnum /= 4 ))
+aur_upnum=$(printf "%s\n" "$aur_updates" | wc -w)
+sum=$(printf "%s+%s\n" "$upnum" "$aur_upnum" | bc)
+
+[[ -z "$updates" ]] && updates="No PAC updates"
+[[ -z "$aur_updates" ]] && aur_updates="No AUR updates"
+
+if [[ $sum == 0 ]]; then
+    printf "everything up to date\n" > ~/.i3/info/update_info
+    printf "\n" > ~/.i3/info/update_names
+else
+    printf "PAC:%2d  AUR:%2d\n" "$upnum" "$aur_upnum" > ~/.i3/info/update_info
+    printf "%s\n--------------\n%s\n" "$updates" "$aur_updates" > ~/.i3/info/update_names
+fi
+
+pkill -SIGRTMIN+11 i3blocks

@@ -4,19 +4,19 @@
 set $mod Mod1
 
 # Workspace names
-set $ws1 1:<b> Ⅰ </b>
-set $ws2 2:<b> Ⅱ </b>
-set $ws3 3:<b> Ⅲ </b>
-set $ws4 4:<b> Ⅳ </b>
-set $ws5 5:<b> Ⅴ </b>
-set $ws6 6:<b> Ⅵ </b>
-set $ws7 7:<b> Ⅶ </b>
-set $ws8 8:<b> Ⅷ </b>
-set $ws9 9:<b> Ⅸ </b>
-set $ws10 10:<b> Ⅹ </b>
-set $wsweb 101:<span font="FontAwesome">  </span>
-set $wschat 102:<span font="FontAwesome">  </span>
-set $wsmusic 100:<span font="FontAwesome">  </span>
+set $ws1 1:<b>  Ⅰ  </b>
+set $ws2 2:<b>  Ⅱ  </b>
+set $ws3 3:<b>  Ⅲ  </b>
+set $ws4 4:<b>  Ⅳ  </b>
+set $ws5 5:<b>  Ⅴ  </b>
+set $ws6 6:<b>  Ⅵ  </b>
+set $ws7 7:<b>  Ⅶ  </b>
+set $ws8 8:<b>  Ⅷ  </b>
+set $ws9 9:<b>  Ⅸ  </b>
+set $ws10 10:<b>  Ⅹ  </b>
+set $wsweb 101:<span font="FontAwesome">    </span>
+set $wschat 102:<span font="FontAwesome">    </span>
+set $wsmusic 100:<span font="FontAwesome">    </span>
 
 # Font for window titles
 font pango: Overpass Bold 10
@@ -42,7 +42,7 @@ focus_follows_mouse no
 # Floating stuff
 floating_modifier $mod
 floating_minimum_size 300 x 200
-floating_maximum_size 1920 x 1080
+floating_maximum_size 3840 x 2160
 
 # }}}
 
@@ -82,9 +82,9 @@ bindsym XF86AudioNext exec --no-startup-id mpc next
 bindsym XF86AudioPrev exec --no-startup-id mpc prev
 
 # Screenshot
-bindsym --release Insert exec --no-startup-id import -window root ~/Bilder/Screenshot/scrot-$(date +%F_%H:%M:%S).png
-bindsym --release Control+Insert exec --no-startup-id import ~/Bilder/Screenshot/scrot-$(date +%F_%H:%M:%S).png
-bindsym --release Shift+Insert exec --no-startup-id import -window $(xdotool getactivewindow) ~/Bilder/Screenshot/scrot-$(date +%F_%H:%M:%S).png
+bindsym --release Insert exec --no-startup-id import -window root ~/Images/Screenshot/scrot-$(date +%F_%H:%M:%S).png
+bindsym --release Control+Insert exec --no-startup-id import ~/Images/Screenshot/scrot-$(date +%F_%H:%M:%S).png
+bindsym --release Shift+Insert exec --no-startup-id import -window $(xdotool getactivewindow) ~/Images/Screenshot/scrot-$(date +%F_%H:%M:%S).png
 
 # Enter normal mode
 bindsym F10 mode "normal"
@@ -101,12 +101,12 @@ for_window [window_role="task_dialog"] floating enable
 for_window [window_role="dialog"] floating enable
 for_window [window_role="menu"] floating enable
 for_window [window_role="Preferences"] floating enable
-for_window [window_type="Desktop"] border pixel 1
-for_window [class="com-wolfram-jlink-Reader"] floating enable
 for_window [title="c*Editor"] floating enable
 for_window [class="ROOT"] floating enable
+for_window [class="ROOT"] resize 3200x800
 for_window [class="st-256color" instance="floating"] floating enable
-for_window [class="Galendae"] border pixel 3
+for_window [class="VirtualBox"] floating enable
+for_window [title="yeah"] floating enable
 
 # Workspace assignments
 assign [class="qutebrowser"] $wsweb
@@ -285,20 +285,21 @@ bar {
         status_command i3blocks
         strip_workspace_numbers yes
         separator_symbol " "
-        height 34
+        height 68
         position top
 
-        # Do not allow applications to use the bar as icon tray
+        # Tray
         tray_output none
+        tray_padding 0
 
         colors {
-            background #1B2B34C0
+            background #1B2B3480
             #                  BORDER    BACKGR.   TEXT
-            focused_workspace  #1B2B34C0 #1B2B34C0 #D8DEE9
-            active_workspace   #1B2B34C0 #1B2B34C0 #A7ADBA
-            inactive_workspace #1B2B34C0 #1B2B34C0 #848D98
-            urgent_workspace   #1B2B34C0 #1B2B34C0 #FAC863
-            binding_mode       #1B2B34C0 #1B2B34C0 #FAC863
+            focused_workspace  #1B2B3480 #1B2B3480 #D8DEE9
+            active_workspace   #1B2B3480 #1B2B3480 #A7ADBA
+            inactive_workspace #1B2B3480 #1B2B3480 #848D98
+            urgent_workspace   #1B2B3480 #1B2B3480 #FAC863
+            binding_mode       #1B2B3480 #1B2B3480 #FAC863
         }
 
         # Font for the bar

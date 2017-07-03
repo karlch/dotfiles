@@ -8,7 +8,8 @@ fi
 
 brightness=$(xbacklight -get)
 
-volnoti-show -s "/usr/share/pixmaps/volnoti/display-brightness-symbolic.svg" "$brightness"
+
+dunstify -i ~/Images/Inkscape/audio_icons/brightness.png -r 44 -t 1 "Brightness" $brightness" %"
 
 # Refresh i3blocks
 pkill -SIGRTMIN+11 i3blocks

@@ -5,7 +5,7 @@ selected_option=$(printf "     Mount\n     Unmount" | \
 
 mount_device() {
     # Populate list of mountable devices
-    device=$(find /dev/ -name "sd[b-z][0-9]" | rofi -dmenu -p "     " -i)
+    device=$(find /dev/ -name "sd[a-z][0-9]" | rofi -dmenu -p "     " -i)
     # Empty
     [[ -z $device ]] && return
     info=$(udevil mount "$device" 2>&1)
@@ -14,7 +14,7 @@ mount_device() {
 
 umount_device() {
     # Populate list of unmountable devices
-    device=$(findmnt -Do "SOURCE,TARGET" | grep "sd[b-z][0-9]" |
+    device=$(findmnt -Do "SOURCE,TARGET" | grep "sd[a-z][0-9]" |
         rofi -dmenu -p "     " -i | cut -d " " -f1)
     # Empty
     [[ -z $device ]] && return
