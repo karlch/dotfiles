@@ -21,9 +21,9 @@ delete_backups() {
     fi
 }
 
-reflector --age 1 --save "$temp_mirror"
+reflector --age 1 --protocol https --save "$temp_mirror"
 print_info "Ranking new mirrorlist"
-rankmirrors -v -n 5 "$temp_mirror" > "$temp_mirror_sorted"
+rankmirrors -n 5 "$temp_mirror" > "$temp_mirror_sorted"
 less "$temp_mirror_sorted"
 read -n 1 -p "Use generated mirrorlist? [yN] " _use_mirrorlist
 printf "\n"

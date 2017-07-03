@@ -11,7 +11,7 @@ TITLE="Unmount Utility"
 # Populate list of unmountable devices
 deviceNames=$(findmnt -Do TARGET | grep "/media" | tr " " "_" | sed \
 "s/\/media\///" | tr "\n" " ")
-deviceSources=$(findmnt -Do SOURCE | grep "sd[b-z]\|sda3" | tr "\n" " " )
+deviceSources=$(findmnt -Do SOURCE | grep "sd[a-z]" | tr "\n" " " )
 deviceCount=$(echo $deviceSources | wc -w)
 
 # Start of program output

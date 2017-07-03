@@ -9,7 +9,7 @@ fi
 TITLE="Mount Utility"
 
 # Populate list of mountable devices
-deviceSources=$(ls /dev | grep "sd[b-z]\|sda3")
+deviceSources=$(ls /dev | grep "sd[a-z]")
 deviceCount=$(echo $deviceSources | wc -w)
 
 # Start of program output
