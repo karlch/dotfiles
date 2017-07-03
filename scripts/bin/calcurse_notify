@@ -1,0 +1,12 @@
+#!/bin/sh
+
+info=$(calcurse -Q --days 10 | sed 's/to do://g')
+
+if [ ! -z "$(calcurse -d 2)" ]; then
+    notify-send -u critical "Tasks" "$info"
+else
+    notify-send "Tasks" "$info"
+fi
+
+# Additionaly check for birthdays from abook
+~/bin/read_abook

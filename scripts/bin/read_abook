@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+# vim: ft=python fileencoding=utf-8 sw=4 et sts=4
+"""Read data from abook Addressbook and do stuff.
+
+Currently checks for anniversaries that are due soon and sends a
+notification."""
+
+import os
+import re
+
+from datetime import datetime
+
+filename = os.path.expanduser("~/.abook/addressbook")
+
+def read_abook():
+    """Read content of addressbook into a python dictionary."""
+    abook = {}
+    with open(filename) as f:
+        content = f.read()
+        sections = content.split("\n\n")
+        # Each section contains one person
+        for section in sections:
+            info = section.split("\n")
+            # Read all info on the person
+            if re.match(r"\[[0-9]+\]", info[0]):
+                persondict = {}
+                name = info[1].split("=")[1]
+                for line in info[2:]:
+                    key = line.split("=")[0]
+                    value = line.split("=")[1]
+                    persondict[key] = value
+                abook[name] = persondict
+    return abook
+
+def get_anniversaries(abook):
+    """Return anniverseries in the next 3 days from abook."""
+    message = ""
+    for person in abook:
+        persondict = abook[person]
+        if not "anniversary" in persondict:
+            continue
+        # Get date and difference to today
+        date = persondict["anniversary"].split("-")
+        month = date[1]
+        day = date[2]
+        year = datetime.now().year
+        bday = datetime.strptime("%s-%s-%s" % (year, month, day), "%Y-%m-%d")
+        diff = (bday - datetime.now()).days
+        # Append a nice message
+        if diff > -2 and diff < 4:
+            message += "%s:  %s.%s.\n" % (person, day, month)
+    return message
+
+if __name__ == "__main__":
+    abook = read_abook()
+    message = get_anniversaries(abook)
+    if message:
+        title = "Anniversaries"
+        cmd = "notify-send Anniversaries '%s'" % (message)
+        os.system(cmd)
