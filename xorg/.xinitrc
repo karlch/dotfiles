@@ -7,34 +7,44 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  done
  unset f
 fi
-# Wallpaper
-hsetroot -cover ~/Bilder/Hintergrund/background &
+
 # No screen blanking
-xset -dpms &
-# Redshift is easy on the eyes
-redshift &
-# Keyboard
-setxkbmap -option 'caps:ctrl_modifier'
-setxkbmap de-ck
-setxkbmap -variant nodeadkeys
-xcape -t 0 -e 'Caps_Lock=Escape' 
-xcape -t 0 -e 'ISO_Level3_Shift=F10' 
-xcape -t 0 -e 'Super_L=F11' 
-xcape -t 0 -e 'Control_R=F12' 
-# Dont want to see the mouse
-unclutter --timeout 1 -b
-# Notifiers
-volnoti -t 1.2 -a 0.8
-dunst &
-# Merge rofi settings
-xrdb -load ~/.config/rofi/rofi &
-# Music
-export MPD_HOST="alarmpi"
-# Devmon for usb
-devmon --exec-on-drive 'notify-send "Mounted %l %f at %d"' --exec-on-unmount 'notify-send "Succesfully unmounted %l from %f"' &
-# Clipboard manager
-greenclip daemon &
-# WM and compositor
-compton -b
-exec i3
-# exec gnome-session
+xset -dpms
+
+setup_main_session() {
+    # Wallpaper
+    hsetroot -cover ~/Images/Background/background &
+    # Keyboard
+    setxkbmap -option 'caps:ctrl_modifier'
+    setxkbmap de
+    setxkbmap -variant nodeadkeys
+    xcape -t 0 -e 'Caps_Lock=Escape' &
+    xcape -t 0 -e 'ISO_Level3_Shift=F10' &
+    xcape -t 0 -e 'Super_L=F11' &
+    xcape -t 0 -e 'Control_R=F12' &
+    # Screen
+    xrandr --output eDP1 --mode 3840x2160 --dpi 192
+    xrandr --output eDP1 --primary
+    export QT_SCREEN_SCALE_FACTORS=2
+    export GDK_DPI_SCALE=2
+    # Daemons
+    redshift &
+    unclutter --timeout 1 -b
+    volnoti -t 2.0 -a 0.2 -r 100
+    dunst &
+    devmon --exec-on-drive 'notify-send "Mounted %l %f at %d"' --exec-on-unmount 'notify-send "Succesfully unmounted %l from %f"' &
+    # Export
+    export MPD_HOST=alarmpi
+    # Compositor
+    compton -b
+}
+
+# Get session
+session=${2:-i3}
+
+# Run the session
+case $session in
+    i3) setup_main_session && exec i3 ;;
+    vb) exec VirtualBox ;;
+    *)  exec $session ;;
+esac
