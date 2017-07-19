@@ -24,7 +24,7 @@ iabbrev ° ^\circ
 source ~/.vim/ftplugin/tex/tex_tables.vim
 
 " Neomake
-let g:neomake_tex_enabled_makers = ['lacheck']
+" let g:neomake_tex_enabled_makers = ['lacheck']
 
 " Vimtex
 let g:vimtex_index_show_help = 0

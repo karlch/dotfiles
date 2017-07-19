@@ -19,6 +19,11 @@ elif grep-flag-available --exclude=.cvs; then
     GREP_OPTIONS+=" --exclude=$VCS_FOLDERS"
 fi
 
+# never parse binary files
+if grep-flag-available --binary-files=without-match; then
+    GREP_OPTIONS+=" --binary-files=without-match"
+fi
+
 # export grep settings
 alias grep="grep $GREP_OPTIONS"
 
