@@ -24,12 +24,12 @@ font pango: Overpass Bold 10
 # Window borders
 new_window pixel 4
 new_float normal
-gaps inner 20
+gaps inner 40
 
 # Color settings        Border_top  Background  Text        Indicator  Border
-client.focused          #3B4B54     #3B4B54     #D8DEE9     #5FB3B3    #6699CC
-client.focused_inactive #1B2B34     #1B2B34     #A7ADBA     #65737E    #65737E
-client.unfocused        #1B2B34     #1B2B34     #A7ADBA     #65737E    #65737E
+client.focused          #6699CC     #6699CC     #1B2B34     #5FB3B3    #6699CC
+client.focused_inactive #6B7B84     #6B7B84     #1B2B34     #65737E    #6B7B84
+client.unfocused        #6B7B84     #6B7B84     #1B2B34     #65737E    #6B7B84
 client.urgent           #FAC863     #FAC863     #000000     #CDD3DE    #FAC863
 
 # Urgency handling
@@ -285,7 +285,7 @@ bar {
         status_command i3blocks
         strip_workspace_numbers yes
         separator_symbol " "
-        height 68
+        height 76
         position top
 
         # Tray
@@ -293,13 +293,13 @@ bar {
         tray_padding 0
 
         colors {
-            background #1B2B3480
+            background #1B2B34FF
             #                  BORDER    BACKGR.   TEXT
-            focused_workspace  #1B2B3480 #1B2B3480 #D8DEE9
-            active_workspace   #1B2B3480 #1B2B3480 #A7ADBA
-            inactive_workspace #1B2B3480 #1B2B3480 #848D98
-            urgent_workspace   #1B2B3480 #1B2B3480 #FAC863
-            binding_mode       #1B2B3480 #1B2B3480 #FAC863
+            focused_workspace  #1B2B34FF #1B2B34FF #D8DEE9
+            active_workspace   #1B2B34FF #1B2B34FF #A7ADBA
+            inactive_workspace #1B2B34FF #1B2B34FF #848D98
+            urgent_workspace   #1B2B34FF #1B2B34FF #FAC863
+            binding_mode       #1B2B34FF #1B2B34FF #FAC863
         }
 
         # Font for the bar
