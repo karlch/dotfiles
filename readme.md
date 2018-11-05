@@ -17,7 +17,7 @@ you can use the `init.sh` script.
 
 **Clean**
 
-![Image](https://image.ibb.co/d0iA7f/scrot-2018-10-02-23-55-10.png "Clean with wallpaper and polybar")
+![Image](https://image.ibb.co/dhd2nf/scrot-2018-10-02-23-55-10-smaller.png "Clean with wallpaper and polybar")
 
 The Wallpaper is
 https://unsplash.com/photos/IuSemNxGS88/
