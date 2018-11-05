@@ -13,11 +13,11 @@ you can use the `init.sh` script.
 
 **Dirty with urxvt, nvim and ncmpcpp**
 
-![Image](https://s21.postimg.org/74327rjhj/scrot_2016_11_17_17_02_18.png "Dirty with urxvt, nvim and ncmpcpp")
+![Image](https://image.ibb.co/dBm2L0/scrot-2018-10-02-23-55-03.png "Dirty with urxvt, nvim and ncmpcpp")
 
 **Clean**
 
-![Image](https://s21.postimg.org/thasukkfb/scrot_2016_11_17_17_02_24.png "Clean with wallpaper and conky")
+![Image](https://image.ibb.co/d0iA7f/scrot-2018-10-02-23-55-10.png "Clean with wallpaper and polybar")
 
-The Wallpaper is the all time favourite of /r/EarthPorn, imgur link:
-https://imgur.com/AmWThvw
+The Wallpaper is
+https://unsplash.com/photos/IuSemNxGS88/
