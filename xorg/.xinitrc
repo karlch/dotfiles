@@ -20,9 +20,8 @@ setup_main_session() {
     setxkbmap -variant nodeadkeys
     xcape -t 500 -e 'Caps_Lock=Escape;ISO_Level3_Shift=F10;Super_L=F11;Control_R=F12'
     # Screen
-    xrandr --output eDP1 --mode 3840x2160 --dpi 192
-    xrandr --output eDP1 --primary
-    export QT_SCREEN_SCALE_FACTORS=2
+    xrandr --output e-DP1 --mode 3840x2160 --dpi 192
+    xrandr --output e-DP1 --primary
     export GDK_DPI_SCALE=2
     # Daemons
     redshift &
