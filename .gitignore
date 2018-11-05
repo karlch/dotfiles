@@ -6,3 +6,4 @@ ncmpcpp/.ncmpcpp/lyrics
 tmux/.tmux/plugins
 tmux/.tmux/resurrect
 *.log
+*.spl
