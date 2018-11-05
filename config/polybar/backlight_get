@@ -1,0 +1,3 @@
+#!/bin/sh
+BRIGHTNESS=$(xbacklight -get)
+printf "%%{F#%s}  %%{F-}%3d\n" "$WHITE2" "$BRIGHTNESS"

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+upd=$(cat ~/.i3/info/update_info)
+
+if [[ ${upd} == "everything up to date" ]]; then
+    printf "\n"
+else
+    printf "%s\n" "$upd"
+fi

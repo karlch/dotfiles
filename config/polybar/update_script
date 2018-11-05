@@ -1,0 +1,15 @@
+#!/bin/bash
+
+uname -sr
+perl -E 'say "─" x 60'
+if [[ $(cat ~/.i3/info/update_names) ]]; then
+    cat ~/.i3/info/update_names
+    printf "\n"
+    read -r -n1 -p "Update? [y/N]  " update
+
+    if [[ $update == y ]] || [[ $update == Y ]]; then
+        pacaur -Syu
+    fi
+else
+    read -r -n1 input
+fi

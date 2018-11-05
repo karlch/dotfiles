@@ -1,0 +1,24 @@
+#!/bin/sh
+
+TIME=1000
+
+if [[ $1 == "dec" ]]; then
+    sudo xbacklight -dec 5 -steps 20 -time 100
+elif [[ $1 == "inc" ]]; then
+    sudo xbacklight -inc 5 -steps 20 -time 100
+elif [[ $1 ]]; then
+    # Smooth transition
+    BEFORE=$(xbacklight -get)
+    DIFF=$(($BEFORE - $1))
+    DIFF=${DIFF#-}  # Remove - if BEFORE < AFTER
+    TIME=$(($DIFF * 20))
+    sudo xbacklight -set $1 -steps 20 -time "$TIME"
+fi
+
+BRIGHTNESS=$(xbacklight -get)
+
+if [[ $2 == "i3" ]]; then
+    dunstify -i ~/Images/Inkscape/audio_icons/brightness.png -r 44 -t 1500 "Brightness" "$BRIGHTNESS %"
+fi
+
+polybar-msg hook module/mybacklight 1 >/dev/null 2>&1  # Update polybar

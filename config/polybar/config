@@ -1,0 +1,286 @@
+[colors]
+black = ${env:BLACK}
+white = ${env:WHITE}
+red = ${env:RED}
+orange = ${env:ORANGE}
+yellow = ${env:YELLOW}
+green = ${env:GREEN}
+cyan = ${env:CYAN}
+cyan2 = ${env:CYAN2}
+blue = ${env:BLUE}
+blue2 = ${env:BLUE2}
+magenta = ${env:MAGENTA}
+dull = ${env:BLACK2}
+
+nord0 = "#2E3440"
+nord1 = "#3B4252"
+nord2 = "#434C5E"
+nord3 = "#4C566A"
+nord35 = "#A8AEB9"
+nord4 = "#D8DEE9"
+nord5 = "#E5E9F0"
+nord6 = "#ECEFF4"
+nord7 = "#8FBCBB"
+nord8 = "#88C0D0"
+nord9 = "#81A1C1"
+nord10 = "#5E81AC"
+nord11 = "#BF616A"
+nord12 = "#D08770"
+nord13 = "#EBCB8B"
+nord14 = "#A3BE8C"
+nord15 = "#B48EAD"
+
+[bar/main]
+monitor = eDP-1
+width = 100%
+height = 72
+radius = 0
+fixed-center = true
+enable-ipc = true
+
+background = ${colors.black}
+foreground = ${colors.nord35}
+
+line-size = 6
+
+border-bottom-size = 8
+border-color = ${colors.dull}
+
+module-margin-left = 1
+module-margin-right = 2
+
+font-0 = CousineNerdFont:pixelsize=24:antialias=true;0
+font-1 = CousineNerdFont:pixelsize=24:antialias=true:weight=bold;0
+font-2 = CousineNerdFont:pixelsize=26:antialias=true;0
+font-3 = CousineNerdFont:pixelsize=26:antialias=true;weight=bold;6
+
+modules-left = i3
+modules-center = date
+modules-right = mybacklight volume cpu temperature battery wlan weather powermenu
+
+[bar/secondary]
+inherit = bar/main
+monitor = HDMI-1
+
+height = 42
+line-size = 3
+border-bottom-size = 4
+
+modules-left = i3
+modules-center =
+modules-right =
+
+font-0 = CousineNerdFont:pixelsize=15:antialias=true;0
+font-1 = CousineNerdFont:pixelsize=15:antialias=true:weight=bold;0
+font-2 = CousineNerdFont:pixelsize=16:antialias=true;0
+font-3 = CousineNerdFont:pixelsize=17:antialias=true;weight=bold;6
+
+[bar/tertiary]
+inherit = bar/secondary
+monitor = DP-2
+
+[module/i3]
+type = internal/i3
+; Only show workspaces defined on the same output as the bar
+pin-workspaces = true
+format = <label-state><label-mode>
+index-sort = true
+wrapping-scroll = false
+label-focused-font = 4
+label-unfocused-font = 4
+label-urgent-font = 4
+label-visible-font = 4
+label-mode-font = 4
+
+ws-icon-0 = 1;1
+ws-icon-1 = 2;2
+ws-icon-2 = 3;3
+ws-icon-3 = 4;4
+ws-icon-4 = 5;5
+ws-icon-5 = 6;6
+ws-icon-6 = 7;7
+ws-icon-7 = 8;8
+ws-icon-8 = 9;9
+ws-icon-9 = 10;10
+ws-icon-10 = 101;
+ws-icon-11 = 102;
+ws-icon-12 = 100;
+
+label-mode-padding = 2
+label-mode-foreground = ${colors.white}
+label-mode-background = ${colors.dull}
+label-mode-overline = ${colors.cyan}
+
+; focused = Active workspace on focused monitor
+label-focused = %icon%
+label-focused-background = ${colors.dull}
+label-focused-foreground = ${colors.white}
+label-focused-overline = ${colors.cyan}
+label-focused-padding = 3
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = ${self.label-focused}
+label-unfocused-padding = ${self.label-focused-padding}
+
+; visible = Active workspace on unfocused monitor
+label-visible = ${self.label-focused}
+label-visible-background = ${colors.black}
+label-visible-overline = ${colors.green}
+; label-visible-overline = ${self.label-focused-overline}
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+label-urgent = ${self.label-focused}
+label-urgent-background = ${colors.yellow}
+label-urgent-foreground = ${colors.black}
+label-urgent-padding = ${self.label-focused-padding}
+
+[module/mpd]
+type = internal/mpd
+format-online = <toggle>  <label-song>
+
+icon-play = 
+icon-pause = 
+
+label-song-maxlen = 25
+label-song-ellipsis = true
+
+[module/volume]
+type = internal/alsa
+format-volume = <ramp-volume> <label-volume>
+
+label-volume = %percentage:3:3%
+label-muted = %{F#8FBCBB}%{F-} %percentage:3:3%
+
+ramp-volume-foreground = ${colors.nord7}
+ramp-volume-0 = 
+ramp-volume-1 = 
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = ""
+format-prefix-foreground = ${colors.nord10}
+label = %percentage:3:3%
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 9
+warn-temperature = 80
+
+format = <label>
+format-prefix = " "
+format-prefix-foreground = ${colors.nord6}
+format-warn = <label-warn>
+
+label = %temperature:3:3%
+label-warn = %temperature:3:3%
+label-warn-foreground = ${colors.red}
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.cyan}
+label = %percentage_used:3:3%
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 100
+
+format-charging = <animation-charging> <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+
+label = %percentage%
+label-charging = %percentage%
+label-discharging = %percentage%
+label-full = %percentage%
+
+format-full-prefix = " "
+format-full-prefix-foreground = ${colors.nord7}
+
+ramp-capacity-0 = " "
+ramp-capacity-1 = " "
+ramp-capacity-2 = " "
+ramp-capacity-foreground = ${colors.nord7}
+
+animation-charging-0 = " "
+animation-charging-1 = " "
+animation-charging-2 = " "
+animation-charging-foreground = ${colors.nord7}
+animation-charging-framerate = 750
+
+[module/wlan]
+type = internal/network
+interface = wlp2s0
+interval = 3.0
+
+format-connected = <ramp-signal> <label-connected>
+label-connected = %signal:3:3%
+
+format-disconnected = <label-disconnected>
+label-disconnected = "  ---"
+label-disconnected-foreground = ${colors.red}
+
+format-packetloss = <animation-packetloss> <label-connected>
+
+ramp-signal-0 = ""
+ramp-signal-foreground = ${colors.nord9}
+
+animation-packetloss-0 = "⚠"
+animation-packetloss-0-foreground = ${colors.red}
+animation-packetloss-1 = ""
+animation-packetloss-1-foreground = ${colors.nord10}
+animation-packetloss-framerate = 750
+
+[module/date]
+type = internal/date
+interval = 5
+
+date = %a %b %d
+time = %H:%M
+
+format-foreground = ${colors.white}
+
+label = %{A1:st -n floating -g 120x36 -e "calcurse":}%date%  %time%%{A}
+
+[module/powermenu]
+type = custom/text
+content = 
+content-foreground = ${colors.cyan}
+content-padding = 2
+content-margin-left = 100
+click-left = ~/.i3/rofi-scripts/system.sh
+
+[module/weather]
+type = custom/script
+interval = 120
+format = <label>
+exec = ~/.config/polybar/weather_icons
+
+[module/update]
+type = custom/ipc
+hook-0 = ~/.config/polybar/update
+initial = 1
+format-underline = ${colors.red}
+format-margin = 1
+format-padding = 1
+click-left = st -n floating -g 60x36 -e  ~/.config/polybar/update_script
+
+[module/mybacklight]
+type = custom/ipc
+hook-0 = ~/.config/polybar/backlight_get
+initial = 1
+click-left = ~/.config/polybar/backlight_set 30
+click-middle = ~/.config/polybar/backlight_set 50
+click-right = ~/.config/polybar/backlight_set 70
+scroll-up = ~/.config/polybar/backlight_set inc
+scroll-down = ~/.config/polybar/backlight_set dec
+cursor-scroll = ns-resize
+
+[settings]
+screenchange-reload = true
+
+; vim:ft=dosini
