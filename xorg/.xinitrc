@@ -24,14 +24,13 @@ setup_main_session() {
     export GDK_DPI_SCALE=2
     # Daemons
     redshift &
+    dunst &
     unclutter --timeout 1 -b
     volnoti -t 2.0 -a 0.2 -r 100
-    dunst &
     devmon --exec-on-drive 'notify-send "Mounted %l %f at %d"' --exec-on-unmount 'notify-send "Succesfully unmounted %l from %f"' &
-    # Export
+    ~/bin/xrandr_daemon &
     export MPD_HOST=alarmpi
-    # Compositor
-    compton -b
+    ~/bin/notify_mpd &
 }
 
 # Get session
