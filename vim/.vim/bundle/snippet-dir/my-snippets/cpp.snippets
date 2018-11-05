@@ -6,3 +6,48 @@ snippet std
 using namespace std;
 ${0}
 endsnippet
+
+snippet dox
+/**
+ * ${0}
+ */
+endsnippet
+
+snippet tc
+BOOST_AUTO_TEST_CASE(${1:TestName})
+{
+	${VISUAL}$0
+}
+endsnippet
+
+snippet ts
+BOOST_AUTO_TEST_SUITE(${1:SuiteName});
+
+${0}
+
+BOOST_AUTO_TEST_SUITE_END();
+endsnippet
+
+snippet bt
+BOOST_TEST(${0:condition});
+endsnippet
+
+snippet for "My for loop as I don't like the default"
+for (${1:int} ${2:i} = 0; $2 < ${3:count}; $2++) {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet ifheader "My Include header once only guard"
+#ifndef ${1:`!p
+if not snip.c:
+	import random, string
+	name = re.sub(r'[^A-Za-z0-9]+','_', snip.fn)
+	add_on = "__"
+	snip.rv = name + add_on
+else:
+	snip.rv = snip.c`}
+#define $1
+${VISUAL}$0
+#endif  // ifndef $1
+endsnippet
