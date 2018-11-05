@@ -10,11 +10,6 @@ mpd_connection_timeout = 5
 mpd_music_dir = ~/
 mpd_crossfade_time = 0
 
-##### music visualizer #####
-visualizer_fifo_path = "~/Musik/fifo"
-visualizer_output_name = "my_fifo"
-visualizer_in_stereo = yes
-visualizer_sync_interval = 60
 ## Available values: spectrum, wave, wave_filled, ellipse.
 visualizer_type = "spectrum" (spectrum/wave)
 visualizer_look = "●▮"
@@ -27,7 +22,7 @@ message_delay_time = 3
 song_list_format = "{%a - }{%t}|{$8%f$9}$R{$5(%l)$9}"
 song_status_format = "%a $8%b (%y)$9 - {%t}|{%f}"
 song_library_format = {%n - }{%t}|{%f}
-now_playing_prefix = "$b$4❯  $0"
+now_playing_prefix = "$b$8❯ $0"
 now_playing_suffix = "$/b"
 
 #### browser ####
@@ -39,7 +34,7 @@ browser_sort_mode = "name"
 browser_sort_format = "{%a - }{%t}|{%f} {(%l)}"
 
 ##### columns settings #####
-song_columns_list_format = "(25)[white]{a} (25)[green]{brE} (47)[blue]{t|f:Title} (6f)[white]{l}"
+song_columns_list_format = "(25)[green]{a} (25)[cyan]{brE} (47)[blue]{t|f:Title} (6f)[white]{l}"
 
 ##### various settings #####
 execute_on_song_change = ""
