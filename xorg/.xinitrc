@@ -13,7 +13,7 @@ xset s off -dpms
 
 setup_main_session() {
     # Wallpaper
-    hsetroot -solid "#3B4B54"
+    hsetroot -cover ~/Images/Background/background &
     # Keyboard
     setxkbmap -option 'caps:ctrl_modifier'
     setxkbmap de
