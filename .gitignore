@@ -4,4 +4,5 @@ vim/.vim/.netrwhist
 vim/.vim/bundle/snippet-dir/snippets
 ncmpcpp/.ncmpcpp/lyrics
 tmux/.tmux/plugins
+tmux/.tmux/resurrect
 *.log
