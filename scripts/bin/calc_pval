@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+import argparse
+
+from scipy import stats
+
+
+def get_parser():
+    parser = argparse.ArgumentParser(prog="calc_pval")
+    parser.add_argument("chi2", type=float)
+    parser.add_argument("ndof", type=int)
+    return parser
+
+
+def calc_pval(chi2, ndof):
+    pval = 1 - stats.chi2.cdf(chi2, ndof)
+    print("%.5f %%" % (pval * 100))
+
+
+if __name__ == "__main__":
+    parser = get_parser()
+    args = parser.parse_args()
+    pval = calc_pval(args.chi2, args.ndof)
