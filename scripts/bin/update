@@ -11,12 +11,7 @@ sum=$(printf "%s+%s\n" "$upnum" "$aur_upnum" | bc)
 [[ -z "$updates" ]] && updates="No PAC updates"
 [[ -z "$aur_updates" ]] && aur_updates="No AUR updates"
 
-if [[ $sum == 0 ]]; then
-    printf "everything up to date\n" > ~/.i3/info/update_info
-    printf "\n" > ~/.i3/info/update_names
-else
-    printf "PAC:%2d  AUR:%2d\n" "$upnum" "$aur_upnum" > ~/.i3/info/update_info
-    printf "%s\n--------------\n%s\n" "$updates" "$aur_updates" > ~/.i3/info/update_names
-fi
+printf "%d  %d\n" "$upnum" "$aur_upnum" > /home/christian/.i3/info/update_info
+printf "%s\n--------------\n%s\n" "$updates" "$aur_updates" > /home/christian/.i3/info/update_names
 
-pkill -SIGRTMIN+11 i3blocks
+polybar-msg hook module/update 1  # Update polybar
