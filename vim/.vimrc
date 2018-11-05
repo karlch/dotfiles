@@ -403,9 +403,9 @@ let g:tq_language = ['en']
 let g:tq_map_keys = 0
 
 " Markdown preview
-let vim_markdown_preview_browser='qutebrowser'
-let vim_markdown_preview_github=1
-let vim_markdown_preview_use_xdg_open=1
+let g:vim_markdown_preview_browser='qutebrowser'
+let g:vim_markdown_preview_github=1
+let g:vim_markdown_preview_use_xdg_open=1
 
 " netrw
 let g:netrw_banner=0                              " disable banner
