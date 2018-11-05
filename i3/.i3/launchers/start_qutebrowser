@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if ! xdotool search --name "qutebrowser"; then
-    qutebrowser --backend webengine
+    QT_SCREEN_SCALE_FACTORS=2 qutebrowser
     rm -rf ~/.local/share/qutebrowser/webengine
     rm ~/.local/share/qutebrowser/history
 fi
