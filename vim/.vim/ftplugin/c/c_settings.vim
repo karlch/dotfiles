@@ -1,3 +1,6 @@
+" Larger textwidth for cpp
+set textwidth=100
+
 " Run Program
 nnoremap <buffer> <leader>d :VimuxRunCommand("./<C-R>=expand("%:t:r")<CR>")<CR><CR>
 
@@ -9,7 +12,7 @@ nnoremap <buffer> <leader>r :VimuxRunCommand("root -l <C-R>=expand("%")<CR>")<CR
 nnoremap <buffer> <leader>s :VimuxRunCommand(".q")<CR><CR>
 
 " vim-clang
-let g:clang_cpp_options = '-pthread -std=c++1y -m64 -I/usr/include/root'
+let g:clang_cpp_options = '-pthread -std=c++1y -m64 -lm -ldl'
 
 let g:clang_format_style = 'WebKit'
 let g:clang_cpp_completeopt = 'menuone,longest'
@@ -26,27 +29,8 @@ let g:neomake_cpp_clang_maker = {
     \ 'exe': 'clang++',
     \ 'args': ['-Wall',
     \          '-Wextra',
-    \          '-L/usr/lib/root',
-    \          '-lGui',
-    \          '-lCore',
-    \          '-lRIO',
-    \          '-lNet',
-    \          '-lHist',
-    \          '-lGraf',
-    \          '-lGraf3d',
-    \          '-lGpad',
-    \          '-lTree',
-    \          '-lRint',
-    \          '-lPostscript',
-    \          '-lMatrix',
-    \          '-lPhysics',
-    \          '-lMathCore',
-    \          '-lThread',
-    \          '-lMultiProc',
-    \          '-pthread',
     \          '-lm',
     \          '-ldl',
-    \          '-rdynamic',
     \          '-m64',
     \          '-o%:t:r',
     \          '-pedantic'],
