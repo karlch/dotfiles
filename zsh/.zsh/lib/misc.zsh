@@ -8,8 +8,8 @@ setopt long_list_jobs
 # ls colors
 autoload -U colors && colors
 
-# Enable ls colors
-alias ls='ls --color=tty --group-directories-first'
+# Enable ls colors and dereference symlinks
+alias ls='ls --color=tty --group-directories-first -L'
 
 setopt no_beep
 setopt auto_cd
