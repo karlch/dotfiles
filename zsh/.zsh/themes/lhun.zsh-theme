@@ -1,11 +1,10 @@
 # vim:ft=zsh
-# Set VIMODE according to the current mode, default is i
+# Set VIMODE according to the current mode, default is insert mode
 function _vimode() {
-    local mode=$(echo "${${KEYMAP/vicmd/<< }/(main|viins)/>> }")
-    if [[ $mode == "" ]]; then
-        echo ">> "
+    if [[ $KEYMAP == "vicmd" ]]; then
+        echo "%{$fg[white]%}❮%{$fg[cyan]%}❮%{$fg[blue]%}❮ "
     else
-        echo $mode
+        echo "%{$fg[white]%}❯%{$fg[cyan]%}❯%{$fg[blue]%}❯ "
     fi
 }
 
@@ -46,4 +45,4 @@ ${GIT}
     fi
 }
 
-PROMPT='$(_gitinfo)%{$fg[blue]%}${PWD/#$HOME/~}%{$fg[white]%} %(?..%? )%{$fg[cyan]%}$(_vimode)%{$reset_color%}'
+PROMPT='$(_gitinfo)%{$fg_bold[black]%}${PWD/#$HOME/~}%{$fg[white]%} %(?..%? )$(_vimode)%{$reset_color%}'
