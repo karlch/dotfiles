@@ -2,20 +2,18 @@
 
 # different cd aliases
 alias uni='cd ~/Documents/Uni'
-alias ba='cd ~/Documents/Uni/16S/Bachelorarbeit/'
-alias pra='cd ~/Documents/Uni/17S/FoPra'
-alias unia='cd ~/Documents/Uni/17S'
+alias pra='cd ~/Documents/Uni/17W/FoPra'
+alias unia='cd ~/Documents/Uni/18S'
+alias kamc='cd ~/Documents/MPP/Code/KaMC/'
+alias mpp='cd ~/Documents/MPP/Code/'
 
 # vim aliases
 alias vimdiff='nvim -d'
-alias viml='vim -c "normal '\''0"'
 
 # fasd
 alias v='f -e nvim'
 alias r='f -e rifle'
 
-# t
-alias t='t.sh'
 
 # tmux
 # alias tks='tmux kill-server'
@@ -25,11 +23,10 @@ alias ta='tmux attach-session -t'
 
 # pacman
 alias spac='sudo pacman'
-alias spacu='sudo pacman -Syu && echo -e "\e[1;34m:: \e[1;37mRefreshing update info\e[0;37m" && update && echo " done"'
 alias pac='pacman'
 alias pacro="/usr/bin/pacman -Qtdq > /dev/null && sudo /usr/bin/pacman -Rns \$(/usr/bin/pacman -Qtdq | sed -e ':a;N;\$!ba;s/\n/ /g')"
 # aur
-alias aur='pacaur'
+alias aur='pikaur'
 
 # usb devices
 alias usb='cd /media'
@@ -50,19 +47,12 @@ alias vi='nvim ~/.i3/config'
 
 # others
 alias elinks='elinks -no-connect -anonymous'
-alias feh='feh -. -B black'
 alias find='find 2>/dev/null'
 alias mkdir='mkdir -p'
 alias root='root -l'
-alias view_coverage='qutebrowser ~/Documents/git/vimiv/tests/htmlcov/index.html'
-alias ssh_cern='ssh -t cern "zsh -l"'
 
 # everyone need some fun
-alias sw='telnet towel.blinkenlights.nl'
 alias emacs='echo haha, nice try! && sleep 1 && nvim $@'
-
-# optirun
-alias mpv='optirun mpv'
 
 # global aliases
 alias -g DN='/dev/null'

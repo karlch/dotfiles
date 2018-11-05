@@ -1,6 +1,10 @@
 # vim:ft=zsh
 # File to save custom functions
 
+function igf() {
+    idle GetFile $1@FirstTritium.katrin > $1
+}
+
 # ls right after cd
 function chpwd() {
     emulate -L zsh
@@ -8,22 +12,17 @@ function chpwd() {
 }
 
 # command not found
-function command_not_found_handler() {
-    printf "\nDon’t pretend you want to talk to me, I know you hate me.\n" 
-    printf "So you really want me to search the database? [nye]: "
-    stty raw && search=$(dd bs=1 count=1 2>/dev/null) && stty -raw
-    if [[ $search == "y" || $search == "Y" ]]; then
-        info=$(pacaur -Ss "$0" | head)
-        if test -n "$info"; then
-            printf "\n%s\n\n" "$info"
-            printf "Here I am, brain the size of a planet, and you ask me search the database? Call that job satisfaction, 'cause I don't.\n"
-        fi
-    elif [[ $search == "e" || $search == "E" ]]; then
-        print -z "$@"
-    else
-        sed -i '$d' ~/.zsh_history
-        printf "\nI think you ought to know I'm feeling very depressed.\n"
+command_not_found_handler() {
+    local pkgs cmd="$1"
+    pkgs=(${(f)"$(pkgfile -b -v -- "$cmd" 2>/dev/null)"})
+    if [[ -n "$pkgs" ]]; then
+        printf "Here I am, brain the size of a planet, and you make me search the database? Call that job satisfaction, 'cause I don't.\n\n"
+        printf "  %s\n\n" $pkgs[@]
+        return 0
     fi
+    sed -i '$d' ~/.zsh_history
+    printf "I think you ought to know I'm feeling very depressed.\n" 1>&2
+    return 127
 }
 
 # vim with server if necessary
@@ -92,10 +91,6 @@ function precmd() {
     printf "\a"
 }
 
-function zsh_stats() {
-    fc -l 1 | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n20
-}
-
 # Quick github clone
 function gitc() {
     git clone "https://github.com/$1/$2"
@@ -116,12 +111,6 @@ function run_42() {
     kill "$xvfb_pid"
 }
 
-# Setup python virtualenv
-function setup_pythonvenv() {
-    export WORKON_HOME=~/Python/Envs
-    source virtualenvwrapper.sh
-}
-
 # Kill all tmux sessions except default
 # I use this instead of tmux kill-server to always have one session loaded which
 # greatly improves the startup time of my terminal
@@ -131,4 +120,18 @@ function tks() {
             tmux kill-session -t $session
         fi
     done
+}
+
+function h5read() {
+    h5dump -m '%.4f' $@ | less
+}
+
+function mp3towav(){
+    [[ $# -eq 0 ]] && { echo "mp3wav mp3file"; exit 1; }
+    for i in "$@"
+    do
+        # create .wav file name
+        local out="${i%.*}.wav"
+        [[ -f "$i" ]] && { echo -n "Processing ${i}..."; mpg123 -w "${out}" "$i" &>/dev/null  && echo "done." || echo "failed."; }
+    done	
 }
