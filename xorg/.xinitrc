@@ -18,10 +18,7 @@ setup_main_session() {
     setxkbmap -option 'caps:ctrl_modifier'
     setxkbmap de
     setxkbmap -variant nodeadkeys
-    xcape -t 0 -e 'Caps_Lock=Escape' &
-    xcape -t 0 -e 'ISO_Level3_Shift=F10' &
-    xcape -t 0 -e 'Super_L=F11' &
-    xcape -t 0 -e 'Control_R=F12' &
+    xcape -t 500 -e 'Caps_Lock=Escape;ISO_Level3_Shift=F10;Super_L=F11;Control_R=F12'
     # Screen
     xrandr --output eDP1 --mode 3840x2160 --dpi 192
     xrandr --output eDP1 --primary
