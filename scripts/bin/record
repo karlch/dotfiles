@@ -30,10 +30,10 @@ case $input in
     "3" )
         read_filename
         read_quality
-        ffmpeg -r 30 -s 1920x1080 -f x11grab -i :0.0 -vcodec mpeg4 -qscale "$quality" "$filename".mp4 ;;
+        ffmpeg -r 30 -s 3840x2160 -f x11grab -i :0.0 -vcodec mpeg4 -qscale "$quality" "$filename".mp4 ;;
     "4" )
         read_filename
-        ffmpeg -r 30 -s 1920x1080 -f x11grab -i :0.0 -vcodec gif "$filename".gif ;;
+        ffmpeg -r 30 -s 3840x2160 -f x11grab -i :0.0 -vcodec gif "$filename".gif ;;
     "5" )
         read_filename
         ffmpeg -f alsa -ac 2 -i default "$filename".ogg ;;
