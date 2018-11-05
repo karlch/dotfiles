@@ -59,9 +59,6 @@ set shortmess=I
 " No title, I prefer my tmux one
 set notitle
 
-" Change directory to the current buffer when opening files.
-set autochdir
-
 " Use true colors
 set termguicolors
 
@@ -71,6 +68,8 @@ set termguicolors
 " Synchronized plugins in plugged
 call plug#begin('~/.vim/plugged')
 
+Plug 'arcticicestudio/nord-vim'
+Plug 'beloglazov/vim-online-thesaurus'
 Plug 'benmills/vimux'
 Plug 'chrisbra/unicode.vim'
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
@@ -81,23 +80,22 @@ Plug 'itchyny/lightline.vim'
 Plug 'jamshedvesuna/vim-markdown-preview', {'for': 'markdown'}
 Plug 'jiangmiao/auto-pairs'
 Plug 'joshukraine/dragvisuals'
-Plug 'justmao945/vim-clang'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'konfekt/fastfold'
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'lukerandall/haskellmode-vim', {'for': 'haskell'}
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
-Plug 'mhartington/oceanic-next'
 Plug 'neomake/neomake'
 Plug 'potatoesmaster/i3-vim-syntax'
 Plug 'rhysd/committia.vim'
-Plug 'ron89/thesaurus_query.vim'
 Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
 Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tmhedberg/simpylfold', {'for': 'python'}
 Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'valloric/YouCompleteMe'
 
 " Local plugins in bundle
 Plug '~/.vim/bundle/root'
@@ -126,11 +124,11 @@ set foldlevel=100
 set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 
 " Favourite colorscheme
-set background=dark
-colorscheme OceanicNext
+let g:nord_comment_brightness = 8
+colorscheme nord
 
-" Textwidth is always 80, do not wrap, anything longer will be broken
-set textwidth=80 nowrap linebreak
+" Textwidth is always 79, do not wrap, anything longer will be broken
+set textwidth=79 nowrap linebreak
 
 " Show a column at the end of textwidth
 set colorcolumn=+1
@@ -165,9 +163,6 @@ set shiftround
 " Save as root
 cabbrev w!! w !sudo tee > /dev/null %
 
-" Find for vertical splits
-cabbrev fvs vert sf
-
 " }}}
 
 " General Mappings {{{
@@ -192,15 +187,11 @@ cnoremap ä /
 map Ä ?
 cnoremap Ä ?
 
-" Going to lines
-noremap ü G
+" Clear highlight on escape
+noremap <Esc> <Esc>:nohlsearch<CR>
 
 " Switching between matches
 map <tab> %
-
-" Toggling the hlsearch
-noremap <leader>ä :set hlsearch!<CR>
-noremap <Esc> <Esc>:nohlsearch<CR>
 
 " Map + and <BS> to search (keyboard layout...)
 nmap + *
@@ -225,9 +216,6 @@ nnoremap <F5> [s
 nnoremap <F6> zg
 " Show alternatives
 nnoremap <F7> z=
-
-" Trailing Whitespace
-nnoremap <leader>tw :call TrailingWhitespaceToggle()<CR>
 
 " Y like D and C
 nnoremap Y y$
@@ -273,7 +261,6 @@ nnoremap <leader>g gqip
 vnoremap <leader>g gq
 
 " Move to quickfix errors
-nnoremap <leader>o :lw<CR>
 nnoremap <leader>e :ll<CR>
 nnoremap <leader>n :lnext<CR>
 nnoremap <leader>N :lprevious<CR>
@@ -319,18 +306,10 @@ vmap <expr> <C-k> DVB_Drag('up')
 vmap <expr> D DVB_Duplicate()
 
 " Vmath
-" Needed helpers, mapped to something useless
-vnoremap °1 :<Bs><Bs><Bs><Bs><Bs>set noshowmode<CR>
-vmap <expr> °2 VMATH_YankAndAnalyse()
-" The actual expressions
-nmap <leader>+ v°1vip°2
-vmap <leader>+ °1gv°2
+vmap <expr> <leader>+ VMATH_YankAndAnalyse()
 
 " Surround
 " Use normal s in visual mode as well
-" vmap s S
-" TODO
-" Add a surrounding with s
 nmap s ysi
 
 " UltiSnips the way it should be
@@ -387,7 +366,7 @@ let g:indexed_search_numbered_only = 1
 let g:indexed_search_unfold = 1
 
 " Supertab
-let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
+let g:SuperTabDefaultCompletionType = "<C-n>"
 let g:SuperTabLongestEnhanced = 1
 let g:SuperTabLongestHighlight = 1
 
@@ -415,12 +394,12 @@ let g:lightline = {
     \ 'component_type': {
     \ 'errors': 'error' }
     \ }
-let g:lightline.colorscheme = "oceanicnext"
+let g:lightline.colorscheme = "base16_ocean"
 let g:lightline.separator = { 'left': '', 'right': '' }
 let g:lightline.subseparator = { 'left': '', 'right': '' }
 
 " Thesaurus_query
-let g:tq_language = ['en', 'de']
+let g:tq_language = ['en']
 let g:tq_map_keys = 0
 
 " Markdown preview
@@ -429,10 +408,14 @@ let vim_markdown_preview_github=1
 let vim_markdown_preview_use_xdg_open=1
 
 " netrw
-let g:netrw_banner=0                            " disable banner
+let g:netrw_banner=0                              " disable banner
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'      " hide dotfiles
 let g:netrw_list_hide.=netrw_gitignore#Hide()     " hide gitignored files
 
+" Ycm
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:ycm_always_populate_location_list = 1
 
 "}}}
 
@@ -458,7 +441,7 @@ function! AdjustWindowHeight()
 endfunction
 
 " Neomake
-autocmd! BufWritePost *.{py,C,cpp,cxx,hs} Neomake
+autocmd! BufWritePost *.{py,hs} Neomake
 autocmd! BufWritePost vimiv Neomake
 
 " Python
@@ -474,8 +457,6 @@ autocmd BufNewFile *.pl exe "normal a#!/usr/bin/env perl\<Esc>o\<Esc>ouse strict
 autocmd BufRead,BufNewFile *.c setlocal makeprg=gcc\ %\ -o\ %:t:r\ -lm
 autocmd BufRead,BufNewFile *.cpp setlocal makeprg=g++\ %\ -o\ %:t:r\ -std=c++11
 autocmd BufRead,BufNewFile *.cxx setlocal makeprg=g++\ %\ -o\ %:t:r\ -std=c++11
-" Root
-autocmd BufRead,BufNewFile *.C set filetype=cpp.root
 
 " LaTex
 let g:tex_flavor='latex'
@@ -485,12 +466,15 @@ autocmd VimEnter *.tex VimtexCompile
 autocmd BufEnter *.hs compiler ghc
 
 " Mail
-autocmd BufRead,BufNewFile *mutt-* setfiletype mail
+autocmd BufRead,BufNewFile *mutt-* set filetype=mail
 autocmd BufRead,BufNewFile *mutt-* setlocal foldlevel=3
 autocmd BufRead,BufNewFile *mutt-* setlocal textwidth=72
 
 " Shell
 autocmd BufNewFile *.sh silent exec "normal i#!/bin/bash\<CR>\<CR>\<Esc>:silent w\<CR>:silent! chmod +x %\<CR>\<CR>"
+
+" Ktf
+autocmd BufRead,BufNewFile *.ktf set filetype=text
 
 " }}}
 
@@ -505,17 +489,6 @@ function! ToggleFoldlevel()
         set foldlevel=100
         echom "opening"
         let g:fold_level_toggle = 1
-    endif
-endfunction
-
-let g:trailing_whitespace_toggle = 0
-function! TrailingWhitespaceToggle()
-    if g:trailing_whitespace_toggle
-        match trailing_whitespace //
-        let g:trailing_whitespace_toggle = 0
-    else
-        execute 'match trailing_whitespace /\v( )+$/'
-        let g:trailing_whitespace_toggle = 1
     endif
 endfunction
 
