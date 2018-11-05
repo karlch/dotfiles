@@ -6,7 +6,8 @@ well and should be easy to adapt. If you still have questions, feel free to open
 an issue.
 
 The dotfiles are managed with GNU stow. Typically all files grouped in one of
-the directories (e.g vim) reside in $HOME.
+the directories (e.g vim) reside in $HOME. To quickly initialize all dotfiles
+you can use the `init.sh` script.
 
 ### Screenshots
 
