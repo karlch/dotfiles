@@ -15,7 +15,6 @@ setup_main_session() {
     # Wallpaper
     hsetroot -cover ~/Images/Background/background &
     # Keyboard
-    setxkbmap -option 'caps:ctrl_modifier'
     setxkbmap de
     setxkbmap -variant nodeadkeys
     xcape -t 500 -e 'Caps_Lock=Escape;ISO_Level3_Shift=F10;Super_L=F11;Control_R=F12'
