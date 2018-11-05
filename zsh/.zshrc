@@ -6,14 +6,15 @@ fi
 # Path to zsh folder
 export ZSH=~/.zsh
 
-# Path for rubygems
-export PATH=$PATH:~/.gem/ruby/2.4.0/bin
+# Path for additional binaries
+export PATH=$PATH:~/.gem/ruby/2.4.0/bin:~/.local/bin:~/Documents/MPP/Code/RS2HDF5/install/bin
 # Settings
 ZSH_THEME="lhun"
 CASE_SENSITIVE="true"
 ENABLE_CORRECTION="true"
 CHASE_LINKS="true"
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+ZS_AUTOSUGGEST_USE_ASYNC="true"
 
 # Plugins
 plugins=(vi-mode sudo dot clipboard lscolors)
@@ -71,9 +72,12 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # Fasd
 eval "$(fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install \
-    zsh-wcomp zsh-wcomp-install)"
+        zsh-wcomp zsh-wcomp-install)"
+
+# Custom C/C++ Projects
+source ~/Documents/MPP/Code/Kasper/install/bin/kasperenv.sh > /dev/null
+source ~/Documents/MPP/Code/NumericalCalculus/install/bin/numcalc.sh
+source ~/Documents/MPP/Code/Fitter/install/bin/fitter.sh
 
 # Logo
-alsi
-my_fortune marvin
-echo ""
+welcome
