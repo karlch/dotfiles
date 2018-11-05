@@ -1,21 +1,9 @@
 " Settings for LaTex
 
-" map a pdf viewer
+" Map a pdf viewer
 nnoremap <buffer> <leader>d :call ZathuraSync()<CR>
 
-" Linelength 90 for LaTex files, reasonable length in my opinion
-set tw=90
 set sidescrolloff=0
-
-" Use the LaTeX dictionaries
-set dictionary=~/.vim/dictionary/latex
-set complete=k~/.vim/dictionary/latex
-
-" Show me autocomplete
-inoremap <buffer> <C-f> \<c-x><c-k>
-vnoremap <buffer> <C-f> di\<c-x><c-k>
-imap <buffer> \ <C-f>
-vmap <buffer> \ <C-f>
 
 " Abbreviation for degrees (really annoying)
 iabbrev ° ^\circ
@@ -23,11 +11,8 @@ iabbrev ° ^\circ
 " Tables
 source ~/.vim/ftplugin/tex/tex_tables.vim
 
-" Neomake
-" let g:neomake_tex_enabled_makers = ['lacheck']
-
 " Vimtex
-let g:vimtex_index_show_help = 0
+let g:vimtex_index_show_help = 1
 let g:vimtex_latexmk_enabled = 1
 let g:vimtex_compiler_progname = 'nvr'
 let g:vimtex_view_enabled = 1
@@ -35,6 +20,7 @@ let g:vimtex_imaps_enabled = 0
 let g:vimtex_fold_enabled = 1
 let g:vimtex_fold_envs = 0
 let g:vimtex_view_general_viewer = "zathura"
+let g:vimtex_toc_tocdepth = 2
 " Mappings therefore
 nmap <buffer> <localleader>tt  <plug>(vimtex-toc-toggle)    
 nmap <buffer> <CR>             <plug>(vimtex-toc-open)
