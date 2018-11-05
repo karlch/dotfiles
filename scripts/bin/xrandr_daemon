@@ -1,0 +1,50 @@
+#!/bin/sh
+
+PRIMARY="eDP-1"
+HDMI="HDMI-1"
+
+on_connection() {
+    printf "Connecting HDMI\n"
+    xrandr --output "$HDMI" --auto --above $PRIMARY
+    hsetroot -fill ~/Images/Background/background
+}
+
+on_disconnection() {
+    printf "Disconnecting HDMI\n"
+    xrandr --output "$HDMI" --off
+    hsetroot -fill ~/Images/Background/background
+}
+
+statefile="$(mktemp)"
+
+quit() {
+    rm "$statefile"
+    exit 1
+}
+
+trap quit SIGINT SIGTERM
+
+getstate() {
+    state="$(xrandr -q | wc -l)"
+}
+
+savestate() {
+    printf "%s\n" "$state" > "$statefile"
+}
+
+###################
+
+getstate
+savestate
+
+xev -root -event randr | grep --line-buffered XRROutputChangeNotifyEvent | \
+    while IFS= read -r line; do
+        getstate
+        old="$(cat "$statefile")"
+        if [[ "$state" -gt "$old" ]]; then
+            on_connection
+        elif [[ "$state" -lt "$old" ]]; then
+            on_disconnection
+        fi
+        savestate
+    done

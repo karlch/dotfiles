@@ -1,0 +1,119 @@
+#!/usr/bin/env python3
+"""Send a notification with dunstify on mpd status changes."""
+
+import os
+import signal
+import socket
+import subprocess
+import time
+
+from hashlib import sha256
+
+from mpd import MPDClient
+
+
+def connect_client(host, port, retry_time=60):
+    """Connect to the mpd client.
+
+    Args:
+        host: Name of the mpd host.
+        port: Port of the mpd host.
+    Return:
+        The connected mpd client.
+    """
+    client = MPDClient(use_unicode=True)
+    try:
+        client.connect(host, port)
+        print("... success")
+        return client
+    except socket.gaierror:
+        print("... failed")
+        time.sleep(retry_time)
+        return None
+
+
+def get_album_cover(song_info):
+    """Get the album cover of a playing mpd song.
+
+    Args:
+        song_info: Dictionary containing information on the playing song.
+    Return:
+        Basename of the path to the album file.
+    """
+    cache = os.path.expanduser("~/.cache/")
+    album = song_info["album"]
+    artist = song_info["artist"]
+    hashstr = "%s%s" % (album, artist)
+    filename = sha256(hashstr.encode("utf-8")).hexdigest()
+    filepath = os.path.join(cache, "glyrc", filename) + ".png"
+    if not os.path.isfile(filepath):
+        get_cmd = ["glyrc", "cover", "--cache", cache, "--artist", artist,
+                   "--album", album, "--write", filepath]
+        subprocess.run(get_cmd)
+        resize_cmd = ["mogrify", "-resize", "300x300", filepath]
+        subprocess.run(resize_cmd)
+    return filename
+
+
+def send_notification(song_info, image, new_state=None):
+    """Send a notification on mpd status using dunstify.
+
+    Args:
+        song_info: Dictionary containing information on the playing song.
+        image: Basename of the path to the album file.
+        new_state: If state was updated contains the new mpd state as string.
+    """
+    if new_state is not None:
+        icon = new_state.replace("pause", "  ").replace("play", "  ")
+    else:
+        icon = ""
+    title = "%s%s" % (icon, song_info["artist"])
+    message = "%s - %s" % (song_info["album"], song_info["title"])
+    cmd = ["dunstify", "-i", image, "-r", "666", "-t", "5000", title, message]
+    subprocess.run(cmd)
+
+
+def single_iteration(mpd_client):
+    """Run one iteration of the main loop.
+
+    This pauses until the mpd state changes and then sends a corresponding
+    notification.
+
+    Args:
+        mpd_client: Connected mpd.MPDClient object.
+    """
+    state_before = mpd_client.status().get("state", "None")
+    mpd_client.send_idle("player")
+    mpd_client.fetch_idle()
+    state_after = mpd_client.status().get("state", "None")
+    song_info = mpd_client.currentsong()
+    if song_info:
+        print("... sending notification")
+        coverfile = get_album_cover(song_info)
+        if state_before != state_after:
+            send_notification(song_info, coverfile, new_state=state_after)
+        else:
+            send_notification(song_info, coverfile)
+
+
+def main_loop(host, port):
+    """Run the main loop.
+
+    Args:
+        mpd_client: Connected mpd.MPDClient object.
+    """
+    while True:
+        mpd_client = None
+        # Keep trying connecting to client
+        while mpd_client is None:
+            print("Connecting to", "%s:%s" % (host, port))
+            mpd_client = connect_client(host, port)
+        # TODO find out what exceptions to catch
+        print("Starting main loop")
+        while True:
+            single_iteration(mpd_client)
+
+
+if __name__ == "__main__":
+    signal.signal(signal.SIGINT, signal.SIG_DFL)  # ^C
+    main_loop("alarmpi", "6600")
