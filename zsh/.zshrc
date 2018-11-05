@@ -16,10 +16,16 @@ CHASE_LINKS="true"
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
 # Plugins
-plugins=(vi-mode zsh-history-substring-search sudo lscolors dot zsh-autosuggestions zsh-syntax-highlighting clipboard)
-
-# Initialize the actual zsh script
-source $ZSH/zsh.sh
+plugins=(vi-mode sudo dot clipboard lscolors)
+source $ZSH/zsh.sh  # Initialize plugins, theme and co.
+# Plugins with antigen
+source /usr/share/zsh/share/antigen.zsh
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-completions
+antigen bundle zsh-users/zsh-history-substring-search
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen apply
+source $ZSH/misc/my_highlighters.zsh
 
 # Accept autosuggested word with ^F with slightly different word separators
 ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=("my-forward-word")
