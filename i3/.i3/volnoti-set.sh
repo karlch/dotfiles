@@ -24,7 +24,4 @@ else
 fi
 
 # Display notification
-dunstify -i ~/Images/Inkscape/audio_icons/$icon.png -r 42 -t 1 "Volume" $vol" %"
-
-# Refresh i3blocks
-pkill -SIGRTMIN+11 i3blocks
+dunstify -i ~/Images/Inkscape/audio_icons/$icon.png -r 42 -t 1500 "Volume" $vol" %"
